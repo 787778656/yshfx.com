@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MT4用户跟单系统</title>
+    <link rel="shortcut icon" href="__STATIC__image/favicon.ico" />
+    <link href="__STATIC__css/order.css" rel="stylesheet">
+    <link href="__STATIC__css/page.css" rel="stylesheet">
+    <style type="text/css">
+        /*body{background: #f3f3f3;}*/
+        .o_main{margin: 48px auto 0 auto;}
+        .historyInfo>ul:nth-child(2n),.positionInfo>ul:nth-child(2n){    background: #fafbfc;}
+        .historyInfo>ul:hover,.positionInfo>ul:hover{background: #f7f9fb}
+    </style>
+</head>
+<body>
+{if $tab == "history"}
+<!-- 历史-->
+<div class="historyBox">
+    <ul class="historyHead">
+        <li>建仓时间</li>
+        <li>交易品种</li>
+        <li>类型</li>
+        <li>交易量</li>
+        <li>建仓价格</li>
+        <li>止损</li>
+        <li>止盈</li>
+        <li>平仓时间</li>
+        <li>平仓价格</li>
+        <li>手续费</li>
+        <li>库存费</li>
+        <li>获利(点数)</li>
+    </ul>
+    {if $arrHistory->total()>0}
+    <div class="historyInfo">
+    {volist name="arrHistory" id="row"}
+    <?php
+        if (strstr(trim(rtrim($row['close_price'],0),'.'),'.')){
+            $row['dlen'] = strlen(rtrim($row['close_price'],0)) - strrpos(rtrim($row['close_price'],0),'.')-1;
+        }else{
+            $row['dlen'] = 0;        
+        }
+    ?>
+        <ul>
+            <li title="{$row['ticket']}">
+            <?php echo date('Y-m-d H:i:s', $row['open_time']-8*3600);?>
+            </li>
+            <li title="{$row['comment']}">{$row['symbol']}</li>
+            <li>{$row['op']==1?"sell":"buy"}</li>
+            <li>{$row['lots']|number_format=###,2}</li>
+            <li>{$row['open_price']|floatval|number_format=###,$row['dlen'],'.',''}</li>
+            <li>{$row['stoploss']|number_format=###,$row['dlen'],'.',''}</li>
+            <li>{$row['takeprofit']|number_format=###,$row['dlen'],'.',''}</li>
+            <li>
+            <?php echo date('Y-m-d H:i:s', $row['close_time']-8*3600);?>
+            </li>
+            <li>{$row['close_price']|floatval|number_format=###,$row['dlen'],'.',''}</li>
+            <li {$row['commission']<0?"style='color:#e60000'":"style='color:#005ea3'"}>{$row['commission']|floatval|number_format=###,2}</li>
+            <li {$row['swap']<0?"style='color:#e60000'":"style='color:#005ea3'"}>{$row['swap']|number_format=###,2}</li>
+            <li {$row['profit']<0?"style='color:#e60000'":"style='color:#005ea3'"}>
+                {$row['profit']|number_format=###,2}&nbsp;
+                <?php 
+                if ($row['close_price'] && $row['open_price']){
+                    $profit = abs($row['close_price']-$row['open_price'])*pow(10, $row['dlen']);
+                    echo '('.number_format($profit).')';
+                }                            
+                ?>
+            </li>
+        </ul>        
+    {/volist}
+    </div>
+    {else/}
+    <div class="historyInfo">
+        <span>当前无持仓订单</span>
+    </div>
+    {/if}
+</div>
+<div class="pagingBox">
+    {$arrHistory->render()}
+</div>
+{else/}
+<!-- 持仓 -->
+<div class="positionBox">
+    <ul class="positionHead">
+        <li>时间</li>
+        <li>类型</li>
+        <li>交易量</li>
+        <li>交易品种</li>
+        <li>止损</li>
+        <li>止盈</li>
+        <li>价格</li>
+        <li>手续费</li>
+        <li>库存费</li>
+        <li>获利</li>
+    </ul>
+    <div class="positionInfo">
+    {if !empty($arrHolding)}
+    {volist name="arrHolding" id="row"}
+        <?php
+            if (strstr(trim(rtrim($row['open_price'],0),'.'),'.')){
+                $row['dlen'] = strlen(rtrim($row['open_price'],0)) - strrpos(rtrim($row['open_price'],0),'.')-1;
+            }else{
+                $row['dlen'] = 0;        
+            }
+        ?>
+        <ul>
+            <li title="{$row['ticket']}">
+            <?php echo date('Y-m-d H:i:s', $row['open_time']-8*3600+2);?>
+            </li>
+            <li>{$row['op']==1?"sell":"buy"}</li>
+            <li>{$row['lots']|number_format=###,2}</li>
+            <li title="{$row['comment']}">{$row['symbol']}</li>
+            <li>{$row['stoploss']|number_format=###,$row['dlen']}</li>
+            <li>{$row['takeprofit']|number_format=###,$row['dlen']}</li>
+            <li>{$row['open_price']|floatval|number_format=###,$row['dlen']}</li>
+            <li {$row['commission']<0?"style='color:#e60000'":"style='color:#005ea3'"}>{$row['commission']|number_format=###,2}</li>
+            <li {$row['swap']<0?"style='color:#e60000'":"style='color:#005ea3'"}>{$row['swap']|number_format=###,2}</li>
+            <li {$row['profit']<0?"style='color:#e60000'":"style='color:#005ea3'"}>{$row['profit']|number_format=###,2}</li>
+        </ul>
+    {/volist}
+    <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li {$tHolding['commission']<0?"style='color:#e60000'":"style='color:#005ea3'"}>{$tHolding['commission']|number_format=###,2}</li>
+            <li {$tHolding['swap']<0?"style='color:#e60000'":"style='color:#005ea3'"}>{$tHolding['swap']|number_format=###,2|default=0}</li>
+            <li {$tHolding['profit']<0?"style='color:#e60000'":"style='color:#005ea3'"}>{$tHolding['profit']|number_format=###,2}</li>
+        </ul>
+    {else/}
+     <span>当前无持仓订单</span>
+    {/if}
+    </div>
+</div>
+<!-- <div class="pagingBox">
+    <div class="tcdPageCode" id="page2"></div>
+</div> -->
+{/if}
+</body>
+</html>

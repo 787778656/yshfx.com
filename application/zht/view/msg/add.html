@@ -1,0 +1,85 @@
+{extend name="admin@base/main"/}
+{block name="body"}
+<div class="col-sm-12 widget-container-span">
+	<div class="widget-box transparent">
+		<div class="no-border">
+			<ul class="nav nav-tabs">
+                <li class="mynavTab"><a href="{:url('index')}">站内信列表</a></li>
+				<li class="action active"><a href="javascript:;">发送站内信</a></li>
+			</ul>
+		</div>
+		<div class="widget-body">
+			<div class="widget-main padding-12 no-padding-left no-padding-right">
+				<div class="tab-content padding-4">
+					<div class="row">
+							<div class="col-xs-12 no-padding-right">
+								<form class="form-horizontal" role="form" action="{:url('add')}" method="post" id="addform">
+									<div class="form-group">
+										<label class="col-sm-2 control-label no-padding-right"
+											for="form-field-1"> 用户ID： </label>
+										<div class="col-sm-9">
+											<input type="text" id="form-field-1" value="" name="uid" class="col-xs-10 col-sm-5" placeholder="用户ID,多个ID以逗号分隔">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label no-padding-right"
+											for="form-field-1"> 短信模板： </label>
+										<div class="col-sm-9">
+											<select name="tpl" class="msgtpl">
+											{volist name="msgtpl" id="tpl"}
+											<option value="{$key}" <?php if(@$key==$key) echo 'selected';?> data="{$tpl}">{$key}</option>
+											{/volist}
+											</select>
+										</div>
+									</div>
+									<div class="space-4"></div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label no-padding-right"
+											for="form-field-2"> 短信内容： </label>
+										<div class="col-sm-9">
+											<textarea class="col-xs-10 col-sm-5 msg-content"  rows="10" name="msg" ></textarea>
+										</div>
+									</div>
+									<input type="hidden" name="arrmt4id">
+									<div class="clearfix form-actions">
+										<div class="col-md-offset-3 col-md-9">
+											<button class="btn btn-info mybtn" type="button" onclick="checkform();">
+												<i class="icon-ok bigger-110"></i> 提交
+											</button>
+											&nbsp; &nbsp;
+											<button class="btn mybtn" type="reset">
+												<i class="icon-undo bigger-110"></i> 重置
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>						
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	function checkform(){
+		var telephone = $('input[name="uid"]').val();
+		if (telephone==''){
+			alert('用户ID不能为空!');
+			return false;
+		}
+
+		var msg = $('textarea[name="msg"]').val();
+		if (msg==''){
+			alert('站内信不能为空!');
+			return false;
+		}
+		$('#addform').submit();
+	};
+
+	$('.msgtpl').change(function(){
+		var data = $(this).find("option:selected").attr('data')
+		$('.msg-content').val(data);
+	});
+
+</script>
+{/block}

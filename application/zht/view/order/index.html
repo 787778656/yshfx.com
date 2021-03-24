@@ -1,0 +1,84 @@
+{extend name="admin@base/main"/}
+{block name="body"}
+<div class="col-sm-12 widget-container-span">
+	<div class="widget-box transparent">
+		<div class="no-border">
+			<ul class="nav nav-tabs">
+                <li class="action active mynavTab"><a href="javascript:;">跟单列表</a></li>
+			</ul>
+		</div>
+		<div class="widget-body">
+			<div class="widget-main padding-12 no-padding-left no-padding-right">
+				<div class="tab-content padding-4">
+					<div class="row">
+						<div class="col-xs-12 no-padding-right">
+							<form style="margin-bottom:10px" method="post" action="">
+								<select name="type">
+									<option value="1" <?php if($type==1) echo 'selected';?> >用户UID</option>
+									<option value="2" <?php if($type==2) echo 'selected';?> >主信号mt4账号</option>
+									<option value="3" <?php if($type==3) echo 'selected';?> >跟单mt4账号</option>
+								</select>
+							   <input type="text" class="inp_date inp_w90" name="keyword" id="keyword" value="{$keyword}" placeholder="">
+							  <!-- <select name="status">
+								   <option value="">状态</option>
+								   <option value="1" <?php echo $status === '1' ? 'selected' : '' ?>>在线</option>
+								   <option value="0" <?php echo $status === '0' ? 'selected' : '' ?>>离线</option>
+							   </select>-->
+							   <button style="padding: 0px 12px; margin-top:-3px" type="submit" class="btn btn-info mybtn2"> <i class="icon-ok bigger-110"></i> 搜索</button>
+							</form>
+							<div class="table-responsive">
+								<table id="sample-table-1"
+									class="table table-striped table-bordered table-hover">
+									<thead>
+										<tr>
+											<th class="center">ID</th>
+											<th class="center">用户UID</th>
+											<th class="center">跟单mt4</th>
+											<th class="center">主信号编号</th>
+											<th class="center">主信号作者</th>
+											<!--<th class="center">主信号ID</th>-->
+											<th class="center">主信号mt4</th>
+											<th class="center">权重（手数）</th>
+											<th class="center">最大浮亏</th>
+											<th class="center">最大持仓</th>
+											<th class="center">状态</th>
+											<th class="center">来源</th>
+											<th class="center">创建时间</th>
+											<th class="center">修改时间</th>
+										</tr>
+									</thead>
+									<tbody>
+									<?php if (!empty($data)) {?>
+									{volist name="data" id="val"}
+									<tr class="center">
+										<td>{$val.id}</td>
+										<td>{$val.uid}</td>
+										<td>{$val.slave_mt4id|default='--'}</td>
+										<td>{$val.bn}</td>
+										<td>{$val.name}</td>
+										<!--<td>{$val.masterid}</td>-->
+										<td>{$val.mt4id}</td>
+										<td>{$val.weight}</td>
+										<td>{$val.maxloss}</td>
+										<td>{$val.maxhold}</td>
+										<td><?php echo (time()-300) <= @$lastwtime[$val['mt4id']] ? '<font color="#3EB53E">在线</font>' : '<font color="red">离线</font>' ?></td>
+										<td>{$val.operator|default='----'}</td>
+										<td>{$val.add_time|date='Y-m-d H:i:s', ###}</td>
+										<td>{$val.modify_time|date='Y-m-d H:i:s', ###}</td>
+									</tr>
+									{/volist}
+									<?php }?>
+									</tbody>
+								</table>
+								<div class="pagination" style="margin:0px;float: right;">
+									<td class="pagination" colspan="9" align="center" style="border: none;">{$data->render()}</td>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{/block}

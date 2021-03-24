@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MT4用户跟单系统</title>
+    <link href="__STATIC__css/base.css" rel="stylesheet">
+    <link href="__STATIC__css/order_vip.css" rel="stylesheet">
+    <link href="__STATIC__window/window.css" rel="stylesheet">
+    <script src="__STATIC__window/window.js" type="text/javascript"></script>
+    <script src="__STATIC__js/jquery-2.2.0.min.js" type="text/javascript"></script>
+    <script src="__STATIC__js/jquery.animateNumber.min.js"></script>      <!--数字跳动插件-->
+
+    <link href="__STATIC__css/page.css" rel="stylesheet">
+    <link href="__STATIC__css/order_vip2.css" rel="stylesheet">
+
+   
+
+    <!--主信号页面运行逻辑。。。。。-->
+    <script>
+        $(function () {
+            var This = $(window.parent.document).contents();
+
+            var uid = $('input[name=uid]').val();
+
+            /*/!*限制点击“跟随按钮”*!/
+            $(document).ready(function () {
+                var uid = '{$uid}';
+                console.log(uid);
+                if (uid != 0) {     //确定已经登录。否则不限制信号添加
+                    var mt4 = '{$info.zhmt4uid}';
+                    console.log(mt4);
+                    if (mt4 != '') {       //确定已经绑定mt4。否则不限制信号添加
+                        $(".signal_btn1").addClass("disabled");
+//                        $(".signal_btn2").addClass("disabled");
+                        $(".signal_btn3").addClass("disabled");
+//                        $(".signal_btn4").addClass("disabled");
+                        /!*var vip = '{$info.server}';
+                         if(vip==''||vip=='vip1'){           //vip2以下服务不能修改跟单方向
+                         $(".toggle2").addClass('toggle-on').removeClass("toggle-off");
+                         return false;
+                         }*!/
+                    }
+                }
+            });*/
+
+            /*信号评分星星显示*/
+            /*信号状态显示，是否异常交易，即将下架*/
+            $(".signal li").each(function (i) {
+                var score = $(this).find(".score").html();
+//                console.log("信号评分："+score);
+                var score1 = score / 10;          //除以10；
+                var del_move = (score1 * $(".star-vote").width()) / 10;
+                $(".del-star").eq(i).css("backgroundPosition", -del_move + "px 0px");
+                $(".del-star").eq(i).css("left", del_move + "px");
+//                console.log($(".del-star").eq(i).css("left"))
+
+                /*信号状态显示，是否异常交易，即将下架*/
+                /*判断是否是工作室*/
+                var signal_status = $(this).find(".signal_status").html();
+                if (signal_status == 3) {             //状态为3的时候，表示即将下架；
+                    $(this).append("<img src='__STATIC__image/unusual.png' class='unusual'>");
+                    $(this).find(".signal_btn2").show();
+                    $(this).find(".signal_btn1").hide();
+                    $(this).find(".signal_btn3").hide();
+                    $(this).find(".signal_btn4").hide();
+                }
+                // var studio_id = $(this).find(".studio_id").html();
+                // if (studio_id != 0) {
+                //     var date = Date.parse(new Date).toString();    //图片路径后面添加时间戳，获取最新图片
+                //     date = date.substr(0, 8);
+                //     var workroom_src = "http://static.v.znforex.com/upload/image/studio/" + studio_id + ".jpg?v=" + date;
+                //     $(this).find(".workroom_box").find("i").css("background", "url('" + workroom_src + "') 0% 0% / cover no-repeat").append("<i style='display: block;width: 100%;height: 100%;background: url(__STATIC__image/workroom.png)no-repeat;background-size: cover;'></i>").on("click", function () {
+                //         var from_uid = $(this).parent().find(".from_uid").html();
+                //         window.open("{#:url('studio/" + from_uid + "')}");
+                //         return false;
+                //     });
+                // }
+            });
+
+            /*设置抛物线运动起点和终点*/
+            $(".signal_btn1").click(function (event) {
+                var uid = {$uid};
+                if(uid != 0){        //已登录
+                    var vip = '{$info.server}';
+                    console.log("vip等级："+vip);
+                    if(vip==''){           //vip0无法跟单，vip1无法组合跟单以及反向跟单
+//                    console.log("vip0,无法跟单");
+                        This.find(".no_buy").show();
+                        return false;
+                    }
+                    if(vip=='vip1'&&This.find(".end_img").length==1){
+//                    console.log("vip1,无法组合跟单和反向跟单");
+                        This.find(".no_vip2").show();
+                        return false;
+                    }
+                }
+
+//                    console.log($(".end_img").length);
+                if (This.find(".end_img").length > 9) {
+                    This.find('.hint_2').fadeIn();
+                    return false;
+                }
+                var imgSrc = $(this).parent().siblings().find('img:first').attr('src');
+                var mt4data = $(this).parent().siblings().find(".signal_mt4id").html();
+
+                /*其余相关操作*/
+                $(this).hide();
+                $(this).parent().find(".signal_btn3").show();
+                This.find(".no_signal").hide();
+                This.find(".checked_signal").append('<img class="end_img" src="' + imgSrc + '" data="' +mt4data+ '">');
+
+                /*setTimeout(function () {
+                 $(".no_signal").hide();
+                 $(".end_img").css("display","block");
+                 $(".flyer_img").hide();
+                 },600);*/
+
+                /*判断第三步里面是否有单子，没有单子，没有的话添加到第二步，有的话添加到第三步*/
+                if (This.find(".step_3_signal_li").length != 0) {
+                    var aSrc = $(this).parent().parent().find('a').attr('href');
+//                        var imgSrc = $(this).parent().siblings().find('img:first').attr('src');
+//                    var imgSrc2 = $(this).parent().siblings().find('img.signal_head_pic02').attr('src');
+                    var name = $(this).parent().siblings().find('span.signal_name').html();
+                    var num = $(this).parent().siblings().find('span.signal_num').find('span').html();
+                    var mt4id = $(this).parent().siblings().find('span.signal_mt4id').html();
+                    This.find(".step_3_signal_ul").prepend("<li class='step_3_signal_li'><div class='signal_div'>" +
+                            "<div class='signal_head'><a href='" + aSrc + "?server={$pagefrom}' target='_blank'><img src='" + imgSrc + "' class='signal_head_pic01' alt='" + name + "'></a></div>" +
+                            "<span class='step_3_signal_data'>" + name + "</span><span style='display: none' class='num'>" + num + "</span><span style='display: none' class='mt4id'>" + mt4id + "</span></div>" +
+                            "<div class='signal_div'><input type='text' value='100%' class='running_add weight'>" +
+                            "<div class='ul_div'><div class='step_2_ul_div_toggle'><span class='weight_type weight_type1 active'>比例 </span><a href='javascript:void(0);' class='toggle toggle-on toggle1'></a><span class='weight_type weight_type2'> 手数</span></div>" +
+                            "<ul class='weight_ul1'><li>0.01</li><li>0.02</li><li>0.05</li><li>0.1</li>" +
+                            "<li>0.2</li><li>0.5</li><li>1</li><li>2</li><li>5</li><li>10</li><li>20</li><li class='last_li'>自定义</li></ul>" +
+                            "<ul class='weight_ul2'><li>10%</li><li>20%</li><li>30%</li><li>40%</li><li>50%</li><li>60%</li><li>70%</li><li>80%</li><li>90%</li><li>100%</li>" +
+                            "<li class='weight_left'><img src='__STATIC__image/weight_left01.png'></li><li class='weight_right'><img src='__STATIC__image/weight_right02.png'></li></ul></div></div>" +
+                            "<div class='signal_div'><input type='text' value='正' class='running_add sign'><ul><li>正</li><li>反</li></ul></div><div class='signal_div'>" +
+                            "<input type='text' value='不限' class='running_add maxloss'><ul><li>50</li><li>100</li><li>150</li><li>200</li><li>300</li><li>不限</li>" +
+                            "<li class='last_li'>自定义</li></ul></div><div class='signal_div'><input type='text' value='不限' class='running_add maxhold'><ul><li>1</li>" +
+                            "<li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>不限</li><li class='last_li'>自定义</li></ul></div>" +
+                            "<div class='signal_div'><p style='color: #555555;'>修改后生效</p></div><div class='signal_div'>" +
+                            "<a href='javascript:void(0)' class='step_3_signal_btn1' style='display: none;'>修改</a><a href='javascript:void(0)' class='step_3_signal_btn2'>完成</a>" +
+                            "<a href='javascript:void(0)' class='step_3_signal_btn3'>删除</a></div></li>");
+                    This.find(".running_add").css({
+                        "border": "1px solid #dadada",
+                        "background": "url('__STATIC__image/vip10.png')no-repeat 90px 12px",
+                        "cursor": "pointer"
+                    });
+                } else {
+                    /*传递到第二步*/
+                    var aSrc = $(this).parent().parent().find('a').attr('href');
+                    var imgSrc = $(this).parent().siblings().find('img:first').attr('src');
+                    var name = $(this).parent().siblings().find('span.signal_name').html();
+                    var num = $(this).parent().siblings().find('span.signal_num').find('span').html();
+                    var mt4id = $(this).parent().siblings().find('span.signal_mt4id').html();
+                    This.find(".step_2_signal_ul").append("<li class='step_2_signal_li'><div class='signal_div'>" +
+                            "<div class='signal_head'><a href='" + aSrc + "?server={$pagefrom}' target='_blank'><img src='" + imgSrc + "' class='signal_head_pic01' alt='" + name + "'></a></div>" +
+                            "<span class='step_2_signal_data'>" + name + "</span><span style='display: none' class='num'>" + num + "</span><span style='display: none' class='mt4id'>" + mt4id + "</span></div>" +
+                            "<div class='signal_div'><input type='text' value='100%' readonly='readonly' class='weight'>" +
+                            "<div class='ul_div'><div class='step_2_ul_div_toggle'><span class='weight_type weight_type1 active'>比例 </span><a href='javascript:void(0);' class='toggle toggle-on toggle1'></a><span class='weight_type weight_type2'> 手数</span></div>" +
+                            "<ul class='weight_ul1'><li>0.01</li><li>0.02</li><li>0.05</li><li>0.1</li>" +
+                            "<li>0.2</li><li>0.5</li><li>1</li><li>2</li><li>5</li><li>10</li><li>20</li><li class='last_li'>自定义</li></ul>" +
+                            "<ul class='weight_ul2'><li>10%</li><li>20%</li><li>30%</li><li>40%</li><li>50%</li><li>60%</li><li>70%</li><li>80%</li><li>90%</li><li>100%</li>" +
+                            "<li class='weight_left'><img src='__STATIC__image/weight_left01.png'></li><li class='weight_right'><img src='__STATIC__image/weight_right02.png'></li></ul></div></div>" +
+                            "<div class='signal_div'><input type='text' value='正' readonly='readonly' class='sign'><ul><li>正</li><li>反</li></ul></div></div><div class='signal_div'>" +
+                            "<input type='text' value='不限' readonly='readonly' class='maxloss'><ul><li>50</li><li>100</li><li>150</li><li>200</li><li>300</li><li>不限</li>" +
+                            "<li class='last_li'>自定义</li></ul></div><div class='signal_div'><input type='text' value='不限' readonly='readonly' class='maxhold'><ul><li>1</li>" +
+                            "<li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>不限</li><li class='last_li'>自定义</li></ul></div>" +
+                            "<div class='signal_div'><p>等待监听</p></div><div class='signal_div'><a href='javascript:void(0)' class='step_2_signal_btn'>删除</a></div></li>");
+                }
+            });
+            /*移出信号组合*/
+            $(".signal_btn3").click(function () {
+                var mt4data = $(this).parent().siblings().find(".signal_mt4id").html();
+                //console.log("删除信号");
+                if (This.find(".end_img").length == 1) {
+                    This.find(".no_signal").show();
+                    This.find(".my_order_i").hide();
+                }
+                var imgSrc = $(this).parent().siblings().find('img:first').attr('src');
+                This.find(".end_img").each(function () {
+                    var data = $(this).attr("data");   //获取图片data
+                    if (data == mt4data) {
+                        $(this).remove();
+                    }
+                });
+                $(this).hide();
+                $(this).parent().find(".signal_btn1").show();
+
+                /*移出第二步和第三步里面相应的信号*/
+                This.find(".step_2_signal_li").each(function () {
+                    var data = $(this).find(".mt4id").html();
+                    if (data == mt4data) {
+                        $(this).remove();
+                    }
+                });
+                This.find(".step_3_signal_li").each(function () {
+                    var data = $(this).find(".mt4id").html();
+                    if (data == mt4data) {
+                        $(this).remove();
+                    }
+                });
+                var mt4id = $(this).parent().siblings().find('.signal_mt4id').html();
+                var Mymt4id = This.find(".active_mt4_li").find("span").html();
+                $.ajax({
+                    type: "post",
+                    dataType: "json",
+                    url: "{:url('master/del_order')}",
+                    data: {
+                        mt4id: mt4id,
+                        slave_mt4id: Mymt4id
+                    },
+                    success: function (data) {
+                        data = JSON.parse(data);
+                        if (data.code == 200) {
+                            This.find(".step_1_btn").unbind("click");     //把click事件绑定在其他的例如click，hover等事件中的话（例如需要用到其他作用域中的变量，尤其是存在listitem这种情况下），需要用到unbind事件
+                            if(This.find(".end_img").length==0){
+                                This.find(".step_1_btn").on("click", function () {
+                                    This.find(".order_step_2").show().addClass("active").siblings().removeClass("active");
+                                    This.find(".order_step_3").hide();
+                                    This.find(".step_2").fadeIn().siblings().hide();
+                                });
+                            }
+                        } else {
+                            win.alert('', data.msg);
+                        }
+                    }
+                });
+                if (This.find(".step_3_signal_li").length == 0) {
+                    This.find(".order_step_2").css({"color": "#333333", "cursor": "pointer"}).removeClass("disabled");
+                }
+            });
+
+            /*缓存判断已经选择的信号*/
+            // $(".signal li").each(function () {
+            //     var signal_mt4,img_mt4;
+            //     var signal_this= $(this);
+            //     signal_mt4 = $(this).find(".signal_mt4id").html();
+            //     if($(this).find(".signal_btn4").css("display") != 'block'){
+            //         This.find(".checked_signal .end_img").each(function () {
+            //             var img_mt4 = $(this).attr("data");
+            //             if(signal_mt4 == img_mt4){
+            //                 signal_this.find(".signal_btn3").show().siblings().hide();
+            //             }
+            //         });
+            //     }
+            // });
+
+            /*如果已经加载去除按钮的disabled*/
+            var uid = '{$uid}';
+            var mt4 = '{$info.zhmt4uid}';
+//            console.log(uid);
+//            console.log(mt4);
+            if (uid == 0 || uid == null || mt4 == '' || mt4 == null) {
+                setTimeout(function () {
+//                    console.log("恢复按钮");
+                    $(".signal_btn1").removeClass("disabled");
+                    $(".signal_btn3").removeClass("disabled");
+                },1000);
+            }else {
+                var Data = This.find(".active_mt4_li").find("span").attr("data");
+                if(Data != 0 && Data != ''&& Data != undefined && Data != null){
+                    $(".signal_btn1").removeClass("disabled");
+                    $(".signal_btn3").removeClass("disabled");
+                }
+            }
+
+        });
+    </script>
+</head>
+<body>
+
+<ul class="signal">
+    {volist name="arrAccount" id="account"}
+    <li>
+        <a href="{:url('master/detail', ['account' => $account['mt4id']])}" class="step_1_signal_a" target="_blank">
+            <div class="signal_div">
+                <div class="signal_head">
+                    {if !empty($account['img'])}
+                        {if !stristr($account['img'], 'http')}
+                            <img src="__STATIC__upload/image/{$account['img']}" class="signal_head_pic01">
+                        {else/}
+                            <img src="{$account['img']}" class="signal_head_pic01">
+                        {/if}
+                    <!-- <img src="" class="signal_head_pic02" style="display: none;"> -->
+                    {else/}
+                    <img src="__STATIC__image/touxiang.png" class="signal_head_pic01">
+                    {/if}
+                </div>
+                <p class="signal_info">
+                    <span class="signal_name">{$account.name}</span>
+                    <span class="signal_status" style="display: none;">{$account.status}</span>
+                    <span class="signal_num" style="display: none;">编号：<span>{$account.bn}</span></span>
+                    <span class="signal_mt4id" style="display: none;">{$account.mt4id}</span>
+                </p>
+                <!--<div class="workroom_box">
+                    <p class="studio_id" style='display: none;'>{$account.studio_id}</p>
+                    <p class="from_uid" style='display: none;'>{$account.from_uid}</p>
+                    <i></i>
+                </div>-->
+                <?php $img = isset($mt4service[$account['mt4server']])?$mt4service[$account['mt4server']]:$mt4service['forex'];?>
+                <div class="signal_logo_box">
+                    <img src="__STATIC__image/broker/{$img}.png" class="signal_logo" alt="{$account.mt4server}">
+                </div>
+            </div>
+        </a>
+        <div class="signal_div">
+            <img src="__STATIC__upload/image/webchart/{$account.mt4id}.png?v={:date('Ymd')}" style="display: block;width: 100%;height: 100%;margin: 0 auto;">
+        </div>
+        <div class="signal_div">
+            <p class="signal_data"><!--利润率--><span class="profit_margin">
+                            <?php
+                            $account['money'] = floatval($account['money']);
+                            echo !is_numeric($account['money']) || !is_numeric($account['trade_profit']) || $account['money']*$account['trade_profit']<=0 ? 0.00 : round($account['trade_profit']/$account['money']*100,2);
+                            ?><i style="font-size: 14px;">%</i>
+                            </span></p>
+            <p class="signal_data"><!--交易胜率--><span class="win_rate">{$account.trade_win*100}<i style="font-size: 14px;">%</i></span></p>
+            <p class="signal_data"><!--交易时长--><span class="duration">{$account.trade_week}<i style="font-size: 14px;">周</i></span></p>
+            <?php $drawdown = max($account['trade_drawdown'], $account['trade_minbalance'], $account['trade_minprofit']);?>
+            <p class="signal_data"><!--最大回撤--><span class="return">{$drawdown*100}<i style="font-size: 14px;">%</i></span></p>
+            <p class="signal_data"><!--跟随人数--><span class="duration">{$account.follow}</span></p>
+        </div>
+        <div class="signal_div">
+            <p class="score" style='display: none;'>{$account.score}</p>
+            <div class="signal_div_score">
+                <div class="star-vote"><span class="add-star"></span><span class="del-star"></span></div>
+            </div>
+        </div>
+        <div class="signal_div">
+            {if $account['show'] == 3}
+            <a href="javascript:void(0)" class="signal_btn1" style="display: none!important;"><span>跟 随</span></a>
+            <a href="javascript:void(0)" class="signal_btn2"><span>即将下架</span></a>
+            <a href="javascript:void(0)" class="signal_btn3" style="display: none!important;"><span>移 除</span></a>
+            <a href="javascript:void(0)" class="signal_btn4" style="display: none!important;"><span>正在监听</span></a>
+            {else/}
+                {if in_array($account['mt4id'], $arrFollow)}
+                    {if $followStatus==1}
+                    <a href="javascript:void(0)" class="signal_btn1" style="display: none"><span>跟 随</span></a>
+                    <a href="javascript:void(0)" class="signal_btn2" style="display: none"><span>即将下架</span></a>
+                    <a href="javascript:void(0)" class="signal_btn3" style="display: none"><span>移 除</span></a>
+                    <a href="javascript:void(0)" class="signal_btn4"><span>正在监听</span></a>
+                    {else/}
+                    <a href="javascript:void(0)" class="signal_btn1" style="display: none"><span>跟 随</span></a>
+                    <a href="javascript:void(0)" class="signal_btn2" style="display: none"><span>即将下架</span></a>
+                    <a href="javascript:void(0)" class="signal_btn3 disabled"><span>移 除</span></a>
+                    <a href="javascript:void(0)" class="signal_btn4" style="display: none"><span>正在监听</span></a>
+            {/if}
+                {else/}
+                <a href="javascript:void(0)" class="signal_btn1 disabled"><span>跟 随</span></a>
+                <a href="javascript:void(0)" class="signal_btn2" style="display: none"><span>即将下架</span></a>
+                <a href="javascript:void(0)" class="signal_btn3" style="display: none"><span>移 除</span></a>
+                <a href="javascript:void(0)" class="signal_btn4" style="display: none"><span>正在监听</span></a>
+                {/if}
+            {/if}
+        </div>
+    </li>
+    {/volist}
+</ul>
+
+<div class="pagingBox">{$arrAccount->render()}</div>
+
+</body>
+</html>

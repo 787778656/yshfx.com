@@ -1,0 +1,162 @@
+{extend name="admin@base/main"/}
+{block name="body"}
+<div class="col-sm-12 widget-container-span">
+	<div class="widget-box transparent">
+		<div class="no-border">
+			<ul class="nav nav-tabs">
+                <li class="mynavTab"><a href="{:url('index')}&{$strQuery}">用户列表</a></li>
+                <li class="mynavTab"><a href="{:url('mt4_list')}&{$strQuery}">Mt4账号</a></li>              
+				<li class="action active"><a href="javascript:;">Mt4账号修改</a></li>				
+			</ul>
+		</div>
+		<div class="widget-header">
+			<div class="widget-main padding-12 no-padding-left no-padding-right">
+				<div class="tab-content padding-4">
+				     <div id="home1" class="tab-pane in active">
+						<form id="myform" action="" method="post">
+		                    <input type="hidden" class="input col-sm-6" name="id" value="{$arrMt4.id}">
+		                    <input type="hidden" class="input col-sm-6" name="uid" value="{$arrMt4.uid}">
+		                    
+							<div class="tabbable">
+								<div class="tab-content">
+									<div class="tab-pane active">
+										<table cellpadding="2" cellspacing="2" width="100%">
+											<tbody>
+												<tr>
+													<td class="col-sm-1">mt4id:</td>
+													<td>
+													<input type="hidden" name="id" value="{$arrMt4.id}">
+													<input type="hidden" name="uid" value="{$arrMt4.uid}">
+													<input type="hidden" name="mt4id" value="{$arrMt4.mt4id}">
+													<input type="text" class="input col-sm-6" name="zhmt4uid" id="zhmt4uid" value="{$arrMt4.mt4id}">
+													</td>
+												</tr>											
+												<tr>
+													<td class="col-sm-1">mt4密码:</td>
+													<td><input type="text" class="input col-sm-6" name="zhmt4pwd" id="zhmt4pwd" value="{$arrMt4.mt4pwd}"></td>
+												</tr>												
+												<tr>
+													<td class="col-sm-1">mt4服务器:</td>
+													<td><input type="text" class="input col-sm-6" name="zhmt4server" id="zhmt4server" value="{$arrMt4.mt4server}"></td>
+												</tr>
+												<tr>
+													<td class="col-sm-1">后缀:</td>
+													<td><input type="text" class="input col-sm-6" name="sblfix" id="sblfix" value="{$arrMt4.sblfix}"></td>
+												</tr>												
+												<tr>
+													<td class="col-sm-1">备注:</td>
+													<td><input type="text" class="input col-sm-6" name="aliyun" id="aliyun" value="{$arrMt4.remark}"></td>
+												</tr>
+												<tr>
+													<td class="col-sm-1">是否返佣:</td>
+													<td>
+													<input name="is_demo" type="radio" value="0" {if $arrMt4.is_demo==0}checked="checked"{/if} />是
+													<input name="is_demo" type="radio" value="1" {if $arrMt4.is_demo==1}checked="checked"{/if} />否
+													</td>
+												</tr>												
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							<div class="form-actions" style="text-align: center;">
+								<button class="btn btn-primary btn_submit mybtn" type="submit">提交</button>&nbsp;&nbsp;
+								<a class="btn mybtn" href="{:url('index')}">返回</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 widget-container-span">
+		<div class="widget-box transparent">
+		<div class="widget-body">
+			<div class="widget-main padding-12 no-padding-left no-padding-right">
+				<div class="tab-content padding-4">
+					<div id="home1" class="tab-pane in active">
+						<div class="row">
+							<div class="col-xs-12 no-padding-right">
+								<div class="table-responsive">
+									<table id="sample-table-1"
+										class="table table-striped table-bordered table-hover">
+										<thead>
+											<tr>
+												<th>mt4id</th>
+												<th>mt4密码</th>
+												<th>mt4服务器</th>
+												<th>备注</th>												
+												<th>时间</th>
+											</tr>
+										</thead>
+										<tbody>
+										{volist name="arrLog" id="log"}
+											<tr>
+												<td>{$log.zhmt4uid}</td>
+												<td>{$log.zhmt4pwd}</td>
+												<td>{$log.zhmt4server}</td>
+												<td>{$log.aliyun}</td>												
+												<td>{$log.add_time|date='Y-m-d H:i:s',###}</td>
+											</tr>
+										{/volist}
+										</tbody>
+									</table>
+									<div class="pagination" style="margin:0px;">
+									    {$arrLog->render()}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			function addSubmenu(o) {
+				var subid = $(o).parent().prev().prev().html();
+				$('select[name="parent"]').val(subid);
+				$('input[name="addmenu"]').val('0');
+				$('input[name="name"]').val('');
+				$('#myTab li').eq(1).find('a').click();
+			}
+			function reSubmenu(o){
+				var name = $(o).parent().prev().html().replace(/&nbsp;/g,'').replace('├─','');
+				var pid = $(o).parent().prev().prev().attr('parent');
+				var subid = $(o).parent().prev().prev().html();
+				$('select[name="parent"]').val(pid);
+				$('input[name="name"]').val(name);
+				$('input[name="addmenu"]').val(subid);
+				$('#myTab li').eq(1).find('a').click();
+			}
+		</script>
+		</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+		$('.editAccount').change(function(){
+			var accountId = $(this).val();
+			if (accountId != 0){
+		        $.ajax({
+		            type: "post",
+		            dataType: "json",
+		            url: "{:U('/zht/user/mt4_info')}",
+		            data: {'id':accountId},
+		            success:function(data){
+		            	$('input[name="zhmt4uid"]').val(data.mt4id);
+		            	$('input[name="zhmt4pwd"]').val(data.mt4pwd);
+		            	$('input[name="zhmt4server"]').val(data.mt4server);
+		            	$('input[name="sblfix"]').val(data.sblfix);
+		            	$('input[name="aliyun"]').val(data.remark);
+		            }
+		        })
+			}else{
+	        	$('input[name="zhmt4uid"]').val('');
+	        	$('input[name="zhmt4pwd"]').val('');
+	        	$('input[name="zhmt4server"]').val('');
+	        	$('input[name="sblfix"]').val('');
+	        	$('input[name="aliyun"]').val('');
+			}
+		return false;
+	});
+</script>
+{/block}

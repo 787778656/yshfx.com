@@ -1,0 +1,228 @@
+{extend name="admin@base/main"/}
+{block name="body"}
+<script>
+KindEditor.ready(function (K) {
+	var editor = K.create('#detail', config);
+
+	var uploadbuttona = K.uploadbutton({
+			button : K('#himga')[0],
+			fieldName : 'imgFile',
+			url : '{:url("admin/index/uploadImg")}',
+			afterUpload : function (data) {
+				if (data.error === 0) {
+					var url = K.formatUrl(data.url, 'relative');
+					K('#himg').val(url);
+				} else {
+					console.log(data.message);
+					//alert(data.message);
+				}
+			},
+			afterError : function (str) {
+				alert('自定义错误信息: ' + str);
+			}
+		});
+	uploadbuttona.fileBox.change(function (e) {
+		uploadbuttona.submit();
+	});
+});
+</script>
+<div class="col-sm-12 widget-container-span">
+	<div class="widget-box transparent">
+		<div class="no-border">
+			<ul class="nav nav-tabs">
+                <li class="mynavTab"><a href="{:url('zht/account/index')}">信号列表</a></li>
+				<li class="action active"><a href="javascript:;">修改信号</a></li>
+			</ul>
+		</div>
+		<div class="widget-body">
+			<div class="widget-main padding-12 no-padding-left no-padding-right">
+				<div class="tab-content padding-4">
+					<div class="row">
+						<div class="col-xs-12 no-padding-right">
+							<form class="form-horizontal" role="form" action="{:url('account/edit')}" method="post" id="addform">
+								<div class="form-group">
+									<label class="col-sm-2 control-label no-padding-right"
+										for="form-field-1"> 信号编号： </label>
+									<div class="col-sm-9">
+										<input type="text" id="form-field-1" value="{$arrAccount.bn}" name="bn" class="col-xs-10 col-sm-5">
+									</div>
+								</div>
+								<div class="space-4"></div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label no-padding-right"
+										for="form-field-2"> 信号名称： </label>
+									<div class="col-sm-9">
+										<input type="text" id="form-field-2" value="{$arrAccount.name}" name="name" class="col-xs-10 col-sm-5">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label no-padding-right"
+										for="form-field-1"> MT4ID： </label>
+									<div class="col-sm-9">
+										<input type="text" id="form-field-1" value="{$arrAccount.mt4id}" name="mt4id" class="col-xs-10 col-sm-5">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label no-padding-right"
+										for="form-field-1"> MT4密码： </label>
+									<div class="col-sm-9">
+										<input type="text" id="form-field-1" value="{$arrAccount.mt4pwd}" name="mt4pwd" class="col-xs-10 col-sm-5">
+									</div>
+								</div>
+								<!-- <div class="form-group">
+									<label class="col-sm-2 control-label no-padding-right"
+										for="form-field-1"> 交易权重： </label>
+									<div class="col-sm-9">
+										<input type="text" id="form-field-1" value="" name="weight" class="col-xs-10 col-sm-5">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label no-padding-right"
+										for="form-field-1"> 浮亏上限： </label>
+									<div class="col-sm-9">
+										<input type="text" id="form-field-1" value="" name="maxloss" class="col-xs-10 col-sm-5">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label no-padding-right"
+										for="form-field-1"> 最大持仓： </label>
+									<div class="col-sm-9">
+										<input type="text" id="form-field-1" value="" name="maxhold" class="col-xs-10 col-sm-5">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label no-padding-right"
+										for="form-field-1"> 最大交易限制： </label>
+									<div class="col-sm-9">
+										<input type="text" id="form-field-1" value="" name="maxtrade" class="col-xs-10 col-sm-5">
+									</div>
+								</div> -->
+
+								<div class="form-group">
+									<label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 服务商： </label>
+									<div class="col-sm-9">
+										<select id="mt4server" name="mt4server">
+										{volist name="mt4service" id="service"}
+									       <option value="{$service}" <?php if(@$arrAccount['mt4server']==$service) echo 'selected';?>>{$service}</option>
+									    {/volist}
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label no-padding-right"
+										for="form-field-1"> 平台后缀： </label>
+									<div class="col-sm-9">
+										<input type="text" id="form-field-1" value="{$arrAccount.sblfix}" name="sblfix" class="col-xs-10 col-sm-2">
+									</div>
+								</div>								
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 初始入金： </label>
+                                    <div class="col-sm-9">
+                                    <input type="text" name="money" value="{$arrAccount.money}" class="col-xs-10 col-sm-2">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 最大跌幅： </label>
+                                    <div class="col-sm-9">
+                                    <input type="text" name="trade_drawdown" value="{$arrAccount.trade_drawdown}" class="col-xs-10 col-sm-2">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 跟单人数： </label>
+                                    <div class="col-sm-9">
+                                    <input type="text" name="follow" value="{$arrAccount.follow}" class="col-xs-10 col-sm-2">
+                                    </div>
+                                </div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 综合评分： </label>
+									<div class="col-sm-9">
+										<input type="text" name="score" value="{$arrAccount.score}" class="col-xs-10 col-sm-2">
+									</div>
+								</div>
+								<div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 所属国家： </label>
+                                    <div class="col-sm-9">
+									<select id="country" name="country">
+										<option value="">请选择国家</option>
+										{volist name="mt4country" id="country"}
+									       <option value="{$country}" <?php if(@$arrAccount['country']==$country) echo 'selected';?> >{$country}</option>
+									    {/volist}
+									</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 前端展示： </label>
+									<div class="col-sm-9">
+										<select id="show" name="show">
+											<option value="1" <?php echo $arrAccount['show'] === 1 ? 'selected' : '' ?>>显示</option>
+											<option value="2" <?php echo $arrAccount['show'] === 2 ? 'selected' : '' ?>>隐藏</option>
+											<option value="3" <?php echo $arrAccount['show'] === 3 ? 'selected' : '' ?>>下架</option>
+											<option value="4" <?php echo $arrAccount['show'] === 4 ? 'selected' : '' ?>>内部</option>
+										</select>
+									</div>
+								</div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1" id="img"> 信号头像： </label>
+                                    <div class="col-sm-9">
+                                    <input name="thumb" type="text" value="{$arrAccount.img}" class="input-text" size="50" readonly="readonly" id="himg">
+            						<input type="button" id="himga" value="上传图片">
+            						</div>
+                                </div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 备注： </label>
+									<div class="col-sm-9">
+										<textarea class="col-xs-10 col-sm-4" name="remark" style="margin: 0px; width: 412px; height: 96px;">{$arrAccount.remark}</textarea>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 策略说明： </label>
+									<div class="col-sm-9">
+										<textarea class="col-xs-10 col-sm-4" name="detail" style="margin: 0px; width: 412px; height: 96px;">{$arrAccount.detail}</textarea>
+									</div>
+								</div>
+								<input type="hidden" name="id" value="{$arrAccount.id}">
+								<div class="clearfix form-actions">
+									<div class="col-md-offset-3 col-md-9">
+										<button class="btn btn-info mybtn" type="button" onclick="checkform();">
+											<i class="icon-ok bigger-110"></i> 提交
+										</button>
+										&nbsp; &nbsp;
+										<button class="btn mybtn" type="reset">
+											<i class="icon-undo bigger-110"></i> 重置
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	function checkform(){
+		var bn = $('input[name="bn"]').val();
+		if (bn==''){
+			alert('信号编号不能为空!');
+			return false;
+		}
+		var name = $('input[name="name"]').val();
+		if (name==''){
+			alert('信号名称不能为空!');
+			return false;
+		}
+		var mt4id = $('input[name="mt4id"]').val();
+		if (mt4id==''){
+			alert('mt4信号不能为空!');
+			return false;
+		}
+		var mt4pwd = $('input[name="mt4pwd"]').val();
+		if (mt4pwd==''){
+			alert('mt4密码不能为空!');
+			return false;
+		}
+		$('#addform').submit();
+	}
+</script>
+{/block}

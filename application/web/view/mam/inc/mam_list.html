@@ -1,0 +1,169 @@
+{if $arrMam->total() != 0}
+<ul class="signal_ul">
+    {volist name="arrMam" id="mam"}
+        <li data="{$mam.mt4id}">
+            <span class="peel" onclick="window.open('__HTTP__mam/detail/{$mam.id}.html')"><img src="__STATIC__image/page-peel.png" alt="" class="peel" /><span class="back"></span></span>
+            <a href="__HTTP__mam/detail/{$mam.id}.html" class="step_1_signal_a" target="_blank">
+                <div class="signal_div">
+                    <div class="signal_head">
+                    {if isset($mam['u_img']) && !empty($mam['u_img'])}
+                        {if strstr($mam['u_img'], 'http')}
+                            <img src="{$mam['u_img']}" class="signal_head_pic01">
+                        {else/}
+                            <img src="__STATIC__upload/image/{$mam['u_img']}" class="signal_head_pic01">
+                        {/if}
+                    {else/}
+                        <img src="__STATIC__image/touxiang.png" class="signal_head_pic01">
+                    {/if}
+                    </div>
+                    <p class="signal_info"><span class="signal_num">{$mam['name']}</span><span class="signal_name" style="width: 90%;" title="{$mam['detail']}">{if empty($mam['detail'])}管理人暂未添加说明...{else/}{$mam['detail']}{/if}</span><span class="signal_mt4id" style="display: none;"></span></p>
+                </div>
+            </a>
+            <div class="signal_div">
+                {if $mam['begin_money']==0}
+                <p class="signal_div_middle"><span class="left">资金管理规模</span><span class="right">+∞</span><div style="clear: both;"></div></p>
+                {else/}
+                <p class="signal_div_middle">
+                    <span class="left">募集进度</span>
+                    <span class="right">
+                        <p class="score" style="display: none;">80</p>
+                        <p class="jindu" style="display: none;">100</p>
+                        <?php $weight = number_format($mam['now_money']/$mam['begin_money'],2); $weight = ($weight>1)?100:$weight*100;?>
+                        <div class="star-vote"><div class="modulusContent"><div class="moduluscontain" style="width: {$weight}%;"></div><p>{$weight}%</p></div></div>
+                    </span>
+                <div style="clear: both;"></div>
+                </p>
+                {/if}
+            </div>
+            <div class="signal_div_data1">
+            {if $mam['gtype']==1}
+                <?php
+                    $key = sprintf('%s-%s-%s', 'zhtWeb', 'mam_follow_profit', $mam['id']);
+                    if ($redis->has($key)){
+                        $profit = $redis->get($key);
+                    }else{
+                        $profit = 0;
+                    }
+                ?>
+                {if $mam['status']!=0}
+                <?php if ($mam['status'] == 2) $profit = $profit<0?0:$profit;?>
+                <p><span class="signal_div_data_span1">{$profit}<i>%</i></span>
+                <br><span class="signal_div_data_span2">{$mam['status']==1?'当前收益率':'本期收益率'}</span></p>
+                {else/}
+                <?php
+                 $profit = $mam['trade_day']==0?0:365*$mam['history_profit']/$mam['trade_day'];
+                 $profit = ($mam['money']==0)?0:number_format(100*$profit/floatval($mam['money']),2);
+                 $profit = $profit<=0?40:$profit;// 最小40%
+                ?>
+                <p><span class="signal_div_data_span1">{$profit}<i>%</i></span>
+                <br><span class="signal_div_data_span2">预期年化收益率</span></p>
+                {/if}
+            {else/}
+            <?php
+                if ($mam['money'] != 0){
+                    $profit = number_format($mam['history_profit']/$mam['money']*100,2);
+                }else{
+                    $profit = 0;
+                }
+            ?>
+                <p><span class="signal_div_data_span1">{$profit}<i>%</i>
+                </span>
+                <br><span class="signal_div_data_span2">历史收益率</span></p>
+            {/if}
+                <p><span class="signal_div_data_span1">
+                {switch mam.gtype}
+                {case 1}保本{/case}
+                {case 2}保障池{/case}
+                {default /}无
+                {/switch}
+                </span><br><span class="signal_div_data_span2">保障模式</span></p>
+                <div style="clear: both"></div>
+            </div>
+            <div class="signal_div_data2">
+                {if $mam['begin_money']!=0}
+                <p>管理资金 : <span>${$mam.begin_money|number_format=###,2}</span></p>
+                {else/}
+                <p>管理资金 : <span>${$mam.now_money|number_format=###,2}</span></p>
+                {/if}
+                
+                {switch mam.gtype}
+                {case 1}<p>分成比例 : <span><?php echo sprintf('%s:%s', 10*(1-$mam['ctype']), 10*$mam['ctype']);?></span></p>{/case}
+                {default /}<p>加佣比例 : <span>{$mam.ctype}</span></p>
+                {/switch}
+
+                {if($mam['status'] == 0)}
+                <p>起投金额 : <span>${$mam['mini_follow_money']==0?'500.00':$mam['mini_follow_money']}</span></p>
+                {elseif($mam['status'] == 1)}
+                <p>已交易 : <span><?php echo floor((time()-$mam['start_time'])/3600/24);?>天</span></p>
+                {else/}
+                <p>已交易 : <span>
+                <?php 
+                if ($mam['start_time'] == 0){
+                    echo '0';
+                }else{
+                    echo $mam['end_time']==0?floor((time()-$mam['start_time'])/3600/24):floor(($mam['end_time']-$mam['start_time'])/3600/24);
+                }?>天</span></p>
+                {/if}
+
+                <p>剩余时间 : <span>
+                <?php
+                if($mam['gtype'] != 1){
+                    if ($mam['status'] == 1){
+                        echo $mam['balance'].'天';
+                    }else{
+                        echo '0天';
+                    }
+                }else{
+                    if ($mam['status']==2 || $mam['status']==3){
+                        echo '0天';
+                    }else{
+                        if ($mam['start_time']<=0) {
+                            $end_time = time()+$mam['balance']*24*3600;
+                        }else{
+                            $end_time = $mam['balance']*3600*24+$mam['start_time'];
+                        }
+                        
+                        if ($end_time > time()){
+                            echo ceil(($end_time - time())/(3600*24)).'天';
+                        }else{
+                            if ($mam['status']!=2){
+                                $mam['status'] = 3;                        
+                            }                        
+                            echo '0天';
+                        }
+                    }
+                }
+                ?></span></p>
+                <div style="clear: both"></div>
+            </div>
+
+            <div class="signal_div">
+                <!--<div class="signal_div_score">
+                    <p class="score" style="display: none;">0</p>
+                    <p class="jindu" style="display: none;">NaN</p>
+                    <div class="star-vote">按日结算</div>
+                </div>-->
+                <span class="id" style="display: none;">{$mam.id}</span>
+                <?php
+                if ($mam['begin_money']==0 && $mam['status'] == 1) $mam['status'] = 0;
+                if (in_array($mam['id'],$myArrMamId)) $mam['status'] = 4;
+                ?>
+                    {switch mam.status}
+                    {case 1}<a href="javascript:void(0)" class="signal_btn3"><h2 style="font-weight: bold;font-size: 18px;">交<p style="display: inline-block;width: 0.2em;"></p>易<p style="display: inline-block;width: 0.2em;"></p>中</h2></a>{/case}
+                    {case 2}<a href="javascript:void(0)" class="signal_btn2"><h2 style="font-weight: bold;font-size: 18px;">已<p style="display: inline-block;width: 0.2em;"></p>结<p style="display: inline-block;width: 0.2em;"></p>束</h2></a>{/case}
+                    {case 3}<a href="javascript:void(0)" class="signal_btn2"><h2 style="font-weight: bold;font-size: 18px;">结<p style="display: inline-block;width: 0.2em;"></p>算<p style="display: inline-block;width: 0.2em;"></p>中</h2></a>{/case}
+                    {case 4}<a href="javascript:void(0)" class="signal_btn4"><h2 style="font-weight: bold;font-size: 18px;">正<p style="display: inline-block;width: 0.2em;"></p>在<p style="display: inline-block;width: 0.2em;"></p>投<p style="display: inline-block;width: 0.2em;"></p>资</h2></a>{/case}
+                    {default /}<a href="javascript:void(0)" class="signal_btn1"><h2 style="font-weight: bold;font-size: 18px;">授<p style="display: inline-block;width: 0.2em;"></p>权<p style="display: inline-block;width: 0.2em;"></p>操<p style="display: inline-block;width: 0.2em;"></p>盘<!--投<p style="display: inline-block;width: 0.5em;"></p>资--></h2></a>
+                    {/switch}
+            </div>
+        </li>
+    {/volist}
+</ul>
+<div class="pagingBox">
+{$arrMam->render()}
+</div>
+
+{else/}
+    <ul><li style="width: 100%;height: 800px;margin: 0;padding: 0;border-top: none;"><img src="__STATIC__image/signal_none.png" style="display: block;margin: 200px auto;"></li></ul>
+{/if}
+<div style="clear: both"></div>

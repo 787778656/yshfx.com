@@ -1,0 +1,2426 @@
+{extend name="web@base/main"/}
+{block name="body"}
+<script src="__STATIC__js/echarts.min.js"></script>
+
+ <script src="__STATIC__js/common.js" defer></script>
+<script src="__STATIC__js/investInPastCalc.js" defer></script>
+<script src="__STATIC__js/jquery.animateNumber.min.js" type="text/javascript"></script>
+<style>
+    .main_inner{width: 1200px;padding: 0 0 30px 0;}
+    .main_t{height: 180px;padding: 0 30px;}
+    .main_t1{height: 89px;border-bottom: 1px solid #dedfe0;}
+    .main_t1 .main_t1_div{width: 270px;height: 67px;float: left;margin: 11px 0;border-right: 1px dashed #dedfe0;overflow: hidden;}
+    .main_t1 .main_t1_div p{width: 135px;height: 100%;float: left;line-height: 33px;color: #777777;font-size: 16px;}
+    .main_t1 .main_t1_div p span{font-size: 18px;color: #222222;display: block;width: 100%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+    .signal_div_score{float: left;margin-top: 38px;}
+    .star-vote{float: none;}
+    .main_t1_p{height: 67px;margin: 11px 0 11px 36px;line-height: 33px;color: #777777;font-size: 16px;float: left;}
+    .main_t1_p span{color: #611987;font-size: 18px;display: block;}
+    .main_t1_a{display: block;width: 110px;height: 50px;line-height: 50px;text-align: center;background: #611987;color: #ffffff;font-size: 18px;font-weight: bold;float: right;margin-top: 20px;border-radius: 8px;}
+
+    .main_b_title{height: 49px;border-bottom: 1px solid #dedfe0;border-top: 1px solid #dedfe0;background: #fbfcfc;padding: 0 30px;}
+    .main_b_title li{line-height: 46px;float: left;margin-right: 50px;font-size: 18px;cursor: pointer;}
+    .main_b_title li i{vertical-align: middle;display: inline-block;width: 20px;height: 20px;margin-right: 12px;}
+    .main_b_title li span{vertical-align: middle;}
+    .main_b_title li.active{color: #611987;border-bottom: 2px solid #611987;}
+    .main_b_title li:nth-child(1) i{background: url("__STATIC__image/main_b_title01.png")no-repeat center;background-size: contain;}
+    .main_b_title li:nth-child(2) i{background: url("__STATIC__image/main_b_title02.png")no-repeat center;background-size: contain;}
+    .main_b_title li:nth-child(3) i{background: url("__STATIC__image/main_b_title03.png")no-repeat center;background-size: contain;}
+    .main_b_title li:nth-child(4) i{background: url("__STATIC__image/main_b_title04.png")no-repeat center;background-size: contain;}
+    .main_b_title li:nth-child(1).active i{background: url("__STATIC__image/main_b_title01_2.png")no-repeat center;background-size: contain;}
+    .main_b_title li:nth-child(2).active i{background: url("__STATIC__image/main_b_title02_2.png")no-repeat center;background-size: contain;}
+    .main_b_title li:nth-child(3).active i{background: url("__STATIC__image/main_b_title03_2.png")no-repeat center;background-size: contain;}
+    .main_b_title li:nth-child(4).active i{background: url("__STATIC__image/main_b_title04_2.png")no-repeat center;background-size: contain;}
+
+    .main_t2{display: block;width: 100%;height: 89px;}
+    .main_t2 li{display: block;width: calc(100%/5);height: 69px;float: left;line-height: 34px;font-size: 16px;padding: 10px 0;color: #777777;}
+    .main_t2 li span{display: block;font-size: 18px;color: #222222;}
+    .main_t2 li span span{display: inline-block;}
+    .main_t2 li i{display: inline-block;vertical-align: middle;width: 16px;height: 16px;background: url(__STATIC__image/mam_icon.png)no-repeat center;margin-left: 10px;margin-top: -3px;position: relative;}
+    .main_t2 li i:hover img{display: block;}
+    .main_t2 li i img{display: none;position: absolute;z-index: 1;}
+    .signal_data_i01{left: -120px;top: 20px;}
+    .signal_data_i02{left: -370px;top: 20px;}
+    .signal_data_i03{left: -303px;top: 20px;}
+    .signal_data_i04{left: -303px;top: 20px;}
+    .main_t2 li:first-child span span:nth-child(2){font-size: 14px;}
+    .main_t2 li:last-child span span:nth-child(1){color: #611987;}
+    .main_b_content1,.main_b_content2,.main_b_content3,.main_b_content4{padding: 0 30px;}
+    .main_b_content2,.main_b_content3,.main_b_content4{display: none;}
+    .content1_chart{height: 400px;padding: 30px 0;border-bottom: 1px solid #e5e5e6;}
+    .chartload{text-align: center;line-height: 400px;}
+    .content1_calculate{height: 200px;padding: 30px 0;border-bottom: 1px solid #e5e5e6;}
+    .content1_period{height: 110px;padding: 30px 0;border-bottom: 1px solid #e5e5e6;}
+    .content1_explain{height: 800px;padding: 30px 0;}
+    .content1_title{font-size: 18px;color: #333333;margin-bottom: 10px;}
+    .content1_calculate .calc-config {width: 30%;float: left;flex-direction: column;justify-content: center;}
+    .content1_calculate .calc-result {width: 70%;height: 170px;float: left;justify-content: space-between;}
+    .content1_calculate .calc-config>div>span {font-size: 16px;color: #666666;font-family: "Arial",serif;line-height: 35px;}
+    .calc-high-container-wrapper{padding-left: 50px;height: 100%;width: 48%;float: left;}
+    #cacl-high-container{    height: 100%;  }
+    .calc-result-info{float: left;padding-left: 50px;}
+    .flat-slider.ui-slider.ui-slider-horizontal {height: 4px;}
+    .flat-slider.ui-slider {  background: #d5cebc;border: 0;border-radius: 0;}
+    .ui-slider-horizontal.ui-slider-pips {  margin-bottom: 1.4em;  }
+    .flat-slider {  margin-top: 1.5em;  }
+    .ui-slider {  position: relative;  text-align: left;  }
+    .flat-slider .ui-widget-header {  background: #611987;  }
+    .ui-slider-horizontal .ui-slider-range-min {  left: 0;  }
+    .ui-slider-horizontal .ui-slider-range {  top: 0;  height: 100%;  }
+    .ui-slider .ui-slider-range {  position: absolute;  z-index: 1;  font-size: .7em;  display: block;  border: 0;  }
+    .ui-widget-header {  color: #333;  font-weight: bold;  }
+    .flat-slider.ui-slider.ui-slider-horizontal .ui-slider-handle {  top: 7px;  margin-left: -10px;  }
+    .flat-slider.ui-slider .ui-slider-handle {  outline: none; cursor: pointer; width: 0;  height: 0;  border-style: solid;  border-width: 0 9px 14px 9px;  border-color: transparent transparent #611987 transparent;  background: 0;  }
+    .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {  border: 1px solid #c5c5c5;  font-weight: normal;  color: #454545;  }
+    .ui-slider .ui-slider-handle {  position: absolute;  z-index: 2;  }
+    .ui-slider-pips [class*=ui-slider-pip-initial] {  font-weight: normal;  }
+    .ui-slider-pips .ui-slider-pip {  color: #686c6b;  }
+    .flat-slider .ui-slider-pip {  top: -5px;  }
+    .ui-slider-pips .ui-slider-pip {  width: 2em;  height: 1em;  line-height: 1em;  position: absolute;  font-size: .8em;  overflow: visible;  text-align: center;  margin-left: -1em;  cursor: pointer;  user-select: none;  }
+    .flat-slider.ui-slider.ui-slider-horizontal .ui-slider-pip .ui-slider-line {  width: 1px;  height: 5px;  }
+    .flat-slider.ui-slider .ui-slider-pip .ui-slider-line {  background: #d5cebc;  transition: all .4s ease;  }
+    .flat-slider .ui-slider-pip-first .ui-slider-line {  margin-left: 0;  }
+    .ui-slider-pips .ui-slider-line {  position: absolute;  left: 50%;  }
+    .flat-slider .ui-slider-pip-first .ui-slider-label {  text-align: left;  margin-left: 25px;  }
+    .flat-slider .ui-slider-pip .ui-slider-label {  position: absolute;  top: -15px;    left: -10px;  width: 42px;  color: #464b4a;  }
+    .ui-slider-pips .ui-slider-pip-label .ui-slider-label {  display: block;  }
+    .flat-slider .ui-slider-pip-last .ui-slider-label {  text-align: right;  margin-left: -20px;  }
+    .highcharts-series-0 .highcharts-point{fill: #ffe8cc;}
+    .highcharts-series-1 .highcharts-point{fill: #611987;}
+    .highcharts-xaxis-labels text{font-size: 14px!important;}
+
+    .content1_period table{border-top: 1px solid #e5e5e6;border-right: 1px solid #e5e5e6;}
+    .content1_period table tr th,.content1_period table tr td{font-weight: normal;text-align: left;color: #666666;font-size: 16px;padding-left: 20px;border-left: 1px solid #e5e5e6;border-bottom: 1px solid #e5e5e6;}
+    .content1_period table tr th:nth-child(1),.content1_period table tr td:nth-child(1){background: #f5f5f5;color: #333333;}
+    .content1_explain p{color: #666666;font-size: 16px;line-height: 30px;}
+    .content1_explain_p1 span{display: block;margin-left: 20px;}
+    .content1_explain_p2 span{position: relative;margin-left: 40px;}
+    .content1_explain_p2 span:before{content: '';width: 8px;height: 8px;background: #666666;border-radius: 50%;position: absolute;left: -20px;top: 8px;}
+    .content1_explain img{display: block;margin: 40px auto;}
+    .main_b_content2 .main_b_content2_title{width: 100%;height: 60px;}
+    .main_b_content2 .main_b_content2_title li{width: calc(100%/3);float: left;font-size: 18px;line-height: 60px;color: #666666;}
+    .main_b_content2 .main_b_content2_title li:nth-child(2),.main_b_content2 .main_b_content2_title li:nth-child(3){text-align: center;}
+    .main_b_content2 .main_b_content2_title li span{color: #611987;}
+    .main_b_content2 .main_b_content2_title li:nth-child(3) span{border-bottom: 1px solid #611987;}
+    .main_b_content2_ul{width: 100%;border: 1px solid #dbdbdb;}
+    .main_b_content2_ul li{height: 52px;line-height: 52px;}
+    .main_b_content2_ul li:nth-child(2n){background: #f7f9fb;}
+    .main_b_content2_ul li span{display: block;float: left;width: calc(100%/6);height: 100%;}
+    .main_b_content2_ul li span:nth-child(5){color: #21a921;}
+    .main_b_content2_ul li span:nth-child(1) img{display: block;width: 40px;height: 40px;border-radius: 50%;margin: 6px 0 0 50px;}
+    .main_b_content2_ul .main_b_content2_ul_title{height: 40px;line-height: 40px;}
+    .main_b_content2_ul .main_b_content2_ul_title span{font-size: 16px;color: #333333!important;}
+
+    .main_b_content3{padding-top: 12px;}
+    .main_b_content3 .main_content3_left{width: 180px;float: left;}
+    .main_content3_left li{width: 150px;height: 35px;text-align: center;line-height: 35px;border-bottom: 1px solid #eff0f0;cursor: pointer;}
+    .main_content3_left li.active{background: #611987;color: #ffffff;border-bottom: 1px solid #611987;}
+    .main_content3_left li i{display: inline-block;width: 22px;height: 22px;vertical-align: middle;margin-right: 12px;}
+    .main_content3_left li span{vertical-align: middle;}
+    .main_content3_left li:nth-child(1) i{background: url("__STATIC__image/jiaoyi1.png")no-repeat;background-size: contain;}
+    .main_content3_left li:nth-child(1).active i{background: url("__STATIC__image/jiaoyi3.png")no-repeat;background-size: contain;}
+    .main_content3_left li:nth-child(2) i{background: url("__STATIC__image/trade_title5_3.png")no-repeat;background-size: contain;}
+    .main_content3_left li:nth-child(2).active i{background: url("__STATIC__image/trade_title5_2.png")no-repeat;background-size: contain;}
+    .main_content3_left li:nth-child(3) i{background: url("__STATIC__image/lishi1.png")no-repeat;background-size: contain;}
+    .main_content3_left li:nth-child(3).active i{background: url("__STATIC__image/lishi3.png")no-repeat;background-size: contain;}
+    .main_content3_left li:nth-child(4) i{background: url("__STATIC__image/chicang1.png")no-repeat;background-size: contain;}
+    .main_content3_left li:nth-child(4).active i{background: url("__STATIC__image/chicang3.png")no-repeat;background-size: contain;}
+    .main_b_content3 .main_content3_right{width: 959px;float: left;border-left: 1px solid #f0f0f1;}
+    .content3_chart{height: 400px;padding: 30px 0;}
+    .main_content3_right_b{}
+    .main_content3_right_title{display: block;width: 100%;height: 40px;border-bottom: 1px solid #e6e6e6;}
+    .main_content3_right_title li{width: 160px;height: 35px;float: left;text-align: center;line-height: 35px;color: #a5a4a5;cursor: pointer;border: 1px solid #e6e6e6;margin-top: 4px;border-left: none;background: #f6f5f9;border-bottom: none;}
+    .main_content3_right_title li.active{width: 180px;color: #611987;border-top: 1px solid #611987;height: 38px;line-height: 38px;margin-top: 1px;background: #ffffff;box-shadow:-2px -2px 5px #eae8e8;border-bottom: 1px solid #ffffff;}
+    .main_content3_right_title li:hover{animation:active 0.4s;border-top: 1px solid #611987;border-bottom:1px solid #ffffff;background: #ffffff;width:180px;height:38px;margin-top: 1px;box-shadow:-2px -2px 5px #eae8e8;}
+    @keyframes active {
+        0%{width:160px;height: 35px;background: #f6f5f9;}
+        100%{width:180px;height:38px;background: #ffffff;border-top: 1px solid #611987;}
+    }
+    .main_content3_right_title li:nth-child(1){margin-left: 50px;border-left: 1px solid #e6e6e6;}
+    .main_content3_right_title li i{display: inline-block;width: 22px;height: 22px;vertical-align: middle;margin-right: 12px;}
+    .main_content3_right_title li span{vertical-align: middle;}
+    .main_content3_right_title li:nth-child(1) i{background: url("__STATIC__image/zongti0.png")no-repeat;background-size: contain;}
+    .main_content3_right_title li:nth-child(1).active i{background: url("__STATIC__image/zongti.png")no-repeat;background-size: contain;}
+    .main_content3_right_title li:nth-child(2) i{background: url("__STATIC__image/yinli_icon0.png")no-repeat;background-size: contain;}
+    .main_content3_right_title li:nth-child(2).active i{background: url("__STATIC__image/yinli_icon.png")no-repeat;background-size: contain;}
+    .main_content3_right_title li:nth-child(3) i{background: url("__STATIC__image/fengxian_icon0.png")no-repeat;background-size: contain;}
+    .main_content3_right_title li:nth-child(3).active i{background: url("__STATIC__image/fengxian_icon.png")no-repeat;background-size: contain;}
+    .main_content3_right_data{padding: 30px 20px 30px 50px;}
+    .main_content3_right_data_ul{display: block;float: left;width: calc(100%/4);position: relative;}
+    .main_content3_right_data_ul:after{content: '';position: absolute;top: 0;right: 0;width: 0;height: 390px;border-left: 1px dashed #cce7f4;}
+    .main_content3_right_data_ul:nth-child(4):after{display: none;}
+    .main_content3_right_data_ul li{text-align: center;width: 100%;height: 78px;font-size: 16px;}
+    .main_content3_right_data_ul li span{display: inline-block;padding-top: 8px;}
+    .main_content3_right_data_ul li .content3_span2{padding-top: 0;}
+
+    .main_b_content4_title{height: 80px;line-height: 80px;}
+    .main_b_content4_title i{display: inline-block;vertical-align: middle;width: 27px;height: 24px;background: url("__STATIC__image/pinglun_icon.jpg")no-repeat center;background-size: cover;margin-right: 10px;}
+    .main_b_content4_title span{display: inline-block;vertical-align: middle;font-size: 18px;color: #333333;}
+    .main_b_content4_ul li{display: block;width: 100%;height: 88px;border-bottom: 1px dotted #cccccc;}
+    .main_b_content4_ul li img{display: block;float: left;width: 50px;height: 50px;border-radius: 50%;margin-top: 19px;}
+    .main_b_content4_ul li p{float: left;padding-left: 30px;}
+    .main_b_content4_ul li p .main_b_content4_ul_name{line-height: 36px;font-size: 20px;color: #333333;display: block;padding-top: 11px;}
+    .main_b_content4_ul li p .main_b_content4_ul_content{line-height: 30px;font-size: 16px;color: #999999;}
+    .main_b_content4_ul li .main_b_content4_ul_time{display: block;float: right;color: #777777;line-height: 36px;padding-top: 11px;}
+    .main_b_content4_input{width: 100%;height: 158px;border: 1px solid #cccccc;margin: 40px 0 80px 0;}
+    .main_b_content4_input textarea{width: 1110px;height: 70px;border: none;padding: 15px;font-size: 16px;}
+    .main_b_content4_btn{display: block;width: 150px;height: 42px;background: #611987;color: #ffffff;border-radius: 8px;font-size: 18px;text-align: center;line-height: 42px;margin: 0 15px 15px 0;float: right;;}
+    .or_chart{width:100%!important;height:100%!important;}
+    .tb .or_chart{width:100%!important;height:350px!important;margin:0 auto;padding-top:15px;}
+    .allchartTitle{width:985px;font-size:20px;color:#333333;text-align: center;}
+    .achievement_radio{height:40px;position: absolute;top:30px;right:0;z-index: 99;}
+    .achievement_radio label{float:right;margin-left:15px;}
+    .charts_tips {font-size: 12px;position: absolute;top: 38px;left: 68px;}
+    .charts_tips1{color:#0080ff;font-size: 12px}
+    .charts_tips2{color:#509f50;font-size: 12px}
+    .charts_tips3{color:#0080ff;font-size: 12px}
+    .allchartBox{position: relative;}
+    .content3{display: none;}
+    .jy{display: block}
+    .ls,.cc{width:940px;margin:0 auto;max-height:941px;}
+    .content3_detail{display: none;}
+    .tj{display: block}
+    .modulusHead{font-size:16px;color:#3e3a39;float:left;}
+    .content3_detail{width:941px;padding:30px 0 20px;float:right;}
+    .modulusContent{width:700px;height:10px;background: #a3edff;float:left;margin-left:15px;border-radius: 6px;margin-top: 6px;position: relative;}
+    .modulusContent2{width:700px;height:10px;background: #ffde21;float:left;margin-left:15px;border-radius: 6px;margin-top: 6px;position: relative;}
+    .modulusBlank{width:100%;height:100%;position: relative;}
+    .modulusBlank li{position: absolute;height:100%;width:2px;background: #fff;z-index:2;}
+    .modulusBlank li:nth-child(1){left:20%;}
+    .modulusBlank li:nth-child(2){left:40%;}
+    .modulusBlank li:nth-child(3){left:60%;}
+    .modulusBlank li:nth-child(4){left:80%;}
+    .moduluscontain{position: absolute;height:100%;width:0;background: #00a8ff;top:0;left:0;z-index:3;border-radius: 6px 0 0 6px;}
+    .moduluscontain2{position: absolute;height:100%;width:0;background: #611987;top:0;left:0;z-index:3;border-radius: 6px 0 0 6px;}
+    .modulusConTips,.modulusConTips2{clear:both;margin-left:84px;}
+    .modulusConTips li,.modulusConTips2 li{width:137px;float:left;font-size:16px;color:#999999;}
+    .moduluscontainBox,.moduluscontainBox2{position: absolute;top:-30px;left:-20px;width:40px;}
+    .moduluscontainBox p{background: #00a8ff;color:#fff;border-radius: 4px;text-align: center;}
+    .moduluscontainBox2 p{background: #611987;color:#fff;border-radius: 4px;text-align: center;}
+    .modulus_text_tip{position: absolute;width:10px;bottom:-6px;left:50%;margin-left:-5px;}
+    .gain_chart{height:400px;width:940px;float:right;}
+    .explainBox li{position: absolute;width:118px;height:40px;}
+    .yl_result,.fx_result{position:absolute;top:248px;left:462px;z-index:99;font-size:20px;color:#000}
+    .pinglun_icon{width:27px;float:left;margin-top:3px;}
+    .commit_t{font-size:20px;color:#333333;line-height: 27px;float:left;margin-left:10px;}
+    .commitBox{padding:20px 10px 20px 0;border-bottom:1px dashed #c2e2f2;clear:both;}
+    .commit_head{float:left;width:50px;object-fit: cover;}
+    .commit_per_name{font-size:20px;color:#333333;padding-left:65px;}
+    .commit_per_detail{font-size:16px;color:#999999;padding-left:65px;width:725px;padding-top:10px;}
+    .commit_date{font-size:16px;color:#777777;float:right;margin-top:10px;}
+    .commitsubmit{width:100%;padding:20px 0 60px 0;border:1px solid #c2e2f2;margin-top:30px;}
+    .commit_textarea{resize:none;list-style: none;overflow-x:auto;overflow-y:hidden;width:96%;margin:0 auto 10px;display: block;font-size:16px;height:80px;border:none;outline: none;}
+    .commitsubmitbtn{border-radius:4px;font-size:20px;color:#fff;width:150px;height:40px;border:none;background: #007eff;float:right;margin-right:23px;cursor: pointer;outline: none;}
+    .commitsubmitbtn:hover{background: #0060ff;}
+    .commitContent{padding:10px 0;}
+</style>
+
+<div class="main">
+    <div class="main_inner">
+        <div class="main_t">
+            <div class="main_t1">
+                <div class="main_t1_div">
+                    <p>MAM 经理<span>江湖江湖江湖江湖江湖江湖</span></p>
+                    <div class="signal_div_score">
+                        <!--<p>评分</p>--><p class="score" style='display: none;'>90</p>
+                        <div class="star-vote"><span class="add-star"></span><span class="del-star"></span></div>
+                    </div>
+                </div>
+                <p class="main_t1_p">当前风险保证金<span>￥1000000</span></p>
+                <a href="javascript:void(0);" class="main_t1_a">立即投资</a>
+            </div>
+            <ul class="main_t2">
+                <li>
+                    历史业绩
+                    <span><span>100</span><span>%</span></span>
+                </li>
+                <li>
+                    保障模式 <i><img src="__STATIC__image/signal_data_i01.png" class="signal_data_i01" alt=""></i>
+                    <span>保本/最低收益</span>
+                </li>
+                <li>
+                    经理酬劳 <i><img src="__STATIC__image/signal_data_i03.png" class="signal_data_i02" alt=""></i>
+                    <span>加佣 : <span><span>5</span> USD/手</span></span>
+                </li>
+                <li>
+                    结算周期 <i><img src="__STATIC__image/signal_data_i05.png" class="signal_data_i03" alt=""></i>
+                    <span>按日/周/月</span>
+                </li>
+                <li>
+                    资金 <i><img src="__STATIC__image/signal_data_i06.png" class="signal_data_i04" alt=""></i>
+                    <span><span>1000</span>/<span>10000</span></span>
+                </li>
+            </ul>
+        </div>
+        <div class="main_b">
+            <ul class="main_b_title">
+                <li class="main_b_title1 active"><i></i><span>收益概况</span></li>
+                <li class="main_b_title2"><i></i><span>投资者</span></li>
+                <li class="main_b_title3" data-id="1"><i></i><span>交易数据</span></li>
+                <li class="main_b_title4"><i></i><span>讨论区</span></li>
+            </ul>
+            <div class="main_b_content">
+                <div class="main_b_content1">
+                    <div class="content1_chart">
+                        <div class="chartload">
+                            <img src="__STATIC__image/chartloading.gif" class="chartloading">
+                        </div>
+                        <div class="or_chart" id="chart"></div>
+                    </div>
+                    <div class="content1_calculate">
+                        <h4 class="content1_title">计算收益</h4>
+                        <div id="calc-main" data-currency="&quot;USD&quot;"
+                             data-percents="{&quot;month&quot;:{&quot;value&quot;:-4.47,&quot;localized&quot;:&quot;\u20134.5%&quot;},&quot;quater&quot;:{&quot;value&quot;:115.01,&quot;localized&quot;:&quot;115%&quot;},&quot;half&quot;:{&quot;value&quot;:142.07,&quot;localized&quot;:&quot;142%&quot;},&quot;year&quot;:{&quot;value&quot;:182.76,&quot;localized&quot;:&quot;182.7%&quot;},&quot;allTime&quot;:{&quot;value&quot;:539.52,&quot;localized&quot;:&quot;539.5%&quot;}}"
+                             data-translations="{&quot;invested&quot;:&quot;投资金额&quot;,&quot;return&quot;:&quot;预期收益&quot;,&quot;investmentAmount&quot;:&quot;\u6295\u8d44\u91d1\u989d&quot;,&quot;returnOnInvestment&quot;:&quot;\u6295\u8d44\u6536\u76ca&quot;,&quot;oneMillion&quot;:&quot;1\u767e\u4e07&quot;,&quot;timeSlider&quot;:[&quot;1\u4e2a\u6708&quot;,&quot;3\u4e2a\u6708&quot;,&quot;6\u4e2a\u6708&quot;,&quot;1\u5e74&quot;]}">
+                            <div class="calc-config">
+                                <div><span>投资金额: </span>
+                                    <div id="money-slider"
+                                         class="flat-slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all ui-slider-pips"></div>
+                                </div>
+                                <div><span>投资期: </span>
+                                    <div id="time-slider"
+                                         class="flat-slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all ui-slider-pips"></div>
+                                </div>
+                            </div>
+                            <div class="calc-result">
+                                <div class="calc-high-container-wrapper">
+                                    <div id="cacl-high-container"></div>
+                                </div>
+                                <div class="calc-result-info">
+                                    <div>
+                                        <div class="calc-result-info-title" style="font-size: 16px;color: #666666;">
+                                            投资MAM交易结果:&nbsp;
+                                        </div>
+                                        <div class="calc-result-info-sum" style="color: #333333;font-size: 26px;line-height: 40px;">
+                                            <span class="calc-result-value">100.26</span><span> USD</span>
+                                        </div>
+                                    </div>
+                                    <div class="calc-result-info-desc">
+                                        投资期:
+                                        <span class="start-invest-date">11.10.2017</span> — 11.01.2018<br>
+                                        投资MAM交易收益率: &nbsp;<span class="calc-result-percent-value" style="color: #333333;font-size: 20px;">123%</span><br></div>
+                                    <div>
+                                        <a class="button s_mb_4 pamm-invest_form_button button_size_36" href="javascript:void (0)" style="display: block;width: 96px;height: 38px;line-height: 38px;text-align: center;border-radius: 8px;background: #611987;color: #ffffff;font-size: 16px;font-weight: bold;margin-top: 20px;">立即投资</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content1_period">
+                        <h4 class="content1_title">周期收益</h4>
+                        <table width="100%" cellspacing="0" cellpadding="5">
+                            <tr>
+                                <th>投资期</th>
+                                <th>全部时间</th>
+                                <th>今日</th>
+                                <th>1周</th>
+                                <th>1个月</th>
+                                <th>3个月</th>
+                                <th>6个月</th>
+                                <th>1年</th>
+                            </tr>
+                            <tr>
+                                <td>MAM交易收益率</td>
+                                <td>617.9%</td>
+                                <td>239.4%</td>
+                                <td>195.2%</td>
+                                <td>188.7%</td>
+                                <td>102.4%</td>
+                                <td>6%</td>
+                                <td>3.40%</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="content1_explain">
+                        <h4 class="content1_title">数据结算时间</h4>
+                        <p>设置周/月结算的模式 则需要满标后 冻结双方保证金进行交易。</p>
+                        <p style="display: none;">MAM 经理与参与 MAM 交易的投资者在每日 24:00 时进行结算，并以此时为加入零界点，当您在这个时间之后加入 MAM 账户，则推迟到次日开始交易（当前交易不会被同步）。</p>
+                        <img src="__STATIC__image/mam_detail.png">
+                        <img src="__STATIC__image/mam_detail_2.png" style="display: none;">
+                        <p class="content1_explain_p1">服务结算规则：<br>
+                            1.  到期结算：<br>
+                            <span>双方结算按照实际盈亏进行结算，参与MAM交易，使用的交易环境不同可能导致交易结果与mam主账户交易结果不一致，偏差应在±5%以内，从账户由于
+                            交易环境，导致结果偏移过大，则应按照主账号的亏结果进行结算。</span><br>
+
+                            2.  未到期结算：<br>
+                            <span>若MAM经理在交易过程中，出现了重大亏损，导致风险保证金（赔付金）不足，则交易立即停止，该项目结束，MAM经理预缴保证金赔付至从账户。</span><br>
+
+                            3.  异常结算：<br>
+                            <span>若从账户由于修改密码或出金或其他操作导致账户无法正常交易，则视为放弃收益，扣除预缴的保证金至MAM经理账户，若MAM经理中途修改密码或其他操
+                            作导致无法正常交易，则扣除保证金至MAM从账户作为补偿。</span><br>
+                        </p>
+                        <h4 class="content1_title">注意:</h4>
+                        <p class="content1_explain_p2">
+                            <span>以往收益情况并不能代表未来的投资收益，MAM 经理对投资者的保障机制与亿思汇平台无关。</span><br>
+                            <span>亿思汇仅为 MAM 经理及投资者提供 MAM 账户技术服务，本身不参与其中任何一方。</span><br>
+                            <span>亿思汇不指定或建议投资者使用任何平台进行 MAM 账户的关联，更不参与账户资金的管理。</span><br><br>
+                        </p>
+                    </div>
+                </div>
+                <div class="main_b_content2">
+                    <ul class="main_b_content2_title">
+                        <li>当前 MAM 账户参与人数：<span>30</span> 人</li>
+                        <li>MAM 交易资金：<span>10000</span>/20000</li>
+                        <li>还有额度 <span>立即加入</span> 吧</li>
+                    </ul>
+                    <ul class="main_b_content2_ul">
+                        <li class="main_b_content2_ul_title">
+                            <span></span>
+                            <span>投资者</span>
+                            <span>经济商</span>
+                            <span>当前收益率</span>
+                            <span>当前净值</span>
+                            <span>当前获利</span>
+                        </li>
+                        <li>
+                            <span><img src="__STATIC__image/vip02.png"></span>
+                            <span>187****9499</span>
+                            <span>Tickmill</span>
+                            <span>132.26%</span>
+                            <span>10307.11USD</span>
+                            <span>45485.26USD</span>
+                        </li>
+                        <li>
+                            <span><img src="__STATIC__image/vip02.png"></span>
+                            <span>187****9499</span>
+                            <span>Tickmill</span>
+                            <span>132.26%</span>
+                            <span>10307.11USD</span>
+                            <span>45485.26USD</span>
+                        </li>
+                        <li>
+                            <span><img src="__STATIC__image/vip02.png"></span>
+                            <span>187****9499</span>
+                            <span>Tickmill</span>
+                            <span>132.26%</span>
+                            <span>10307.11USD</span>
+                            <span>45485.26USD</span>
+                        </li>
+                        <li>
+                            <span><img src="__STATIC__image/vip02.png"></span>
+                            <span>187****9499</span>
+                            <span>Tickmill</span>
+                            <span>132.26%</span>
+                            <span>10307.11USD</span>
+                            <span>45485.26USD</span>
+                        </li>
+                        <li>
+                            <span><img src="__STATIC__image/vip02.png"></span>
+                            <span>187****9499</span>
+                            <span>Tickmill</span>
+                            <span>132.26%</span>
+                            <span>10307.11USD</span>
+                            <span>45485.26USD</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="main_b_content3">
+                    <ul class="main_content3_left">
+                        <li class="active" data-id="1"><i></i><span>交易</span></li>
+                        <li data-id="2"><i></i><span>图表</span></li>
+                        <li data-id="3"><i></i><span>历史</span></li>
+                        <li data-id="4"><i></i><span>持仓</span></li>
+                    </ul>
+                    <div class="main_content3_right">
+                        <div class="content3 jy">
+                            <div class="content3_chart">
+                                <div class="chartload">
+                                    <img src="__STATIC__image/chartloading.gif" class="chartloading">
+                                </div>
+                                <div class="or_chart" id="chart2"></div>
+                            </div>
+                            <div class="main_content3_right_b">
+                                <ul class="main_content3_right_title"  data-id="1">
+                                    <li class="active" data-id="1"><i></i><span>交易统计</span></li>
+                                    <li data-id="2"><i></i><span>盈利能力</span></li>
+                                    <li data-id="3"><i></i><span>风险评级</span></li>
+                                </ul>
+                                <div class="content3_detail tj">
+                                    <div class="main_content3_right_data">
+                                        <ul class="main_content3_right_data_ul">
+                                            <li>周<br><span>181</span></li>
+                                            <li>总交易<br><span>1852</span></li>
+                                            <li>最好交易<br><span>493.36</span></li>
+                                            <li>最大连续盈利<br><span>918.86 USD (9)</span></li>
+                                            <li>毛利<br><span>2113.67</span> USD<br> (<span class="content3_span2">148949</span> 点数)</li>
+                                        </ul>
+                                        <ul class="main_content3_right_data_ul">
+                                            <li>最近交易<br><span>17/12/18 23:18</span></li>
+                                            <li>盈利交易<br><span>1852</span></li>
+                                            <li>最差交易<br><span>493.36</span></li>
+                                            <li>最大连续盈利<br><span>918.86 USD (9)</span></li>
+                                            <li>毛利亏损<br><span>2113.67</span> USD<br> (<span class="content3_span2">148949</span> 点数)</li>
+                                        </ul>
+                                        <ul class="main_content3_right_data_ul">
+                                            <li>每周交易<br><span>181</span></li>
+                                            <li>亏损交易<br><span>1852</span></li>
+                                            <li>预期回报<br><span>493.36</span></li>
+                                            <li>最大连续失误<br><span>918.86 USD (9)</span></li>
+                                            <li>平均利润<br><span>2113.67</span> USD<br> (<span class="content3_span2">148949</span> 点数)</li>
+                                        </ul>
+                                        <ul class="main_content3_right_data_ul">
+                                            <li>平均持有时间<br><span>181</span></li>
+                                            <li>利润因子<br><span>1852</span></li>
+                                            <li>夏普比率<br><span>493.36</span></li>
+                                            <li>最大连续亏损<br><span>918.86 USD (9)</span></li>
+                                            <li>平均损失<br><span>2113.67</span> USD<br> (<span class="content3_span2">148949</span> 点数)</li>
+                                        </ul>
+                                        <div style="clear:both;"></div>
+                                    </div>
+                                </div>
+                                <div class="content3_detail yl">
+                                     <div class="modulusBox">
+                                        <span class="modulusHead">盈利系数</span>
+                                        <div class="modulusContent">
+                                            <ul class="modulusBlank">
+                                                <li></li>
+                                                <li></li>
+                                                <li></li>
+                                                <li></li>
+                                            </ul>
+                                            <div class="moduluscontain">
+                                            </div>
+                                            <div class="moduluscontainBox">
+                                                <p id="target">0</p>
+                                                <img src="__STATIC__image/modulus_text_tip0.png" class="modulus_text_tip">
+                                            </div>
+                                        </div>
+                                        <ul class="modulusConTips">
+                                            <li>0</li>
+                                            <li>25</li>
+                                            <li>50</li>
+                                            <li>75</li>
+                                            <li>100</li>
+                                            <li>125</li>
+                                        </ul>
+                                    </div>
+                                    <div style="position:relative;">
+                                        <p  class="yl_result"></p>
+                                        <div class="gain_chart" id="gain_chart"></div>
+                                        <ul class="explainBox">
+                                            <li style="left:422px;top:61px;" title="指全年预测收益率（历史收益的平均值）"></li>
+                                            <li style="left:635px;top:186px;" title="指历史交易盈利交易的比例"></li>
+                                            <li style="left:574px;top:385px;" title="指最大浮盈率，指交易者最大一次账户浮盈时的比例"></li>
+                                            <li style="left:247px;top:385px;" title="指交易者浮盈时段在交易中的占比"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="content3_detail fx">
+                                    <div class="modulusBox">
+                                        <span class="modulusHead">风险系数</span>
+                                        <div class="modulusContent2">
+                                            <ul class="modulusBlank">
+                                                <li></li>
+                                                <li></li>
+                                                <li></li>
+                                                <li></li>
+                                            </ul>
+                                            <div class="moduluscontain2">
+                                            </div>
+                                            <div class="moduluscontainBox2">
+                                                <p id="target2">0</p>
+                                                <img src="__STATIC__image/modulus_text_tip2.png" class="modulus_text_tip">
+                                            </div>
+                                        </div>
+                                        <ul class="modulusConTips2">
+                                            <li>0</li>
+                                            <li>5</li>
+                                            <li>10</li>
+                                            <li>15</li>
+                                            <li>20</li>
+                                            <li>25</li>
+                                        </ul>
+                                    </div>
+                                    <div style="position:relative;">
+                                        <p class="fx_result"></p>
+                                        <div class="gain_chart" id="gain_chart2"></div>
+                                        <ul class="explainBox">
+                                            <li style="left:422px;top:61px;" title="即利润回吐率，指交易者获得的利润亏损出去的比例"></li>
+                                            <li style="left:635px;top:186px;" title="即最大浮亏率，指交易者最大一次账户浮亏时的比例"></li>
+                                            <li style="left:574px;top:385px;" title="即仓位使用率，指交易者最大一次账户仓位使用比例"></li>
+                                            <li style="left:247px;top:385px;" title="指交易者浮亏时段在交易中的占比"></li>
+                                            <li style="left:186px;top:189px;" title="指历史交易中单日亏损最大的数值比例（最大亏损/月初结余）"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content3 tb">
+                            <div class="allchartBox">
+                                <p class="allchartTitle">利  润</p>
+                                <div class="chartload">
+                                        <img src="__STATIC__image/chartloading.gif" class="chartloading">
+                                </div>
+                                <div class="or_chart" id="allchart1"></div>
+                            </div>
+                            <div class="allchartBox">
+                                <p class="allchartTitle">业  绩</p>
+                                <div class="achievement_radio">
+                                    <label>
+                                        <input name="time" type="radio" value="month">月
+                                    </label>
+                                    <label>
+                                        <input name="time" type="radio" value="week">周
+                                    </label>
+                                    <label>
+                                        <input name="time" type="radio" value="day" checked="checked">日
+                                    </label>
+                                </div>
+                                <div class="chartload">
+                                        <img src="__STATIC__image/chartloading.gif" class="chartloading">
+                                </div>
+                                <div class="or_chart" id="allchart2"></div>
+                            </div>
+                            <div class="allchartBox">
+                                <p class="allchartTitle">净  值</p>
+                                <div class="chartload">
+                                    <img src="__STATIC__image/chartloading.gif" class="chartloading">
+                                </div>
+                                <div class="or_chart" id="allchart3"></div>
+                                <div class="charts_tips">
+                                    <p class="charts_tips1">结余，USD</p>
+                                    <p class="charts_tips2">净值</p>
+                                </div>
+                            </div>
+                            <div class="allchartBox">
+                                <p class="allchartTitle">浮盈/浮亏</p>
+                                <div class="chartload">
+                                    <img src="__STATIC__image/chartloading.gif" class="chartloading">
+                                </div>
+                                <div class="or_chart" id="allchart4"></div>
+                                <div class="charts_tips" style="top:55px;">
+                                    <p class="charts_tips3">浮盈/<span style="color:#f25137;">浮亏</span>，%</p>
+                                </div>
+                            </div>
+                            <div class="allchartBox">
+                                <p class="allchartTitle">仓 位</p>
+                                <div class="chartload">
+                                    <img src="__STATIC__image/chartloading.gif" class="chartloading">
+                                </div>
+                                <div class="or_chart" id="allchart5"></div>
+                            </div>
+                            <div class="allchartBox">
+                                <p class="allchartTitle">品 种</p>
+                                <div class="chartload">
+                                    <img src="__STATIC__image/chartloading.gif" class="chartloading">
+                                </div>
+                                <div class="or_chart" id="allchart6"></div>
+                                <div class="charts_tips" style="top:55px;right:36px;">
+                                    <p style="float:right;color:#0098f0;line-height:10px;margin-left:6px;">Buy</p>
+                                    <div style="width:10px;height:10px;background:#0098f0;border-radius:4px;float:right;margin-left:10px;"></div>
+                                    <p style="float:right;color:#f25137;line-height:10px;margin-left:6px;">Sell</p>
+                                    <div style="width:10px;height:10px;background:#f25137;border-radius:4px;float:right;margin-left:10px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 历史-->
+                        <div class="content3 ls">
+                            <iframe name="mainframe" name="right" id="iframe_ls" src="{:url('master/iorders', array('account' => '11931350', 'tab' => 'history'))}" frameborder="false" scrolling="no" style="border:none" width="100%" height="100%" allowtransparency="true"></iframe>
+                        </div>
+                        <!-- 持仓-->
+                        <div class="content3 cc">
+                            <iframe name="mainframe" name="right" id="iframe_cc" src="{:url('master/iorders', array('account' => '11931350', 'tab' => 'holding'))}" frameborder="false" scrolling="no" style="border:none" width="100%" height="100%" allowtransparency="true"></iframe>
+                        </div>
+                    </div>
+                    <div style="clear: both"></div>
+                </div>
+                <div class="main_b_content4">
+                    <img src="__STATIC__image/pinglun_icon.jpg" class="pinglun_icon" style="padding-top:20px;">
+                    <p class="commit_t" style="padding-top:20px;">评论</p>
+                    <div class="commitContent" style="height:600px;">
+                        <iframe name="mainframe" name="right" id="mainframe" src="{:url('master/icomment',['mt4id' => '11931350'])}" frameborder="false" scrolling="no" style="border:none" width="100%" height="100%" allowtransparency="true"></iframe>
+                    </div>
+
+                    <div class="commitsubmit">
+                        <textarea placeholder="请输入评论" class="commit_textarea"></textarea>
+                        <button class="commitsubmitbtn do_comment" onfocus="if(this.value=='发布评论'){this.value=''}">发布评论</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var d = [];
+    var chart1_data = [];
+    var chart2_data = [];
+    var chart3_data = [];
+    var chart4_data = [];
+    var chart5_data = [];
+    var myData = [];
+    var databeast = [];
+    var databeauty = [];
+    var account='11931350';
+    var u = '__API__v1.web/history?account=' + account;
+    chart1_url = u;
+    chart2_url = "__API__v1.web/history_profit?time=day&account=" + account;
+    chart3_url = "__API__v1.web/history_total?account=" + account;
+    chart4_url = chart3_url;
+    chart5_url = chart3_url;
+    chart6_url = "__API__v1.web/history_symbol?account=" + account;
+    var profit_radar=[0, 0, 0, 0, 0];
+    var profit_radar2 = [0, 0, 0, 0, 0];
+    var profit_radar_detail = [0, 0, 0, 0, 0];
+    var profit_radar2_detail = [0, 0, 0, 0, 0];
+    var n = -1;
+    var nn = -1;
+    var profit_score;
+    var loss_score;
+    $(function () {
+        $(".confirm_close").click(function () {
+            $(".confirmAlert").hide();
+            $(".confirmBox").hide();
+        });
+
+        transaction.chart(u, "chart");
+        var n = 1;
+         /*MAM交易详情页导航*/
+        $(".main_b_title li").on("click", function () {
+            $(this).addClass("active").siblings().removeClass("active");
+        });
+        $(".main_b_title1").on("click", function () {
+            $(".main_b_content1").fadeIn().siblings().hide();
+            transaction.setOption(d, "chart");
+        });
+        $(".main_b_title2").on("click", function () {
+            $(".main_b_content2").fadeIn().siblings().hide();
+        });
+        $(".main_b_title3").on("click", function () {
+            $(".main_b_content3").fadeIn().siblings().hide();
+            if($(this).data("id")=="1"){
+                transaction.chart(u, "chart2");
+            }
+        });
+        $(".main_b_title4").on("click", function () {
+            $(".main_b_content4").fadeIn().siblings().hide();
+        });
+        $("#iframe_ls").load(function() {
+            var mainheight = $(this).contents().find("body").height()+64;
+            if(mainheight>400){
+                $(this).height(mainheight);
+            } else {
+                $(this).height(400);
+            }
+        });
+        $("#iframe_cc").load(function() {
+            var mainheight = $(this).contents().find("body").height()+64;
+            if(mainheight>400){
+                $(this).height(mainheight);
+            }else{
+                $(this).height(400);
+            }
+        });
+        /*交易数据里面的导航*/
+        $(".main_content3_left li").on("click", function () {
+            $(this).addClass("active").siblings().removeClass("active");
+            $(".main_b_title3").data("id",$(this).data("id"))
+            $(".content3").hide();
+            if($(this).data("id")=="1"){
+                $(".jy").show()
+                transaction.setOption(d, "chart2");
+            }else if($(this).data("id")=="2"){
+                $(".tb").show()
+                if (n == 1) {
+                    n++;
+                    allchart1.chart(chart1_url, "allchart1");
+                    allchart2.chart(chart2_url, "allchart2");
+                    allchart3.chart(chart3_url, "allchart3");
+                    allchart6.chart(chart6_url, "allchart6");
+                }
+                allchart1.setOption(chart1_data, "allchart1");
+                allchart2.setOption(chart2_data, "allchart2");
+                allchart3.setOption(chart3_data, "allchart3");
+                allchart4.setOption(chart4_data, "allchart4");
+                allchart5.setOption(chart5_data, "allchart5");
+                allchart6.setOption(myData, databeast, databeauty, "allchart6");
+            }else if($(this).data("id")=="3"){
+                $(".ls").show()
+            }else if($(this).data("id")=="4"){
+                $(".cc").show()
+                setTimeout(function () {
+                    var mainheight2 = $("#iframe_cc").contents().find("body").height() + 64;
+                    if (mainheight2 > 400) {
+                        $("#iframe_cc").height(mainheight2);
+                    } else {
+                        $("#iframe_cc").height(400);
+                    }
+                }, 600);
+            }
+        });
+        $(".main_content3_right_title li").on("click", function () {
+            $(this).addClass("active").siblings().removeClass("active");
+            $(".content3_detail").hide()
+            if($(this).data("id")=="1"){
+                $(".tj").show();
+            }else if($(this).data("id")=="2"){
+                $(".yl").show();
+                $(".moduluscontain").css("width", "0");
+                $(".moduluscontainBox").css("left", "-20px");
+                $(".modulusConTips li").css("color","#999999");
+                radar1.getdata();
+                $(".orh_active2").removeClass("orh2_img_show");
+                $(this).addClass("orh2_img_show");
+            }else if($(this).data("id")=="3"){
+                $(".fx").show();
+                $(".moduluscontain2").css("width", "0");
+                $(".moduluscontainBox2").css("left", "-20px");
+                $(".modulusConTips2 li").css("color", "#999999");
+                radar2.getdata();
+                $(".orh_active2").removeClass("orh2_img_show");
+                $(this).addClass("orh2_img_show");
+            }
+            $(".main_content3_right_title").data("id",$(this).data("id"))
+        });
+        $("input[value='month']").click(function () {
+            allchart2.chart("__API__v1.web/history_profit?time=month&account=" + account, "allchart2");
+        });
+        $("input[value='week']").click(function () {
+            allchart2.chart("__API__v1.web/history_profit?time=week&account=" + account, "allchart2");
+        });
+        $("input[value='day']").click(function () {
+            allchart2.chart("__API__v1.web/history_profit?time=day&account=" + account, "allchart2");
+        });
+    });
+    $('.do_comment').click(function () {
+        var mt4id = $("input[name=mt4id]").val();
+        var comment = $('.commit_textarea').val();
+        var mobile = '{$info.login}';
+        if (comment == '') {
+            win.alert('', '评论不能为空');
+        }else{
+            var uid = '{$uid}';
+            var data = {
+                'uid' : uid,
+                'mt4id' : mt4id,
+                'comment' : comment,
+                'mobile' : mobile
+            };
+            $.ajax({
+                type : 'post',
+                dateType : 'json',
+                url : "{:url('master/comment')}",
+                data : data,
+                success : function (data) {
+                    var json = JSON.parse(data);
+                    win.alert('', json.msg);
+                    $(".commit_textarea").val('');
+                }
+            });
+        }
+    })
+    var radar1={
+        getdata: function (){
+            $.ajax({
+                url: '__API__v1.web/account_score?account='+account,
+                type: 'get',
+                dataType: 'jsonp',
+                jsonp: 'callback',
+                success: function (body) {
+                    if(body.code==200){
+                        var data=body.data;
+                        profit_score=parseFloat(data.profit_score);
+                        var reg = new RegExp(",","g");
+                        var year_proft= (data.year_proft.toString()).replace(reg,"");//年度预测
+                        var profit_factor= (data.profit_factor.toString()).replace(reg,"");//利润因子
+                        var profit_offset= (data.profit_offset.toString()).replace(reg,"");//盈利偏移
+                        var equity_increase= (data.equity_increase.toString()).replace(reg,"");//净值涨幅
+                        var trade_win= (data.trade_win.toString()).replace(reg,"");//交易胜率
+
+                        year_proft= parseFloat(year_proft).toFixed(2);//年度预测
+                        profit_factor= parseFloat(profit_factor).toFixed(2);//利润因子
+                        profit_offset= parseFloat(profit_offset).toFixed(2);//盈利偏移
+                        equity_increase= parseFloat(equity_increase).toFixed(2);//净值涨幅
+                        trade_win= parseFloat(trade_win).toFixed(2);//交易胜率
+
+                        if (year_proft <= 40) {
+                            profit_radar[0]=1;
+                        }else if(year_proft<=60){
+                            profit_radar[0]=2;
+                        }else if (year_proft <= 80) {
+                            profit_radar[0] = 3;
+                        } else if (year_proft <= 100) {
+                            profit_radar[0] = 4;
+                        } else if (year_proft > 100) {
+                            profit_radar[0] = 5;
+                        }
+
+                        if (profit_factor <= 1.2) {
+                            profit_radar[1]=1;
+                        }else if(profit_factor<=1.4){
+                            profit_radar[1]=2;
+                        }else if (profit_factor <= 1.6) {
+                            profit_radar[1] = 3;
+                        } else if (profit_factor <= 1.8) {
+                            profit_radar[1] = 4;
+                        } else if (profit_factor > 1.8) {
+                            profit_radar[1] = 5;
+                        }
+
+                        if (profit_offset <= 20) {
+                            profit_radar[2]=1;
+                        }else if(profit_offset<=40){
+                            profit_radar[2]=2;
+                        }else if (profit_offset <= 60) {
+                            profit_radar[2] = 3;
+                        } else if (profit_offset <= 80) {
+                            profit_radar[2] = 4;
+                        } else if (profit_offset > 80) {
+                            profit_radar[2] = 5;
+                        }
+
+                        if (equity_increase <= 2) {
+                            profit_radar[3]=1;
+                        }else if(equity_increase<=4){
+                            profit_radar[3]=2;
+                        }else if (equity_increase <= 6) {
+                            profit_radar[3] = 3;
+                        } else if (equity_increase <= 8) {
+                            profit_radar[3] = 4;
+                        } else if (equity_increase > 8) {
+                            profit_radar[3] = 5;
+                        }
+
+                        if (trade_win <= 40) {
+                            profit_radar[4]=1;
+                        }else if(trade_win<=50){
+                            profit_radar[4]=2;
+                        }else if (trade_win <= 60) {
+                            profit_radar[4] = 3;
+                        } else if (trade_win <= 70) {
+                            profit_radar[4] = 4;
+                        } else if (trade_win > 70) {
+                            profit_radar[4] = 5;
+                        }
+
+                        profit_radar_detail=[year_proft, profit_factor,profit_offset,equity_increase,trade_win];
+
+                        n=-1;
+                        var dom = document.getElementById("gain_chart");
+                        var myChart = echarts.init(dom);
+                        var option = {
+                            radar: {
+                                // shape: 'circle',
+                                center: ['50%', '60%'],//位置
+                                radius: '80%',//半径
+                                name: {
+                                    show: true,
+                                    formatter: function (value, indicator) {
+                                        n++;
+                                        if (n == 1) {
+                                            return value + "(" + profit_radar_detail[n] + ")";
+                                        } else {
+                                            return value + "(" + profit_radar_detail[n] + "%)";
+                                        }
+                                    },
+                                    textStyle: {
+                                        color: '#333333',
+                                        fontSize: 14,
+                                        backgroundColor: '#999',
+                                        borderRadius: 3,
+                                        padding: [3, 5]
+                                    }
+                                },
+                                indicator: [
+                                    { name: '年度预测', min: 0, max: 5 },
+                                    { name: '利润因子', min: 0, max: 5 },
+                                    { name: '盈利偏移占比', min: 0, max: 5 },
+                                    { name: '最大净值涨幅', min: 0, max: 5 },
+                                    { name: '交易胜率', min: 0, max: 5 }
+                                ],
+                                axisLine: {
+                                    lineStyle: {
+                                        color: '#fff',
+                                        width: 1,
+                                        type: 'solid'
+                                    },
+                                },
+                                splitLine: {
+                                    lineStyle: {
+                                        color: ['#fff', '#fff', '#fff', '#fff'],
+                                        width: 1
+                                    }
+                                },
+                                splitArea: {
+                                    areaStyle: {
+                                        color: ['#ccf5ff', '#a3edff', '#72e3ff', '#39d7ff', '#00c6ff']
+                                    }
+                                }
+                            },
+                            series: [{
+                                type: 'radar',
+                                itemStyle: {
+                                    normal: {
+                                        color: '#5035f9',
+                                        borderColor: '#5035f9',
+                                        borderWidth: 1
+                                    },
+                                    emphasis: {
+                                        lineStyle: {
+                                            width: 6
+                                        }
+                                    }
+                                },
+                                areaStyle: {
+                                    normal: {
+                                        opacity: 0
+                                    }
+                                },
+                                lineStyle: {
+                                    normal: {
+                                        color: '#5035f9',
+                                        borderColor: '#5035f9',
+                                        width: 2
+                                    },
+                                    emphasis: {
+                                        width: 2.8
+                                    }
+                                },
+                                data: [
+                                    {
+                                        value: profit_radar,
+                                        name: ''
+                                    }
+                                ]
+                            }]
+                        };
+                        if (option && typeof option === "object") {
+                            myChart.setOption(option, true);
+                        }
+
+                        if (profit_score < 25) {
+                            $(".modulusConTips li").eq(0).css("color", "#00a8ff");
+                        }else if(profit_score < 50){
+                            $(".modulusConTips li").eq(0).css("color", "#00a8ff");
+                            $(".modulusConTips li").eq(1).css("color", "#00a8ff");
+                        } else if (profit_score < 75) {
+                            $(".modulusConTips li").eq(0).css("color", "#00a8ff");
+                            $(".modulusConTips li").eq(1).css("color", "#00a8ff");
+                            $(".modulusConTips li").eq(2).css("color", "#00a8ff");
+                        } else if (profit_score < 100) {
+                            $(".modulusConTips li").eq(0).css("color", "#00a8ff");
+                            $(".modulusConTips li").eq(1).css("color", "#00a8ff");
+                            $(".modulusConTips li").eq(2).css("color", "#00a8ff");
+                            $(".modulusConTips li").eq(3).css("color", "#00a8ff");
+                        } else if (profit_score < 125) {
+                            $(".modulusConTips li").eq(0).css("color", "#00a8ff");
+                            $(".modulusConTips li").eq(1).css("color", "#00a8ff");
+                            $(".modulusConTips li").eq(2).css("color", "#00a8ff");
+                            $(".modulusConTips li").eq(3).css("color", "#00a8ff");
+                            $(".modulusConTips li").eq(4).css("color", "#00a8ff");
+                        }else if(profit_score==125){
+                            $(".modulusConTips li").eq(0).css("color", "#00a8ff");
+                            $(".modulusConTips li").eq(1).css("color", "#00a8ff");
+                            $(".modulusConTips li").eq(2).css("color", "#00a8ff");
+                            $(".modulusConTips li").eq(3).css("color", "#00a8ff");
+                            $(".modulusConTips li").eq(4).css("color", "#00a8ff");
+                            $(".modulusConTips li").eq(5).css("color", "#00a8ff");
+                        }
+                        if(profit_score<41){
+                            $(".yl_result").html("低");
+                        }else if(profit_score<83){
+                            $(".yl_result").html("中");
+                        }else{
+                            $(".yl_result").html("高");
+                        }
+                        var ss= (profit_score/125*100)+'%';
+                        $(".moduluscontain").animate({"width": ss},600);
+                        var left= (profit_score/125)*700-20;
+                        $(".moduluscontainBox").animate({ "left": left }, 600);
+                        $('#target').animateNumber(
+                                {
+                                    number: profit_score
+                                },
+                                600
+                        );
+                    }
+                }
+            });
+        }
+    };
+    var radar2 = {
+        getdata:function(){
+            $.ajax({
+                url: '__API__v1.web/account_score?account='+account,
+                type: 'get',
+                dataType: 'jsonp',
+                jsonp: 'callback',
+                success: function (body) {
+                    if(body.code==200){
+                        var data=body.data;
+                        loss_score=parseFloat(data.loss_score);
+                        var reg = new RegExp(",","g");
+
+                        var balance_drawdown= (data.balance_drawdown.toString()).replace(reg,"");//结余跌幅
+                        var loss_day_max= (data.loss_day_max.toString()).replace(reg,"");//日亏损
+                        var loss_max= (data.loss_max.toString()).replace(reg,"");//亏损偏移
+                        var max_money= (data.max_money.toString()).replace(reg,"");//最大入金
+                        var equity_drawdown= (data.equity_drawdown.toString()).replace(reg,"");//净值跌幅
+
+                        balance_drawdown= parseFloat(balance_drawdown).toFixed(2);//结余跌幅
+                        loss_day_max= parseFloat(loss_day_max).toFixed(2);//日亏损
+                        loss_max= parseFloat(loss_max).toFixed(2);//亏损偏移
+                        max_money= parseFloat(max_money).toFixed(2);//最大入金
+                        equity_drawdown= parseFloat(equity_drawdown).toFixed(2);//净值跌幅
+
+
+                        if (balance_drawdown <= 10) {
+                            profit_radar2[0]=1;
+                        }else if(balance_drawdown<=20){
+                            profit_radar2[0]=2;
+                        }else if (balance_drawdown <= 30) {
+                            profit_radar2[0] = 3;
+                        } else if (balance_drawdown <= 40) {
+                            profit_radar2[0] = 4;
+                        } else if (balance_drawdown > 40) {
+                            profit_radar2[0] = 5;
+                        }
+
+                        if (loss_day_max <= 5) {
+                            profit_radar2[1]=1;
+                        }else if(loss_day_max<=8){
+                            profit_radar2[1]=2;
+                        }else if (loss_day_max <= 12) {
+                            profit_radar2[1] = 3;
+                        } else if (loss_day_max <= 15) {
+                            profit_radar2[1] = 4;
+                        } else if (loss_day_max > 15) {
+                            profit_radar2[1] = 5;
+                        }
+
+                        if (loss_max <= 20) {
+                            profit_radar2[2]=1;
+                        }else if(loss_max<=40){
+                            profit_radar2[2]=2;
+                        }else if (loss_max <= 60) {
+                            profit_radar2[2] = 3;
+                        } else if (loss_max <= 80) {
+                            profit_radar2[2] = 4;
+                        } else if (loss_max > 80) {
+                            profit_radar2[2] = 5;
+                        }
+
+                        if (max_money <= 8) {
+                            profit_radar2[3]=1;
+                        }else if(max_money<=12){
+                            profit_radar2[3]=2;
+                        }else if (max_money <= 16) {
+                            profit_radar2[3] = 3;
+                        } else if (max_money <= 20) {
+                            profit_radar2[3] = 4;
+                        } else if (max_money > 20) {
+                            profit_radar2[3] = 5;
+                        }
+
+                        if (equity_drawdown <= 10) {
+                            profit_radar2[4]=1;
+                        }else if(equity_drawdown<=15){
+                            profit_radar2[4]=2;
+                        }else if (equity_drawdown <= 20) {
+                            profit_radar2[4] = 3;
+                        } else if (equity_drawdown <= 25) {
+                            profit_radar2[4] = 4;
+                        } else if (equity_drawdown > 25) {
+                            profit_radar2[4] = 5;
+                        }
+                        profit_radar2_detail=[balance_drawdown,loss_day_max,loss_max,max_money,equity_drawdown];
+                        nn=-1;
+                        var dom = document.getElementById("gain_chart2");
+                        var myChart = echarts.init(dom);
+                        var option = {
+                            radar: {
+                                // shape: 'circle',
+                                center: ['50%', '60%'],//位置
+                                radius: '80%',//半径
+                                name: {
+                                    show: true,
+                                    formatter: function (value, indicator) {
+                                        nn++;
+                                        return value + "(" + profit_radar2_detail[nn] + "%)";
+
+                                    },
+                                    textStyle: {
+                                        color: '#333333',
+                                        fontSize: 14,
+                                        backgroundColor: '#999',
+                                        borderRadius: 3,
+                                        padding: [3, 5]
+                                    }
+                                },
+                                indicator: [
+                                    { name: '最大结余回撤', min: 0, max: 5 },
+                                    { name: '最大单日亏损', min: 0, max: 5 },
+                                    { name: '亏损偏移占比', min: 0, max: 5 },
+                                    { name: '最大仓位占用', min: 0, max: 5 },
+                                    { name: '最大净值回撤', min: 0, max: 5 }
+                                ],
+                                axisLine: {
+                                    lineStyle: {
+                                        color: '#fff',
+                                        width: 1,
+                                        type: 'solid'
+                                    },
+                                },
+                                splitLine: {
+                                    lineStyle: {
+                                        color: ['#fff', '#fff', '#fff', '#fff'],
+                                        width: 1
+                                    }
+                                },
+                                splitArea: {
+                                    areaStyle: {
+                                        color: ['#ffe8cc', '#ffd5a3', '#ffbe72', '#ffa439', '#ff8b00']
+                                    }
+                                }
+                            },
+                            series: [{
+                                type: 'radar',
+                                itemStyle: {
+                                    normal: {
+                                        color: '#e84e0e',
+                                        borderColor: '#e84e0e',
+                                        width: 1
+                                    },
+                                    emphasis: {
+                                        lineStyle: {
+                                            width: 6
+                                        }
+                                    }
+                                },
+                                areaStyle: {
+                                    normal: {
+                                        opacity: 0
+                                    }
+                                },
+                                lineStyle: {
+                                    normal: {
+                                        color: '#e84e0e',
+                                        borderColor: '#e84e0e',
+                                        width: 2
+                                    },
+                                    emphasis: {
+                                        width: 2.8
+                                    }
+                                },
+                                data: [
+                                    {
+                                        value: profit_radar2,
+                                        name: ''
+                                    }
+                                ]
+                            }]
+                        };
+                        if (option && typeof option === "object") {
+                            myChart.setOption(option, true);
+                        }
+
+                        if (loss_score < 5) {
+                            $(".modulusConTips2 li").eq(0).css("color", "#611987");
+                        } else if (loss_score < 10) {
+                            $(".modulusConTips2 li").eq(0).css("color", "#611987");
+                            $(".modulusConTips2 li").eq(1).css("color", "#611987");
+                        } else if (loss_score < 15) {
+                            $(".modulusConTips2 li").eq(0).css("color", "#611987");
+                            $(".modulusConTips2 li").eq(1).css("color", "#611987");
+                            $(".modulusConTips2 li").eq(2).css("color", "#611987");
+                        } else if (loss_score < 20) {
+                            $(".modulusConTips2 li").eq(0).css("color", "#611987");
+                            $(".modulusConTips2 li").eq(1).css("color", "#611987");
+                            $(".modulusConTips2 li").eq(2).css("color", "#611987");
+                            $(".modulusConTips2 li").eq(3).css("color", "#611987");
+                        } else if (loss_score < 25) {
+                            $(".modulusConTips2 li").eq(0).css("color", "#611987");
+                            $(".modulusConTips2 li").eq(1).css("color", "#611987");
+                            $(".modulusConTips2 li").eq(2).css("color", "#611987");
+                            $(".modulusConTips2 li").eq(3).css("color", "#611987");
+                            $(".modulusConTips2 li").eq(4).css("color", "#611987");
+                        } else if (loss_score == 25) {
+                            $(".modulusConTips2 li").eq(0).css("color", "#611987");
+                            $(".modulusConTips2 li").eq(1).css("color", "#611987");
+                            $(".modulusConTips2 li").eq(2).css("color", "#611987");
+                            $(".modulusConTips2 li").eq(3).css("color", "#611987");
+                            $(".modulusConTips2 li").eq(4).css("color", "#611987");
+                            $(".modulusConTips2 li").eq(5).css("color", "#611987");
+                        }
+                        if(loss_score<8){
+                            $(".fx_result").html("低");
+                        }else if(loss_score<16){
+                            $(".fx_result").html("中");
+                        }else{
+                            $(".fx_result").html("高");
+                        }
+                        var ss = (loss_score / 25 * 100) + '%';
+                        $(".moduluscontain2").animate({ "width": ss }, 600);
+                        var left = (loss_score/25)*700 - 20;
+                        $(".moduluscontainBox2").animate({ "left": left }, 600);
+                        $('#target2').animateNumber(
+                                {
+                                    number: loss_score
+                                },
+                                600
+                        );
+                    }
+                }
+            });
+        }
+    };
+
+    var transaction = {
+        chart: function (geturl, obj) {
+            $.ajax({
+            url: geturl,
+            type: 'get',
+            dataType: 'jsonp',
+            jsonp: 'callback',
+            success: function (data) {
+                if (data.code == 200) {
+                var items = data.data;
+                d[0] = [0, 0, 0, 0, 0, 0, 0, 0];
+                for (var i = 0; i < items.length; i++) {
+                    var ds = Math.abs(Math.round((parseFloat(items[i].close_price) - parseFloat(items[i].open_price)) * Math.pow(10, items[i].dlen)));
+                    var type = items[i].op == 1 ? 'sell' : 'buy';
+                    if (items[i].commission == '') {
+                    var sxf = 0;
+                    } else {
+                    var sxf = items[i].commission;
+                    }
+                    if (items[i].swap == null) {
+                    var kcf = 0;
+                    } else {
+                    var kcf = items[i].swap;
+                    }
+                    d[i + 1] = [i + 1, d[i][1] + parseFloat(items[i].profit) + parseFloat(sxf) + parseFloat(kcf), items[i].symbol, type, items[i].lots, items[i].profit, ds];
+                }
+                transaction.setOption(d, obj);
+                }
+            },
+            complete: function () {
+                $("#" + obj).parent().find(".chartload").hide();
+                $("#" + obj).parent().find(".chart_tips").css("visibility", "visible");
+                $("#" + obj).css("visibility", "visible");
+            }
+            });
+        },
+        setOption: function (d, obj) {
+            var xy = d;
+            var dom = document.getElementById(obj);
+            var myChart = echarts.init(dom);
+            var option = {
+            tooltip: {
+                trigger: 'axis',
+                triggerOn: 'mousemove',
+                formatter: function (params) {
+                var paramsNum = params[0].value;
+                return '<div>品种：' + paramsNum[2] + '<br>类型：' + paramsNum[3] + '<br>手数：' + paramsNum[4] + '<br>获利：' + parseFloat(paramsNum[5]).toFixed(2) + '<br>点数：' + paramsNum[6] + '<br>利润：' + paramsNum[1].toFixed(2) + '</div>';
+                },
+                backgroundColor: '#fff',
+                borderColor: '#611987',
+                borderWidth: '1',
+                textStyle: {
+                fontSize: 12,
+                color: '#000'
+                }
+            },
+            grid: {
+                left: 90,
+                right: 40,
+                top: 50,
+                bottom: 50,
+            },
+            xAxis: {
+                type: "category",
+                name: "交易",
+                scale: true,
+                axisLine: {
+                onZero: true
+                },
+                data: xy.map(function (item) {
+                return item[0]
+                }),
+                splitLine: {
+                show: true,
+                lineStyle: {
+                    color: "#dfdfdf",
+                    type: "dashed"
+                }
+                }
+            },
+            yAxis: [
+                {
+                type: 'value',
+                name: '利润',
+                axisLabel: {
+                    formatter: '{value} '
+                },
+                splitLine: {
+                    lineStyle: {
+                    color: "#dfdfdf",
+                    type: "dashed"
+                    }
+                }
+                }
+            ],
+            dataZoom: [{
+                type: 'inside',
+                start: 0,      /*时间调节放在最后面90%-100%*/
+                end: 100
+            }, {
+                start: 0,
+                end: 100,
+                show: false,
+                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                handleSize: '80%',
+                handleStyle: {
+                color: '#fff',
+                shadowBlur: 3,
+                shadowColor: 'rgba(0, 0, 0, 0.6)',
+                shadowOffsetX: 2,
+                shadowOffsetY: 2
+                }
+            }],
+            visualMap: {
+                show: false,
+                left: 100,
+                top: 10,
+                pieces: [{
+                gt: 0,
+                lte: 100000,
+                color: '#611987'
+                }],
+                outOfRange: {
+                color: '#611987'
+                }
+            },
+            series: [
+                {
+                animation: true,
+                animationDuration: 300,
+                name: '交易',
+                type: 'line',
+                smooth: true,
+                showSymbol: false,
+                lineStyle: {
+                    normal: {
+                    width: 2
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                    color: '#611987'
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0,
+                        color: '#611987'
+                    },
+                    {
+                        offset: 1,
+                        color: '#f7bd8e'
+                    }
+                    ])
+                    }
+                },
+                data: xy.map(function (item) {
+                    return item;
+                })/*,
+                    markLine:
+                    {
+                    silent: true,
+                    lineStyle:{
+                    normal:{
+                    type:'solid',
+                    color:"red",
+                    width:1.3,
+                    opacity:0.8
+                    }
+                    },
+                    data:[
+                    [
+                    {
+                    // 起点和终点的项会共用一个 name
+                    name: '最小值到最大值',
+                    type: 'min'
+                    },
+                    {
+                    type: 'max'
+                    }
+                    ]
+                    ]
+                    }*/
+                }
+            ]
+            };
+            if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+
+            }
+        }
+    };
+
+    var allchart1 = {
+        chart: function (geturl, obj) {
+            $.ajax({
+            url: geturl,
+            type: 'get',
+            dataType: 'jsonp',
+            jsonp: 'callback',
+            success: function (data) {
+                if (data.code == 200) {
+                var items = data.data;
+                chart1_data[0] = [0, 0, 0, 0, 0, 0, 0, 0];
+                for (var i = 0; i < items.length; i++) {
+                    var ds = Math.abs(Math.round((parseFloat(items[i].close_price) - parseFloat(items[i].open_price)) * Math.pow(10, items[i].dlen)));
+                    var type = items[i].op == 1 ? 'sell' : 'buy';
+                    if (items[i].commission == '') {
+                    var sxf = 0;
+                    } else {
+                    var sxf = items[i].commission;
+                    }
+                    if (items[i].swap == null) {
+                    var kcf = 0;
+                    } else {
+                    var kcf = items[i].swap;
+                    }
+                    chart1_data[i + 1] = [i + 1, chart1_data[i][1] + parseFloat(items[i].profit) + parseFloat(sxf) + parseFloat(kcf), items[i].symbol, type, items[i].lots, items[i].profit, ds];
+                }
+                allchart1.setOption(chart1_data, obj);
+                }
+            },
+            complete: function () {
+                $("#" + obj).parent().find(".chartload").hide();
+                $("#" + obj).css("visibility", "visible");
+            }
+            });
+        },
+        setOption: function (d, obj) {
+            var xy = d;
+            var dom = document.getElementById(obj);
+            var myChart = echarts.init(dom);
+            var option = {
+            tooltip: {
+                trigger: 'axis',
+                triggerOn: 'mousemove',
+                formatter: function (params) {
+                var paramsNum = params[0].value;
+                return '<div>品种：' + paramsNum[2] + '<br>类型：' + paramsNum[3] + '<br>手数：' + paramsNum[4] + '<br>获利：' + parseFloat(paramsNum[5]).toFixed(2) + '<br>点数：' + paramsNum[6] + '<br>利润：' + paramsNum[1].toFixed(2) + '</div>';
+                },
+                backgroundColor: '#fff',
+                borderColor: '#008cdd',
+                borderWidth: '1',
+                textStyle: {
+                fontSize: 12,
+                color: '#000'
+                }
+            },
+            grid: {
+                left: 90,
+                right: 40,
+                top: 50,
+                bottom: 50,
+            },
+            xAxis: {
+                type: "category",
+                name: "交易",
+                scale: true,
+                axisLine: {
+                onZero: true
+                },
+                data: xy.map(function (item) {
+                return item[0]
+                }),
+                splitLine: {
+                show: true,
+                lineStyle: {
+                    color: "#dfdfdf",
+                    type: "dashed"
+                }
+                }
+            },
+            yAxis: [
+                {
+                type: 'value',
+                name: '利润',
+                axisLabel: {
+                    formatter: '{value} '
+                },
+                splitLine: {
+                    lineStyle: {
+                    color: "#dfdfdf",
+                    type: "dashed"
+                    }
+                }
+                }
+            ],
+            dataZoom: [{
+                type: 'inside',
+                start: 0,      /*时间调节放在最后面90%-100%*/
+                end: 100
+            }, {
+                start: 0,
+                end: 100,
+                show: false,
+                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                handleSize: '80%',
+                handleStyle: {
+                color: '#fff',
+                shadowBlur: 3,
+                shadowColor: 'rgba(0, 0, 0, 0.6)',
+                shadowOffsetX: 2,
+                shadowOffsetY: 2
+                }
+            }],
+            visualMap: {
+                show: false,
+                left: 100,
+                top: 10,
+                pieces: [{
+                gt: 0,
+                lte: 100000,
+                color: '#611987'
+                }],
+                outOfRange: {
+                color: '#611987'
+                }
+            },
+            series: [
+                {
+                animation: true,
+                animationDuration: 300,
+                name: '交易',
+                type: 'line',
+                smooth: true,
+                showSymbol: false,
+                lineStyle: {
+                    normal: {
+                    width: 2
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                    color: '#008cdd'
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0,
+                        color: '#008cdd'
+                    },
+                    {
+                        offset: 1,
+                        color: '#9cd6f7'
+                    }
+                    ])
+                    }
+                },
+                data: xy.map(function (item) {
+                    return item;
+                })
+                }
+            ]
+            };
+            if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+
+            }
+        }
+    };
+
+    var allchart2 = {
+        chart: function (geturl, obj) {
+            $.ajax({
+            url: geturl,
+            type: 'get',
+            dataType: 'jsonp',
+            jsonp: "callback",
+            success: function (body) {
+                if (body.code == 200) {
+                var data = body.data;
+                chart2_data = [];
+                if (data.length == 0) {
+                    chart2_data[0] = [0, 0];
+                } else {
+                    for (var i = 0; i < data.length; i++) {
+                    chart2_data.push([data[i].date, parseFloat(data[i].profit).toFixed(2)]);
+                    }
+                }  
+                allchart2.setOption(chart2_data, obj);
+                }
+            },
+            complete: function () {
+                $("#" + obj).parent().find(".chartload").hide();
+                $("#" + obj).css("visibility", "visible");
+            }
+            });
+        },
+        setOption: function (d, obj) {
+            var xy = d;
+            var dom = document.getElementById(obj);
+            var myChart = echarts.init(dom);
+            var option = {
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                name: '日期',
+                type: 'category',
+                boundaryGap: true,
+                data: xy.map(function (item) {
+                return item[0]
+                }),
+                splitLine: {
+                show: true,
+                lineStyle: {
+                    color: "#dfdfdf",
+                    type: "dashed"
+                }
+                }
+            },
+            yAxis: {
+                name: '利润',
+                type: 'value',
+                splitLine: {
+                lineStyle: {
+                    color: "#dfdfdf",
+                    type: "dashed"
+                }
+                }
+            },
+            grid: {
+                left: 90,
+                right: 40,
+                top: 50,
+                bottom: 50,
+            },
+            dataZoom: [{
+                type: 'inside',
+                start: 0,      /*时间调节放在最后面90%-100%*/
+                end: 100
+            }, {
+                start: 0,
+                end: 100,
+                show: false,
+                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                handleSize: '80%',
+                handleStyle: {
+                color: '#fff',
+                shadowBlur: 3,
+                shadowColor: 'rgba(0, 0, 0, 0.6)',
+                shadowOffsetX: 2,
+                shadowOffsetY: 2
+                }
+            }],
+            visualMap: {
+                show: false,
+                left: 100,
+                top: 10,
+                inRange: {
+                colorLightness: [0.8, 0.4]
+                },
+                pieces: [{
+                gt: 0,
+                lte: 9999999999,
+                color: '#fa4431'
+                }],
+                outOfRange: {
+                color: '#fa4431'
+                },
+                controller: {
+                inRange: {
+                    color: '#fa4431'
+                }
+                }
+            },
+            series: [
+                {
+                name: '利润',
+                type: 'bar',
+                smooth: true,
+                symbol: 'none',
+                sampling: 'average',
+                itemStyle: {
+                    normal: {
+                    width: 4,
+                    arBorderRadius: 20,
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0,
+                        color: '#00a2ff'
+                    }, {
+                        offset: 1,
+                        color: '#00a2ff'
+                    }]),
+                    // shadowColor: 'rgba(35,149,229,0.8)',
+                    // shadowBlur: 20,
+                    areaStyle: { type: 'default' }
+                    }
+                },
+                data: xy.map(function (item) {
+                    return item[1];
+                }),
+                markLine:
+                {
+                    silent: true,
+                    lineStyle: {
+                    normal: {
+                        type: 'solid',
+                        color: "red",
+                        width: 1.3,
+                        opacity: 0.8
+                    }
+                    }
+                }
+                }
+            ]
+            };
+            if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+
+            }
+        }
+    };
+
+    var allchart3 = {
+        chart: function (geturl, obj) {
+            $.ajax({
+            url: geturl,
+            type: 'get',
+            dataType: 'jsonp',
+            jsonp: 'callback',
+            success: function (body) {
+                if (body.code == 200) {
+                var data = body.data;
+                chart3_data = [];
+                chart4_data = [];
+                chart5_data = [];
+                if (data.length == 0) {
+                    chart3_data[0] = [0, 0, 0];
+                    chart4_data[0] = [0, 0];
+                    chart5_data[0] = [0, 0];
+                } else {
+                    for (var i in data) {
+                    var time = new Date(parseInt(data[i].date) * 1000);
+                    var date = time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate();
+                    chart3_data.push([date, parseFloat(data[i].balance).toFixed(2), parseFloat(data[i].equity).toFixed(2)]);
+                    chart4_data.push([date, ((data[i].profit / data[i].balance) * 100).toFixed(2)]);
+                    chart5_data.push([date, ((data[i].margin / data[i].equity) * 100).toFixed(2)]);
+                    }
+                }
+                }
+
+            },
+            complete: function () {
+                allchart3.setOption(chart3_data, obj);
+                allchart4.chart(chart4_url, "allchart4");
+                allchart5.chart(chart5_url, "allchart5");
+                $("#" + obj).parent().find(".chartload").hide();
+                $("#" + obj).css("visibility", "visible");
+            }
+            });
+        },
+        setOption: function (d, obj) {
+            var xy = d;
+            var dom = document.getElementById(obj);
+            var myChart = echarts.init(dom);
+            var option = {
+            tooltip: {
+                trigger: 'axis'
+            },
+            grid: {
+                left: 90,
+                right: 40,
+                top: 50,
+                bottom: 50,
+            },
+            xAxis: {
+                type: "category",
+                name: "日期",
+                scale: true,
+                axisLine: {
+                onZero: true
+                },
+                data: xy.map(function (item) {
+                return item[0]
+                }),
+                splitLine: {
+                show: true,
+                lineStyle: {
+                    color: "#dfdfdf",
+                    type: "dashed"
+                }
+                }
+            },
+            yAxis: [
+                {
+                type: 'value',
+                name: '',
+                axisLine: {
+                    onZero: true
+                },
+                axisLabel: {
+                    formatter: '{value} '
+                },
+                splitLine: {
+                    lineStyle: {
+                    color: "#dfdfdf",
+                    type: "dashed"
+                    }
+                }
+                }
+            ],
+            dataZoom: [{
+                type: 'inside',
+                start: 0,      /*时间调节放在最后面90%-100%*/
+                end: 100
+            }, {
+                start: 0,
+                end: 100,
+                show: false,
+                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                handleSize: '80%',
+                handleStyle: {
+                color: '#fff',
+                shadowBlur: 3,
+                shadowColor: 'rgba(0, 0, 0, 0.6)',
+                shadowOffsetX: 2,
+                shadowOffsetY: 2
+                }
+            }],
+            series: [
+                {
+                animation: true,
+                animationDuration: 300,
+                name: '结余',
+                type: 'line',
+                smooth: true,
+                showSymbol: false,
+                lineStyle: {
+                    normal: {
+                    width: 2
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                    color: '#0080ff'
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0,
+                        color: '#0080ff'
+                    },
+                    {
+                        offset: 1,
+                        color: '#fff'
+                    }
+                    ])
+                    }
+                },
+                data: xy.map(function (item) {
+                    return item[1];
+                })
+                },
+                {
+                animation: true,
+                animationDuration: 300,
+                name: '净值',
+                type: 'line',
+                smooth: true,
+                showSymbol: false,
+                lineStyle: {
+                    normal: {
+                    width: 2
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                    color: '#7fbf7f'
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0,
+                        color: '#7fbf7f'
+                    },
+                    {
+                        offset: 1,
+                        color: '#fff'
+                    }
+                    ])
+                    }
+                },
+                data: xy.map(function (item) {
+                    return item[2];
+                })
+                }
+            ]
+            };
+            if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+
+            }
+        }
+    };
+
+    var allchart4 = {
+        chart: function (geturl, obj) {
+            allchart4.setOption(chart4_data, obj);
+            $("#" + obj).parent().find(".chartload").hide();
+            $("#" + obj).css("visibility", "visible");
+        },
+        setOption: function (d, obj) {
+            var xy = d;
+            var dom = document.getElementById(obj);
+            var myChart = echarts.init(dom);
+            var option = {
+            tooltip: {
+                trigger: 'axis',
+                triggerOn: 'mousemove',
+                formatter: function (params) {
+                var paramsNum = params[0].value;
+                if (paramsNum > 0) {
+                    return '<span style="background:#0098f0;padding:5px;border-radius:4px;">' + paramsNum + '%</span>';
+                } else {
+                    return '<span style="background:#f25137;padding:5px;border-radius:4px;">' + paramsNum + '%</span>';
+                }
+                },
+                backgroundColor: '',
+                borderColor: '',
+                borderWidth: '0',
+                textStyle: {
+                fontSize: 12,
+                color: '#fff'
+                }
+            },
+            grid: {
+                left: 90,
+                right: 40,
+                top: 50,
+                bottom: 50,
+            },
+            xAxis: {
+                type: "category",
+                name: "日期",
+                scale: true,
+                axisLine: {
+                onZero: true
+                },
+                data: xy.map(function (item) {
+                return item[0]
+                }),
+                splitLine: {
+                show: true,
+                lineStyle: {
+                    color: "#dfdfdf",
+                    type: "dashed"
+                }
+                }
+            },
+            yAxis: [
+                {
+                type: 'value',
+                name: '',
+                axisLabel: {
+                    formatter: '{value} '
+                },
+                splitLine: {
+                    lineStyle: {
+                    color: "#dfdfdf",
+                    type: "dashed"
+                    }
+                }
+                }
+            ],
+            dataZoom: [{
+                type: 'inside',
+                start: 0,      /*时间调节放在最后面90%-100%*/
+                end: 100
+            }, {
+                start: 0,
+                end: 100,
+                show: false,
+                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                handleSize: '80%',
+                handleStyle: {
+                color: '#fff',
+                shadowBlur: 3,
+                shadowColor: 'rgba(0, 0, 0, 0.6)',
+                shadowOffsetX: 2,
+                shadowOffsetY: 2
+                }
+            }],
+            visualMap: {
+                top: 10,
+                right: 10,
+                show: false,
+                pieces: [
+                {
+                    gt: -1000,
+                    lte: 0,
+                    color: '#f25137'
+                },
+                {
+                    gt: 0,
+                    lte: 1000,
+                    color: '#0098f0'
+                }
+                ]
+            },
+            series: [
+                {
+                animation: true,
+                animationDuration: 300,
+                name: '浮盈/浮亏',
+                type: 'line',
+                smooth: true,
+                showSymbol: false,
+                lineStyle: {
+                    normal: {
+                    width: 2
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                    color: '#f25137'
+                    }
+                },
+                // areaStyle: {
+                //   normal: {
+                //     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                //       offset: 0,
+                //       color: '#008cdd'
+                //     },
+                //     {
+                //       offset: 1,
+                //       color: '#9cd6f7'
+                //     }
+                //     ])
+                //   }
+                // },
+                data: xy.map(function (item) {
+                    return item[1];
+                })
+                }
+            ]
+            };
+            if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+
+            }
+        }
+    };
+
+    var allchart5 = {
+        chart: function (geturl, obj) {
+            allchart5.setOption(chart5_data, obj);
+            $("#" + obj).parent().find(".chartload").hide();
+            $("#" + obj).css("visibility", "visible");
+        },
+        setOption: function (d, obj) {
+            var xy = d;
+            var dom = document.getElementById(obj);
+            var myChart = echarts.init(dom);
+            var option = {
+            tooltip: {
+                trigger: 'axis',
+                triggerOn: 'mousemove',
+                formatter: function (params) {
+                var paramsNum = params[0].value;
+                return params[0].value + '%';
+                },
+                backgroundColor: '#0080ff',
+                borderWidth: '0',
+                textStyle: {
+                fontSize: 12,
+                color: '#fff'
+                }
+            },
+            grid: {
+                left: 90,
+                right: 40,
+                top: 50,
+                bottom: 50,
+            },
+            xAxis: {
+                type: "category",
+                name: "日期",
+                scale: true,
+                axisLine: {
+                onZero: true
+                },
+                data: xy.map(function (item) {
+                return item[0]
+                }),
+                splitLine: {
+                show: true,
+                lineStyle: {
+                    color: "#dfdfdf",
+                    type: "dashed"
+                }
+                }
+            },
+            yAxis: [
+                {
+                type: 'value',
+                name: '仓位,%',
+                nameTextStyle: {
+                    color: '#0080ff'
+                },
+                axisLabel: {
+                    formatter: '{value} '
+                },
+                splitLine: {
+                    lineStyle: {
+                    color: "#dfdfdf",
+                    type: "dashed"
+                    }
+                }
+                }
+            ],
+            dataZoom: [{
+                type: 'inside',
+                start: 0,      /*时间调节放在最后面90%-100%*/
+                end: 100
+            }, {
+                start: 0,
+                end: 100,
+                show: false,
+                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                handleSize: '80%',
+                handleStyle: {
+                color: '#fff',
+                shadowBlur: 3,
+                shadowColor: 'rgba(0, 0, 0, 0.6)',
+                shadowOffsetX: 2,
+                shadowOffsetY: 2
+                }
+            }],
+            visualMap: {
+                top: 10,
+                right: 10,
+                show: false,
+                pieces: [{
+                gt: 0,
+                lte: 50,
+                color: '#0080ff'
+                }, {
+                gt: 50,
+                lte: 10000,
+                color: '#0080ff'
+                }],
+                outOfRange: {
+                color: '#f25137'
+                }
+            },
+            series: [
+                {
+                animation: true,
+                animationDuration: 300,
+                name: '浮盈/浮亏，%',
+                type: 'line',
+                smooth: true,
+                showSymbol: false,
+                lineStyle: {
+                    normal: {
+                    width: 2
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                    color: '#00a2ff'
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0,
+                        color: '#8fc7ff'
+                    },
+                    {
+                        offset: 1,
+                        color: '#fff'
+                    }
+                    ])
+                    }
+                },
+                data: xy.map(function (item) {
+                    return item[1];
+                })
+                }
+            ]
+            };
+            if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+
+            }
+        }
+    };
+
+    var allchart6 = {
+        chart: function (geturl, obj) {
+            $.ajax({
+            url: geturl,
+            type: 'get',
+            dataType: 'jsonp',
+            jsonp: 'callback',
+            success: function (body) {
+                if (body.code == 200) {
+                var data = body.data;
+                myData = [];
+                databeast = [];
+                databeauty = [];
+                if (data == null) {
+                    myData[0] = [0];
+                    databeast[0] = 0;
+                    databeauty[0] = -0;
+                } else {
+                    for (var i in data) {
+                    myData.push([data[i].symbol + '(' + data[i].num + ')']);
+                    databeauty.push(-data[i].buy);
+                    databeast.push(data[i].sell);
+                    }
+                }
+                allchart6.setOption(myData, databeast, databeauty, obj);
+                }
+            },
+            complete: function () {
+                $("#" + obj).parent().find(".chartload").hide();
+                $("#" + obj).css("visibility", "visible");
+                $(obj).next().show();
+            }
+            });
+        },
+        setOption: function (myData, databeast, databeauty, obj) {
+            var dom = document.getElementById(obj);
+            var myChart = echarts.init(dom);
+            var xAxisData = [];
+            var itemStyle = {
+            normal: {
+                color: '#0098f0'
+            },
+            emphasis: {
+                barBorderWidth: 1,
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowOffsetY: 0,
+                shadowColor: 'rgba(0,0,0,0.5)'
+            }
+            };
+            var itemStyle2 = {
+            normal: {
+                color: '#f25137'
+            },
+            emphasis: {
+                barBorderWidth: 1,
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowOffsetY: 0,
+                shadowColor: 'rgba(0,0,0,0.5)'
+            }
+            };
+            var option = {
+            backgroundColor: '#fff',
+            legend: {
+                y: 'bottom',
+                data: ['进', '出']
+            },
+            tooltip: {
+                formatter: function (params) {
+                if (params.value < 0) {
+                    return 'Buy: ' + -params.value
+                } else {
+                    return 'Sell: ' + params.value
+                }
+                }
+            },
+            dataZoom: [{
+                type: 'inside',
+                start: 0,      /*时间调节放在最后面90%-100%*/
+                end: 100
+            }, {
+                start: 0,
+                end: 100,
+                show: false,
+                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                handleSize: '80%',
+                handleStyle: {
+                color: '#fff',
+                shadowBlur: 3,
+                shadowColor: 'rgba(0, 0, 0, 0.6)',
+                shadowOffsetX: 2,
+                shadowOffsetY: 2
+                }
+            }],
+            xAxis: {
+                data: xAxisData,
+                name: '品种',
+                silent: false,
+                type: 'category',
+                data: myData
+            },
+            yAxis: [{
+                inverse: true,
+                name: '',
+                axisLabel: {
+                formatter: function (value) {
+                    if (value < 0) {
+                    return -value
+                    } else {
+                    return value
+                    }
+                }
+                },
+                splitLine: {
+                show: true,
+                lineStyle: {
+                    color: "#dfdfdf",
+                    type: "dashed"
+                }
+                }
+
+            }, {
+                inverse: true,
+                name: '数量',
+                position: 'left',
+                nameLocation: 'start',
+                splitArea: {
+                show: false
+                },
+                splitLine: {
+                show: true,
+                lineStyle: {
+                    color: "#dfdfdf",
+                    type: "dashed"
+                }
+                }
+            }],
+            grid: {
+                left: 90,
+                right: 40,
+                top: 50,
+                bottom: 50,
+            },
+            series: [{
+                name: '数量',
+                type: 'bar',
+                stack: 'one',
+                itemStyle: itemStyle2,
+                data: databeast
+            }, {
+                name: '品种',
+                type: 'bar',
+                stack: 'one',
+                itemStyle: itemStyle,
+                data: databeauty
+            }]
+            };
+            if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+
+            }
+        }
+    };
+</script>
+{/block}

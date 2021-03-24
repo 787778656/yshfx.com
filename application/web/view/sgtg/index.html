@@ -1,0 +1,377 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>智能跟投交易共享平台-24小时全自动跟单 毫秒级跟单速度</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="stylesheet" type="text/css"  href="__STATIC__sgtgcss/base.css">
+<link rel="stylesheet"  href="__STATIC__sgtgcss/swiper.min.css" />
+<script src="__STATIC__sgtgjs/rem.js"></script>
+<script src="__STATIC__sgtgjs/jquery.min.js"></script>
+
+</head>
+<body>
+<!--banner start -->
+<div class="bk01">
+  <img src="__STATIC__sgtgimages/img_01.jpg" width="100%">
+  <img src="__STATIC__sgtgimages/img_02.jpg" width="100%">
+</div>
+<!--banner end -->
+
+<!--表单 start -->
+<div class="bk02">
+  <img src="__STATIC__sgtgimages/img_tm05.png" width="100%">
+  <div class="sj_box"><i></i>已有<span>2563</span>人参加</div>
+  <div class="bd_list" style="margin-bottom:1.2rem">
+    <ul>
+      <li><input placeholder="请输入姓名(必填)" pattern=".*" type="text" id="name"></li>
+      <li style="margin-bottom:.6rem"><input placeholder="请输入手机号(必填)" pattern=".*" type="text" id="phone"></li>
+      <li><a href="javascript:;" id="yuyue_add">提交</a></li>
+    </ul>
+    <script>
+      $(function(){
+        $("#yuyue_add").click(function(){
+          var name = $("#name").val();
+          var phone = $("#phone").val();
+          if(name == ''){
+            alert("请输入姓名");
+            return false;
+          }
+          if(phone == ''){
+            alert("请输入手机号");
+            return false;
+          }
+          var tel= /^1[3456789]\d{9}$/;
+          if(!tel.test(phone)){
+            alert('请输入正确的手机号！');
+            return false;
+          }
+          $.ajax({
+              type: 'POST',
+              dataType : 'json',
+              url : "{:url('other/yuyue_add')}",
+              data : {
+                  'name': name,
+                  'phone': phone
+              },
+              async:false,
+              success: function (data) {
+                // console.log(data)
+                  if(data.code==200){
+                    alert("提交成功！")
+                    $("#name").val("");
+                    $("#phone").val("");
+                  }else{
+                    alert(data.msg);
+                  }
+              }
+          });
+        })
+      })
+    </script>
+  </div>
+  <img src="__STATIC__sgtgimages/img_tm06.png" width="100%">
+  <div class="yh_list">
+    <ul>
+      <li>
+        <i></i>
+        <span>黄**</span>
+        <span>188******55</span>
+        <strong>5分钟前</strong>
+      </li>
+      <li>
+        <i></i>
+        <span>平**</span>
+        <span>180******79</span>
+        <strong>36分钟前</strong>
+      </li>
+      <li>
+        <i></i>
+        <span>宋**</span>
+        <span>150******44</span>
+        <strong>1小时前</strong>
+      </li>
+      <li>
+        <i></i>
+        <span>王**</span>
+        <span>173******79</span>
+        <strong>1小时前</strong>
+      </li>
+      <li>
+        <i></i>
+        <span>西**</span>
+        <span>152******85</span>
+        <strong>2小时前</strong>
+      </li>
+      <li>
+        <i></i>
+        <span>王**</span>
+        <span>186******80</span>
+        <strong>3小时前</strong>
+      </li>
+      <li>
+        <i></i>
+        <span>任**</span>
+        <span>157******21</span>
+        <strong>5小时前</strong>
+      </li>
+      <li>
+        <i></i>
+        <span>邬**</span>
+        <span>178******02</span>
+        <strong>10小时前</strong>
+      </li>
+      <li>
+        <i></i>
+        <span>黄**</span>
+        <span>188******55</span>
+        <strong>1天前</strong>
+      </li>
+      <li>
+        <i></i>
+        <span>平**</span>
+        <span>180******79</span>
+        <strong>1天前</strong>
+      </li>
+      <li>
+        <i></i>
+        <span>宋**</span>
+        <span>150******44</span>
+        <strong>1天前</strong>
+      </li>
+    </ul>
+  </div>
+</div>
+<!--表单 end -->
+
+<!--智能跨平台同步系统 start -->
+<div class="bk03">
+  <img src="__STATIC__sgtgimages/img_tm01.png" width="100%">
+  <div class="nr_box"><img src="__STATIC__sgtgimages/img_tm02.png" width="100%"></div>
+</div>
+<!--智能跨平台同步系统 end -->
+
+<!--牛人交易动态 start -->
+<div class="bk03">
+  <img src="__STATIC__sgtgimages/img_tm03.png" width="100%">
+  <div class="dt_box">
+    <ul>
+      <li>
+        <div class="tx"><img src="__STATIC__sgtgimages/tx_01.jpg"></div>
+        <div class="rt_nr">
+          <p class="p1">The Red Cockatoo</p>
+          <p class="p2"><strong>NZD/CAD</strong><span>sell</span> 1.62手 <span>0.86741 → 0.86399</span></p>
+          <p class="p3"><span>刚刚</span><strong>$423.83</strong></p>
+        </div>
+      </li>
+      <li>
+        <div class="tx"><img src="__STATIC__sgtgimages/tx_02.jpg"></div>
+        <div class="rt_nr">
+          <p class="p1">A Fortune Cat</p>
+          <p class="p2"><strong>GBP/USD</strong><span>buy</span> 0.13手 <span>1.30900 → 1.31061</span></p>
+          <p class="p3"><span>20分钟前</span><strong>$18.00</strong></p>
+        </div>
+      </li>
+      <li>
+        <div class="tx"><img src="__STATIC__sgtgimages/tx_03.jpg"></div>
+        <div class="rt_nr">
+          <p class="p1">Financial Center</p>
+          <p class="p2"><strong>USD/CAD</strong><span>sell</span> 0.13手 <span>1.31782 → 1.31485</span></p>
+          <p class="p3"><span>43分钟前</span><strong>$25.08</strong></p>
+        </div>
+      </li>
+      <li>
+        <div class="tx"><img src="__STATIC__sgtgimages/tx_04.jpg"></div>
+        <div class="rt_nr">
+          <p class="p1">Wealth management</p>
+          <p class="p2"><strong>EUR/JPY</strong><span>buy</span> 1.81手 <span>126.926 → 127.534</span></p>
+          <p class="p3"><span>1小时前</span><strong>$997.22</strong></p>
+        </div>
+      </li>
+      <li>
+        <div class="tx"><img src="__STATIC__sgtgimages/tx_05.jpg"></div>
+        <div class="rt_nr">
+          <p class="p1">Pioneer strategy</p>
+          <p class="p2"><strong>USD/JPY</strong><span>buy</span> 0.03手 <span>110.427 → 110.911</span></p>
+          <p class="p3"><span>1小时前</span><strong>$13.09</strong></p>
+        </div>
+      </li>
+      <li>
+        <div class="tx"><img src="__STATIC__sgtgimages/tx_06.jpg"></div>
+        <div class="rt_nr">
+          <p class="p1">Trading is so simple</p>
+          <p class="p2"><strong>EUR/USD</strong><span>sell</span> 0.07手 <span>1.17783 → 1.15889</span></p>
+          <p class="p3"><span>3小时前</span><strong>$132.58</strong></p>
+        </div>
+      </li>
+      <li>
+        <div class="tx"><img src="__STATIC__sgtgimages/tx_07.jpg"></div>
+        <div class="rt_nr">
+          <p class="p1">Come with me</p>
+          <p class="p2"><strong>AUD/NZD</strong><span>buy</span> 1.56手 <span>1.09242 → 1.09584</span></p>
+          <p class="p3"><span>5小时前</span><strong>$354.78</strong></p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<!--牛人交易动态 end -->
+
+<!--六大优势  保驾护航 start -->
+<div class="bk03">
+  <img src="__STATIC__sgtgimages/img_tm04.png" width="100%">
+  <div class="nr_box">
+    <img src="__STATIC__sgtgimages/ys_img01.jpg" width="100%">
+    <img src="__STATIC__sgtgimages/ys_img02.jpg" width="100%">
+    <img src="__STATIC__sgtgimages/ys_img03.jpg" width="100%">
+  </div>
+</div>
+<!--六大优势  保驾护航 end -->
+
+<!--表单 start -->
+<div class="bk02">
+  <img src="__STATIC__sgtgimages/img_tm05.png" width="100%">
+  <div class="sj_box"><i></i>已有<span>2563</span>人参加</div>
+  <div class="bd_list">
+    <ul>
+      <li><input placeholder="请输入姓名(必填)" pattern=".*" type="text" id="name2"></li>
+      <li style="margin-bottom:.6rem"><input placeholder="请输入手机号(必填)" pattern=".*" type="text" id="phone2"></li>
+      <li><a href="javascript:;" id="yuyue_add2">提交</a></li>
+    </ul>
+    <script>
+      $(function(){
+        $("#yuyue_add2").click(function(){
+          var name = $("#name2").val();
+          var phone = $("#phone2").val();
+          if(name == ''){
+            alert("请输入姓名");
+            return false;
+          }
+          if(phone == ''){
+            alert("请输入手机号");
+            return false;
+          }
+          var tel= /^1[3456789]\d{9}$/;
+          if(!tel.test(phone)){
+            alert('请输入正确的手机号！');
+            return false;
+          }
+          $.ajax({
+              type: 'POST',
+              dataType : 'json',
+              url : "{:url('other/yuyue_add')}",
+              data : {
+                  'name': name,
+                  'phone': phone
+              },
+              async:false,
+              success: function (data) {
+                  if(data.code==200){
+                    alert("提交成功！")
+                    $("#name2").val("");
+                    $("#phone2").val("");
+                  }else{
+                    alert(data.msg);
+                  }
+              }
+          });
+        })
+      })
+    </script>
+  </div>
+</div>
+<!--表单 end -->
+
+<!--联系我们 start -->
+<div class="bk04">
+  <h3>微信联系我们</h3>
+  <p>
+    <span>添加微信好友了解智能跟单软件</span>
+    <span id="wechat" style="position: absolute;top: 0;left: 0;opacity: 0;z-index: -10;">yisihuishequ</span>
+    <a href="javascript:;" id="copy_wechat" data-clipboard-target="#wechat"><i></i><strong>添加微信</strong></a>
+  </p>
+  <!-- 微信复制 -->
+  <script type="text/javascript" src="__STATIC__sgtgjs/clipboard.min.js"></script>
+  <script>
+    $(function(){
+      $("#copy_wechat").click(function(){
+        // console.log(555)
+        //实例化clipboard
+        var clipboard = new ClipboardJS('#copy_wechat');
+	        clipboard.on("success", function(e){
+              // alert("复制成功，请前往微信搜索!");
+              $(".wechat-model-layer").show();
+	            e.clearSelection();
+	            clipboard.destroy(); // 如果不销毁，第一次以后的复制，会有重复的alert弹出
+	        });
+	        clipboard.on("error", function(e){
+	            alert("复制失败，请手动复制!");
+	            clipboard.destroy(); // 如果不销毁，第一次以后的复制，会有重复的alert
+	        });
+      })
+      $(".wechat_window_btn").click(function(){
+        $(".wechat-model-layer").hide();
+      })
+    })
+  </script>
+</div>
+<!--联系我们 end -->
+
+<!--footer start -->
+<div class="footer">
+  <p class="p1">温馨提示：投资有风险，入市需谨慎</p>
+  <p class="p2">武汉珏柯航科技有限公司</p>
+</div>
+<!--footer end -->
+
+<!-- 复制成功弹窗 -->
+<style>
+  .wechat-model-layer {width: 300px;height: 240px;-webkit-box-sizing: border-box;box-sizing: border-box;padding: 20px;position: fixed;
+    left: 50%;top: 50%;margin-left: -150px;margin-top: -120px;background: #fff;border-radius: 10px;display: none;}
+  .wechat-model-layer .wechat-model-success {height: 100%;display: -webkit-box;display: -webkit-flex;display: -ms-flexbox;display: flex;
+    -webkit-box-align: center;-webkit-align-items: center;-ms-flex-align: center;align-items: center;-webkit-box-pack: center;
+    -webkit-justify-content: center;-ms-flex-pack: center;justify-content: center;-webkit-box-orient: vertical;
+    -webkit-box-direction: normal;-webkit-flex-direction: column;-ms-flex-direction: column;flex-direction: column;}
+  .wechat-model-layer .wechat_success_logo {width: 60px;height: 60px;}
+  .wechat-model-layer .title {color: #333;font-size: 18px;font-weight: 700;margin: 10px 0;}
+  .wechat-model-layer .wechat-number {color: #333;font-size: 15px;}
+  .wechat-model-layer .desc {color: #333;font-size: 15px;}
+  .wechat-model-layer .button {background-color: #1aad19;border-radius: 10px;width: 220px;height: 40px;display: -webkit-box;
+      display: -webkit-flex;display: -ms-flexbox;display: flex;-webkit-box-align: center;-webkit-align-items: center;
+      -ms-flex-align: center;align-items: center;-webkit-box-pack: center;-webkit-justify-content: center;-ms-flex-pack: center;
+      justify-content: center;margin-top: 20px;line-height: 40px;}
+  .wechat-model-layer .button span {color: #fff;font-size: 18px;}
+</style>
+<div class="wechat-model-layer">
+  <div class="wechat-model-success">
+    <div class="image"><img src="https://fe-resource.bd.bcebos.com/mip/wechat_success_icon.png" class="wechat_success_logo"></div> 
+    <div class="title">复制成功</div>
+    <div class="wechat-number">微信号:  yisihuishequ</div> 
+    <div class="desc">添加微信好友, 详细了解产品</div> 
+    <div class="button wechat_window_btn"><span>知道了</span></div> 
+    <div class="guide-img" style="display: none;"><img src="https://fe-resource.cdn.bcebos.com/jimuyu/editor/addweixin.gif"></div>
+  </div>
+</div>
+
+<script type="text/javascript"> 
+	  function autoScroll(obj){  
+			$(obj).find("ul").animate({  
+				marginTop : "-60px"  
+			},1000,function(){  
+				$(this).css({marginTop : "0px"}).find("li:first").appendTo(this);  
+			})  
+		}  
+		$(function(){  
+			setInterval('autoScroll(".yh_list")',2000);
+			setInterval('autoScroll(".dt_box")',2000);
+			  
+		}) 
+		
+</script> 
+</body>
+</html>
+

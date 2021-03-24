@@ -1,0 +1,104 @@
+{extend name="admin@base/main"/}
+{block name="body"}
+<script type="text/javascript" src="/wdatepicker/WdatePicker.js" charset="UTF-8"></script>
+<div class="col-sm-12 widget-container-span">
+	<div class="widget-box transparent">
+		<div class="no-border">
+			<ul class="nav nav-tabs">
+                <li class="mynavTab"><a href="{:url('web/comment/index')}">评论列表</a></li>
+				<li class="action active"><a href="javascript:;">添加评论</a></li>
+			</ul>
+		</div>
+		<div class="widget-body">
+			<div class="widget-main padding-12 no-padding-left no-padding-right">
+				<div class="tab-content padding-4">
+					<div class="row">
+						<div class="col-xs-12 no-padding-right">
+							<form class="form-horizontal" role="form" action="{:url('comment/save')}" method="post" id="addform">
+								<div class="form-group">
+									<label class="col-sm-2 control-label no-padding-right"
+										for="form-field-1"> 用户UID： </label>
+									<div class="col-sm-9">
+										<input type="text" value="" name="uid" class="col-xs-10 col-sm-3">
+									</div>
+								</div>
+								<div class="space-4"></div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label no-padding-right"
+										for="form-field-2"> 用户名称(手机号)： </label>
+									<div class="col-sm-9">
+										<input type="text" id="form-field-2" value="" name="mobile" class="col-xs-10 col-sm-3">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label no-padding-right"
+										for="form-field-1"> MT4ID： </label>
+									<div class="col-sm-9">
+										<input type="text" value="" name="mt4id" class="col-xs-10 col-sm-3">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label no-padding-right"
+										   for="form-field-1"> 显示时间： </label>
+									<div class="input-group date form_datetime col-md-5" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+										<input type="text" id="time" name="time" onclick="WdatePicker({dateFmt:'yyyy-MM-dd H:mm:ss'})" class="Wdate" style="width:230px;height: 33px"/>
+
+									</div>
+								</div>
+								<div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 评论内容： </label>
+									<div class="col-sm-9">
+										<textarea class="col-xs-10 col-sm-5" name="comment" style="margin: 0px; width: 366px; height: 171px;"></textarea>
+									</div>
+                                </div>
+
+								<div class="clearfix form-actions">
+									<div class="col-md-offset-3 col-md-9">
+										<button class="btn btn-info mybtn" type="button" onclick="checkform();">
+											<i class="icon-ok bigger-110"></i> 提交
+										</button>
+										&nbsp; &nbsp;
+										<button class="btn mybtn" type="reset">
+											<i class="icon-undo bigger-110"></i> 重置
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	function checkform(){
+		var uid = $('input[name="uid"]').val();
+		if (uid==''){
+			alert('用户UID不能为空!');
+			return false;
+		}
+		var mobile = $('input[name="mobile"]').val();
+		if (mobile==''){
+			alert('用户名称不能为空!');
+			return false;
+		}
+		var mt4id = $('input[name="mt4id"]').val();
+		if (mt4id==''){
+			alert('mt4账号不能为空!');
+			return false;
+		}
+        var time = $('#time').val();
+        if (time==''){
+            alert('显示时间不能为空!');
+            return false;
+        }
+		var comment = $('textarea[name="comment"]').val();
+		if (comment==''){
+			alert('评论内容不能为空!');
+			return false;
+		}
+		$('#addform').submit();
+	}
+</script>
+{/block}

@@ -1,0 +1,335 @@
+{extend name="web@base/main"/}
+{block name="body"}
+
+<!--选择经济商服务器-->
+<script src="__STATIC__js/binding.js" type="text/javascript"></script>
+<style>
+    .ke-upload-file{cursor: pointer;width:60px!important;height:50px!important;background: url('__STATIC__image/upload_icon.png') 12px 10px  no-repeat;}
+    .ke-button-common{display: none;}
+    .ke-upload-area{width:60px!important;height:50px!important;}
+    #ftrader{display:none;}
+    .createTips{display:none;}
+    .createTipss{display:none;width:260px;height:auto;background: #fff;border-radius: 8px;overflow:hidden;box-shadow: 0 0  10px #bdbcbc;position: absolute;top:38px;left:200px;z-index:9;}
+    .createTipss>li{height:25px;line-height:25px;}
+    .createTipss>li:nth-child(n){background: #fff}
+    .createTipss>li:nth-child(2n){background: #f7f9fb}
+    .createTipss>li>p{float:left;width:50%;text-align: center;text-indent:0;font-size:14px;}
+    .create_rule_tip{position: absolute;top:30px;left:228px;z-index:10;width:10px;display:none;}
+    .confirmCon{font-size:16px;}
+    .createMain_header{margin-top: 110px;width: 100%;height: 280px;background: url("__STATIC__image/create_bg.png")no-repeat;background-size: cover;}
+    #strader,#ftrader{width: 650px;margin: 0 auto;}
+    .traderContent li span{float: left;display: inline-block;vertical-align: middle;width: 90px;margin-right: 10px;height: 50px;line-height: 50px;font-size: 18px;}
+</style>
+<div class="createMain">
+    <div class="createMain_header">
+        <p class="createH1">创建信号</p>
+        <div id="strader">
+            <p class="siText">1. 上传的账户必须为实盘（live）账户；</p>
+            <div class="siText" style="position:relative;">2. 签约交易者按照 <span style="color:#611987;border-bottom:1px solid #611987;cursor:pointer;" class="createTipContent">平均跟随人数</span> 获得收益；
+                <div class="createTips" style="z-index: 10;width:455px;height:97px;background:url(__STATIC__image/createTipBg.png) no-repeat center;position:absolute;top:29px;left:0px;padding:20px;text-align:left;font-size:14px;line-height:20px;text-indent:0;">平均跟随人数指一个月内平均跟随的人数，例如：某月1日有100个人跟随，2日有120人，3日有200人……那么每日的跟随人数总和除以30日则为平均跟随人数，每月1日进行统计结算。</div>
+            </div>
+            <p class="siText" style="margin-top: 20px;color:#611987;">详情咨询客服了解</p>
+        </div>
+        <div id="ftrader">
+            <p class="siText">1. 上传的账户必须为实盘（live）账户；</p>
+            <p class="siText">2. 自由交易者按照付费跟随人数获得收益；</p>
+            <p class="siText">3. 每有一人跟随获得收益为您设定的购买金额的70%(平台收取30%的服务费)；</p>
+            <p class="siText">4. 收益将会显示在个人中心→我的账户中，提现后72小时内到账。</p>
+        </div>
+    </div>
+    <div class="createBox" style="height: 800px;">
+        <!-- 签约交易者、自由交易者-->
+        <div class="createTitle" style="display: none;">
+            <div class="createT createT_active" style="border-radius: 6px 0 0 6px;" id="signtrader">签约交易者</div>
+            <div class="createT" style="border-radius: 0 6px 6px 0;" id="freetrader">自由交易者</div>
+        </div>
+        <!-- 签约交易者-->
+        <div id="sign" style="padding:40px 0 30px 0;">
+            <p style="font-size:18px;color:#333333;text-align: center;padding:0 0 25px;">该类型交易者平台会综合评估信号质量，由平台固定支付信号服务费用(用户免费)。</p>
+            <ul class="traderContent">
+                <li class="broker">
+                    <span>经纪商</span>
+                    <input type="text" class="select_2 mt4broker" disabled="disabled" name="mt4broker" id="mt4broker" placeholder="选择经纪商" onfocus="this.placeholder=''" onblur="this.placeholder='选择经纪商'">
+                    <img src="__STATIC__image/select_icon_03.png" class="broker_btn" style="border: 1px solid #999999;border-left: none;">
+                    <div class="option_2">
+                        <div class="search" style="height: 30px;margin: 10px 18px 10px 0;border: 1px solid #cccccc;border-radius: 12px;overflow: hidden;">
+                            <i style="display: inline-block;float: left;width: 20px;height: 20px;margin-top: 4px;margin-left: 10px;background: url('__STATIC__image/search.png')no-repeat center;background-size: cover;"></i>
+                            <input type="text" class="search_input" placeholder="搜索您的经纪商" onfocus="this.placeholder=''" onblur="this.placeholder='搜索您的经纪商'" style="float: left;width: 210px;height: 30px;line-height: 30px;font-size: 16px;">
+                        </div>
+                        <ul class="mt4broker_ul" style="height: 170px;overflow-y: scroll;"></ul>
+                        <div class="last_li_2">手动输入经纪商</div>
+                    </div>
+                </li>
+                <li class="server">
+                    <span>服务器</span>
+                    <input type="text" class="select mt4server" name="mt4server" id="mt4server" placeholder="选择服务器" onfocus="this.placeholder=''" onblur="this.placeholder='选择服务器'">
+                    <img src="__STATIC__image/select_icon_03.png" class="select_btn select_btn1" style="border: 1px solid #999999;border-left: none;">
+                    <div class="option">
+                        <ul class="mt4server_ul" style="height: 170px;overflow-y: scroll;"></ul>
+                        <div class="last_li">手动输入服务器</div>
+                    </div>
+                </li>
+                <li>
+                    <span>信号名称</span>
+                    <input name="sign_name" type="text" placeholder="请输入信号的名称" maxlength="20" autocomplete="off" style="background: none;">
+                </li>
+                <li>
+                    <span>MT4帐号</span>
+                    <input name="mt4id1" type="text" placeholder="请输入您的MT4账号" maxlength="20" autocomplete="off" style="background: none;">
+                </li>
+                <li>
+                    <span>观摩密码</span>
+                    <input name="mt4pwd1" type="password" placeholder="请输入您的MT4观摩密码" maxlength="20" autocomplete="off" style="background: none;">
+                </li>
+                <!--<li>
+                    <img src="__STATIC__image/trader05.png">
+                    <input name="img_path1" type="text" placeholder="请上传您的身份证明"  style="background: none;width:359px;border-radius: 6px 0 0 6px;" readonly="readonly" id="s_val">
+                    <input class="upload_icon" type="button" id="s_image" style="width:60px!important;height:50px!important;background: url('image/upload_icon.png') 12px 10px  no-repeat;">
+                </li>-->
+                <li style="height: 100px;">
+                    <span>策略说明</span>
+                    <textarea name="mt4explain1" placeholder="请描述您的信号策略说明" maxlength="120" style="width: 485px;height: 100px;border-right: 1px solid #999999;border-radius: 4px;font-size: 18px;padding: 10px 30px;background: none;"></textarea>
+                </li>
+                <li style="width: 485px;height: 20px;padding-left: 45px;color: red;font-size: 16px;line-height: 20px;" class="tips1"></li>
+                <li>
+                    <button class="traderSubmit" id="submit1">提  交</button>
+                </li>
+            </ul>
+        </div>
+        <!-- 自由交易者-->
+        <div id="free" style="padding-bottom:30px;">
+            <p style="font-size:18px;color:#333333;text-align: center;padding:0 0 25px;">该类型交易者可以自定义交易价格，由用户付费跟单。</p>
+            <ul class="traderContent">
+                <li class="broker_free">
+                    <span>经纪商</span>
+                    <input type="text" class="select_2 mt4broker" disabled="disabled" name="mt4broker" id="mt4broker_free" placeholder="选择经纪商" onfocus="this.placeholder=''" onblur="this.placeholder='选择经纪商'">
+                    <img src="__STATIC__image/select_icon_03.png" class="broker_btn" style="border: 1px solid #999999;border-left: none;">
+                    <div class="option_2">
+                        <div class="search" style="height: 30px;margin: 10px 18px 10px 0;border: 1px solid #cccccc;border-radius: 12px;overflow: hidden;">
+                            <i style="display: inline-block;float: left;width: 20px;height: 20px;margin-top: 4px;margin-left: 10px;background: url('__STATIC__image/search.png')no-repeat center;background-size: cover;"></i>
+                            <input type="text" class="search_input" placeholder="搜索您的经纪商" onfocus="this.placeholder=''" onblur="this.placeholder='搜索您的经纪商'" style="float: left;width: 210px;height: 30px;line-height: 30px;font-size: 16px;">
+                        </div>
+                        <ul class="mt4broker_ul" style="height: 170px;overflow-y: scroll;"></ul>
+                        <div class="last_li_2">手动输入经纪商</div>
+                    </div>
+                </li>
+                <li class="server">
+                    <span>服务器</span>
+                    <input type="text" class="select mt4server" name="mt4server" id="mt4server_free" placeholder="选择服务器" onfocus="this.placeholder=''" onblur="this.placeholder='选择服务器'">
+                    <img src="__STATIC__image/select_icon_03.png" class="select_btn select_btn2" style="border: 1px solid #999999;border-left: none;">
+                    <div class="option">
+                        <ul class="mt4server_ul" style="height: 170px;overflow-y: scroll;"></ul>
+                        <div class="last_li">手动输入服务器</div>
+                    </div>
+                </li>
+                <li>
+                    <span>信号名称</span>
+                    <input name="free_name" type="text" placeholder="请输入信号的名称" maxlength="20" autocomplete="off" style="background: none;">
+                </li>
+                <li>
+                    <span>MT4帐号</span>
+                    <input name="mt4id2" type="text" placeholder="请输入您的MT4账号" maxlength="20" style="background: none;">
+                </li>
+                <li>
+                    <span>观摩密码</span>
+                    <input name="mt4pwd2" type="password" placeholder="请输入您的MT4观摩密码" maxlength="20" style="background: none;">
+                </li>
+                <li>
+                    <span>跟单价格</span>
+                    <input name="price" type="number" placeholder="请输入跟单价格" maxlength="20" style="background: none;width:360px;border-right: 1px solid #999999;border-top-right-radius: 4px;border-bottom-right-radius: 4px;">
+                    <p style="float:left;line-height: 50px;font-size:18px;color:#333333;text-indent: 10px;">元/月</p>
+                </li>
+                <li style="height: 100px;">
+                    <span>策略说明</span>
+                    <textarea name="mt4explain2" placeholder="请描述您的信号策略说明" maxlength="120" style="width: 485px;height: 100px;border-right: 1px solid #999999;border-radius: 4px;font-size: 18px;padding: 10px 30px;background: none;"></textarea>
+                </li>
+                <li style="width: 485px;height: 20px;padding-left: 45px;color: red;font-size: 16px;line-height: 20px;" class="tips2"></li>
+                <li>
+                    <button class="traderSubmit" id="submit2" style="background:#cdcdcd;">升级中</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="confirmAlert">
+    <div class="confirmBox" style="height:250px;margin-top:-125px;width:400px;margin-left:-200px;">
+        <div class="confirm_close"></div>
+        <p class="confirmTitle"><span>提交成功</span></p>
+        <p class="confirmCon">等待审核（1个工作日）</p>
+        <p class="confirmCon">请您保持正常交易，以便审核人员更多参考</p>
+        <p class="confirmCon">请至个人中心<a style="color:#611987;border-bottom:1px solid #611987;cursor: pointer;" class="user_info_btn5 mysignalgoto">我的信号</a>查看状态</p>
+        <button class="confirm_btn" style="margin-top:20px;">确  认</button>
+    </div>
+</div>
+
+<link href="__STATIC__css/order.css" rel="stylesheet">
+<script type="text/javascript">
+    $(".mysignalgoto").click(function(){
+        $(".confirmAlert").hide();
+        $(".my_signal").fadeIn();
+    })
+    $(".createTipContent").on("mouseover",function(){
+        $(".createTips").show();
+    })
+    .on("mouseout",function(){
+        $(".createTips").hide();
+    });
+     $(".createTipContent2").on("mouseover",function(){
+        $(".createTipss").show();
+        $(".create_rule_tip").show();
+    })
+    .on("mouseout",function(){
+        $(".createTipss").hide();
+        $(".create_rule_tip").hide();
+    });
+    $("#signtrader").click(function(){
+        $(".createT").removeClass("createT_active");
+        $(this).addClass("createT_active");
+        $("#sign").show();
+        $("#free").hide();
+        $("#strader").show();
+        $("#ftrader").hide();
+    });
+    $("#freetrader").click(function(){
+        $(".createT").removeClass("createT_active");
+        $(this).addClass("createT_active");
+        $("#free").show();
+        $("#sign").hide();
+        $("#ftrader").show();
+        $("#strader").hide();
+    });
+    $(".confirm_close").click(function(){
+        $(".confirmAlert").hide();
+    });
+    $(".confirm_btn").click(function () {
+        $(".confirmAlert").hide();
+    });
+    $(".select_btn1").on("click", function () {
+        if($("#mt4broker").val()==""){
+            $(".tips1").html("请先选择经济商");
+        }
+    });
+    $(".select_btn2").on("click", function () {
+        if($("#mt4broker_free").val()==""){
+            $(".tips2").html("请先选择经济商");
+        }
+    });
+    $("#submit1").click(function(){
+        var business = $('#mt4broker').val();   //经纪商
+        if (business == '') {
+            $(".tips1").html('经纪商不能为空!');
+            return false;
+        }
+        var mt4server = $('#mt4server').val();   //mt4服务器
+        if (mt4server == '') {
+            $(".tips1").html('mt4服务器不能为空!');
+            return false;
+        }
+        var sign_name = $("input[name='sign_name']").val();
+        if(sign_name==''){
+            $(".tips1").html('信号名称不能为空!');
+            return false;
+        }
+        var mt4id = $("input[name='mt4id1']").val();   //mt4账号
+        if (mt4id == '') {
+            $(".tips1").html('mt4账号不能为空!');
+            return false;
+        }
+        var mt4pwd = $("input[name='mt4pwd1']").val(); //观摩密码
+        if (mt4pwd == '') {
+            $(".tips1").html('mt4账号不能为空!');
+            return false;
+        }
+        /*var img_path = $("input[name='img_path1']").val();  //上传的图片路径*/
+        /*if (img_path == '') {
+            $(".tips1").html('请上传有效的图片!');
+            return false;
+        }*/
+        var detail = $("textarea[name='mt4explain1']").val();
+        var data = {
+            'business' : business,
+            'mt4server' : mt4server,
+            'sign_name' : sign_name,
+            'mt4id' : mt4id,
+            'mt4pwd' : mt4pwd,
+            'detail' : detail,
+            /*'check_img' : img_path,*/
+            'type' : 1
+        };
+        $.ajax({
+            type: 'post',
+            url : "{:url('master/do_create')}",
+            data : {'data' : JSON.stringify(data)},
+            success: function(data) {
+                data = JSON.parse(data);
+//                console.log(data.code);
+                if (data.code == 200) {
+                    $(".confirmAlert").fadeIn();
+                }else {
+                    $(".tips1").html(data.msg);
+                }
+            }
+        })
+    });
+
+    // $("#submit2").click(function(){
+    //     var business = $('#mt4broker_free').val(); //经纪商
+    //     if (business == '') {
+    //         $(".tips2").html('经纪商不能为空!');
+    //         return false;
+    //     }
+    //     var mt4server = $('#mt4server_free').val();   //mt4服务器
+    //     if (mt4server == '') {
+    //         $(".tips2").html('mt4服务器不能为空!');
+    //         return false;
+    //     }
+    //     var mt4id = $("input[name='mt4id2']").val();   //mt4账号
+    //     if (mt4id == '') {
+    //         $(".tips2").html('mt4账号不能为空!');
+    //         return false;
+    //     }
+    //     var mt4pwd = $("input[name='mt4pwd2']").val(); //观摩密码
+    //     if (mt4pwd == '') {
+    //         $(".tips2").html('mt4账号不能为空!');
+    //         return false;
+    //     }
+    //     var img_path = $("input[name='img_path2']").val();  //上传的图片路径
+    //     /*if (img_path == '') {
+    //         $(".tips2").html('请上传有效的图片!');
+    //         return false;
+    //     }*/
+    //     var price = $("input[name='price']").val();  //跟单价格
+    //     if (price <0) {
+    //         $(".tips2").html('请填写正确的跟单价格!');
+    //         return false;
+    //     }
+    //     var data = {
+    //         'business' : business,
+    //         'mt4server' : mt4server,
+    //         'mt4id' : mt4id,
+    //         'mt4pwd' : mt4pwd,
+    //         /*'check_img' : img_path,*/
+    //         'price' : price,
+    //         'type' : 2
+    //     };
+    //     $.ajax({
+    //         type: 'post',
+    //         url : "{:url('master/do_create')}",
+    //         data : {'data' : JSON.stringify(data)},
+    //         success: function(data) {
+    //             data = JSON.parse(data);
+    //             console.log(data.code);
+    //             if (data.code == 200) {
+    //                 $(".confirmAlert").fadeIn();
+    //             }else {
+    //                 $(".tips2").html(data.msg)
+    //             }
+    //         }
+    //     })
+    // });
+    $("input").focus(function () {
+        $(".tips1").html("");
+        $(".tips2").html("");
+    });
+</script>
+{/block}

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="http://res.v.yshfx.com/">
+    <meta charset="UTF-8">
+    {block name="tdk"}
+    <title>亿思汇|外汇跟单|跟随交易|复制跟单|外汇程序化交易</title>
+    <meta name="keywords" content="复制跟单,跟单系统,跟随交易,跨平台跟单,无延迟跟单交易"/>
+    <meta name="description" content="最具人气的智能交易共享社区，最稳定的跨平台跟单系统，最佳跟随交易平台，亿思汇交易者必备工具。"/>
+    {/block}
+    <link rel="shortcut icon" href="__STATIC__image/favicon.ico" />
+    <link href="__STATIC__css/base.css" rel="stylesheet">
+    <link href="__STATIC__css/order_vip.css" rel="stylesheet">
+    <link href="window/window.css" rel="stylesheet">
+    <style>
+        @media screen and (max-width: 1600px) {
+            .qqkefu{right:0!important;}
+        }
+        .share_head{height: 48px;width: 100%;white-space: normal;position: fixed;left: 0;top: 0;z-index: 100;background: #e3e3e3;border-bottom: 1px solid #dadada;}
+        .share_head_img{width:40px;float:left;margin-top:4px;}
+        .share_bottom{width:100%;height:52px;position: fixed;bottom:0;background: rgba(255, 255, 255,0.8);z-index:99999999;box-shadow: 0 0 10px #5f5c5c;box-shadow: 0 0 10px #dadada;}
+    </style>
+    <!--上传头像-->
+    <script language="javascript" type="text/javascript" src="/kindeditor/kindeditor-min.js" charset="UTF-8"></script>
+    <script language="javascript" type="text/javascript" src="/kindeditor/lang/zh_CN.js" charset="UTF-8"></script>
+    <script language="javascript" type="text/javascript" src="/kindeditor/kconfig.js" charset="UTF-8"></script>
+
+    <script src="__STATIC__js/jquery-2.2.0.min.js" type="text/javascript"></script>
+    <!--[if lte IE 8]>
+        <script src="http://cdn.bootcss.com/jquery/1.9.0/jquery.min.js"></script>
+    <![endif]-->
+    <script src="window/window.js" type="text/javascript"></script>
+    <!--选择经济商服务器-->
+    <script src="__STATIC__js/binding.js" type="text/javascript"></script>
+</head>
+<body>
+{if !empty($inviteInfo)}
+<input type="hidden"  name="inviteUid" value="{$inviteInfo['uid']}">
+{/if}
+<div class="vip_head">
+    <div class="header_inner">
+        <div class="logo">
+                <img src="__STATIC__image/logoindex.png" id="logo">
+                <img src="__STATIC__image/logo1.png" class="logo1">
+                <img src="__STATIC__image/logo2.png" class="logo2">
+        </div>
+        <ul class="nav">
+            <li class="active">
+                <div  class="active nav_a"><span>交易明星</span></div>
+            </li>
+        </ul>
+         <a href="{:url('share/reg')}?uid={$inviteInfo['uid']}" style="width: 60px;height: 28px;margin-top:10px;line-height: 26px;font-size: 14px;float:right;background: #fff;color: #611987;border: 1px solid #611987;display:block;border-radius: 15px;text-align:center;">注册</a>
+    </div>
+</div>
+
+{block name="body"}页面主体{/block}
+
+{if(@$pagefrom !='levelmax')}
+<div class="vip_footer">
+    <div class="footer-logo">
+        <p>合作伙伴</p>
+        <img src="__STATIC__image/vip24.png">
+    </div>
+    <div class="footer-t">
+        <p>Trading spot currencies involves substantial risk and there is always the potential for loss. Your trading results may vary.
+        Because the risk factor is high in the foreign exchange market trading, only genuine "risk" funds should be used
+        in such trading. If you do not have the extra capital that you can afford to lose, you should not trade in the foreign
+        exchange market. No "safe" trading system has ever been devised, and no one can guarantee profits or freedom from
+        loss. Past performance is not indicative of future results.</p>
+    </div>
+    <div class="footer-m">
+        <ul>
+            <li class="footer_li {php} if (request()->url() == '/index/index.html') echo 'active'{/php}"><a href="{:url('index/index')}">首页</a></li>
+            <li class="footer_li {php} if (request()->url() == '/master/index.html') echo 'active'{/php}"><a href="{:url('master/index')}">跟随交易</a></li>
+            <li class="footer_li {php} if (request()->url() == '/mam/index.html') echo 'active'{/php}"><a href="{:url('mam/index')}">保障交易</a></li>
+            <li class="footer_li {php} if (request()->url() == '/user/trade.html') echo 'active'{/php}"><a href="{:url('user/trade')}">我的交易</a></li>
+            <li class="footer_li {php} if (request()->url() == '/user/vip.html')  echo 'active'{/php}"><a href="{:url('user/vip')}" target="_blank">会员服务</a></li>
+            <!--<li class="footer_li {php} if (request()->url() == '/other/download.html')  echo 'active'{/php}"><a href="{:url('other/download')}" target="_blank">MT4 下载</a></li>-->
+            <li class="footer_li {php} if (request()->url() == '/market.html')  echo 'active'{/php}"><a href="{:url('/market')}" target="_blank">行情</a></li>
+            <li class="footer_li {php} if (request()->url() == '/other/journal.html') echo 'active'{/php}"><a href="{:url('other/journal')}">经济日志表</a></li>
+            <li class="footer_li"><a href="javascript:void(0)" onclick="$('.app_download').fadeIn();">APP下载</a></li>
+            <!--<li class="footer_li {php} if (request()->url() == '/other/baibiao.html') echo 'active'{/php}"><a href="{:url('other/baibiao')}" target="_blank">主/白标服务</a></li>-->
+            <li class="footer_li {php} if (request()->url() == '/other/problem.html') echo 'active'{/php}"><a href="{:url('other/problem')}" target="_blank">常见问题</a></li>
+            <li class="footer_li {php} if (request()->url() == '/other/about.html?id=1') echo 'active'{/php}"><a href="{:url('other/about')}?id=1" target="_blank">联系我们</a></li>
+            <!--<li class="footer_li {php} if (request()->url() == '/other/contact.html') echo 'active'{/php}"><a href="{:url('other/contact')}" target="_blank">联系我们</a></li>-->
+        </ul>
+    </div>
+    <div class="footer-b" style="background: #e3e3e3;">
+        <div class="container clearfix">
+            <!-- <p id="footer-info">版权所有：信泽惠通（武汉）商务信息咨询有限公司  电话：027-88068805 地址：武汉市武昌区汉街总部国际A座19楼</p> -->
+            <!--<p id="footer-info">版权所有：信泽惠通（武汉）商务信息咨询有限公司 地址：武汉市武昌区汉街总部国际A座19楼</p>-->
+            <p id="footer-info" style="font-size: 14px;">Copyright &copy; Age Tianyu Co.,Ltd  鄂ICP备15003495号-7 信泽惠通（武汉）商务信息咨询有限公司<a href="http://www.miitbeian.gov.cn/publish/query/indexFirst.action" style="color:#777;padding-left:10px;font-weight:bold;"><span>400-016-0508</span></a></p>
+        </div>
+    </div>
+</div>
+{/if}
+
+{if(@$pagefrom !='levelmax')}
+<!-- qq客服 -->
+<!--<a href="" class="kefu" target="_blank"><img src="image/qqkefu.png" class="qqkefu"></a>-->
+<!-- WPA Button Begin -->
+<script charset="utf-8" type="text/javascript" src="http://wpa.b.qq.com/cgi/wpa.php?key=XzgwMDAwMjEyM180NzYzNDlfODAwMDAyMTIzXw"></script>
+<!-- WPA Button End -->
+<!-- WPA Button Begin -->
+<script charset="utf-8" type="text/javascript" src="http://wpa.b.qq.com/cgi/wpa.php?key=XzgwMDAwMjEyM180NzYxODJfODAwMDAyMTIzXw"></script>
+<!-- WPA Button END -->
+{/if}
+<!--<script>
+    var m=Math.random();
+    if(m<0.5){
+       $(".kefu").attr("href","http://wpa.qq.com/msgrd?v=3&uin=303869104&site=qq&menu=yes");
+    }else{
+        $(".kefu").attr("href","http://wpa.qq.com/msgrd?v=3&uin=2397645037&site=qq&menu=yes");
+    }
+</script>-->
+
+<!--弹窗-->
+<!-- ie9以下弹框 -->
+<script type="text/javascript"> 
+        var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串  
+        var isIE = userAgent.indexOf("MSIE") > -1; //判断是否IE浏览器  
+        if (isIE) {
+             var reIE = new RegExp("MSIE (\\d+\\.\\d+);");  
+             reIE.test(userAgent);  
+             var fIEVersion = parseFloat(RegExp["$1"]);  
+             if(fIEVersion == 7||fIEVersion == 8){
+               $("body").html('<img src="__STATIC__image/ie8img.png">');
+             }
+         }//isIE end  
+         $(".ie8close").on("click", function () {
+            $(".ie8show").hide();
+        });
+</script> 
+<!--返回顶部-->
+<a href="javascript:void(0)" class="backTop"></a>
+<script type="text/javascript">
+    $(window).scroll(function() {
+        if ($(window).scrollTop() >= 192) {
+            $(".backTop").fadeIn(1000);
+        } else {
+            $(".backTop").fadeOut(1000);
+        }
+    });
+    $(".backTop").click(function(){
+        $('body,html').animate({scrollTop:0},500);
+        return false;
+    });
+</script>
+
+<!--百度统计代码-->
+<div style="display: none">
+    <script type="text/javascript" defer="defer">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?e9362348ebacd434659e2784a3e060f2";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</div>
+
+</body>
+</html>

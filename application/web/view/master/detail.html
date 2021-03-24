@@ -1,0 +1,1313 @@
+{extend name="web@base/main"/}
+{block name="tdk"}
+<title>{$accountInfo.name}-亿思汇</title>
+<meta name="keywords" content="亿思汇,智能交易共享社区,亿思汇跟随交易,亿思汇官网"/>
+<meta name="description" content="最具人气的智能交易共享社区，最稳定的跨平台跟单系统，最佳跟随交易平台，最靠谱的跟随交易，交易者的最佳选择。"/>
+{/block}
+{block name="body"}
+    <script>
+        var account={$account};
+    </script>
+    <link href="__STATIC__css/order.css" rel="stylesheet">
+    <link href="__STATIC__css/page.css" rel="stylesheet">
+    <script src="__STATIC__js/echarts.min.js" type="text/javascript"></script>
+    <script src="__STATIC__js/jquery.animateNumber.min.js" type="text/javascript"></script>
+    <script src="__STATIC__js/order.js" type="text/javascript" defer="defer"></script>
+<style type="text/css">
+    body{background: #f3f3f3;min-width: 1300px;}
+    .o_main{margin: 110px auto 0 auto}
+    .o_main_active{height:2890px;}
+    .header{background: #fff;box-shadow: 0 1px 1px rgba(0,0,0,0.1);}
+    .vip_head .header_inner{width:1300px;}
+    .vip_footer{min-width:1300px!important;}
+    .identify_fwq2{position:absolute;left:50px;top:20px;height:35px;line-height:35px;width:90px;overflow:hidden;text-overflow:ellipsis;color:#333333;font-size:14px;}
+    .charts_tips{font-size:12px;position: absolute;top:38px;left:68px;}
+    .charts_tips1{color:#0080ff;}
+    .charts_tips2{color:#509f50;}
+    .charts_tips3{color:#0080ff;}
+    .profitBox li{height: 27px;}
+
+    .orh_active2{background: #f6f5f9;}
+    .orh2_img,.orh2_img_active{margin: 10px 10px 10px 14px;}
+    .orh2_img_active{display:none;}
+    .orh2_img_show{height:44px;background: #fff;width:154px;box-shadow: -2px -3px 5px #eaeaea;}
+    .orh2_img_show .orh2_img{display: none}
+    .orh2_img_show .orh2_img_active{display: block;}
+    .orh2_img_show .orh_active_p2{color:#333;}
+    .modulusHead{font-size:16px;color:#3e3a39;float:left;}
+    .jyBody{width:941px;padding:30px;float:right;border: 1px solid #cccccc;}
+    .modulusContent{width:700px;height:10px;background: #a3edff;float:left;margin-left:15px;border-radius: 6px;margin-top: 6px;position: relative;}
+    .modulusContent2{width:700px;height:10px;background: #ffde21;float:left;margin-left:15px;border-radius: 6px;margin-top: 6px;position: relative;}
+    .modulusBlank{width:100%;height:100%;position: relative;}
+    .modulusBlank li{position: absolute;height:100%;width:2px;background: #fff;z-index:2;}
+    .modulusBlank li:nth-child(1){left:20%;}
+    .modulusBlank li:nth-child(2){left:40%;}
+    .modulusBlank li:nth-child(3){left:60%;}
+    .modulusBlank li:nth-child(4){left:80%;}
+    .moduluscontain{position: absolute;height:100%;width:0;background: #00a8ff;top:0;left:0;z-index:3;border-radius: 6px 0 0 6px;}
+    .moduluscontain2{position: absolute;height:100%;width:0;background: #ff8b00;top:0;left:0;z-index:3;border-radius: 6px 0 0 6px;}
+    .modulusConTips,.modulusConTips2{clear:both;margin-left:84px;}
+    .modulusConTips li,.modulusConTips2 li{width:137px;float:left;font-size:16px;color:#999999;}
+    .moduluscontainBox,.moduluscontainBox2{position: absolute;top:-30px;left:-20px;width:40px;}
+    .moduluscontainBox p{background: #00a8ff;color:#fff;border-radius: 4px;text-align: center;}
+    .moduluscontainBox2 p{background: #ff8b00;color:#fff;border-radius: 4px;text-align: center;}
+    .modulus_text_tip{position: absolute;width:10px;bottom:-6px;left:50%;margin-left:-5px;}
+    .gain_chart{height:400px;width:940px;float:right;}
+    .explainBox li{position: absolute;width:118px;height:40px;}    
+    .yl_result,.fx_result{position:absolute;top:248px;left:462px;z-index:99;font-size:20px;color:#000}
+    .achievement_radio2{height:40px;position: absolute;top:30px;right:0;z-index: 99;}
+    .achievement_radio2 label{float:right;margin-left:15px;}
+    .or_person__img{width: 130px;height: 130px;border-radius: 130px;border: 1px solid #dadada;}
+    .or_btn{width: 220px;height: 40px;line-height: 40px;}
+    .identify_box{margin: 20px 24px;}
+    .or_per_l,.or_per_r{color: #282828;}
+    .orhead,.orhead2,.or_head, .or_head2{height:46px;margin-bottom: 20px;}
+    .orh_normal{width:120px;background: none;height:44px;margin: 0 10px;}
+    .orh_active{border-bottom: 2px solid #611987;box-shadow: none;}
+    .orh_active .or_bg1{display: none;}
+    .orh_active .or_bg2{display: block;}
+    .orh_normal img{width:18px;margin: 14px 10px 9px 29%;}
+    .orh_normal_p{line-height: 44px;}
+    .orh_normal:hover{box-shadow:none;}
+    .table_head li{color: #282828;}
+    .orh_active2{background: #fff;margin: 0 10px;}
+    .orh2_img, .orh_active2 img{width:18px;margin: 14px 10px 9px 28px;}
+    .orh2_img_show{width:150px;box-shadow: none;border-bottom: 2px solid #611987;height:44px;}
+    .orh_active_p2{line-height: 44px;font-size:16px;}
+    .orh_active_p{color:#333;}
+    .orh2_img_active{    margin: 9px 10px 9px 31px;}
+    .allzt_title{font-size:14px;color:#555;}
+    .allzt_info{font-size:16px;color:#282828;}
+    .allzt_info{margin-top:0;}
+    .allzt_info2{font-size:16px;}
+    .alldatazt{height:56px;}
+    .commitsubmitbtn{background: #611987;width:130px;height:42px;    font-size: 18px;    line-height: 42px;}
+    .commitsubmit{border: 1px solid #ccc;}
+    .pinglun_icon{width:22px;}
+    .commit_t{font-size:18px;}
+    .follower{height: 1036px;}
+</style>
+
+<div class="o_main">
+    <div class="o_main_left">
+        <div style="position:relative;width:130px;height:130px;margin:20px auto 20px;">
+            {if strstr($accountInfo['img'], 'http')}
+            <img src="{$accountInfo['img']}" class="or_person__img">
+            {elseif empty($accountInfo['img'])}
+            <img src="__STATIC__image/touxiang.png" class="or_person__img">
+            {else/}
+            <img src="__STATIC__upload/image/{$accountInfo['img']}" class="or_person__img">
+            {/if}
+        </div>
+        <p class="or_person_name">{$accountInfo.name}</p>
+        <div class="identify_box" style="position:relative;">
+            <?php $img = isset($mt4service[$accountInfo['mt4server']])?$mt4service[$accountInfo['mt4server']]:$mt4service['forex'];?>
+            <!-- 利汇 -->
+             {if(@$pagefrom !='levelmax')}
+            <!--<img src="/image/broker/{$img}.png" class="identify_fwq">-->
+            <img src="__STATIC__image/broker/{$img}.png" class="identify_fwq">
+            {/if}
+             {if(@$pagefrom =='levelmax')}
+            <img src="__STATIC__image/broker/levelmax.png" class="identify_fwq">
+            {/if}
+            <img src="__STATIC__image/shipan_is.png" class="identify_icon">
+            <img src="__STATIC__image/identify_is.png" class="identify_icon">
+            <img src="__STATIC__image/EA_is.png" class="identify_icon">
+        </div>
+        <a href="javascript:void(0)" class="or_btn">跟 随</a>
+        <script>
+            /*若果该信号正在数据库运行，则“跟随”按钮不可点击。*//*最好再限定是否已经添加这个不存在数据库的信号*/
+            var account = '{$account}';
+            //console.log(account);
+            var uid = '{$uid}';
+            if(localStorage.getItem("myaccount")){
+                var Mymt4id=localStorage.getItem("myaccount");
+            }    
+            $.ajax({
+                url: '{:url("v1.web/get_master_signal","","","api")}',
+                type: 'get',
+                dataType: 'jsonp',
+                jsonp: 'callback',
+                data : {uid : uid,
+                        slave_mt4id : Mymt4id
+                },
+                jsonpCallback:'getjson',
+                success: function (data) {
+                    if(data.code==200){
+                        //data.data为空时
+                        if(data.data==''){
+                            /*点击“跟随”，若果不是vip用户。弹出未开通服务弹窗。同时限定超过10个数量；（因为会替换前面选择的信号，所以不会有超过10的情况）*/
+                            $(".or_btn").on("click", function () {
+                                if (GetQueryString("server") == 'levelmax') {//利汇
+                                    window.location.href = '{:url('master/index')}?account={$account}&server=levelmax';
+                                } else {
+                                    window.location.href = '{:url('master/index')}?account={$account}';
+                                }
+                            });
+                        }
+                        for (var i = 0; i < data.data.length; i++) {
+                            var mt4id = data.data[i].mt4id;
+                            if(account == mt4id){
+                                $(".or_btn").css("background","#dadada").addClass("disabled").html("正在监听");
+                            }else {
+                                /*点击“跟随”，若果不是vip用户。弹出未开通服务弹窗。同时限定超过10个数量；（因为会替换前面选择的信号，所以不会有超过10的情况）*/
+                                $(".or_btn").on("click", function () {
+                                    var vip = '{$info.server}';
+                                    if(vip == ''){
+                                        $(".no_buy").fadeIn();
+                                    }else {
+                                        if(i>9){       //i从0开始
+                                            win.alert("","超出组合信号上限！")
+                                        }else {
+                                            if (GetQueryString("server") == 'levelmax') {//利汇
+                                               window.location.href = '{:url('master/index')}?account={$account}&server=levelmax';
+                                            } else{
+                                               window.location.href='{:url('master/index')}?account={$account}'; 
+                                            }
+                                            
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+        <ul class="or_per_info">
+            <li>
+                <span class="or_per_l" title="利润÷初始入金×100%  (当检测到交易者出入金时，则记录当前利润率并重新统计取合计值)">利润率:</span>
+                <span class="or_per_r">
+                <?php
+                $profit = $arrTrade['gross_profit']+$arrTrade['gross_loss']+$arrTrade['commission']+$arrTrade['swap'];
+                echo $accountInfo['money']>0?sprintf('%s%s', number_format(@$profit/floatval($accountInfo['money']),4)*100, '%'):'0%';
+                ?>
+                </span>
+            </li>
+            <li>
+                <span class="or_per_l" title="交易者首次入金及出入金的记录">初始入金:</span>
+                <span class="or_per_r">{$accountInfo.money} {$moneysymbol}</span>
+            </li>
+            <li class="profit" >
+                <span class="or_per_l" style="border-bottom: 1px dotted #808081;">利润:</span>
+                <span class="or_per_r" style="border-bottom: 1px dotted #808081;color:#00aa6d">{$profit|number_format=###,2} {$moneysymbol}</span>
+                <div class="profitContent">
+                    <img src="__STATIC__image/profittip.png" class="profittip">
+                    <ul class="profitBox">
+                        <li>
+                            <span>交易获利：</span> 
+                            <span>{$arrTrade['gross_profit']+$arrTrade['gross_loss']} {$moneysymbol}</span>
+                        </li>
+                        <li>
+                            <span>手 续 费：</span>
+                            <span>{$arrTrade['commission']} {$moneysymbol}</span>
+                        </li>
+                        <li>
+                            <span>库 存 费：</span>
+                            <span>{$arrTrade['swap']} {$moneysymbol}</span>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            {if !empty($accountDtail)}
+            <li class="profit">
+                <span class="or_per_l" style="border-bottom: 1px dotted #808081;">账户净值:</span>
+                <span class="or_per_r" style="border-bottom: 1px dotted #21a921;color:#21a921">{$accountDtail.equity} {$moneysymbol}</span>
+                <div class="profitContent">
+                    <img src="__STATIC__image/profittip2.png" class="profittip">
+                    <ul class="profitBox">
+                        <li>
+                            <span>净值：</span>
+                            <span style="color:#21a921">{$accountDtail.equity|number_format=###,2} {$moneysymbol}</span>
+                        </li>
+                        <li>
+                            <span>结余：</span>
+                            <span style="color:#007eff">{$accountDtail.balance|number_format=###,2} {$moneysymbol}</span>
+                        </li>
+                        {if !empty($accountDtail['credit'])}
+                        <li>
+                            <span>信用额：</span>
+                            <span style="color:#007eff">{$accountDtail.credit|number_format=###,2} {$moneysymbol}</span>
+                        </li>
+                        {/if}
+                        <li>
+                            <span>已用预付款：</span>
+                            <span style="color:#007eff">{$accountDtail.margin|number_format=###,2} {$moneysymbol}</span>
+                        </li>
+                        <li>
+                            <span>可用预付款：</span>
+                            <span style="color:#007eff">{$accountDtail.free_margin|number_format=###,2} {$moneysymbol}</span>
+                        </li>
+                        <li>
+                            <span>预付款占比：</span>
+                            <span style="color:#007eff"><?php echo $accountDtail['margin']==0?0:number_format(100*$accountDtail['equity']/$accountDtail['margin'],2); ?>%</span>
+                        </li>
+                        <li>
+                            <span>获利：</span>
+                            <span style="color:#e60000">{$accountDtail.profit}</span>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            {/if}
+            <li>
+                <span class="or_per_l">跟随人数:</span>
+                <span class="or_per_r">{$accountInfo.follow+$follow} 人</span>
+            </li>
+            <li class="follow_mon">
+                <span class="or_per_l">跟随资金:</span>
+                <span class="or_per_r">{$moneysymbol}</span>
+            </li>
+            <li>
+                <span class="or_per_l" title="Drawdown=Max（Di-Dj）/Di (D为某一订单对应的净值，i为某一订单，j为i后的某一订单，Di为第i订单的净值，Dj则是Di后面某一订单的净值，该值最大程度的反应了利润回吐率)">最大回撤:</span>
+                <span class="or_per_r">
+                <?php
+                $drawdown = max($accountInfo['trade_drawdown'], $accountInfo['trade_minbalance'], $accountInfo['trade_minprofit']);
+                echo $drawdown*100;
+                ?>%
+                </span>
+            </li>
+            <li>
+                <span class="or_per_l">周:</span>
+                <span class="or_per_r">{$accountInfo.trade_week}</span>
+            </li>
+            <li>
+                <span class="or_per_l">最近交易:</span>
+                <span class="or_per_r"><?php 
+                if ($arrTrade['max_time']){
+                echo date('y/m/d H:i', $arrTrade['max_time']);}else{echo '--';}?></span>
+            </li>
+            <li>
+                <span class="or_per_l">每周交易:</span>
+                <span class="or_per_r"><?php echo $accountInfo['trade_week']?floor(@$arrTrade['trade_total']/$accountInfo['trade_week'])."次":'--';?></span>
+            </li>
+            <li>
+                <span class="or_per_l">平均持有时间:</span>
+                <span class="or_per_r"><?php echo number_format($arrTrade['holding_time']/3600,2)?> 小时</span>
+            </li>
+        </ul>
+
+        <p style="padding: 30px 20px 0 20px;height: auto;word-wrap : break-word;font-size: 14px;line-height: 26px;" class="explain_p"><span style="font-size: 16px;">策略说明：</span><br>
+            <textarea id="detail_ac" readonly="readonly" style="width: 100%;border: none;"><?php $detail_ac =  $accountInfo['detail']?$accountInfo['detail']:'暂无数据'; echo mb_strlen($detail_ac,'utf-8')>40?mb_substr($detail_ac,0,30,'utf-8').'...':$detail_ac;?></textarea>
+            <textarea style="display: none;width: 100%;border: none;" name="" id="detail_ac2" readonly="readonly" cols="30" rows="10">{$detail_ac}</textarea>
+        </p>
+        <?php
+            if(mb_strlen($detail_ac,'utf-8')>40){
+        echo '<a href="javascript:;" style="display: block;padding: 0 20px;text-align: right;color: #f57921;font-size: 16px;" class="explain_more"><span style="vertical-align: middle;">显示全部</span><img src="__STATIC__image/explain_more.png" style="vertical-align: middle;margin-left: 5px;"></a>';
+        }
+        ?>
+        <script>
+            $(function () {
+                $(".explain_more").click(function () {
+                    $("#detail_ac").hide();
+                    $("#detail_ac2").show();
+                    $(this).hide();
+                });
+            });
+        </script>
+
+        <div class="or_tips" style="padding-top: 40px;">
+            <img src="__STATIC__image/or_tip_icon.jpg" class="or_tip_icon">
+            <p class="or_tip_span">账户可能出现连续亏损。</p>
+        </div>
+        <div class="or_tips">
+            <img src="__STATIC__image/or_tip_icon.jpg" class="or_tip_icon">
+            <p class="or_tip_span">账户可能会出现巨大跌幅。</p>
+        </div>
+        <div class="or_tips">
+            <img src="__STATIC__image/or_tip_icon.jpg" class="or_tip_icon">
+            <p class="or_tip_span">账户可能会出现隔夜/隔周交易。</p>
+        </div>
+    </div>
+    <div class="o_main_right">
+        <div class="or_head">
+            <ul class="orhead">
+                <li class="orh_normal orh_active" id="jy">
+                    <img src="__STATIC__image/jiaoyi1.png" class="or_bg1">
+                    <img src="__STATIC__image/jiaoyi2.png" class="or_bg2">
+                    <p class="orh_normal_p orh_active_p">交易</p>
+                </li>
+                <li class="orh_normal" id="tb">
+                    <img src="__STATIC__image/mam_tubiao1.png" class="or_bg1">
+                    <img src="__STATIC__image/mam_tubiao3.png" class="or_bg2">
+                    <p class="orh_normal_p">图表</p>
+                </li>
+                <li class="orh_normal" id="ls">
+                    <img src="__STATIC__image/lishi1.png" class="or_bg1">
+                    <img src="__STATIC__image/lishi2.png" class="or_bg2">
+                    <p class="orh_normal_p">历史</p>
+                </li>
+                <li class="orh_normal"  id="cc">
+                    <img src="__STATIC__image/chicang1.png" class="or_bg1">
+                    <img src="__STATIC__image/chicang2.png" class="or_bg2">
+                    <p class="orh_normal_p">持仓</p>
+                </li>
+                <li class="orh_normal"  id="pl">
+                    <img src="__STATIC__image/pinglun1.png" class="or_bg1" style="margin:14px 10px 11px 10%;">
+                    <img src="__STATIC__image/pinglun2.png" class="or_bg2" style="margin:14px 10px 11px 10%;">
+                    <p class="orh_normal_p">评论({$count})</p>
+                </li>
+                <li class="orh_normal"  id="gsz">
+                    <img src="__STATIC__image/gensuizhe1.png" class="or_bg1" style="margin:14px 10px 11px 25%">
+                    <img src="__STATIC__image/gensuizhe2.png" class="or_bg2" style="margin:14px 10px 11px 25%;">
+                    <p class="orh_normal_p">跟随者</p>
+                </li>
+            </ul>
+        </div>
+        <!-- 交易-->
+        <div class="or_body transaction">
+            <div style="border: 1px solid #cccccc;overflow: hidden;">
+                <div>
+                    <div class="chartload">
+                        <img src="__STATIC__image/chartloading.gif" class="chartloading">
+                    </div>
+                    <div class="or_chart" id="chart"></div>
+                </div>
+                <!-- 月份-->
+                <div class="chart_table">
+                    <ul class="table_head">
+                        <li></li>
+                        <li>1月</li>
+                        <li>2月</li>
+                        <li>3月</li>
+                        <li>4月</li>
+                        <li>5月</li>
+                        <li>6月</li>
+                        <li>7月</li>
+                        <li>8月</li>
+                        <li>9月</li>
+                        <li>10月</li>
+                        <li>11月</li>
+                        <li>12月</li>
+                        <li>YTD</li>
+                    </ul>
+                    <?php
+                if (!empty($mdata)){
+                    $html = '';$total = 0;
+                    $total_money = floatval($accountInfo['money']);
+                    foreach ($mdata as $year => $ydata) {
+                    $html .= sprintf('<ul class="table_body"><li>%s</li>', $year);
+                    $mtotal = 0;
+                    for ($i=1; $i<13; $i++) {
+                    if(isset($ydata[$i])){
+                    $avg_profit = empty($total_money)?0:100*$ydata[$i]['profit']/$total_money;
+                    $total += $avg_profit;
+                    $mtotal += $avg_profit;
+
+                    if ($avg_profit >= 0){
+                    $html .= sprintf('<li>%s<span class="pers">%s</span></li>', number_format($avg_profit, 2), '%');
+                    }else{
+                    $html .= sprintf('<li style="color:#e60000" >%s<span class="pers">%s</span></li>', number_format($avg_profit, 2), '%');
+                    }
+
+                    $total_money += $ydata[$i]['profit'];
+                    }else{
+                    $html .= '<li>--</li>';
+                    }
+                    }
+                    $html .= sprintf('<li>%s<span class="pers">%s</span></li></ul>', number_format($mtotal, 2), '%');
+                    }
+
+                    $profit = $arrTrade['gross_profit']+$arrTrade['gross_loss']+$arrTrade['commission']+$arrTrade['swap'];
+                    $total = floatval($accountInfo['money'])>0? number_format(@$profit/floatval($accountInfo['money']),4)*100 : '0';
+
+                    $html .= sprintf('</ul><ul class="table_total"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li>历史总计</li><li>%s<span class="pers">%s</span></li></ul>', $total, '%');
+                    echo $html;
+                    }
+                    ?>
+                </div>
+            </div>
+
+            <!-- 统计数据 - 总体-->
+            <div class="or_head2" style="margin-top:38px;margin-bottom:10px;">
+                <ul class="orhead2">
+                    <li class="orh_active2 orh2_img_show" id="jiaoyi">
+                        <img src="__STATIC__image/zongti0.png" class="orh2_img">
+                        <img src="__STATIC__image/zongti.png" class="orh2_img_active">
+                        <p class="orh_active_p2">交易统计</p>
+                    </li>
+                    <li class="orh_active2" id="yinli">
+                        <img src="__STATIC__image/yinli_icon0.png" class="orh2_img">
+                        <img src="__STATIC__image/yinli_icon.png" class="orh2_img_active">
+                        <p class="orh_active_p2">盈利能力</p>
+                    </li>
+                    <li class="orh_active2" id="fengxian">
+                        <img src="__STATIC__image/fengxian_icon0.png" class="orh2_img">
+                        <img src="__STATIC__image/fengxian_icon.png" class="orh2_img_active">
+                        <p class="orh_active_p2">风险评级</p>
+                    </li>
+                </ul>
+            </div>
+            <!-- 交易统计 -->
+            <div style="position:relative;" class="jyBody" id="jiaoyi_detail">
+                <ul class="alldatazt">
+                    <li>
+                        <p class="allzt_title" title="历史交易订单数量 (不含当前持仓数量)">总交易</p>
+                        <p class="allzt_info">{$arrTrade.trade_total}</p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="历史交易盈利交易÷总交易 (该值是交易胜率的直接体现)">盈利交易</p>
+                        <p class="allzt_info">
+                        <?php
+                        $result = 0;
+                        if (isset($arrTrade['trade_total'])){
+                            $result = number_format(($arrTrade['trade_profit']/$arrTrade['trade_total']), 4);
+                            $result = strval($result*100).'%';
+                        }
+                        echo sprintf('%s(%s)', $arrTrade['trade_profit'], $result);
+                        ?>
+                        </p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="历史交易亏损交易÷总交易 (该值是交易失误率的直接体现)">亏损交易</p>
+                        <p class="allzt_info">
+                        <?php
+                        $result = 0;
+                        if (isset($arrTrade['trade_total'])){
+                            $result = number_format(($arrTrade['trade_loss']/$arrTrade['trade_total']), 4);
+                            $result = strval($result*100).'%';
+                        }
+                        echo sprintf('%s(%s)', $arrTrade['trade_loss'], $result);
+                        ?>
+                        </p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="毛利÷毛利亏损 (该值意味着交易者盈利能力与覆盖亏损的能力)">利润因子</p>
+                        <p class="allzt_info">{$arrTrade.profit_factor}</p>
+                    </li>
+                </ul>
+                <ul class="alldatazt">
+                    <li>
+                        <p class="allzt_title" title="历史交易获利最大的订单金额 ">最好交易</p>
+                        <p class="allzt_info allzt_t_blue">{$arrTrade.trade_best}</p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="历史交易亏损最大的订单金额">最差交易</p>
+                        <p class="allzt_info allzt_t_red">{$arrTrade.trade_worst}</p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="总利润÷总交易 (该值是每笔交易净获利平均值)">预期回报</p>
+                        <p class="allzt_info allzt_t_blue">
+                        <?php
+                        $result = ($arrTrade['trade_total']==0)?'--':number_format($profit/$arrTrade['trade_total'],2);
+                        echo $result;
+                        ?>
+                        </p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="在盈利能力和风险之间最重要的比率之一。Sharp Ratio显示了算术平均值超过从股票波动的标准偏差的次数。例如，Sharp=0.6意味着存在每获得6美元利润就有损失10美元的平均风险。值越大，交易风险越低。然而，在个别交易中大的利润值可以产生标准偏差值越大，因此导致Sharp Ratio不合理的减少。">夏普比率</p>
+                        <p class="allzt_info">{$arrTrade.sharpe_ratio}</p>
+                    </li>
+                </ul>
+                <ul class="alldatazt">
+                    <li>
+                        <p class="allzt_title" title="连续盈利交易相加金额最大值">最大连续赢利</p>
+                        <p class="allzt_info allzt_t_blue">{$arrTrade.sprofit_max} {$moneysymbol} ({$arrTrade.sprofit_max_num})</p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="连续盈利交易相加订单数量最大值">最大连续盈利</p>
+                        <p class="allzt_info allzt_t_blue">{$arrTrade.sprofit_more_num} ({$arrTrade.sprofit_more} {$moneysymbol})</p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="连续亏损交易相加金额最大值">最大连续亏损</p>
+                        <p class="allzt_info allzt_t_red">{$arrTrade.sloss_max} {$moneysymbol} ({$arrTrade.sloss_max_num})</p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="连续亏损交易相加订单数量最大值">最大连续失误</p>
+                        <p class="allzt_info allzt_t_red">{$arrTrade.sloss_more_num} ({$arrTrade.sloss_more} {$moneysymbol})</p>
+                    </li>
+                </ul>
+                <ul class="alldatazt">
+                    <li>
+                        <p class="allzt_title" title="历史交易盈利的总和">毛利</p>
+                        <p class="allzt_info2"><span class="allzt_t_blue">{$arrTrade.gross_profit}</span>{$moneysymbol}</p>
+                        <p class="allzt_info2">(<span class="allzt_t_blue">{$arrTrade.gross_profit_num}</span>点数)</p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="历史交易亏损的总和">毛利亏损</p>
+                        <p class="allzt_info2"><span class="allzt_t_red">{$arrTrade.gross_loss}</span> {$moneysymbol}</p>
+                        <p class="allzt_info2">(<span class="allzt_t_red">{$arrTrade.gross_loss_num}</span>点数)</p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="毛利÷盈利交易 (每一笔盈利订单的平均值)">平均利润</p>
+                        <p class="allzt_info2"><span class="allzt_t_blue">{$arrTrade.avg_profit}</span> {$moneysymbol}</p>
+                        <p class="allzt_info2">(<span class="allzt_t_blue">{$arrTrade.avg_profit_num}</span>点数)</p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="毛损÷亏损交易 (每一笔亏损订单的平均值)">平均损失</p>
+                        <p class="allzt_info2"><span class="allzt_t_red">{$arrTrade.avg_loss}</span> {$moneysymbol}</p>
+                        <p class="allzt_info2">(<span class="allzt_t_red">{$arrTrade.avg_loss_num}</span>点数)</p>
+                    </li>
+                </ul>
+                <ul class="alldatazt" style="margin-top:34px;">
+                    <li>
+                        <p class="allzt_title" title="交易利润÷月份 (该值是每月利润率的平均值)">每月增长</p>
+                        <p class="allzt_info allzt_t_blue">
+                            <?php
+                            $avg_mproft = 0;
+                            if (@$total){
+                                $avg_mproft = empty($accountInfo['trade_month'])?0:$total/$accountInfo['trade_month'];
+                            }
+                            echo number_format($avg_mproft, 2).'%';
+                            ?>
+                        </p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="每月增长×12 (该值通过每月平均收益率对全年收益率的预测)">年度预测</p>
+                        <p class="allzt_info allzt_t_blue"><?php echo number_format($avg_mproft*12, 2);?>%</p>
+                    </li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+            <!-- 盈利能力 -->
+            <div class="jyBody" id="yinli_detail" style="display:none;">
+                <div class="modulusBox">
+                    <span class="modulusHead">盈利系数</span>
+                    <div class="modulusContent">
+                        <ul class="modulusBlank">
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
+                        <div class="moduluscontain">
+                        </div>
+                        <div class="moduluscontainBox">
+                            <p id="target">0</p>
+                            <img src="__STATIC__image/modulus_text_tip0.png" class="modulus_text_tip">
+                        </div>
+                    </div>
+                    <ul class="modulusConTips">
+                        <li>0</li>
+                        <li>25</li>
+                        <li>50</li>
+                        <li>75</li>
+                        <li>100</li>
+                        <li>125</li>
+                    </ul>
+                </div>
+                <div style="position:relative;">
+                    <p  class="yl_result"></p>
+                    <div class="gain_chart" id="gain_chart"></div>
+                    <ul class="explainBox">
+                        <li style="left:422px;top:61px;" title="指全年预测收益率（历史收益的平均值）"></li>
+                        <li style="left:635px;top:186px;" title="指历史交易盈利交易的比例"></li>
+                        <li style="left:574px;top:385px;" title="指最大浮盈率，指交易者最大一次账户浮盈时的比例"></li>
+                        <li style="left:247px;top:385px;" title="指交易者浮盈时段在交易中的占比"></li>
+                    </ul>
+                </div>
+            </div>
+            <!--  风险评级-->
+            <div class="jyBody" id="fengxian_detail" style="display:none;">
+                <div class="modulusBox">
+                    <span class="modulusHead">风险系数</span>
+                    <div class="modulusContent2">
+                        <ul class="modulusBlank">
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
+                        <div class="moduluscontain2">
+                        </div>
+                        <div class="moduluscontainBox2">
+                            <p id="target2">0</p>
+                            <img src="__STATIC__image/modulus_text_tip2.png" class="modulus_text_tip">
+                        </div>
+                    </div>
+                    <ul class="modulusConTips2">
+                        <li>0</li>
+                        <li>5</li>
+                        <li>10</li>
+                        <li>15</li>
+                        <li>20</li>
+                        <li>25</li>
+                    </ul>
+                </div>
+                <div style="position:relative;">
+                    <p class="fx_result"></p>
+                    <div class="gain_chart" id="gain_chart2"></div>
+                    <ul class="explainBox">
+                        <li style="left:422px;top:61px;" title="即利润回吐率，指交易者获得的利润亏损出去的比例"></li>
+                        <li style="left:635px;top:186px;" title="即最大浮亏率，指交易者最大一次账户浮亏时的比例"></li>
+                        <li style="left:574px;top:385px;" title="即仓位使用率，指交易者最大一次账户仓位使用比例"></li>
+                        <li style="left:247px;top:385px;" title="指交易者浮亏时段在交易中的占比"></li>
+                        <li style="left:186px;top:189px;" title="指历史交易中单日亏损最大的数值比例（最大亏损/月初结余）"></li>
+                    </ul>
+                </div>
+            </div>
+            <script>
+                var profit_radar=[0, 0, 0, 0, 0];
+                var profit_radar2 = [0, 0, 0, 0, 0];
+                var profit_radar_detail = [0, 0, 0, 0, 0];
+                var profit_radar2_detail = [0, 0, 0, 0, 0];
+                var n = -1;
+                var nn = -1;
+                var profit_score;
+                var loss_score;
+                $("#jiaoyi").click(function () {
+                    $(".orh_active2").removeClass("orh2_img_show");
+                    $(this).addClass("orh2_img_show");
+                    $(".jyBody").hide();
+                    $("#jiaoyi_detail").show();
+                });
+                $("#yinli").click(function () {
+                    $(".moduluscontain").css("width", "0");
+                    $(".moduluscontainBox").css("left", "-20px");
+                    $(".modulusConTips li").css("color","#999999");
+                    radar1.getdata();
+                    $(".orh_active2").removeClass("orh2_img_show");
+                    $(this).addClass("orh2_img_show");
+                    $(".jyBody").hide();
+                    $("#yinli_detail").show();
+                });
+                $("#fengxian").click(function () {
+                    $(".moduluscontain2").css("width", "0");
+                    $(".moduluscontainBox2").css("left", "-20px");
+                    $(".modulusConTips2 li").css("color", "#999999");
+                    radar2.getdata();
+                    $(".orh_active2").removeClass("orh2_img_show");
+                    $(this).addClass("orh2_img_show");
+                    $(".jyBody").hide();
+                    $("#fengxian_detail").show();
+                });
+                var radar1={
+                    getdata: function (){
+                        $.ajax({
+                                url: '__API__v1.web/account_score?account='+account,
+                                type: 'get',
+                                dataType: 'jsonp',
+                                jsonp: 'callback',
+                                success: function (body) {
+                                    if(body.code==200){
+                                        var data=body.data;
+                                        profit_score=parseFloat(data.profit_score);
+                                        var reg = new RegExp(",","g");
+                                        var year_proft= (data.year_proft.toString()).replace(reg,"");//年度预测
+                                        var profit_factor= (data.profit_factor.toString()).replace(reg,"");//利润因子
+                                        var profit_offset= (data.profit_offset.toString()).replace(reg,"");//盈利偏移
+                                        var equity_increase= (data.equity_increase.toString()).replace(reg,"");//净值涨幅
+                                        var trade_win= (data.trade_win.toString()).replace(reg,"");//交易胜率
+
+                                        year_proft= parseFloat(year_proft).toFixed(2);//年度预测
+                                        profit_factor= parseFloat(profit_factor).toFixed(2);//利润因子
+                                        profit_offset= parseFloat(profit_offset).toFixed(2);//盈利偏移
+                                        equity_increase= parseFloat(equity_increase).toFixed(2);//净值涨幅
+                                        trade_win= parseFloat(trade_win).toFixed(2);//交易胜率
+                                        
+                                        if (year_proft <= 40) {
+                                            profit_radar[0]=1;
+                                        }else if(year_proft<=60){
+                                           profit_radar[0]=2;
+                                        }else if (year_proft <= 80) {
+                                            profit_radar[0] = 3;
+                                        } else if (year_proft <= 100) {
+                                            profit_radar[0] = 4;
+                                        } else if (year_proft > 100) {
+                                            profit_radar[0] = 5;
+                                        }
+
+                                        if (profit_factor <= 1.2) {
+                                            profit_radar[1]=1;
+                                        }else if(profit_factor<=1.4){
+                                           profit_radar[1]=2;
+                                        }else if (profit_factor <= 1.6) {
+                                            profit_radar[1] = 3;
+                                        } else if (profit_factor <= 1.8) {
+                                            profit_radar[1] = 4;
+                                        } else if (profit_factor > 1.8) {
+                                            profit_radar[1] = 5;
+                                        }
+
+                                        if (profit_offset <= 20) {
+                                            profit_radar[2]=1;
+                                        }else if(profit_offset<=40){
+                                           profit_radar[2]=2;
+                                        }else if (profit_offset <= 60) {
+                                            profit_radar[2] = 3;
+                                        } else if (profit_offset <= 80) {
+                                            profit_radar[2] = 4;
+                                        } else if (profit_offset > 80) {
+                                            profit_radar[2] = 5;
+                                        }
+
+                                        if (equity_increase <= 2) {
+                                            profit_radar[3]=1;
+                                        }else if(equity_increase<=4){
+                                           profit_radar[3]=2;
+                                        }else if (equity_increase <= 6) {
+                                            profit_radar[3] = 3;
+                                        } else if (equity_increase <= 8) {
+                                            profit_radar[3] = 4;
+                                        } else if (equity_increase > 8) {
+                                            profit_radar[3] = 5;
+                                        }
+
+                                        if (trade_win <= 40) {
+                                            profit_radar[4]=1;
+                                        }else if(trade_win<=50){
+                                           profit_radar[4]=2;
+                                        }else if (trade_win <= 60) {
+                                            profit_radar[4] = 3;
+                                        } else if (trade_win <= 70) {
+                                            profit_radar[4] = 4;
+                                        } else if (trade_win > 70) {
+                                            profit_radar[4] = 5;
+                                        }
+
+                                        profit_radar_detail=[year_proft, profit_factor,profit_offset,equity_increase,trade_win];
+
+                                        n=-1;
+                                        var dom = document.getElementById("gain_chart");
+                                        var myChart = echarts.init(dom);
+                                        var option = {
+                                            radar: {
+                                                // shape: 'circle',
+                                                center: ['50%', '60%'],//位置
+                                                radius: '80%',//半径
+                                                name: {
+                                                    show: true,
+                                                    formatter: function (value, indicator) {
+                                                        n++;
+                                                        if (n == 1) {
+                                                            return value + "(" + profit_radar_detail[n] + ")";
+                                                        } else {
+                                                            return value + "(" + profit_radar_detail[n] + "%)";
+                                                        }
+                                                    },
+                                                    textStyle: {
+                                                        color: '#333333',
+                                                        fontSize: 14,
+                                                        backgroundColor: '#999',
+                                                        borderRadius: 3,
+                                                        padding: [3, 5]
+                                                    }
+                                                },
+                                                indicator: [
+                                                    { name: '年度预测', min: 0, max: 5 },
+                                                    { name: '利润因子', min: 0, max: 5 },
+                                                    { name: '盈利偏移占比', min: 0, max: 5 },
+                                                    { name: '最大净值涨幅', min: 0, max: 5 },
+                                                    { name: '交易胜率', min: 0, max: 5 }
+                                                ],
+                                                axisLine: {
+                                                    lineStyle: {
+                                                        color: '#fff',
+                                                        width: 1,
+                                                        type: 'solid'
+                                                    },
+                                                },
+                                                splitLine: {
+                                                    lineStyle: {
+                                                        color: ['#fff', '#fff', '#fff', '#fff'],
+                                                        width: 1
+                                                    }
+                                                },
+                                                splitArea: {
+                                                    areaStyle: {
+                                                        color: ['#ccf5ff', '#a3edff', '#72e3ff', '#39d7ff', '#00c6ff']
+                                                    }
+                                                }
+                                            },
+                                            series: [{
+                                                type: 'radar',
+                                                itemStyle: {
+                                                    normal: {
+                                                        color: '#5035f9',
+                                                        borderColor: '#5035f9',
+                                                        borderWidth: 1
+                                                    },
+                                                    emphasis: {
+                                                        lineStyle: {
+                                                            width: 6
+                                                        }
+                                                    }
+                                                },
+                                                areaStyle: {
+                                                    normal: {
+                                                        opacity: 0
+                                                    }
+                                                },
+                                                lineStyle: {
+                                                    normal: {
+                                                        color: '#5035f9',
+                                                        borderColor: '#5035f9',
+                                                        width: 2
+                                                    },
+                                                    emphasis: {
+                                                        width: 2.8
+                                                    }
+                                                },
+                                                data: [
+                                                    {
+                                                        value: profit_radar,
+                                                        name: ''
+                                                    }
+                                                ]
+                                            }]
+                                        };
+                                        if (option && typeof option === "object") {
+                                            myChart.setOption(option, true);
+                                        }
+
+                                        if (profit_score < 25) {
+                                            $(".modulusConTips li").eq(0).css("color", "#00a8ff");
+                                        }else if(profit_score < 50){
+                                            $(".modulusConTips li").eq(0).css("color", "#00a8ff");
+                                            $(".modulusConTips li").eq(1).css("color", "#00a8ff");
+                                        } else if (profit_score < 75) {
+                                            $(".modulusConTips li").eq(0).css("color", "#00a8ff");
+                                            $(".modulusConTips li").eq(1).css("color", "#00a8ff");
+                                            $(".modulusConTips li").eq(2).css("color", "#00a8ff");
+                                        } else if (profit_score < 100) {
+                                            $(".modulusConTips li").eq(0).css("color", "#00a8ff");
+                                            $(".modulusConTips li").eq(1).css("color", "#00a8ff");
+                                            $(".modulusConTips li").eq(2).css("color", "#00a8ff");
+                                            $(".modulusConTips li").eq(3).css("color", "#00a8ff");
+                                        } else if (profit_score < 125) {
+                                            $(".modulusConTips li").eq(0).css("color", "#00a8ff");
+                                            $(".modulusConTips li").eq(1).css("color", "#00a8ff");
+                                            $(".modulusConTips li").eq(2).css("color", "#00a8ff");
+                                            $(".modulusConTips li").eq(3).css("color", "#00a8ff");
+                                            $(".modulusConTips li").eq(4).css("color", "#00a8ff");
+                                        }else if(profit_score==125){
+                                            $(".modulusConTips li").eq(0).css("color", "#00a8ff");
+                                            $(".modulusConTips li").eq(1).css("color", "#00a8ff");
+                                            $(".modulusConTips li").eq(2).css("color", "#00a8ff");
+                                            $(".modulusConTips li").eq(3).css("color", "#00a8ff");
+                                            $(".modulusConTips li").eq(4).css("color", "#00a8ff");
+                                            $(".modulusConTips li").eq(5).css("color", "#00a8ff");
+                                        }
+                                        if(profit_score<41){
+                                            $(".yl_result").html("低");
+                                        }else if(profit_score<83){
+                                            $(".yl_result").html("中");
+                                        }else{
+                                            $(".yl_result").html("高");
+                                        }
+                                        var ss= (profit_score/125*100)+'%';
+                                        $(".moduluscontain").animate({"width": ss},600);
+                                        var left= (profit_score/125)*700-20;
+                                        $(".moduluscontainBox").animate({ "left": left }, 600);
+                                        $('#target').animateNumber(
+                                                {
+                                                number: profit_score
+                                                },
+                                                600
+                                        );
+                                    }
+                                }
+                            });
+                        }
+                };
+                var radar2 = {
+                    getdata:function(){
+                        $.ajax({
+                                url: '__API__v1.web/account_score?account='+account,
+                                type: 'get',
+                                dataType: 'jsonp',
+                                jsonp: 'callback',
+                                success: function (body) {
+                                    if(body.code==200){
+                                        var data=body.data;
+                                        loss_score=parseFloat(data.loss_score);
+                                        var reg = new RegExp(",","g");
+
+                                        var balance_drawdown= (data.balance_drawdown.toString()).replace(reg,"");//结余跌幅
+                                        var loss_day_max= (data.loss_day_max.toString()).replace(reg,"");//日亏损
+                                        var loss_max= (data.loss_max.toString()).replace(reg,"");//亏损偏移
+                                        var max_money= (data.max_money.toString()).replace(reg,"");//最大入金
+                                        var equity_drawdown= (data.equity_drawdown.toString()).replace(reg,"");//净值跌幅
+
+                                        balance_drawdown= parseFloat(balance_drawdown).toFixed(2);//结余跌幅
+                                        loss_day_max= parseFloat(loss_day_max).toFixed(2);//日亏损
+                                        loss_max= parseFloat(loss_max).toFixed(2);//亏损偏移
+                                        max_money= parseFloat(max_money).toFixed(2);//最大入金
+                                        equity_drawdown= parseFloat(equity_drawdown).toFixed(2);//净值跌幅
+
+
+                                        if (balance_drawdown <= 10) {
+                                            profit_radar2[0]=1;
+                                        }else if(balance_drawdown<=20){
+                                           profit_radar2[0]=2;
+                                        }else if (balance_drawdown <= 30) {
+                                            profit_radar2[0] = 3;
+                                        } else if (balance_drawdown <= 40) {
+                                            profit_radar2[0] = 4;
+                                        } else if (balance_drawdown > 40) {
+                                            profit_radar2[0] = 5;
+                                        }
+
+                                        if (loss_day_max <= 5) {
+                                            profit_radar2[1]=1;
+                                        }else if(loss_day_max<=8){
+                                           profit_radar2[1]=2;
+                                        }else if (loss_day_max <= 12) {
+                                            profit_radar2[1] = 3;
+                                        } else if (loss_day_max <= 15) {
+                                            profit_radar2[1] = 4;
+                                        } else if (loss_day_max > 15) {
+                                            profit_radar2[1] = 5;
+                                        }
+
+                                        if (loss_max <= 20) {
+                                            profit_radar2[2]=1;
+                                        }else if(loss_max<=40){
+                                           profit_radar2[2]=2;
+                                        }else if (loss_max <= 60) {
+                                            profit_radar2[2] = 3;
+                                        } else if (loss_max <= 80) {
+                                            profit_radar2[2] = 4;
+                                        } else if (loss_max > 80) {
+                                            profit_radar2[2] = 5;
+                                        }
+
+                                         if (max_money <= 8) {
+                                            profit_radar2[3]=1;
+                                        }else if(max_money<=12){
+                                           profit_radar2[3]=2;
+                                        }else if (max_money <= 16) {
+                                            profit_radar2[3] = 3;
+                                        } else if (max_money <= 20) {
+                                            profit_radar2[3] = 4;
+                                        } else if (max_money > 20) {
+                                            profit_radar2[3] = 5;
+                                        }
+
+                                        if (equity_drawdown <= 10) {
+                                            profit_radar2[4]=1;
+                                        }else if(equity_drawdown<=15){
+                                           profit_radar2[4]=2;
+                                        }else if (equity_drawdown <= 20) {
+                                            profit_radar2[4] = 3;
+                                        } else if (equity_drawdown <= 25) {
+                                            profit_radar2[4] = 4;
+                                        } else if (equity_drawdown > 25) {
+                                            profit_radar2[4] = 5;
+                                        }
+                                        profit_radar2_detail=[balance_drawdown,loss_day_max,loss_max,max_money,equity_drawdown];
+                                        nn=-1;
+                                        var dom = document.getElementById("gain_chart2");
+                                         var myChart = echarts.init(dom);
+                                         var option = {
+                                             radar: {
+                                                 // shape: 'circle',
+                                                 center: ['50%', '60%'],//位置
+                                                 radius: '80%',//半径
+                                                 name: {
+                                                     show: true,
+                                                     formatter: function (value, indicator) {
+                                                         nn++;
+                                                         return value + "(" + profit_radar2_detail[nn] + "%)";
+
+                                                     },
+                                                     textStyle: {
+                                                         color: '#333333',
+                                                         fontSize: 14,
+                                                         backgroundColor: '#999',
+                                                         borderRadius: 3,
+                                                         padding: [3, 5]
+                                                     }
+                                                 },
+                                                 indicator: [
+                                                     { name: '最大结余回撤', min: 0, max: 5 },
+                                                     { name: '最大单日亏损', min: 0, max: 5 },
+                                                     { name: '亏损偏移占比', min: 0, max: 5 },
+                                                     { name: '最大仓位占用', min: 0, max: 5 },
+                                                     { name: '最大净值回撤', min: 0, max: 5 }
+                                                 ],
+                                                 axisLine: {
+                                                     lineStyle: {
+                                                         color: '#fff',
+                                                         width: 1,
+                                                         type: 'solid'
+                                                     },
+                                                 },
+                                                 splitLine: {
+                                                     lineStyle: {
+                                                         color: ['#fff', '#fff', '#fff', '#fff'],
+                                                         width: 1
+                                                     }
+                                                 },
+                                                 splitArea: {
+                                                     areaStyle: {
+                                                         color: ['#ffe8cc', '#ffd5a3', '#ffbe72', '#ffa439', '#ff8b00']
+                                                     }
+                                                 }
+                                             },
+                                             series: [{
+                                                 type: 'radar',
+                                                 itemStyle: {
+                                                     normal: {
+                                                         color: '#e84e0e',
+                                                         borderColor: '#e84e0e',
+                                                         width: 1
+                                                     },
+                                                     emphasis: {
+                                                         lineStyle: {
+                                                             width: 6
+                                                         }
+                                                     }
+                                                 },
+                                                 areaStyle: {
+                                                     normal: {
+                                                         opacity: 0
+                                                     }
+                                                 },
+                                                 lineStyle: {
+                                                     normal: {
+                                                         color: '#e84e0e',
+                                                         borderColor: '#e84e0e',
+                                                         width: 2
+                                                     },
+                                                     emphasis: {
+                                                         width: 2.8
+                                                     }
+                                                 },
+                                                 data: [
+                                                     {
+                                                         value: profit_radar2,
+                                                         name: ''
+                                                     }
+                                                 ]
+                                             }]
+                                         };
+                                         if (option && typeof option === "object") {
+                                             myChart.setOption(option, true);
+                                        }
+                                        
+                                        if (loss_score < 5) {
+                                            $(".modulusConTips2 li").eq(0).css("color", "#611987");
+                                        } else if (loss_score < 10) {
+                                            $(".modulusConTips2 li").eq(0).css("color", "#611987");
+                                            $(".modulusConTips2 li").eq(1).css("color", "#611987");
+                                        } else if (loss_score < 15) {
+                                            $(".modulusConTips2 li").eq(0).css("color", "#611987");
+                                            $(".modulusConTips2 li").eq(1).css("color", "#611987");
+                                            $(".modulusConTips2 li").eq(2).css("color", "#611987");
+                                        } else if (loss_score < 20) {
+                                            $(".modulusConTips2 li").eq(0).css("color", "#611987");
+                                            $(".modulusConTips2 li").eq(1).css("color", "#611987");
+                                            $(".modulusConTips2 li").eq(2).css("color", "#611987");
+                                            $(".modulusConTips2 li").eq(3).css("color", "#611987");
+                                        } else if (loss_score < 25) {
+                                            $(".modulusConTips2 li").eq(0).css("color", "#611987");
+                                            $(".modulusConTips2 li").eq(1).css("color", "#611987");
+                                            $(".modulusConTips2 li").eq(2).css("color", "#611987");
+                                            $(".modulusConTips2 li").eq(3).css("color", "#611987");
+                                            $(".modulusConTips2 li").eq(4).css("color", "#611987");
+                                        } else if (loss_score == 25) {
+                                            $(".modulusConTips2 li").eq(0).css("color", "#611987");
+                                            $(".modulusConTips2 li").eq(1).css("color", "#611987");
+                                            $(".modulusConTips2 li").eq(2).css("color", "#611987");
+                                            $(".modulusConTips2 li").eq(3).css("color", "#611987");
+                                            $(".modulusConTips2 li").eq(4).css("color", "#611987");
+                                            $(".modulusConTips2 li").eq(5).css("color", "#611987");
+                                        }
+                                        if(loss_score<8){
+                                            $(".fx_result").html("低");
+                                        }else if(loss_score<16){
+                                            $(".fx_result").html("中");
+                                        }else{
+                                            $(".fx_result").html("高");
+                                        }
+                                        var ss = (loss_score / 25 * 100) + '%';
+                                        $(".moduluscontain2").animate({ "width": ss }, 600);
+                                        var left = (loss_score/25)*700 - 20;
+                                        $(".moduluscontainBox2").animate({ "left": left }, 600);
+                                        $('#target2').animateNumber(
+                                            {
+                                                number: loss_score
+                                            },
+                                            600
+                                        );
+                                    }
+                                }
+                        });
+                    }
+                };
+            </script>
+        </div>
+        <!-- 图表 -->
+        <div class="or_body allchart">
+            <div class="allchartBox">
+                <p class="allchartTitle">利  润</p>
+                <div class="chartload">
+                        <img src="__STATIC__image/chartloading.gif" class="chartloading">
+                </div>
+                <div class="or_chart" id="allchart1"></div>
+            </div>
+            <div class="allchartBox">
+                <p class="allchartTitle">业  绩</p>
+                <div class="achievement_radio">
+                    <label>
+                        <input name="time" type="radio" value="month">月
+                    </label>
+                    <label>
+                        <input name="time" type="radio" value="week">周
+                    </label>
+                    <label>
+                        <input name="time" type="radio" value="day" checked="checked">日
+                    </label>
+                </div>
+                <div class="chartload">
+                        <img src="__STATIC__image/chartloading.gif" class="chartloading">
+                </div>
+                <div class="or_chart" id="allchart2"></div>
+            </div>
+            <div class="allchartBox">
+                <p class="allchartTitle">手  数</p>
+                <div class="achievement_radio2">
+                    <label>
+                        <input name="time2" type="radio" value="month2">月
+                    </label>
+                    <label>
+                        <input name="time2" type="radio" value="week2">周
+                    </label>
+                    <label>
+                        <input name="time2" type="radio" value="day2" checked="checked">日
+                    </label>
+                </div>
+                <div class="chartload">
+                        <img src="__STATIC__image/chartloading.gif" class="chartloading">
+                </div>
+                <div class="or_chart" id="allchart22"></div>
+            </div>
+            <div class="allchartBox">
+                <p class="allchartTitle">净  值</p>
+                <div class="chartload">
+                    <img src="__STATIC__image/chartloading.gif" class="chartloading">
+                </div>
+                <div class="or_chart" id="allchart3"></div>
+                <div class="charts_tips">
+                    <p class="charts_tips1">结余，{$moneysymbol}</p>
+                    <p class="charts_tips2">净值</p>
+                </div>
+            </div>
+            <div class="allchartBox">
+                <p class="allchartTitle">浮盈/浮亏</p>
+                <div class="chartload">
+                    <img src="__STATIC__image/chartloading.gif" class="chartloading">
+                </div>
+                <div class="or_chart" id="allchart4"></div>
+                <div class="charts_tips" style="top:55px;">
+                    <p class="charts_tips3">浮盈/<span style="color:#f25137;">浮亏</span>，%</p>
+                </div>
+            </div>
+            <div class="allchartBox">
+                <p class="allchartTitle">仓 位</p>
+                <div class="chartload">
+                    <img src="__STATIC__image/chartloading.gif" class="chartloading">
+                </div>
+                <div class="or_chart" id="allchart5"></div>
+            </div>
+            <div class="allchartBox">
+                <p class="allchartTitle">品 种</p>
+                <div class="chartload">
+                    <img src="__STATIC__image/chartloading.gif" class="chartloading">
+                </div>
+                <div class="or_chart" id="allchart6"></div>
+                <div class="charts_tips" style="top:55px;right:36px;">
+                    <p style="float:right;color:#0098f0;line-height:10px;margin-left:6px;">Buy</p>
+                    <div style="width:10px;height:10px;background:#0098f0;border-radius:4px;float:right;margin-left:10px;"></div>
+                    <p style="float:right;color:#f25137;line-height:10px;margin-left:6px;">Sell</p>
+                    <div style="width:10px;height:10px;background:#f25137;border-radius:4px;float:right;margin-left:10px;"></div>
+                </div>
+            </div>
+        </div>
+        <!-- 历史-->
+        <div class="or_body historycontent">
+            <iframe name="mainframe" name="right" id="mainframe" src="{:url('master/iorders', array('account' => $account, 'tab' => 'history'))}" frameborder="false" scrolling="no" style="border:none" width="100%" height="100%" allowtransparency="true"></iframe>
+        </div>
+        <!-- 持仓-->
+        <div class="or_body positionContent">
+            <iframe name="mainframe" name="right" id="mainframe" class="iframe_cc" src="{:url('master/iorders', array('account' => $account, 'tab' => 'holding'))}" frameborder="false" scrolling="no" style="border:none" width="100%" height="100%" allowtransparency="true"></iframe>
+        </div>
+        <!-- 评论-->
+        <div class="or_body comment">
+            <img src="__STATIC__image/pinglun_icon.jpg" class="pinglun_icon">
+            <p class="commit_t">评论</p>
+            <div class="commitContent" style="height:600px;">
+                    <iframe name="mainframe" name="right" id="mainframe" src="{:url('master/icomment',['mt4id' => $account])}" frameborder="false" scrolling="no" style="border:none" width="100%" height="100%" allowtransparency="true"></iframe>
+            </div>
+            <input type="hidden" name="mt4id" value="{$account}">
+            <div class="commitsubmit">
+                <textarea placeholder="请输入评论" class="commit_textarea"></textarea>
+                {if isset($uid) && !empty($uid)}
+                <button class="commitsubmitbtn do_comment" onfocus="if(this.value=='发布评论'){this.value=''}">发布评论</button>
+                {else/}
+                <button class="commitsubmitbtn vip_login_btn" >登录</button>
+                {/if}
+            </div>
+            
+        </div>
+        <!-- 跟随者 -->
+        <div class="or_body follower">
+        <iframe name="mainframe" name="right" id="mainframe" class="iframefollow" src="{:url('master/follow',['account' => $account])}" frameborder="false" scrolling="no" style="border:none" width="100%" height="100%" allowtransparency="true"></iframe>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('.do_comment').click(function () {
+        var mt4id = $("input[name=mt4id]").val();
+        var comment = $('.commit_textarea').val();
+        var mobile = '{$info.login}';
+        if (comment == '') {
+            win.alert('', '评论不能为空');
+        }else{
+            var uid = '{$uid}';
+            var data = {
+                'uid' : uid,
+                'mt4id' : mt4id,
+                'comment' : comment,
+                'mobile' : mobile
+            };
+            $.ajax({
+                type : 'post',
+                dateType : 'json',
+                url : "{:url('master/comment')}",
+                data : data,
+                success : function (data) {
+                    var json = JSON.parse(data);
+                    win.alert('', json.msg);
+                    $(".commit_textarea").val('');
+                }
+            });
+        }
+    })
+    
+    $(".iframefollow").load(function(){
+        var les=0;
+        if($(this).contents().find(".balance")){
+            var balance = $(this).contents().find(".balance");
+            for(var i=0;i< balance.length;i++){
+                if($(balance[i]).val()!=''){
+                    les += parseFloat($(balance[i]).val());
+                }
+            }
+        }else{
+            les=0;
+        }
+        $(this).contents().find("#follow_mon").html('$'+parseFloat(les).toFixed(2));
+        $(".follow_mon").find(".or_per_r").html(parseFloat(les).toFixed(2)+' {$moneysymbol}');
+    });
+
+    $(".iframe_cc").load(function(){
+        var h=$(this).contents().find("body").height();
+        if(h>941){
+            $(this).height(h);
+            $(".positionContent").css('overflow-y','scroll');
+        }
+    });
+    $("#cc").click(function(){
+        setTimeout(function(){
+            var h=$(".iframe_cc").contents().find("body").height();
+            if(h>941){
+                $(".iframe_cc").height(h);
+                $(".positionContent").css('overflow-y','scroll');
+            }
+        },1000);
+    });
+</script>
+{/block}

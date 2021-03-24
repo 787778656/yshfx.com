@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MT4用户跟单系统</title>
+    <link rel="shortcut icon" href="__STATIC__image/favicon.ico" />
+    <link href="__STATIC__css/order.css" rel="stylesheet">
+    <link href="__STATIC__css/page.css" rel="stylesheet">
+    <script src="__STATIC__js/jquery-2.2.0.min.js" type="text/javascript"></script>
+    <style type="text/css">
+        #whiteDiv{display:none;}
+        /*body{background: #f3f3f3;}*/
+            .o_main{margin: 48px auto 0 auto;}
+        /*滚动条垂直方向的宽度*/
+        ::-webkit-scrollbar
+        {
+            width: 10px;
+            background-color: #eee;
+            border-radius: 4px;
+        }
+        /* 垂直滚动条的滑动块 */
+        ::-webkit-scrollbar-thumb:vertical {
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,.5);
+            background-color:rgba(129,129,129,0.1);
+        }
+        .commitContent{}
+        .commitBox{border-bottom: 1px dashed #ccc;}
+        .commit_per_name{font-size:16px;}
+        .commit_per_detail{    font-size: 14px;}
+        .commit_date{font-size: 14px;}
+    </style>
+</head>
+<body>
+<div style="height:524px;overflow-y: scroll;border: 1px solid #cccccc;">
+    <div class="commitContent">
+        <?php if(!empty($comment_arr)) {?>
+        {volist name='comment_arr' id='val'}
+        <div class="commitBox">
+            {if strstr($val['u_img'], 'http')}
+            <img src="{$val['u_img']}" class="commit_head" style="border-radius: 50%;width: 40px;height: 40px;">
+            {elseif empty($val['u_img'])}
+            <img src="__STATIC__image/commit_head.jpg" class="commit_head" style="border-radius: 50%;width: 40px;height: 40px;">
+            {else/}
+            <img src="__STATIC__upload/image/{$val['u_img']}" class="commit_head" style="border-radius: 50%;width: 40px;height: 40px;">
+            {/if}
+            <?php $time = strtotime(date('Y-m-d',$val['modify_time']).'00:00:00') == strtotime(date('Y-m-d').'00:00:00') ? date('H:i', $val['modify_time']) : date('Y-m-d', $val['modify_time']) ?>
+            <p class="commit_date">{$time}</p>
+            <?php $login=substr_replace($val['login'], '***', 4, 3); $username = is_numeric($val['username']) ? substr_replace($val['username'], '***', 4, 3) : $val['username'];?>
+            <p class="commit_per_name"><?php echo empty($username) ? $login : $username?></p>
+            <p class="commit_per_detail">{$val.comment|default=''}</p>
+        </div>
+        {/volist}
+        <?php } else {?>
+        <div style='text-align:left;color:#666;'>暂无数据</div>
+        <?php }?>
+    </div>
+</div>
+<?php if(!empty($comment)) {?>
+<div class="pagingBox">
+    {$comment->render()}
+</div>
+<?php }?>
+</body>
+</html>

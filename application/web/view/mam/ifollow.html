@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MT4用户跟单系统</title>
+    <link href="__STATIC__css/page.css" rel="stylesheet">
+    <style type="text/css">
+        *{font-family: 'Microsoft YaHei';}
+        li{list-style: none;}
+        #whiteDiv{display:none;}
+        .main_b_content2 .main_b_content2_title{width: 100%;height: 40px;padding-left:0;}
+        .main_b_content2 .main_b_content2_title li{width: 33%;float: left;font-size: 14px;line-height: 40px;color: #666666;}
+        .main_b_content2 .main_b_content2_title li:nth-child(2){text-align: center;}
+        .main_b_content2 .main_b_content2_title li:nth-child(3){text-align: right;float:right;}
+        .main_b_content2 .main_b_content2_title li span{color: #611987;}
+        .main_b_content2 .main_b_content2_title li:nth-child(3) span{border-bottom: 1px solid #611987;}
+        .main_b_content2_ul{width: 100%;border: 1px solid #dbdbdb;padding:0;}
+        .main_b_content2_ul li{height: 52px;line-height: 52px;}
+        .main_b_content2_ul li:nth-child(2n){background: #f7f9fb;}
+        .main_b_content2_ul li span{font-size:14px;display: block;float: left;width: 10%;height: 100%;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;padding-right:2%;position: relative;text-align: center;}
+        .main_b_content2_ul li span:nth-child(5){color: #21a921;}
+        .main_b_content2_ul li span:nth-child(1) img{display: block;width: 36px;height: 36px;border-radius: 50%;margin:8px 10px 8px 24px;}
+        .main_b_content2_ul li span:nth-child(1){width:7%;padding-right:0;}
+        .main_b_content2_ul li span:nth-child(3){width:13%;padding-right:3%;text-align: left;}
+        .main_b_content2_ul li span:nth-child(2){width:9%;padding-right: 2%;text-align: left;}
+        .main_b_content2_ul li span:nth-child(4){width: 10%;}
+        .main_b_content2_ul li span:nth-child(6),.main_b_content2_ul li span:nth-child(7),.main_b_content2_ul li span:nth-child(8){width:12%;}
+        .main_b_content2_ul .main_b_content2_ul_title{height: 40px;line-height: 40px;}
+        .main_b_content2_ul .main_b_content2_ul_title span{color: #333333!important;}
+        .goinnormal{background:none;border:none;border-bottom:1px solid #611987;color:#611987;font-size:14px;cursor:pointer;outline:none;}
+        .mam_followi_ison{width:14px;height: 14px;position: absolute;right: 16px;top: 18px;}
+        .p_or_s{width:193px;position: absolute;top:50%;left:50%;margin-top:-55px;margin-left:-97px;}
+    </style>
+</head>
+<body style="position:relative;">
+    <div class="main_b_content2">
+        <ul class="main_b_content2_title">
+            <li>当前 MAM 账户参与人数：<span>{$arrMam.follow}</span> 人</li>
+            {if $arrMam.begin_money=='0.00'}
+            <li>MAM 交易资金：<span>{$arrMam.now_money|number_format=###,2}</span>/∞</li>
+            {else/}
+            <li>MAM 交易资金：<span>{$arrMam.now_money|number_format=###,2}</span>/{$arrMam.begin_money|number_format=###,2}</li>
+            {/if}
+            {if $arrMam.begin_money=='0.00' || $arrMam.now_money<$arrMam.begin_money}
+            <li>还有额度 <button class="goinnormal goin">立即加入</button> 吧</li>
+            {/if}
+        </ul>
+        <ul class="main_b_content2_ul">        
+            <li class="main_b_content2_ul_title">
+                <span style="text-indent:10px;"></span>
+                <span>投资者</span>
+                <span>经济商</span>
+                <span>初始资金</span>
+                <span>当前净值</span>
+                <span>持仓获利(收益率)</span>
+                <span>历史收益(收益率)</span>
+                <span>总收益(收益率)</span>
+            </li>
+        <?php
+            $sFreeMargin = 0;
+            $sEquity = 0;
+            $sProfit = 0;
+            $sHProfit = 0;
+            $sTProfit = 0;
+            // 默认为10%
+            if(empty($arrMam['stoploss'])) $arrMam['stoploss'] = 0.1;
+        ?>
+        {volist name="follows" id="row"}
+            <li title="{$row['slave_mt4id']}">
+                <span>
+                {if (!empty($row['u_img']))}
+                {if strstr($row['u_img'], 'http')}
+                <img src="{$row['u_img']}">
+                {else/}
+                <img src="__STATIC__upload/image/{$row['u_img']}">
+                {/if}
+                {else/}
+                <img src="__STATIC__image/combinationHead4.png">
+                {/if}
+                </span>
+                <span>
+                    <?php echo empty($row['nickname']) ? substr_replace($row['login'], '***', 4, 3):$row['nickname'];?>
+                </span>
+                <span>
+                <?php
+                $slave_server='--';
+                if(!empty($row['slave_server'])){
+                    $slave_server = str_ireplace("Demo", "Live", $row['slave_server']);
+                }
+                echo $slave_server;
+                ?>
+                    <!-- 跟单状态 -->
+                    <img src="__STATIC__image/{$row['status']==1?'mam_followi_ing.png':'mam_followi_stop.png'}" class="mam_followi_ison">
+                </span>
+                <span>{$row['free_margin']|number_format=###,2}</span>
+                <?php
+                $key = sprintf('%s-%s-%s', 'zhtEA', 'mt4_account_detail', $row['slave_mt4id']);
+                $html = '<span>--</span><span>--</span><span>--</span>';
+                if ($redis->has($key)){
+                    $account = unserialize($redis->get($key));
+                    $account['profit'] = isset($tHold[$row['slave_mt4id']])?$tHold[$row['slave_mt4id']]['profit']:$account['profit'];
+                    if ($arrMam['status'] != 1) $account['profit'] = 0;
+                    
+                    $historyProfit = $tHistory[$row['slave_mt4id']]['profit'];
+                    $tProfit = $account['profit'] + $historyProfit;
+
+                    $pProfit = '0';$pHProfit = '0';$pTProfit = '0';
+                    if ($row['free_margin'] != 0){
+                        $pProfit = number_format(100*$account['profit']/$row['free_margin'], 2);
+                        $pHProfit = number_format(100*$historyProfit/$row['free_margin'],2);
+                        $pTProfit = number_format(100*$tProfit/$row['free_margin'],2);
+                    }
+                    $pProfit .= '%';
+                    $pHProfit .= '%';
+                    $pTProfit .= '%';
+
+                    $html = sprintf('<span>%s</span><span>%s(%s)</span><span>%s(%s)</span><span>%s(%s)</span>', number_format($account['equity'],2), number_format($account['profit'],2), $pProfit, number_format($historyProfit,2), $pHProfit, number_format($tProfit,2), $pTProfit);
+
+                    $sFreeMargin += $row['free_margin'];
+                    $sEquity += $account['equity'];
+                    $sProfit += $account['profit'];
+                    $sHProfit += $tHistory[$row['slave_mt4id']]['profit'];
+                    $sTProfit = $sTProfit + $tHistory[$row['slave_mt4id']]['profit'] + $account['profit'];
+                }
+                echo $html;
+                ?>               
+            </li>
+        {/volist}
+        <?php
+            $spProfit = 0; $spHProfit = 0; $spTProfit = 0;
+            if ($sFreeMargin != 0){
+                $spProfit = number_format(100*$sProfit/$sFreeMargin, 2);
+                $spHProfit = number_format(100*$sHProfit/$sFreeMargin,2);
+                $spTProfit = number_format(100*$sTProfit/$sFreeMargin,2);
+
+                // 保存总收益率
+                $key = sprintf('%s-%s-%s', 'zhtWeb', 'mam_follow_profit', $arrMam['id']);
+                if (abs($spTProfit - $arrMam['profit']) > 1){ // 有变化时更新
+                    $dbMamList->where('id', $arrMam['id'])->setField('profit', $spTProfit);
+                }
+                // 更新redis
+                $redis->set($key, $spTProfit);
+            }
+        ?>
+            <li style="position:relative;background: #fff;border-top: 1px solid #eaeaea;font-weight:bold;">
+                <span style="width: 12%;text-indent: 20px;text-align: left;">当前总计：</span>
+                <span style="width: 4%;"></span>
+                <span></span>
+                <span>{$sFreeMargin|number_format=###,2}</span>
+                <span>{$sEquity|number_format=###,2}</span>
+                <span>{$sProfit|number_format=###,2}({$spProfit}%)</span>
+                <span>{$sHProfit|number_format=###,2}({$spHProfit}%)</span>
+                <span>{$sTProfit|number_format=###,2}({$spTProfit}%)</span>
+            </li>
+        {if $arrMam.gtype == 1}
+            <li style="background: #fff;font-weight:bold;">
+                <span style="width: 12%;text-indent: 20px;text-align: left;">清盘标准(赔付)：</span>
+                <span style="width: 4%;"></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <?php
+                $arrMam['now_money'] = $arrMam['now_money']==0?$arrMam['begin_money']:$arrMam['now_money'];
+                ?>
+                <span style="color:#611987;font-size:16px;width:24%;text-align: right;float:right" title="-{$arrMam['stoploss']*100}%*({$arrMam['begin_money']}/{$arrMam['now_money']})">-{$arrMam['begin_money']*$arrMam['stoploss']|number_format=###,2}(-{$arrMam['stoploss']*$arrMam['begin_money']/$arrMam['now_money']*100|number_format=###,2}%)</span>
+            </li>
+        {/if}
+        </ul>
+    </div>
+    <div class="pagingBox">
+        {$follows->render()}
+    </div>
+    {if $arrMam.status == 3}
+    <!-- 待结算 -->
+        <img src="__STATIC__image/mam_status1.png" class="p_or_s">
+    {elseif $arrMam.status == 2}
+        {if $sTProfit<0}
+        <img src="__STATIC__image/mam_status2.png" class="p_or_s">
+        {else/}
+        <!-- 已结算 -->
+        <img src="__STATIC__image/mam_status3.png" class="p_or_s">
+        {/if}
+    {/if}
+</body>
+</html>

@@ -1,0 +1,259 @@
+{extend name="web@base/studio"/}
+{block name="nav"}
+<ul class="nav">
+    <li class="active">
+        <a href="__HTTP__studio/{$arrStudio.uid}.html" class="nav_a"><span>首页</span></a>
+    </li>
+    <li class="active">
+        <a href="__HTTP__studio/signal/{$arrStudio.uid}.html" class="active nav_a"><span>跟单信号</span></a>
+    </li>
+    <!--<li class="active">-->
+        <!--<a href="#" class="nav_a"><span>MAM交易</span></a>-->
+    <!--</li>-->
+    <li class="active">
+        <a href="__HTTP__studio/trade/{$arrStudio.uid}.html" class="nav_a"><span>我的交易</span></a>
+    </li>
+    <li class="active">
+        <a href="__HTTP__studio/market/{$arrStudio['uid']}.html" class="nav_a" target="_blank"><span>行情</span></a>
+    </li>
+</ul>
+{/block}
+{block name="body"}
+<script src="__STATIC__js/echarts.min.js"></script>
+<style>
+    .mysignal_main{width:100%;background: #f3f3f3;margin-top:48px;}
+    .mysignal{width:1160px;margin:0 auto;background: #fff;padding:30px 20px;min-height:855px;}
+    .live_about_signal_head{padding:9px 0 0;color:#333333;font-size:14px;float:left;}
+    .mysignalall{width:100%;}
+    .mysignalall>li{width:341px;float:left;height:250px;border:1px solid #dadada;padding:0 15px;margin-left:15px;margin-top:10px;}
+    .mysignalall>li:nth-child(3n+1){margin-left:0;}
+    .live_about_signal_free{float:right;min-width:48px;padding:0 4px;height:24px;border:1px solid #611987;margin:5px 0;text-align: center;line-height: 24px;font-size:14px;color:#611987;border-radius: 10px 0 10px 0;}
+    .live_about_signal_pay{float:right;min-width:48px;padding:0 4px;height:24px;border:1px solid #008aff;margin:5px 0;text-align: center;line-height: 24px;font-size:14px;color:#008aff;border-radius: 10px 0 10px 0;}
+    .live_about_signal_free2{float:right;min-width:48px;padding:0 4px;height:24px;border:1px solid #da171a;margin:5px 0;text-align: center;line-height: 24px;font-size:14px;color:#da171a;border-radius: 10px 0 10px 0;}
+    .live_about_signal_free3{float:right;min-width:48px;padding:0 4px;height:24px;border:1px solid #16a21c;margin:5px 0;text-align: center;line-height: 24px;font-size:14px;color:#16a21c;border-radius: 10px 0 10px 0;}
+    .free_Brokers_icon{height:26px;float:right;margin:5px 0;border:1px solid #e1e1e1;border-radius:6px;margin-right:10px;}
+    .signal_open_link{float:right;float:right;margin:5px 0;height:26px;width:69px;border:1px solid #16a21c;border-radius:6px;margin-right:10px;color:#16a21c;font-size:14px;text-align: center;line-height: 26px;cursor :pointer;}
+    .live_signal_info>li{width:20%;float:left;font-size:14px;color:#777777;}
+    .live_signal_info>li>p{margin-top:4px;}
+    .live_about_chart_box{margin: 10px auto;clear:both;position: relative;width:100%!important;height:100px!important;cursor: pointer;border:1px solid #f2f3f7;}
+    .signal_share_icon{width:45px;position: absolute;top:0;left:0;z-index:99;}
+    .live_about_chart{width:100%!important;height:100px!important;}
+    .live_signal_info{border-bottom:1px solid #dadada;height:55px;}
+    .followorder{width:100px;height:30px;border-radius: 8px;float:right;background: #611987;font-size:16px;color:#fff;text-align: center;line-height: 30px;margin-top:8px;cursor: pointer;}
+    .followorder2{background: #cccccc;}
+</style>
+<div class="mysignal_main">
+    <div class="mysignal">
+        <p style="border-bottom:1px solid #ebebeb;font-size:24px;color:#333333;width:100%;padding-bottom:2px;margin-bottom:20px;"><span style="border-bottom:2px solid #611987;padding-bottom:2px;">跟单信号</span></p>
+        <ul class="mysignalall">
+                {volist name="arrStudioAccount" id="studioAccount"}
+                    <li>
+                        <p class="live_about_signal_head">信号：{$studioAccount.studio_account_name}</p>
+                        {switch name="studioAccount['type']"}                        
+                        {case value="1"}
+                        <!-- 免费 -->
+                        <div class="live_about_signal_free">免  费</div>
+                        {/case}
+                        {case value="2"}
+                        <!-- 付费 -->
+                        <div class="live_about_signal_pay">￥{$studioAccount.param}/月</div>
+                        {/case}
+                        {case value="3"}
+                        <!-- 指定经纪商 -->
+                        <div class="live_about_signal_free2">免  费</div>
+                        <?php $img = isset($mt4service[$studioAccount['mt4server']])?$mt4service[$studioAccount['mt4server']]:$mt4service['forex'];?>
+                        <!-- 利汇 -->
+                        <img src="__STATIC__image/broker/{$img}.png" class="free_Brokers_icon">
+                        {/case}
+                        {case value="4"}
+                        <!-- 指定开户链接 -->
+                        <div class="live_about_signal_free3">免  费</div>
+                        <a class="signal_open_link" href="{$studioAccount.param}" target="_blank">开户链接</a>
+                        {/case}
+                        {/switch}
+                        <div class="live_about_chart_box">
+                            {switch name="studioAccount['type']"}
+                            {case value="1"}
+                            <img src="__STATIC__image/signal_share.png" class="signal_share_icon">
+                            {/case}
+                            {/switch}
+                            <div class="live_about_chart" data-chart='{$studioAccount.rand_profit}'></div>
+                        </div>
+                        <ul class="live_signal_info">
+                            <li>
+                                <p>利润率</p>
+                                <p style="color:#611987">
+                            <?php
+                            echo $studioAccount['money']*$studioAccount['trade_profit']<=0 ? 0.00 : round($studioAccount['trade_profit']/$studioAccount['money']*100,2);
+                            ?>%</p>
+                            </li>
+                            <li>
+                                <p>交易胜率</p>
+                                <p>{$studioAccount.trade_win*100}%</p>
+                            </li>
+                            <li>
+                                <p>交易时长</p>
+                                <p>{$studioAccount.trade_week}周</p>
+                            </li>
+                            <li>
+                                <p>跟随人数</p>
+                                <p>{$studioAccount.follow}</p>
+                            </li>
+                            <li>
+                            <?php $drawdown = max($studioAccount['trade_drawdown'], $studioAccount['trade_minbalance'], $studioAccount['trade_minprofit']);?>
+                                <p>最大回撤</p>
+                                <p>{$drawdown*100}%</p>
+                            </li>
+                        </ul>
+                        {if (in_array($studioAccount['mt4id'], $arrFA))}
+                        <a class="followorder followorder2" href="__HTTP__studio/detail/{$arrStudio.id}/{$studioAccount['account']}.html" target="_blank">正在跟单</a>
+                        {elseif in_array($studioAccount['mt4id'], $arrFASH) }
+                        <a class="followorder followorder2" href="__HTTP__studio/detail/{$arrStudio.id}/{$studioAccount['account']}.html" target="_blank">正在审核</a>
+                        {else/}
+                        <a class="followorder" href="__HTTP__studio/detail/{$arrStudio.id}/{$studioAccount['account']}.html" target="_blank">复制跟单</a>
+                        {/if}                        
+                    </li>
+                {/volist}          
+        </ul>
+    </div>
+</div>
+<script>
+    $(function(){
+        setChart();
+        var num=$(".mysignalall>li").length;
+        var height=Math.ceil(num/3);
+        $(".mysignalall").height(height*260);
+    });
+    // 图表
+    function setChart(){
+        var chartbox=document.getElementsByClassName("live_about_chart");
+        for(var n=0;n<chartbox.length;n++){
+            if(chartbox[n].getAttribute("data-chart")) {
+                chart(chartbox[n].getAttribute("data-chart"), chartbox[n]);
+            }else{
+                chart('0,0', chartbox[n]);
+            }
+        }
+    }
+    function chart(chart,obj){
+        var d=chart.split(",");
+        var xy=[];
+        for(var i=0;i<d.length;i++){
+            xy[i]=[i,d[i]];
+        }
+        var dom = obj;
+        var myChart = echarts.init(dom);
+        var option = {
+            tooltip: {
+                trigger: 'axis',
+                triggerOn: 'mousemove',
+                formatter: function (params) {
+                },
+                axisPointer:{
+                    type:'line',
+                    lineStyle:{
+                        width:0
+                    }
+                },
+                backgroundColor: '#fff',
+                borderColor: '#611987',
+                borderWidth: '1',
+                textStyle: {
+                    fontSize: 12,
+                    color: '#000'
+                }
+            },
+            grid: {
+                show:false,
+                left:-8,
+                right:-12,
+                top:2,
+                bottom:2,
+                borderColor:'#f5f2f2'
+            },
+            xAxis: {
+                type: "category",
+                //show:false,
+                //scale: true,
+                axisLine: {
+                    show:false
+                },
+                axisTick:{
+                    show:false
+                },
+                data: xy.map(function (item) {
+                    return item[0]
+                }),
+                splitLine: {
+                    show: false,
+                    interval:1,
+                    lineStyle: {
+                        color: "#f5f2f2",
+                        type: "solid"
+                    }
+                }
+            },
+            yAxis: [
+                {
+                    type: 'value',
+                    //show:false,
+                    axisLabel: {
+                        formatter: '{value} '
+                    },
+                    axisLine: {
+                        show:false
+                    },
+                    splitLine: {
+                        show: false,
+                        interval:1,
+                        lineStyle: {
+                            color: "#f5f2f2",
+                            type: "solid"
+                        }
+                    }
+                }
+            ],
+            series: [
+                {
+                    animation: true,
+                    animationDuration: 300,
+                    name: '交易',
+                    type: 'line',
+                    smooth: true,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 2
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#611987'
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(255,144,0,0.3)'
+                            },
+                                {
+                                    offset: 1,
+                                    color: 'rgba(255, 255, 255,0.3)'
+                                }
+                            ])
+                        }
+                    },
+                    data: xy.map(function (item) {
+                        return item;
+                    })
+                }
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+
+        }
+    }
+</script>
+{/block}

@@ -1,0 +1,114 @@
+{extend name="web@base/main"/}
+{block name="body"}
+<style>
+    .inner{display:none;}
+    #inner1{display:block;}
+    #inner1 h1{line-height: 60px;}
+    #inner1 h2{line-height: 50px;}
+    #inner1 h3{line-height: 40px;}
+    #inner1 p{padding-left: 2em;}
+    #inner1 p .strong_2{color: #611987;}
+    #inner1 p img{vertical-align: middle;margin-right: 5px;}
+    #inner1 p span{vertical-align: middle;}
+    .protocol_vip_btn{display: block;text-align: center;width: 188px;height: 40px;line-height: 40px;font-weight: bold;background: #611987;outline: none;border: none;border-radius: 8px;
+        font-size: 18px;color: #ffffff;margin: 0 auto;}
+    .protocol_vip_btn:hover{color: #ffffff;}
+    .protocol_a1{color: #333333;border-bottom: 1px solid #333333;}
+    .protocol_a1:hover{color: #333333;}
+    .protocol_a2{color: #611987;border-bottom: 1px solid #611987;}
+    .protocol_a2:hover{color: #611987;}
+</style>
+<div class="inner" id="inner1" style="width: 1100px;line-height: 30px;padding: 0 50px 20px 50px;margin: 110px auto 0 auto;background-color: #ffffff;overflow: hidden;">
+    <h2 style="text-align: center; margin-top: 6%;margin-bottom: 2%;">永久VIP权限说明</h2>
+<!--
+    <p><strong>永久VIP1权限</strong>：凡是<strong class="strong_2">通过下面MYFX Markets开户链接</strong>开立MT4交易账户，入金达到10000usd以上（包含10000usd）的用户可以永久享受亿思汇平台智能跟单VIP1服务！详情参考VIP1服务项目；注：不足10000usd的用户依旧需要购买VIP服务；</p>
+    <br>
+    <p><strong>永久VIP2权限</strong>：凡是<strong class="strong_2">通过下面MYFX Markets开户链接</strong>开立MT4交易账户，入金达到20000usd以上（包含20000usd）的用户可以永久享受亿思汇平台智能跟单VIP2服务！详情参考VIP2服务项目；注：不足10000usd的用户依旧需要购买VIP服务；</p>
+    <br>
+    <p><strong>永久VIP3权限</strong>：凡是<strong class="strong_2">通过下面MYFX Markets开户链接</strong>开立MT4交易账户，入金达到50000usd以上（包含50000usd）的用户可以永久享受亿思汇平台智能跟单VIP3服务！详情参考VIP3服务项目；注：不足10000usd的用户依旧需要购买VIP服务；</p>
+-->
+    <p><strong>凡是通过社区里面合作机构平台开立的账户，入金达到5000美金即可获得VIP2永久权限免费享受亿思汇社区智能跟单服务（包含单一信号跟随，多信号组合跟随，反向跟随）</strong></p>
+    <br>
+    <p><strong>亿思汇免责声明</strong>：有关亿思汇社交平台永久VIP权限并非强制要求，纯为用户自由选择；亿思汇不接触客户资金，所有交易均通过购买VIP跟单服务和开户经纪商完成。亿思汇不保证用户盈利，且不承担任何责任。用户须知从事外汇和差价合约等金融产品的杠杆交易具有高风险，损失有可能超过本金，请量力而行，入市前需充分了解潜在的风险。交易杠杆化产品并不适合所有投资者，在交易前请考虑您的经验水平，经济能力和投资目标，如有必要请寻求独立财务建议。</p>
+    <br>
+    <p><img src="__STATIC__image/vip15.png"><span>我已阅读并同意以上免责声明条款</span></p>
+    <br>
+    <p>MYFX Markets平台官网：<a href="https://www.myfxmarkets.com/zh/" target="_blank" class="protocol_a1">https://www.myfxmarkets.com/zh/</a></p>
+
+    <!--<p>MYFX Markets平台介绍：<a href="https://pan.wps.cn/l/s6mhx39" target="_blank" class="protocol_a1">https://pan.wps.cn/l/s6mhx39</a></p>
+
+    <p>MYFX Markets产品介绍：<a href="https://pan.wps.cn/l/sx30bjf" target="_blank" class="protocol_a1">https://pan.wps.cn/l/sx30bjf</a></p>
+
+    <p>MYFX Markets开户流程：<a href="https://pan.wps.cn/l/szsa2dm" target="_blank" class="protocol_a1">https://pan.wps.cn/l/szsa2dm</a></p>
+
+    <p>MYFX Markets入金流程：<a href="https://pan.wps.cn/l/srmv0wq" target="_blank" class="protocol_a1">https://pan.wps.cn/l/srmv0wq</a></p>
+
+    <p>MYFX Markets出金流程：<a href="https://pan.wps.cn/l/solmqij" target="_blank" class="protocol_a1">https://pan.wps.cn/l/solmqij</a></p>-->
+    <p>MYFX Markets平台介绍：<a href="{:url('other/protocol06')}" target="_blank" class="protocol_a1">平台介绍</a></p>
+
+    <p>MYFX Markets产品介绍：<a href="{:url('other/protocol07')}" target="_blank" class="protocol_a1">产品介绍</a></p>
+
+    <p>MYFX Markets开户流程：<a href="{:url('other/protocol08')}" target="_blank" class="protocol_a1">开户流程</a></p>
+
+    <p>MYFX Markets入金流程：<a href="{:url('other/protocol09')}" target="_blank" class="protocol_a1">入金流程</a></p>
+
+    <p>MYFX Markets出金流程：<a href="{:url('other/protocol10')}" target="_blank" class="protocol_a1">出金流程</a></p>
+
+    <p>附出金全球银行SWIFT码查询：<a href="https://www.fx110.com/bank/swiftcode" target="_blank" class="protocol_a1">https://www.fx110.com/bank/swiftcode</a></p>
+    <br>
+    <p>MYFX Markets风险披露：<a href="{:url('other/protocol02')}" target="_blank" class="protocol_a2">风险披露</a></p>
+
+    <p>MYFX Markets免责声明：<a href="{:url('other/protocol03')}" target="_blank" class="protocol_a2">免责声明</a></p>
+
+    <p>MYFX Markets隐私条款：<a href="{:url('other/protocol04')}" target="_blank" class="protocol_a2">隐私条款</a></p>
+
+    <p>MYFX Markets反洗钱条例：<a href="{:url('other/protocol05')}" target="_blank" class="protocol_a2">反洗钱条例</a></p>
+
+    <!--<p>MYFX Markets商品属性：<a href="__STATIC__protocol/protocol_vip06.pdf" target="_blank" class="protocol_a2">商品属性</a></p>-->
+    <br>
+    <p><img src="__STATIC__image/vip15.png"><span>我已阅读并同意以上四条条款</span></p>
+    <br><br>
+    <a href="https://www.myfxmarkets.com/account.do?method=openAccount&language=zh&ibCode=880876" class="protocol_vip_btn" target="_blank">立即开通</a>
+    <br><br>
+
+
+
+    <!--<p>AUSFOREX平台官网：<a href="http://www.ausforex.com/zh-cn/" target="_blank" class="protocol_a1">http://www.ausforex.com/zh-cn/</a></p>
+
+    <p>AUSFOREX平台介绍：<a href="http://www.ausforex.com/zh-cn/aboutus/company-profile.shtml" target="_blank" class="protocol_a1">平台介绍</a></p>
+
+    <p>AUSFOREX交易软件下载地址：<a href="http://www.ausforex.com/zh-cn/trading/mt4-terminal.shtml" target="_blank" class="protocol_a1">软件下载</a></p>
+
+    <p>AUSFOREX全球新闻：<a href="http://www.ausforex.com/zh-cn/market-news/global-news.shtml#to" target="_blank" class="protocol_a1">全球新闻</a></p>
+
+    <p>AUSFOREX澳汇ECN点差表：<a href="{:url('other/protocol11')}" target="_blank" class="protocol_a1">点差表</a></p>
+
+    <p>AUSFOREX银联入金指南：<a href="{:url('other/protocol12')}" target="_blank" class="protocol_a1">银联入金指南</a></p>
+
+    <p>AUSFOREX澳汇虚拟币入金流程：<a href="{:url('other/protocol13')}" target="_blank" class="protocol_a1">虚拟币入金流程</a></p>
+
+    <p>AUSFOREX澳汇在线开户及出入金流程：<a href="{:url('other/protocol14')}" target="_blank" class="protocol_a1">在线开户及出入金流程</a></p>
+
+    <p>AUSFOREX澳汇监管信息：<br>
+        <span style="text-indent: 2em;display: block;">香港证监会3号牌照   监管号：BLU727</span>
+        <span style="text-indent: 2em;display: block;">香港证监会官网<a href="https://www.sfc.hk/web/EN/index.html" target="_blank" class="protocol_a1">www.sfc.hk</a></span>
+
+        <span style="text-indent: 2em;display: block;">FCA牌照 监管号：725682 （到期正在续）</span>
+        <span style="text-indent: 2em;display: block;">FCA官网<a href="https://www.fca.org.uk/" target="_blank" class="protocol_a1">https://www.fca.org.uk/</a></span>
+
+        <span style="text-indent: 2em;display: block;">塞浦路斯牌照  监管号：803268</span>
+        <span style="text-indent: 2em;display: block;">Cysec官网<a href="https://www.cysec.gov.cy/el-GR/home/" target="_blank" class="protocol_a1">http://www.cysec.gov.cy/</a></span>
+    </p>
+    <br>
+
+    <p>AUSFOREX反洗钱协议：<a href="{:url('other/protocol15')}" target="_blank" class="protocol_a2">反洗钱协议</a></p>
+
+    <p>AUSFOREX客户协议：<a href="{:url('other/protocol16')}" target="_blank" class="protocol_a2">客户协议</a></p>
+    <br>
+    <p><img src="__STATIC__image/vip15.png"><span>我已阅读并同意以上四条条款</span></p>
+    <br><br>
+    <a href="https://www.ausforex.com/zh-cn/account/registering-a-live-account-e30.shtml?key=7bYS%2fnKgaR0%3d" class="protocol_vip_btn" target="_blank">立即开通</a>
+    <br><br>-->
+
+</div>
+{/block}

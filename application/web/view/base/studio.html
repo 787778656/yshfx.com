@@ -1,0 +1,3706 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="http://res.v.yshfx.com/">
+    <meta charset="UTF-8">
+    {block name="tdk"}
+    <title>亿思汇|外汇跟单|跟随交易|复制跟单|外汇程序化交易</title>
+    <meta name="keywords" content="复制跟单,跟单系统,跟随交易,跨平台跟单,无延迟跟单交易"/>
+    <meta name="description" content="最具人气的智能交易共享社区，最稳定的跨平台跟单系统，最佳跟随交易平台，亿思汇交易者必备工具。"/>
+    {/block}
+    <link rel="shortcut icon" href="__STATIC__image/favicon.ico" />
+    <link href="__STATIC__css/base.css" rel="stylesheet">
+    <link href="__STATIC__css/order_vip.css" rel="stylesheet">
+    <link href="window/window.css" rel="stylesheet">
+    <script src="__STATIC__js/jquery-2.2.0.min.js" type="text/javascript"></script>
+    <!--上传头像-->
+    <script language="javascript" type="text/javascript" src="/kindeditor/kindeditor-min.js" charset="UTF-8"></script>
+    <script language="javascript" type="text/javascript" src="/kindeditor/lang/zh_CN.js" charset="UTF-8"></script>
+    <script language="javascript" type="text/javascript" src="/kindeditor/kconfig.js" charset="UTF-8"></script>
+    <!--生成二维码-->
+    <script language="javascript" type="text/javascript" src="__STATIC__js/jquery.qrcode.min.js"></script>
+    <!--复制-->
+    <script src="__STATIC__js/clipboard.min.js" type="text/javascript"></script>
+
+    <!--信泽汇通360分析代码-->
+    <script type="text/javascript" src="//s.union.360.cn/176780.js" async defer></script>
+
+    <!--[if lte IE 8]>
+        <script src="http://cdn.bootcss.com/jquery/1.9.0/jquery.min.js"></script>
+    <![endif]-->
+    <script src="window/window.js" type="text/javascript"></script>
+    <!--选择经济商服务器-->
+    <script src="__STATIC__js/binding.js" type="text/javascript"></script>
+    <meta property="wb:webmaster" content="b94d3f1941926445" />
+    <style>
+        .bomb_cannot_link{width:100%;height:100%;background: rgba(0,0,0,0.6);position: fixed;top:0;left:0;z-index:101;display: none}
+        .cannot_link_close{position: absolute;top: -10px;right: -10px;width: 30px;height: 30px;cursor: pointer;background: url(../image/buchang_close.png)no-repeat center;background-size: cover;z-index: 1;}
+        .cannot_link{width:240px;height:160px;padding:10px 30px;position: absolute;top:50%;left:50%;margin-left:-150px;margin-top:-90px;background: #fff;border-radius: 8px;}
+        .alert_tip_img{display: block;margin:0 auto;}
+    </style>
+</head>
+<body>
+<img src="__STATIC__image/zhq.png" alt="亿思汇|智能外汇交易社区|外汇跟单|复制跟单|亿思汇官网" style="display:none;">
+{if(@$pagefrom !='levelmax')}
+<div class="vip_head">
+    <div class="header_inner">
+        <div class="logo">
+            <img src="__STATIC__upload/image/{$arrStudio['pic']}?v={$arrStudio['modify_time']}" style="object-fit: cover;margin:0;height:32px;margin-top:7px;border-radius:4px;width:100px;">
+            <img src="__STATIC__image/logo_live.png" style="height:28px;margin:0;margin-top:11px;margin-left:15px;">
+        </div>
+        {block name="nav"}
+        <ul class="nav">
+            <li class="active">
+                <a href="__HTTP__studio/{$arrStudio['uid']}.html" class="nav_a"><span>首页</span></a>
+            </li>
+            <li class="active">
+                <a href="__HTTP__studio/signal/{$arrStudio['uid']}.html" class="nav_a"><span>跟单信号</span></a>
+            </li>
+            <!--<li class="active">-->
+                <!--<a href="{:url('user/trade')}" class="nav_a"><span>MAM交易</span></a>-->
+            <!--</li>-->
+            <li class="active">
+                <a href="__HTTP__studio/trade/{$arrStudio['uid']}.html" class="nav_a"><span>我的交易</span></a>
+            </li>
+            <li class="active">
+                <a href="__HTTP__studio/market/{$arrStudio['uid']}.html" class="nav_a" target="_blank"><span>行情</span></a>
+            </li>
+        </ul>
+        {/block}
+        {if empty($uid)}
+        <ul class="nav_2">
+            <li><a href="javascript:void(0)" class="vip_login_btn"><span style="display: inline-block;width: 60px;height: 28px;line-height: 26px;font-size: 14px;background: #611987;color: #fff;border: 1px solid #611987;border-radius: 15px;">登录</span></a></li>
+            <li><a href="javascript:void(0)" class="vip_register_btn"><span style="display: inline-block;width: 60px;height: 28px;line-height: 26px;font-size: 14px;background: #fff;color: #611987;border: 1px solid #611987;border-radius: 15px;">注册</span></a></li>
+        </ul>
+        {else/}
+        <div class="user_info">
+            <?php $NAME = empty($info['nickname']) ? $info['login']: $info['nickname']; ?>
+            {if strstr($info['u_img'], 'http')}
+                 <a href="javascript:void(0)" class="user_info_btn"><img src="<?php echo !empty($info['u_img']) ? $info['u_img'] : '__STATIC__image/vip_nav15.png'?>" style="display: inline-block;width: 30px;height: 30px;margin-right: 10px;vertical-align: middle;border-radius: 50%;">
+                 <span>{$NAME}</span><i class="i_2"></i></a>
+            {else/}
+                 <a href="javascript:void(0)" class="user_info_btn"><img src="<?php echo !empty($info['u_img']) ? '__STATIC__upload/image/'.$info['u_img'] : '__STATIC__image/vip_nav15.png'?>" style="display: inline-block;width: 30px;height: 30px;margin-right: 10px;vertical-align: middle;border-radius: 50%;">
+                 <span>{$NAME}</span><i class="i_2"></i></a>
+            {/if}
+            <ul class="user_info_ul user_info_ul_normal">
+                <li class="user_info_btn1"><i></i><span>我的账户</span></li>
+                <li class="user_info_btn2"><i></i><span>我的信息</span></li>
+                {if $info['studio_id'] && $info['studio_id']!=0}
+                <a href="__HTTP__studio/{$uid}.html"><li class="user_info_btn24"><i></i><span>我的工作室</span></li></a>
+                {else/}
+                <li class="user_info_btn24"><i></i><span>我的工作室</span></li>
+                <script>
+                    $(".user_info_btn24").click(function(){
+                        win.alert('','立即创建工作室',function(){
+                            location.href="{:url('studio/create')}";
+                        });
+                    });
+                </script>
+                {/if}
+                <li class="user_info_btn3"><i></i><span>分享返佣</span></li>
+                <li class="user_info_btn4"><i></i><span>我的返佣</span></li>
+                <!--<li class="user_info_btn5"><i></i><span>我的信号</span></li>-->
+                <li class="user_info_btn6"><i></i><span>修改密码</span></li>
+                <li class="user_info_btn7"><i></i><span>更换MT4账户</span></li>
+                <li class="user_info_btn22" id="mulMT4bind" style="position:relative"><i></i><span>多MT4账户绑定</span><div style="position:absolute;width:6px;height:6px;background:red;border-radius:6px;top:10px;right:15px;"></div></li>
+                <li class="user_info_btn23"><i></i><span>充值</span></li>
+                <a  id="edit"><li class="user_info_btn8" id="exit"><i></i><span>退出</span></li></a>
+                <img src="__STATIC__image/indexheadbg.png">
+            </ul>
+        </div>
+        <div class="news"><i></i></div>
+        <script>
+            $("#edit").click(function(){
+                $.ajax({
+                    url:" {:url('/api.user/ajax_logout')}",
+                    type:"get",
+                    dataType:'json',
+                    success:function(){
+                        location.reload();
+                    }
+                });
+            });
+        </script>
+        {/if}
+    </div>
+</div>
+{/if}
+
+{block name="body"}页面主体{/block}
+
+{if(@$pagefrom !='levelmax')}
+<div class="vip_footer" style="height:248px">
+    <div class="footer-logo">
+        <p>合作伙伴</p>
+        <img src="__STATIC__image/vip24.png">
+    </div>
+    <div class="footer-t">
+        <p>Trading spot currencies involves substantial risk and there is always the potential for loss. Your trading results may vary.
+        Because the risk factor is high in the foreign exchange market trading, only genuine "risk" funds should be used
+        in such trading. If you do not have the extra capital that you can afford to lose, you should not trade in the foreign
+        exchange market. No "safe" trading system has ever been devised, and no one can guarantee profits or freedom from
+        loss. Past performance is not indicative of future results.</p>
+    </div>
+</div>
+{/if}
+
+{if(@$pagefrom !='levelmax')}
+<!-- qq客服 -->
+<!--<style>
+    @media screen and (max-width: 1600px) {
+        .qqkefu{right:0!important;}
+    }
+</style>-->
+<!--<a href="" class="kefu" target="_blank"><img src="image/qqkefu.png" class="qqkefu"></a>-->
+<!-- WPA Button Begin -->
+<script charset="utf-8" type="text/javascript" src="http://wpa.b.qq.com/cgi/wpa.php?key=XzgwMDAwMjEyM180NzYzNDlfODAwMDAyMTIzXw"></script>
+<!-- WPA Button End -->
+<!-- WPA Button Begin -->
+<script charset="utf-8" type="text/javascript" src="http://wpa.b.qq.com/cgi/wpa.php?key=XzgwMDAwMjEyM180NzYxODJfODAwMDAyMTIzXw"></script>
+<!-- WPA Button END -->
+{/if}
+<!--<script>
+    var m=Math.random();
+    if(m<0.5){
+       $(".kefu").attr("href","http://wpa.qq.com/msgrd?v=3&uin=303869104&site=qq&menu=yes");
+    }else{
+        $(".kefu").attr("href","http://wpa.qq.com/msgrd?v=3&uin=2397645037&site=qq&menu=yes");
+    }
+</script>-->
+
+<!--弹窗-->
+<!-- ie9以下弹框 -->
+<script type="text/javascript"> 
+        var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串  
+        var isIE = userAgent.indexOf("MSIE") > -1; //判断是否IE浏览器  
+        if (isIE) {
+             var reIE = new RegExp("MSIE (\\d+\\.\\d+);");  
+             reIE.test(userAgent);  
+             var fIEVersion = parseFloat(RegExp["$1"]);  
+             if(fIEVersion == 7||fIEVersion == 8){
+               $("body").html('<img src="__STATIC__image/ie8img.png">');
+             }
+         }//isIE end  
+         $(".ie8close").on("click", function () {
+            $(".ie8show").hide();
+        });
+</script>
+<!--站内信-->
+<div class="news_box">
+    <div class="confirmBox" style="width: 400px;height:340px;margin-top:-170px;margin-left: -200px;">
+        <div class="news_box_close"></div>
+        <p class="confirmTitle">站内信</p>
+        <ul class="news_ul">
+            <!--<li class="news_none"><img src="image/news_none.png"></li>-->
+            <!--<li>
+                <p class="news_title"><i class="news02"></i><span>【系统消息】</span><span>2018-01-25 22:06:03</span></p>
+                <p class="news_content">上午好，呼吸新鲜空气保持好心情。。上午好，呼吸新鲜空气保持好心情。。。上午好，呼吸新鲜空气保持好心情。。。。</p>
+            </li>
+            <li>
+                <p class="news_title"><i class="news02"></i><span>【系统消息】</span><span>2018-01-25 22:06:03</span></p>
+                <p class="news_content">上午好，呼吸新鲜空气保持好心情。。上午好，呼吸新鲜空气保持好心情。。上午好，呼吸新鲜空气保持好心情。。。上午好，呼吸新鲜空气保持好心情。。</p>
+            </li>-->
+        </ul>
+    </div>
+</div>
+<!--充值弹窗-->
+<div class="recharge">
+    <div class="confirmBox" style="width: 400px;height:360px;margin-top:-180px;margin-left: -200px;">
+        <div class="recharge_close" ></div>
+        <p class="confirmTitle">充值</p>
+        <ul class="recharge_price">
+            <li class="recharge_price_li active"><p><span>500</span> 元</p><img src="__STATIC__image/vipwindow_tip.png"></li>
+            <li class="recharge_price_li"><p><span>1000</span> 元</p><img src="__STATIC__image/vipwindow_tip.png"></li>
+            <li class="recharge_price_li"><p><span>2000</span> 元</p><img src="__STATIC__image/vipwindow_tip.png"></li>
+            <li class="recharge_price_li"><p><span>5000</span> 元</p><img src="__STATIC__image/vipwindow_tip.png"></li>
+            <li class="recharge_price_li"><p><span>10000</span> 元</p><img src="__STATIC__image/vipwindow_tip.png"></li>
+            <li class="recharge_price_li"><p><span>20000</span> 元</p><img src="__STATIC__image/vipwindow_tip.png"></li>
+        </ul>
+        <p class="recharge_money">应付金额：<span id="recharge_money">500</span> 元</p>
+        <ul class="recharge_pay">
+            <li>
+                <div><img src="" id="wechatre_charge"></div>
+                <div style="width:100px;margin:5px auto;height:30px;">
+                    <img src="__STATIC__image/wei_icon.jpg" style="width:20px;float: left;margin-top:5px;margin-left:5px;">
+                    <p style="line-height: 30px;font-size:16px;color:#27323f;float:left;margin-left:5px;">微信支付</p>
+                </div>
+            </li>
+            <li>
+                <div><img src="__STATIC__image/apay.jpg"></div>
+                <div style="width:100px;margin:5px auto;height:30px;">
+                    <p class="recharge_apay_btn" style="width: 100px;height: 30px;margin: 0 auto;background: #02aaef;color: #fff;border-radius: 4px;text-align: center;font-size: 16px;line-height: 30px;outline: none;border: none;cursor: pointer;">支付宝支付</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--上传文章截图-->
+<div class="pic_upload">
+    <div class="confirmBox" style="width: 380px;height:360px;margin-top:-180px;margin-left: -180px;">
+        <div class="pic_upload_close"></div>
+        <p class="confirmTitle">上传文章截图</p>
+        <div class="pic_upload_div"><span>截图</span>
+            <img src="__STATIC__image/pic_upload.png" class="pic_upload_img" id="previewPic">
+            <a href="javascript:void(0)" class="upload_btn"><i></i>上传截图<input type="button" id="selectPic"></a>
+        </div>
+        <div class="pic_upload_tips" style="float: right;margin-right: 40px;width: 300px;height: 25px;line-height: 25px;color: #ff3939;"></div>
+        <button class="pic_upload_btn">提交</button>
+    </div>
+</div>
+<!--上传文章截图示例-->
+<div class="pic_upload_example">
+    <div class="confirmBox" style="width: 380px;height:360px;margin-top:-180px;margin-left: -180px;">
+        <div class="pic_upload_example_close"></div>
+        <p class="confirmTitle">示例</p>
+        <img src="__STATIC__image/pic_upload_example.png">
+    </div>
+</div>
+<!--上传文章截图成功，感谢好评-->
+<div class="pic_upload_success" style="display: none;width: 100%;height: 100%;background-color: rgba(0,0,0,0.4);position: fixed;top: 0;z-index: 1000;">
+    <div class="confirmBox" style="width:320px;height:180px;margin-top:-90px;margin-left:-160px;">
+        <p style="font-size:20px;color:#333333;text-align: center;padding-top: 20px;">感谢您的好评</p>
+        <p style="font-size:16px;color:#333333;text-align: center;line-height: 26px;padding: 20px 0 10px 0;">审核后系统自动为您提升等级！</p>
+        <div style="width:80%;margin:0 auto;" class="not_login_btn">
+            <button style="margin-top: 10px;" class="pic_upload_success_btn1">知道了</button>
+            <button style="margin-top: 10px;float:right;background: #fff;color:#611987;border:1px solid #611987;" class="pic_upload_success_btn2">继续上传</button>
+        </div>
+    </div>
+</div>
+<script>
+    $(".pic_upload_close").on("click", function () {
+        $(".pic_upload").hide();
+    });
+    /*文章截图*/
+    var URL;
+    KindEditor.ready(function (K) {
+        var editor = K.create('#detail', config);
+        var uploadbuttona = K.uploadbutton({
+            button : K('#selectPic')[0],
+            fieldName : 'imgFile',
+            url : '{:url("master/uploadImg")}',
+            afterUpload : function (data) {
+                if (data.error === 0) {
+                    var url = K.formatUrl(data.url, 'relative');
+                    var newUrl = url.replace(/\\/g,'/');
+                    if(newUrl.substr(0,1)=='/'){
+                        newUrl = newUrl.substr(1,url.length);
+                    }
+                    $(".ImageUrl").val(newUrl);
+                    URL = '__STATIC__upload/image/'+newUrl;
+//                        console.log(URL);
+                    setTimeout(function () {
+                        $("#previewPic").attr("src",URL);
+                    },500);
+                } else {
+                    win.alert('',data.message);
+                }
+            },
+            afterError : function (str) {
+                $(".pic_upload_tips").html('自定义错误信息: ' + str);
+            }
+        });
+        uploadbuttona.fileBox.change(function (e) {
+            uploadbuttona.submit();
+        });
+    });
+    /*上传*/
+    $(".pic_upload_btn").on("click", function () {
+        console.log(URL);
+        setTimeout(function () {
+            $.ajax({
+                type: 'POST',
+                url: '{:url("api.upgrade/add")}',
+                data: {
+                    pic : URL
+                },
+                success: function (response) {
+//                        console.log(response);
+                    if (response) {
+                        var json = JSON.parse(response);
+                        if (json.code == '200') {
+                            $(".pic_upload_tips").html("提交成功,请等待审核!");
+                            setTimeout(function () {
+                                $(".pic_upload").hide();
+                                $(".pic_upload_success").fadeIn();
+                            },1000);
+                        }else if(json.code == '302'){
+                            $(".pic_upload_tips").html("提交失败, 请稍候再试!");
+                        }else if(json.code == '301'){
+                            $(".pic_upload_tips").html("请先登录!");
+                        }
+                    }
+                }
+            });
+        },500);
+    });
+
+    /*文章截图示例*/
+    $(".pic_upload_example_close").on("click", function () {
+        $(".pic_upload_example").hide();
+    });
+    /*文章截图上传成功*/
+    $(".pic_upload_success_btn1").on("click", function () {
+        $(".pic_upload_success").hide();
+    });
+    $(".pic_upload_success_btn2").on("click", function () {
+        $(".pic_upload_success").hide();
+        $(".pic_upload").fadeIn();
+        $(".pic_upload_tips").html("");
+    });
+</script>
+<script>
+    $(function () {
+        news_i();
+        /*function news_i(){      //判断是否有未读信息
+            var Arr=[];
+            $(".news_ul li").each(function () {
+                var news_class = $(this).find("i").attr('class');
+                Arr.push(news_class);
+            });
+            var inArray = $.inArray("news01", Arr);
+//        console.log(inArray);    //返回值：0代表包含，-1代表不包含；
+            if(inArray == 0){
+                $(".news").find("i").css("display","block");
+            }else if(inArray == -1){
+                $(".news").find("i").css("display","none");
+            }
+        }*/
+        function news_i(){      //判断是否有未读信息
+            $.ajax({
+                type: 'get',
+                url: "__HTTP__api.msg/get?type=count",
+                dataType: 'jsonp',
+                jsonp: 'callback',
+                data: {},
+//                jsonpCallback: 'getjson',
+                success: function (data) {
+                    if (data.code == '200') {
+//                        console.log(data);
+                        var data = data.data;
+                        if(data == 0){  //表示没有未读信息
+                            $(".news").find("i").css("display","none");
+                        }else if(data == null){
+                            $(".news").find("i").css("display","none");
+                        }else {                 //表示有未读信息
+                            $(".news").find("i").css("display","block");
+                        }
+                    }
+                }
+            });
+        }
+        /*获取站内信*/
+        $.ajax({
+            type : 'get',
+            url : "__HTT__api.msg/get",
+            dataType: 'jsonp',
+            jsonp: 'callback',
+            data: {},
+//            jsonpCallback: 'getjson',
+            success : function (data){
+                if(data.code=='200'){
+//                    console.log(data);
+                    if(data.data.length == 0){
+                        $(".news_ul").html("<li class='news_none'><img src='__STATIC__image/news_none.png'></li>");
+                    }else {
+                        for(var i=0;i<data.data.length;i++){
+                            var id = data.data[i].id;
+                            var modify_time = data.data[i].modify_time;
+                            var d = new Date();                                     //转换时间
+                            d.setTime(parseInt(modify_time) * 1000);
+                            var hour;
+                            var minute;
+                            var month;
+                            var day;
+                            var year;
+                            hour = d.getHours();
+                            minute = d.getMinutes();
+                            month = d.getMonth() + 1;    // Note: January is 0, February is 1, and so on.
+                            day = d.getDate();
+                            year = d.getFullYear();
+                            if (month.toString().length < 2) {
+                                month = "0" + month.toString();
+                            }
+                            if (day.toString().length < 2) {
+                                day = "0" + day.toString();
+                            }
+                            var modify_time = year + "/" + month + "/" + day +" "+ hour + ":" + minute;              //转换后的时间1
+                            var msg = data.data[i].msg;
+                            var status = data.data[i].status;
+                            if(status == 1){    //未读
+                                status = "news01";
+                            }else if(status == 2){      //已读
+                                status = "news02";
+                            }
+                            var html;
+                            html+= ("<li id='"+id+"'><p class='news_title'><i class='"+status+"'></i><span>【系统消息】</span><span>"+modify_time+"</span></p>" +
+                            "<p class='news_content'>"+msg+"</p></li>");
+                            html=html.replace("undefined","");  //移除underfined字样
+                            $(".news_ul").html(html);
+
+                            /*改变站内信未读/已读状态*/
+                            $(".news_ul li").on("click", function () {
+                                var white_space = $(this).find(".news_content").css("white-space");
+                                if(white_space == 'nowrap'){
+                                    $(this).find(".news_content").css("white-space","inherit");
+                                }else {
+                                    $(this).find(".news_content").css("white-space","nowrap");
+                                }
+                                id = $(this).attr("id");
+                                $.ajax({
+                                    type: 'get',
+                                    url: "__HTTP__api.msg/read?id="+id,
+                                    dataType: 'jsonp',
+                                    jsonp: 'callback',
+                                    data: {},
+//                                    jsonpCallback: 'getjson',
+                                    success: function (data) {
+                                        if (data.code == '200') {
+//                                            console.log(data);
+                                        }
+                                    }
+                                });
+                                $(this).find("i").addClass("news02").removeClass("news01");
+                                news_i();
+                            });
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+<!--登录弹窗-->
+<div class="vip_login" id="vip_login">
+    <div class="vip_login_inner" style="height:400px;">
+        <i class="vip_login_close"></i>
+        <h2>登&nbsp;&nbsp;录</h2>
+        <form action='#' onsubmit="return false">
+            <div class="number"><img src="__STATIC__image/vip11.png"><input type='tel' maxlength="11" name="login" id="login" placeholder="请输入您的手机号" onfocus="this.placeholder=''" onblur="this.placeholder='请输入您的手机号'"></div>
+            <div class="password"><img src="__STATIC__image/vip12.png"><input type="password" name="password" id="password" placeholder="请输入您的密码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入您的密码'"></div>
+            <div class="login_tips"></div>
+            <input type="button" value="登  录" id="button">
+            <a id="register" style="cursor: pointer;float:right;padding-left:10px;color:#611987;"><span style="color:#611987;">注册</span>
+            </a>
+            <a id="forget" style="cursor: pointer;float:right;padding-right:10px;color:#611987;border-right:1px solid #611987;">忘记密码
+            </a>
+        </form>
+        <img src="__STATIC__image/login_title_icon.png" style="clear:both;display:block;margin:0 auto;padding:20px 0 10px;">
+        <div style="width:265px;margin:0 auto;height:50px;">
+            <a href="__API__tlogin.qq/login.html" class="three_login"  style="margin-left:0!important;"><img src="__STATIC__image/qq_login.png"></a>
+            <a class="three_login"  href="__API__tlogin.weibo/login"><img src="__STATIC__image/weibo_login.png"></a>
+            <a href="__API__tlogin.wechat/login" class="three_login"><img src="__STATIC__image/weixin_login.png"></a>
+        </div>
+    </div>
+</div>
+<!-- 多mt4账户绑定 -->
+<div class="mul_mt4" style="width: 100%;height: 100%;background-color: rgba(0,0,0,0.4);position: fixed;top: 0;z-index: 1000;">
+    <div class="vip_login_inner" style="height:370px;width:416px;">
+        <i class="mul_mt4_close"></i>
+        <h2 style="height:44px;line-height:44px;">MT4账户绑定</h2>
+        <p style="font-size:14px;color:#555555;line-height:20px;">已绑定MT4账户</p>
+        <ul class="mul_mt4_bind">
+        </ul>
+        <div class="add_mt4_server">
+            <span style="font-size:30px;line-height:44px;float:left;margin-left:110px;">+</span><span style="float:left;margin-left:10px;">增加MT4账户</span>
+        </div>
+    </div>
+</div>
+<script>
+    $(".mul_mt4_close").click(function(){
+        $(".mul_mt4").fadeOut();
+    });
+</script>
+<!-- 忘记密码,加了验证码-->
+<div class="change_password change_password_login" id="forgetpassword">
+    <div class="confirmBox" style="width: 400px;height:380px;margin-top:-230px;">
+        <div class="change_password_close"></div>
+        <!--<img src="image/confirm_head.png" class="confirm_head">-->
+        <p class="confirmTitle">忘记密码</p>
+        <div class="inputItems">
+            <img src="__STATIC__image/win_name.png" class="win_icon">
+            <input name="ulogin" type="text" placeholder="请输入您的手机号" class="win_input" maxlength="25">
+        </div>
+        <div style="width:320px;height:40px;margin:0 auto;margin-top:10px;">
+            <div class="inputItems" style="width:216px;float:left;margin-top:0;border-radius: 6px 0 0 6px;border-right: none;">
+                <img src="__STATIC__image/win_yanzheng.png" class="win_icon">
+                <input name="mcode" type="number" placeholder="请输入验证码" class="win_input" maxlength="6" style="width:160px;">
+            </div>
+            <div class="win_yzm">获取验证码</div>
+        </div>
+        <div class="inputItems">
+            <img src="__STATIC__image/win_password.png" class="win_icon">
+            <input name="new_pwd1_login" type="password" placeholder="请输入您的新密码" class="win_input" maxlength="25">
+        </div>
+        <div class="inputItems">
+            <img src="__STATIC__image/win_password.png" class="win_icon">
+            <input name="new_pwd2_login" type="password" placeholder="请再次输入您的新密码" class="win_input" maxlength="25">
+        </div>
+        <img src="__STATIC__image/vip15.png" class="confirm_agree" style="margin-left:46px;">
+         {if(@$pagefrom =='levelmax')}
+        <p style="padding:15px 0 10px 3px;float:left;font-size:16px;" class="allprotocol">我已阅读并同意<a href="{:url('other/protocol')}?server=levelmax"  style="color:#611987">《服务+免责协议》</a></p>
+         {/if}
+         {if(@$pagefrom !='levelmax')}
+        <p style="padding:15px 0 10px 3px;float:left;font-size:16px;" class="allprotocol">我已阅读并同意<a href="{:url('other/protocol')}" target="_blank" style="color:#611987">《服务+免责协议》</a></p>
+         {/if}
+        <button class="confirm_btn upwd_login" style="width:320px;margin-top:50px;">确认修改</button>
+    </div>
+</div>
+<!--注册，绑定，生成服务器三步弹窗-->
+<div class="vip_register" id="vip_register">
+    <div class="vip_register_Box">
+        <div class="vip_register_inner" style="height: auto;padding-bottom: 22px;left:300px;">
+            <i class="vip_register_close"></i>
+            <div class="vip_register_header" style="background:none;">
+                <span class="active" style="color:#333333;width:100%;line-height: 60px;">注册</span>
+            </div>
+            <div class="vip_register_step1">
+                <form action='#' onsubmit="return false">
+                    <div class="tel_number"><img src="__STATIC__image/vip11.png"><input type='tel' maxlength="11" name="login" id="login2" placeholder="请输入您的手机号" onfocus="this.placeholder=''" onblur="this.placeholder='请输入您的手机号'"></div>
+                    <!--<div class="verification_code"><img src="image/vip13.png"><input type="text" name="codeImg" id="codeImg" placeholder="请输入验证码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入验证码'"><a href="javascript:void(0);" id="reSend">获取验证码</a></div>-->
+                    <div style="width:320px;height:40px;margin:0 auto 5px auto;">
+                        <div class="inputItems" style="width:215px;float:left;margin-top:0;border-radius: 6px 0 0 6px;border-right: none;">
+                            <img src="__STATIC__image/vip13.png" style="float: left;margin-top: 12px;">
+                            <input name="mcode" type="number" placeholder="请输入验证码" class="register_win_input" maxlength="6" style="width:160px;padding: 0 0 0 8px;">
+                        </div>
+                        <div class="register_win_yzm" style="color:#3b2a00">获取验证码</div>
+                    </div>
+                    <div class="password"><img src="__STATIC__image/vip12.png"><input type="password" name="password" id="password2" placeholder="请设置您的密码" onfocus="this.placeholder=''" onblur="this.placeholder='请设置您的密码'"></div>
+                    <!-- <div class="password_again"><img src="image/vip12.png"><input type="password" name="rpassword" id="rpassword" placeholder="请再次输入密码" onfocus="this.placeholder=''" onblur="this.placeholder='请再次输入密码'"></div> -->
+                    <div class="invite" id="minvite"><img src="__STATIC__image/vip14.png"><input type="text" name="refferee" id="refferee" placeholder="请输入邀请码(选填)" onfocus="this.placeholder=''" onblur="this.placeholder='请输入邀请码(选填)'"></div>
+                     {if(@$pagefrom =='levelmax')}
+                    <div class="p" style="text-align: left;"><label><input type="checkbox" checked="checked"><span></span></label><p class="allprotocol">我已阅读并同意<a href="{:url('other/protocol')}?server=levelmax" ><span style="color:#611987">《服务+免责协议》</span></a></p></div>
+                     {/if}
+                     {if(@$pagefrom !='levelmax')}
+                    <div class="p" style="text-align: left;"><label><input type="checkbox" checked="checked"><span></span></label><p class="allprotocol">我已阅读并同意<a href="{:url('other/protocol')}" target="_blank"><span style="color:#611987">《服务+免责协议》</span></a></p></div>
+                     {/if}
+                    <div class="register_tips1"></div>
+                    <input type="button" value="确  认" id="button2">
+                    <img src="__STATIC__image/register_title_icon.png" style="margin:0 auto;display:block;padding:14px 0 10px;width:258px;">
+                    <div style="width:202px;;margin:0 auto;height:50px;">
+                        <a data-href="__API__tlogin.qq/login.html" class="three_login three_register"  style="margin-left:0!important;width:25px;"><img src="__STATIC__image/qq_login.png" style="width:38px;"></a>
+                        <a data-href="__API__tlogin.weibo/login.html" class="three_login three_register" style="width:25px;"><img src="__STATIC__image/weibo_login.png" style="width:38px;"></a>
+                        <a data-href="__API__tlogin.wechat/login.html" class="three_login three_register" style="width:25px;"><img src="__STATIC__image/weixin_login.png" style="width:38px;"></a>
+                    </div>
+                </form>
+            </div>
+            <div class="vip_register_step2">
+                <div class="register_title"><a href="javascript:void(0)" class="Live account_active">实盘账户(Live)</a><a href="javascript:void(0)" class="Demo">模拟账户(Demo)</a></div>
+                <form action='#' onsubmit="return false">
+                    <div class="broker"><img src="__STATIC__image/vip17.png"><input type="text" class="select_2 mt4broker" name="mt4broker" id="mt4broker" placeholder="选择经纪商" onfocus="this.placeholder=''" onblur="this.placeholder='选择经纪商'">
+                        <img src="__STATIC__image/select_icon_03.png" class="broker_btn">
+                        <div class="option_2">
+                            <!-- <div class="search" style="height: 30px;margin: 10px 18px 10px 0;border: 1px solid #cccccc;border-radius: 12px;overflow: hidden;">
+                                <i style="display: inline-block;float: left;width: 20px;height: 20px;margin-top: 4px;margin-left: 10px;background: url('__STATIC__image/search.png')no-repeat center;background-size: cover;"></i>
+                                <input type="text" class="search_input" placeholder="搜索您的经纪商" onfocus="this.placeholder=''" onblur="this.placeholder='搜索您的经纪商'" style="float: left;width: 210px;height: 30px;line-height: 30px;font-size: 16px;">
+                            </div> -->
+                            <ul class="mt4broker_ul" style="height: 160px;overflow-y: scroll;"></ul>
+                            <div class="last_li_2">手动输入经纪商</div>
+                        </div>
+                    </div>
+                    <div class="server"><img src="__STATIC__image/vip18.png"><input type="text" class="select mt4server" name="mt4server" id="mt4server" placeholder="选择服务器" onfocus="this.placeholder=''" onblur="this.placeholder='选择服务器'">
+                        <img src="__STATIC__image/select_icon_03.png" class="select_btn">
+                        <div class="option">
+                            <ul class="mt4server_ul" style="height: 120px;overflow-y: scroll;"></ul>
+                            <div class="last_li">手动输入服务器</div>
+                        </div>
+                    </div>
+                    <div class="broker_demo"><img src="__STATIC__image/vip17.png"><input type="text" class="select_demo_2 mt4broker_demo" name="mt4broker" id="mt4broker_demo" placeholder="选择经纪商" onfocus="this.placeholder=''" onblur="this.placeholder='选择经纪商'">
+                        <img src="__STATIC__image/select_icon_03.png" class="broker_demo_btn">
+                        <div class="option_demo_2">
+                            <!-- <div class="search_demo" style="height: 30px;margin: 10px 18px 10px 0;border: 1px solid #cccccc;border-radius: 12px;overflow: hidden;">
+                                <i style="display: inline-block;float: left;width: 20px;height: 20px;margin-top: 4px;margin-left: 10px;background: url('__STATIC__image/search.png')no-repeat center;background-size: cover;"></i>
+                                <input type="text" class="search_input_demo" placeholder="搜索您的经纪商" onfocus="this.placeholder=''" onblur="this.placeholder='搜索您的经纪商'" style="float: left;width: 210px;height: 30px;line-height: 30px;font-size: 16px;">
+                            </div> -->
+                            <ul class="mt4broker_demo_ul" style="height: 160px;overflow-y: scroll;"></ul>
+                            <div class="last_li_demo_2">手动输入经纪商</div>
+                        </div>
+                    </div>
+                    <div class="server_demo"><img src="__STATIC__image/vip18.png"><input type="text" class="select_demo mt4server_demo" name="mt4server" id="mt4server_demo" placeholder="选择服务器" onfocus="this.placeholder=''" onblur="this.placeholder='选择服务器'">
+                        <img src="__STATIC__image/select_icon_03.png" class="select_demo_btn">
+                        <div class="option_demo">
+                            <ul class="mt4server_demo_ul" style="height: 120px;overflow-y: scroll;"></ul>
+                            <div class="last_li_demo">手动输入服务器</div>
+                        </div>
+                    </div>
+                    <div class="MT4_number"><img src="__STATIC__image/vip11.png"><input type="text" name="mt4uid" id="mt4uid" placeholder="请输入MT4帐号" onfocus="this.placeholder=''" onblur="this.placeholder='请输入MT4帐号'"></div>
+                    <div class="MT4_password"><img src="__STATIC__image/vip12.png"><input type="text" name="mt4pwd" id="mt4pwd" placeholder="请输入MT4主密码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入MT4主密码'"></div>
+                     {if(@$pagefrom =='levelmax')}
+                     <div class="p"><label><input type="checkbox" checked="checked"><span></span></label><p class="allprotocol">我已阅读并同意<a href="{:url('other/protocol')}?server=levelmax"><span>《服务+免责协议》</span></a></p></div>
+                     {/if}
+                     {if(@$pagefrom !='levelmax')}
+                    <div class="p"><label><input type="checkbox" checked="checked"><span></span></label><p class="allprotocol">我已阅读并同意<a href="{:url('other/protocol')}" target="_blank"><span>《服务+免责协议》</span></a></p></div>
+                    {/if}
+                    <div class="register_tips2" style="height:25px;"></div>
+                    <input type="button" value="提  交" id="button3">
+                     {if(@$pagefrom !='levelmax')}
+                    <a href="javascript:void(0)" class="open_demo_btn open_demo_btn1">一键生成<br>MT4模拟账户</a>
+                     {/if}
+                    <a href="{:url('master/index')}" class="jump_btn">跳过绑定<img src="__STATIC__image/loginIcon5.jpg" style="width:18px;float:right;margin-top:3px;"/></a>
+                    <a href="javascript:void(0)" class="what">绑定示例</a>
+                </form>
+                <div class="whatBox"><img src="__STATIC__image/whatBox.png"></div>
+            </div>
+        </div>
+        <!--快速注册DEMO账户弹窗-->
+        <!--<div class="to_demo">
+            <div class="to_demo_close"></div>
+            <h2>快速注册DEMO账户</h2>
+            <div class="to_levelmax_demo_step"><p><span>1</span><a href="{:url('other/mt4')}" target="_blank">点击MT4网页版</a></p><img src="image/to_levelmax_demo1.png"></div>
+            <div class="to_levelmax_demo_step"><p><span>2</span>点击“模拟”生成<br><i class="to_levelmax_demo_p2">Demo账户</i></p><img src="image/to_levelmax_demo2.png"></div>
+            <div class="to_levelmax_demo_step"><p><span>3</span>获得MT4模拟账户</p><img src="image/to_levelmax_demo3.png"></div>
+            <div class="to_levelmax_demo_step"><p><span>4</span><a href="javascript:void(0)" class="to_levelmax_demo_btn">点击绑定模拟账户</a></p><img src="image/to_levelmax_demo4.png"></div>
+        </div>-->
+    </div>
+</div>
+<div class="vip_register_step3">
+    <div class="vip_register_step3_inner">
+        <i class="vip_register_step3_close"></i>
+        <img src="__STATIC__image/loading_icon_03_2.png" class="cloud" style="position: absolute;left: 150px;top: 50px;">
+        <h1 style="position: absolute;left: 110px;top: 150px;"><span>正在验证账户信息</span><img src="__STATIC__image/loading_icon.gif"></h1>
+        <p class="wait" style="color: #999999;font-size: 18px;position: absolute;left: 80px;top: 155px;display: none;">预计等待时间 <span style="color: #ff6c00;">15</span> 分钟(工作时段)</p>
+        <a href="{:url('master/index')}" class="jump" style="position: absolute;left: 85px;top: 165px;display: none;">关闭等待，提前预览系统<img src="__STATIC__image/loginIcon3.jpg" style="width:18px;float:right;margin-top:7px;"/></a>
+        <span class="loading_line" style="margin-top: 210px;">联系客服</span>
+        <div class="contact">
+            <div><img src="__STATIC__image/pay_icon_03.png" class="loadingIcon_1" style="margin: 0;"><p>400-016-0508</p></div>
+            <div><a href="" target="_blank" class="kefu"><img src="__STATIC__image/pay_icon_05.png" class="loadingIcon_2" style="margin: 0;"></a><p>303869104</p></div>
+            <div><img src="__STATIC__image/pay_icon_07.png" class="loadingIcon_3" style="margin: 0;"><p>公众号客服</p><img src="__STATIC__image/code.png" class="code"></div>
+        </div>
+        <script>
+            var m=Math.random();
+            if(m<0.5){
+                $(".kefu").attr("href","http://wpa.qq.com/msgrd?v=3&uin=303869104&site=qq&menu=yes");
+            }else{
+                $(".kefu").attr("href","http://wpa.qq.com/msgrd?v=3&uin=2397645037&site=qq&menu=yes");
+            }
+        </script>
+    </div>
+</div>
+<!-- 第三方注册的邀请码 -->
+<div class="register_invite">
+    <div style="width:320px;height:188px;background: #fff;box-shadow: 2px 5px 5px rgba(0,0,0,0.1);border-radius: 8px;z-index: 99;position: absolute;left: 0;top: 0;right: 0;bottom: 0;margin: auto;">
+        <i class="register_invite_close"></i>
+        <p style="height: 60px;line-height: 60px;font-size: 20px;padding: 0;text-align: center;color: #333333;z-index: 1;">快捷注册</p>
+        <div style="width: 288px;border: 1px solid #999;border-radius: 4px;margin-bottom: 5px;overflow: hidden;margin: 0 auto;">
+            <img src="__STATIC__image/vip14.png" style="vertical-align: middle;margin-right: 5px;margin-left: 20px;">
+            <input type="number"  id="three_register_uid" placeholder="请输入邀请码(选填)" onfocus="this.placeholder=''" onblur="this.placeholder='请输入邀请码(选填)'" style="background-color: transparent;color: #7d7d7d;vertical-align: middle;width: 224px;height: 40px;padding-left: 8px;font-size: 16px;border: none!important;">
+        </div>
+        <div class="register_invite_btn">
+            <div id="three_register_sub">提交</div>
+            <div style="float:right;background:#611987;color:#fff;" id="three_register_skip">跳过</div>
+        </div>
+    </div>
+</div>
+<!-- 快捷注册 -->
+<script>
+    var link;
+    $(".three_register").click(function(){
+        link=$(this).data("href");
+        $("#vip_register").fadeOut();
+        $(".register_invite").fadeIn();
+    });
+     $("#three_register_sub").click(function(){
+        if($("#three_register_uid").val()){
+            var uid=$("#three_register_uid").val();
+            location.href=link+"?uid="+uid;
+        }
+     });
+    $("#three_register_skip").click(function(){
+        location.href=link;
+    });
+    $(".register_invite_close").click(function(){
+        $(".register_invite").fadeOut();
+    });
+</script>
+{if $show_vip7_tips}
+<!-- 领取vip成功弹框 -->
+<div class="freeVipSuccess">
+    <div class="freeVipSuccessbox">
+        <img src="__STATIC__image/freeVipAdClose.png" class="freeVipAdClose2">
+        <p style="width:100%;font-size:24px;color:#dc551b;text-align:center;position:absolute;bottom:60px;">您已获得VIP(7天)</p>
+    </div>
+</div>
+<script>
+    $(".freeVipAdClose2").click(function(){
+            $(".freeVipSuccess").hide();
+    });
+</script>
+{/if}
+<!-- 我的账户-->
+{if !empty($info) && !empty($uid)}
+<div class="my_info">
+    <div class="confirmBox" style="width:400px;height:380px;margin-left:-200px;margin-top:-200px;"  id="myaccount" >
+        <div class="my_info_close"></div>
+        <img src="__STATIC__image/my_rebate_pic.png" class="confirm_head" id="accountHead" style="height: 150px;">
+        <p class="confirmTitle">我的账户</p>
+        <div>
+            <p class="accountHead" style="float:left;line-height:30px;height:30px;">账户余额（元）</p>
+            <p class="accountMoney" style="float:left;font-size:26px;width:185px;height:30px;line-height:30px;">{$info.imoney}</p>
+        </div>
+        <div>
+            <p class="accountHead" style="float:left;line-height:30px;height:30px;">冻结资金（元）</p>
+            <p class="accountMoney" style="float:left;font-size:26px;width:185px;line-height:30px;height:30px;">{$info.smoney}</p>
+        </div>
+        <p class="accountdetail">明细</p>
+        <ul class="accountUl">
+            <li>
+                <img src="__STATIC__image/accountIcon_1.jpg">
+                <p class="accountItemT">电话：</p>
+                <p class="accountItemDe">{$info.login}</p>
+            </li>
+            <li style="position: relative;">
+                <img src="__STATIC__image/accountIcon_2.jpg">
+                <p class="accountItemT">MT4账号：</p>
+                <p class="accountItemDe mt4_account">
+                    <span class="my_info_mt4"></span>
+                    <a href="javascript:void(0)" class="my_info_mt4_btn"></a>
+                </p>
+                <ul class="my_info_mt4_ul"></ul>
+            </li>
+            <script>
+                /*默认显示第一个mt4账户*/
+                $.ajax({
+                    url: '{:url("api.account/get")}',
+                    type: 'get',
+                    dataType: 'jsonp',
+                    jsonp: 'callback',
+                    success: function (data) {
+                        if (data.code == '200') {
+//                    console.log(data);
+                            var MT4data = data.data;
+                            if (typeof(MT4data[0]) == "undefined") {     //表示没有绑定mt4;
+                                console.log('没有绑定mt4;')
+                            } else {               //绑定了mt4;
+                                //console.log(MT4data);
+                                $(".my_info_mt4").html(MT4data[0].mt4id);
+                                $(".my_info_mt4server").html(MT4data[0].mt4server);
+                            }
+                        }
+                    }
+                });
+                /*点击默认mt4账户的下拉按钮*/
+                $(".my_info_mt4_btn").on("click", function () {
+                    $.ajax({
+                        url: '{:url("api.account/get")}',
+                        type: 'get',
+                        dataType: 'jsonp',
+                        jsonp: 'callback',
+                        success: function (data) {
+                            if (data.code == '200') {
+//                    console.log(data);
+                                var MT4data = data.data;
+                                if (typeof(MT4data[0]) == "undefined") {     //表示没有绑定mt4;
+                                    console.log('没有绑定mt4;')
+                                } else {               //绑定了mt4;
+                                    for (var i = 0; i < MT4data.length; i++) {
+                                        var mt4id = data.data[i].mt4id;
+                                        var mt4server = data.data[i].mt4server;
+                                        var html;
+                                        if(MT4data[i].sh==0){
+                                            html += "<li><span>"+mt4id+"(审核中)</span><span style='display: none;'>"+mt4server+"(审核中)</span></li>";
+                                        }else{
+                                            html += "<li><span>"+mt4id+"</span><span style='display: none;'>"+mt4server+"</span></li>";
+                                        }
+                                        html = html.replace("undefined", "");  //移除underfined字样
+                                        $(".my_info_mt4_ul").css("display","block").html(html);
+                                        $(".my_info").on("click", function () {
+                                            $(".my_info_mt4_ul").css("display","none");
+                                        });
+                                        $(".my_info_mt4_ul li").on("click", function () {
+                                            $(".my_info_mt4_ul").css("display","none");
+                                            $(".my_info_mt4").html($(this).find("span:nth-child(1)").html());
+                                            $(".my_info_mt4server").html($(this).find("span:nth-child(2)").html());
+                                        })
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
+            </script>
+            <li>
+                <img src="__STATIC__image/accountIcon_3.jpg">
+                <p class="accountItemT">服务器：</p>
+                <p class="accountItemDe my_info_mt4server">{$info.zhmt4server}<?php echo $info['isbuy'] !=1  && !empty($info['zhmt4uid']) ? '(审核中)' : ''?></p>
+            </li>
+            <li id="yourserver">
+                <img src="__STATIC__image/accountIcon_4.jpg">
+                <p class="accountItemT">服务：
+                <p class="accountItemDe"> <?php
+                 if (!empty($info['server_expire'])){
+                    echo sprintf('到期时间: %s &nbsp( <span class="vip_class">%s</span> )', date('Y-m-d', $info['server_expire']),$info['server']);
+                 }else{
+                    echo sprintf('您还未购买服务，<a href="%s" target="_blank">立即购买</a>', url('user/vip'));
+                 }
+                 ?>
+                </p>
+            </li>
+        </ul>
+        <button class="confirm_btn deposit_btn" style="margin-top:15px;width:320px;" id="accountBTN">提  现</button>
+    </div>
+</div>
+{/if}
+<!--无法跟单 指定链接-->
+<div class="bomb_cannot_link">
+    <div class="cannot_link">
+        <div class="cannot_link_close"></div>
+        <img src="__STATIC__image/not_login_icon.png" class="alert_tip_img">
+        <p style="font-size:18px;text-align:center;padding:10px 0 0;">信号XXX无法跟单</p>
+        <p style="font-size:18px;text-align:center;padding:4px 0 0;">您不是该信号指定链接开户</p>
+        <p style="font-size:16px;text-align:center;color:#611987">(如有疑问，请与工作室联系)</p>
+    </div>
+</div>
+<!-- 明细-->
+<div class="detail">
+    <div class="confirmBox" style="width:400px;height:400px;margin-top:-200px;margin-left:-200px;">
+        <div class="detail_close"></div>
+        <!--<img src="image/confirm_head.png" class="confirm_head">-->
+        <p class="confirmTitle">明  细</p>
+        <div class="detailBox">
+            <!--<ul>
+                <li>
+                    <p>11:04</p>
+                    <p>2017/09/12</p>
+                </li>
+                <li>
+                    <img src="image/detail_icon1.jpg">
+                </li>
+                <li><span class="detail_up">+20</span>元</li>
+                <li>155****8905(邀请好友)</li>
+            </ul>-->
+        </div>
+        <p class="detail_btn">加载更多明细</p>
+    </div>
+</div>
+<!--分享返佣-->
+<div class="my_invitationCode">
+    <div class="my_invitationCode_inner">
+        <div class="my_invitationCode_close"></div>
+        <img src="__STATIC__image/my_invitationCode_pic.png" class="my_invitationCode_title">
+        <div class="invitationCode">
+            <div class="invitationCode_box"><img src="__STATIC__image/open_service_pic02.png"></div><span class="invitationCode_line"></span></div>
+        <p class="invitationCode_p1">您的邀请码: {$uid}</p>
+        <p class="invitationCode_p2">邀新链接：<a class="invitationCode_url" href="www.yshfx.com" target="_blank" >www.yshfx.com</a>
+            <a data-clipboard-action="copy" class="copyURL">复制</a>
+        </p>
+        <a class="rebate_btn"></a>
+        <a class="rebate_btn2" href="{:url('user/trade')}" target="_blank"></a>
+    </div>
+</div>
+<!--我的返佣-->
+<div class="rebate">
+    <div class="rebate_inner">
+        <div class="my_rebate_close"></div>
+        <div class="my_rebate_title">
+            <h2>我的返佣</h2>
+            <p>返佣金额(元)<br> <span id="rebate_money">0</span> </p>
+            <button class="rebate_out">提现</button>
+        </div>
+        <div class="first_connection">
+            <p class="connection_title">一级推广<span>(一度人脉)</span><a href="{:url('user/trade')}" class="rebate_explain" target="_blank">返佣说明</a></p>
+            <ul>
+                <li><p id="register_num_1">0</p><span>注册人数</span></li>
+                <li><p id="binding_num_1">0</p><span>绑定用户</span></li>
+                <li><p id="buy_num_1">0</p><span>购买用户</span></li>
+            </ul>
+        </div>
+        <div class="second_connection">
+            <p class="connection_title">二级推广<span>(二度人脉)</span></p>
+            <ul>
+                <li><p id="register_num_2">0</p><span>注册人数</span></li>
+                <li><p id="binding_num_2">0</p><span>绑定用户</span></li>
+                <li><p id="buy_num_2">0</p><span>购买用户</span></li>
+            </ul>
+        </div>
+        <button class="invitationCode_btn">立即推广</button>
+    </div>
+</div>
+<!-- 提现-->
+<div class="deposit">
+    <div class="confirmBox" style="width:400px;height:350px;margin-top:-200px;margin-left:-190px;">
+        <div class="deposit_close"></div>
+        <!--<img src="image/confirm_head.png" class="confirm_head">-->
+        <p class="confirmTitle">提  现</p>
+        <div class="depositform">
+            <p class="depositNumber">提现金额：<span class="depositMoney">0</span>元</p>
+            <ul class="depositContain" style="margin-top: 15px;">
+                <li>
+                    <img src="__STATIC__image/deposit_icon1.jpg">
+                    <input type="number" id="bank_account" placeholder="请输入提现金额" maxlength="20">
+                </li>
+                <li>
+                    <img src="__STATIC__image/deposit_icon2.jpg">
+                    <input type="text" id="bank_deposit" placeholder="请输入支付宝账号" maxlength="20">
+                </li>
+            </ul>
+            <img src="__STATIC__image/deposit_tip.png" style="width:20px;float:left;padding-top:15px;">
+            <p style="font-size:14px;color:#999999;padding-top:15px;padding-left:5px;float:left;">提现成功后将于<span style="color:#611987;">24小时</span>内到账（节假日顺延）</p>
+            <div class="deposit_tips" style="float: left;"></div>
+            <button class="confirm_btn" id="deposit_button" style="width:100%;margin-top:57px;">提  现</button>
+            <p style="background:none;width: auto;border-radius: 0;margin-right: 0;height: 20px;line-height: 20px;font-size:16px;color:#611987;float:right;border: none;border-bottom:1px solid #611987;margin-top:15px;cursor: pointer;" class="accountdetail">查看提现记录</p>
+        </div>
+    </div>
+</div>
+<!-- 我的信号-->
+<div class="my_signal">
+    <div class="confirmBox" style="height:400px;margin-top:-200px;width:400px;margin-left:-200px;">
+        <div class="my_signal_close"></div>
+        <!--<img src="image/confirm_head.png" class="confirm_head">-->
+        <div style="position:relative">
+            <p class="confirmTitle">我的信号</p>
+            <p style="font-size:14px;color:#333333;position:absolute;bottom:10px;right:10px;cursor:pointer;border-bottom:1px solid #333333;">切换至跟单账户</p>
+        </div>
+        <ul class="signalsinfo">
+            <li class="signalsinfoitem">
+                <p style="padding-left:0;">1. 信号编号：#000152</p>
+            </li>
+            <li class="signalsinfoitem">
+                <p>信号类型：签约</p>
+                <p>信号状态：已审核</p>
+            </li>
+            <li class="signalsinfoitem">
+                <p>当前跟随人数：265人</p>
+                <p>月平均跟随人数：260人</p>
+            </li>
+            <li class="signalsinfoitem" style="height:30px;">
+                <p style="font-size:14px;line-height:30px;">单价：100元/人/月</p>
+                <p style="font-size:16px;color:#611987;width:70px;height:24px;margin-top:3px;cursor:pointer;border:1px solid #611987;border-radius:6px;text-align:center;line-height:24px;">删除</p>
+            </li>
+        </ul>
+        <div class="mySignTable" style="max-height:164px;">
+            <ul class="mysignItemsHead">
+                <li>跟随者</li>
+                <li>状态</li>
+                <li>跟随时间</li>
+            </ul>
+            <ul class="mysignItemsCon">
+                <li>132****6589</li>
+                <li>跟随中</li>
+                <li>2017/09/11 11:02</li>
+            </ul>
+            <ul class="mysignItemsCon">
+                <li>132****6589</li>
+                <li>跟随中</li>
+                <li>2017/09/11 11:02</li>
+            </ul>
+            <ul class="mysignItemsCon">
+                <li>132****6589</li>
+                <li>跟随中</li>
+                <li>2017/09/11 11:02</li>
+            </ul>
+            <ul class="mysignItemsCon">
+                <li>132****6589</li>
+                <li>跟随中</li>
+                <li>2017/09/11 11:02</li>
+            </ul>
+            <ul class="mysignItemsCon">
+                <li>132****6589</li>
+                <li>跟随中</li>
+                <li>2017/09/11 11:02</li>
+            </ul>
+            <ul class="mysignItemsCon">
+                <li>132****6589</li>
+                <li>跟随中</li>
+                <li>2017/09/11 11:02</li>
+            </ul>
+            <ul class="mysignItemsCon">
+                <li>132****6589</li>
+                <li>跟随中</li>
+                <li>2017/09/11 11:02</li>
+            </ul>
+            <ul class="mysignItemsCon">
+                <li>132****6589</li>
+                <li>跟随中</li>
+                <li>2017/09/11 11:02</li>
+            </ul>
+        </div>
+        <a href="{:url('master/create')}"><div style="width:120px;height:30px;margin:10px auto;text-align:center;line-height:30px;font-size:18px;color:#611987;border:1px solid #611987;border-radius:6px;cursor:pointer;">新增信号</div></a>
+    </div>
+    <script>
+        $(".mysignT").on("click", function () {
+            $(this).addClass("mysignT_active").siblings().removeClass("mysignT_active");
+        });
+        $(".mysignT:nth-child(1)").on("click", function () {
+            $(".mySignTable").fadeIn();
+            $(".mySignTable2").hide();
+        });
+        $(".mysignT:nth-child(2)").on("click", function () {
+            $(".mySignTable").hide();
+            $(".mySignTable2").fadeIn();
+        });
+    </script>
+</div>
+<!-- 修改密码-->
+<div class="change_password"  id="change_password">
+    <div class="confirmBox" style="width: 400px;height:350px;margin-top:-230px;">
+        <div class="change_password_close"></div>
+        <!--<img src="image/confirm_head.png" class="confirm_head">-->
+        <p class="confirmTitle">修改密码</p>
+        <!--<div class="inputItems" style="margin-top:28px;">
+            <img src="image/win_name.png" class="win_icon">
+            <input name="ulogin" type="text" placeholder="请输入您的手机号" class="win_input" maxlength="25">
+        </div>-->
+        <div class="inputItems">
+            <img src="__STATIC__image/win_password.png" class="win_icon">
+            <input name="old_pwd" type="password" placeholder="请输入您的原始密码" class="win_input" maxlength="25">
+        </div>
+        <!--<div style="width:390px;height:50px;margin:0 auto;margin-top:10px;">
+            <div class="inputItems" style="width:286px;float:left;margin-top:0;border-radius: 6px 0 0 6px;">
+                <img src="image/win_yanzheng.png" class="win_icon">
+                <input name="mcode" type="number" placeholder="请输入验证码" class="win_input" maxlength="6" style="width:230px;">
+            </div>
+            <div class="win_yzm">获取验证码</div>
+        </div>-->
+        <div class="inputItems">
+            <img src="__STATIC__image/win_password.png" class="win_icon">
+            <input name="new_pwd1" type="password" placeholder="请输入您的新密码" class="win_input" maxlength="25">
+        </div>
+        <div class="inputItems">
+            <img src="__STATIC__image/win_password.png" class="win_icon">
+            <input name="new_pwd2" type="password" placeholder="请再次输入您的新密码" class="win_input" maxlength="25">
+        </div>
+        <img src="__STATIC__image/vip15.png" class="confirm_agree" style="margin-left:40px;">
+         {if(@$pagefrom =='levelmax')}
+        <p style="padding:15px 0 10px 3px;float:left;font-size:18px;" class="allprotocol">我已阅读并同意<a href="{:url('other/protocol')}?server=levelmax" style="color:#611987">《服务+免责协议》</a></p>
+         {/if}
+         {if(@$pagefrom !='levelmax')}
+        <p style="padding:15px 0 10px 3px;float:left;font-size:18px;" class="allprotocol">我已阅读并同意<a href="{:url('other/protocol')}" target="_blank" style="color:#611987">《服务+免责协议》</a></p>
+        {/if}
+        <button class="confirm_btn upwd" style="width:320px;margin-top:57px;">确认修改</button>
+    </div>
+</div>
+<!--改绑弹窗-->
+<div class="change_binding" id="change_binding">
+    <div class="change_binding_Box">
+        <div class="change_binding_inner">
+            <div class="change_binding_close"></div>
+            <h2 style="background:none;color:#777" id="changebindtitle">更换 MT4 账户</h2>
+            <div class="register_title" style="padding:0 40px 20px;"><a href="javascript:void(0)" class="Live account_active">实盘账户(Live)</a><a href="javascript:void(0)" class="Demo">模拟账户(Demo)</a></div>
+            <form action='#' onsubmit="return false">
+                <div class="broker"><img src="__STATIC__image/vip17.png"><input type="text" class="select_2 mt4broker" name="mt4broker" id="mt4broker_2" placeholder="选择经纪商" onfocus="this.placeholder=''" onblur="this.placeholder='选择经纪商'">
+                    <img src="__STATIC__image/select_icon_03.png" class="broker_btn">
+                    <div class="option_2">
+                        <!-- <div class="search" style="height: 30px;margin: 10px 18px 10px 0;border: 1px solid #cccccc;border-radius: 12px;overflow: hidden;">
+                            <i style="display: inline-block;float: left;width: 20px;height: 20px;margin-top: 4px;margin-left: 10px;background: url('__STATIC__image/search.png')no-repeat center;background-size: cover;"></i>
+                            <input type="text" class="search_input" placeholder="搜索您的经纪商" onfocus="this.placeholder=''" onblur="this.placeholder='搜索您的经纪商'" style="float: left;width: 210px;height: 30px;line-height: 30px;font-size: 16px;">
+                        </div> -->
+                        <ul class="mt4broker_ul" style="height: 160px;overflow-y: scroll;"></ul>
+                        <div class="last_li_2">手动输入经纪商</div>
+                    </div>
+                </div>
+                <div class="server"><img src="__STATIC__image/vip18.png"><input type="text" class="select mt4server" name="mt4server" id="mt4server_2" placeholder="选择服务器" onfocus="this.placeholder=''" onblur="this.placeholder='选择服务器'">
+                    <img src="__STATIC__image/select_icon_03.png" class="select_btn">
+                    <div class="option">
+                        <ul class="mt4server_ul" style="height: 120px;overflow-y: scroll;"></ul>
+                        <div class="last_li">手动输入服务器</div>
+                    </div>
+                </div>
+                <div class="broker_demo"><img src="__STATIC__image/vip17.png"><input type="text" class="select_demo_2 mt4broker_demo" id="mt4broker_demo_2" placeholder="选择经纪商" onfocus="this.placeholder=''" onblur="this.placeholder='选择经纪商'">
+                    <img src="__STATIC__image/select_icon_03.png" class="broker_demo_btn">
+                    <div class="option_demo_2">
+                        <!-- <div class="search_demo" style="height: 30px;margin: 10px 18px 10px 0;border: 1px solid #cccccc;border-radius: 12px;overflow: hidden;">
+                            <i style="display: inline-block;float: left;width: 20px;height: 20px;margin-top: 4px;margin-left: 10px;background: url('__STATIC__image/search.png')no-repeat center;background-size: cover;"></i>
+                            <input type="text" class="search_input_demo" placeholder="搜索您的经纪商" onfocus="this.placeholder=''" onblur="this.placeholder='搜索您的经纪商'" style="float: left;width: 210px;height: 30px;line-height: 30px;font-size: 16px;">
+                        </div> -->
+                        <ul class="mt4broker_demo_ul" style="height: 160px;overflow-y: scroll;"></ul>
+                        <div class="last_li_demo_2">手动输入经纪商</div>
+                    </div>
+                </div>
+                <div class="server_demo"><img src="__STATIC__image/vip18.png"><input type="text" class="select_demo mt4server_demo" id="mt4server_demo_2" placeholder="选择服务器" onfocus="this.placeholder=''" onblur="this.placeholder='选择服务器'">
+                    <img src="__STATIC__image/select_icon_03.png" class="select_demo_btn">
+                    <div class="option_demo">
+                        <ul class="mt4server_demo_ul" style="height: 120px;overflow-y: scroll;"></ul>
+                        <div class="last_li_demo">手动输入服务器</div>
+                    </div>
+                </div>
+                <div class="MT4_number"><img src="__STATIC__image/vip11.png"><input type="text" name="mt4uid" id="mt4uid_2" placeholder="请输入MT4帐号" onfocus="this.placeholder=''" onblur="this.placeholder='请输入MT4帐号'"></div>
+                <div class="MT4_password"><img src="__STATIC__image/vip12.png"><input type="text" name="mt4pwd" id="mt4pwd_2" placeholder="请输入MT4主密码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入MT4主密码'"></div>
+                 {if(@$pagefrom =='levelmax')}
+                 <div class="p"><label><input type="checkbox" checked="checked"><span></span></label><p class="allprotocol">我已阅读并同意<a href="{:url('other/protocol')}?server=levelmax"><span>《服务+免责协议》</span></a></p></div>
+                 {/if}
+                 {if(@$pagefrom !='levelmax')}
+                <div class="p"><label><input type="checkbox" checked="checked"><span></span></label><p class="allprotocol">我已阅读并同意<a href="{:url('other/protocol')}" target="_blank"><span>《服务+免责协议》</span></a></p></div>
+                {/if}
+                <div class="change_binding_tips"></div>
+                <input type="button" value="提  交" id="change_binding_button">
+                 {if(@$pagefrom !='levelmax')}
+                 <style>
+                 .change_binding_button{width:100%!important;}
+                 </style>
+                <a href="javascript:void(0)" class="open_demo_btn open_demo_btn2">生成Demo账户</a>
+                {/if}
+            </form>
+        </div>
+        <!--快速注册DEMO账户弹窗-->
+        <div class="to_demo">
+            <div class="to_demo_close"></div>
+            <h2>快速注册DEMO账户</h2>
+            <div class="to_levelmax_demo_step"><p><span>1</span><a href="{:url('other/mt4')}" target="_blank">点击MT4网页版</a></p><img src="__STATIC__image/to_levelmax_demo1.png"></div>
+            <div class="to_levelmax_demo_step"><p><span>2</span>点击“模拟”生成<br><i class="to_levelmax_demo_p2">Demo账户</i></p><img src="__STATIC__image/to_levelmax_demo2.png"></div>
+            <div class="to_levelmax_demo_step"><p><span>3</span>获得MT4模拟账户</p><img src="__STATIC__image/to_levelmax_demo3.png"></div>
+            <div class="to_levelmax_demo_step"><p><span>4</span><a href="javascript:void(0)" class="to_levelmax_demo_btn">点击绑定模拟账户</a></p><img src="__STATIC__image/to_levelmax_demo4.png"></div>
+        </div>
+    </div>
+</div>
+
+<!-- 确认下单-->
+<div class="buy_sure" id="buy_sure">
+    <div class="buy_sure_box">
+        <div class="buy_sure_inner">
+            <div class="buy_sure_close"></div>
+            <!--<img src="image/confirm_head.png" class="confirm_head">-->
+            <p class="confirmTitle">请确认以下内容</p>
+            <p class="confirmtext" style="padding-top:20px;">1.  实时无确认复制订单</p>
+            <p class="confirmtext">2.  同步当前信号持仓订单</p>
+            <p class="confirmtext confirmtext_off">3.  MT4余额不低于 <span class="money1"></span> 美元（建议）</p>
+            <p class="confirmtext confirmtext_on" style="display: none;">3.  交易账户将按照比例跟单</p>
+            <p class="confirmtext">4.  实际交易登录MT4查看<a href="javascript:void(0)" class="to_mt4_btn" target="_blank" style="color:#999999;font-size:18px;border-bottom:1px solid #999999;padding-left:5px;">如何登陆？</a></p>
+            <img src="__STATIC__image/vip15.png" class="confirm_agree">
+             {if(@$pagefrom =='levelmax')} 
+            <p style="padding:15px 0 10px 3px;float:left;font-size:16px;" class="allprotocol">我已阅读并同意<a href="{:url('other/protocol')}?server=levelmax" style="color:#611987">《服务+协议》</a></p>
+             {/if} 
+             {if(@$pagefrom !='levelmax')}
+            <p style="padding:15px 0 10px 3px;float:left;font-size:16px;" class="allprotocol">我已阅读并同意<a href="{:url('other/protocol')}" target="_blank" style="color:#611987">《服务+协议》</a></p>
+            {/if}
+            <button class="buy_sure_btn">确  认</button>
+        </div>
+        <!--如何查看自己MT4账户-->
+        <div class="to_mt4">
+            <div class="to_mt4_close"></div>
+            <h2>如何查看自己MT4账户</h2>
+            <div class="to_mt4_step"><p><span>1</span><a href="http://www.besfx.com/mt4setup.exe">下载MT4</a><br><i class="to_mt4_p2">(已安装无需重新下载)</i></p><img src="__STATIC__image/to_mt4_demo1.png"></div>
+            <div class="to_mt4_step"><p><span>2</span>搜索服务器</p><img src="__STATIC__image/to_mt4_demo2.png"></div>
+            <div class="to_mt4_step"><p><span>3</span>登录到交易者</p><img src="__STATIC__image/to_mt4_demo3.png"></div>
+            <div class="to_mt4_step"><p><span>4</span>查看交易</p><img src="__STATIC__image/to_mt4_demo4.png"></div>
+        </div>
+        <!--弹出生成demo账户弹窗-->
+        <script type="text/javascript">
+            $(".to_mt4_btn").on("click", function () {
+                $(".buy_sure_inner").animate({left:"0"},600);
+                $(".to_mt4").animate({left:"400px"},600);
+            });
+            $(".to_mt4_close").on("click", function () {
+                $(".buy_sure_inner").animate({left:"200px"},600);
+                $(".to_mt4").animate({left:"200px"},600);
+            });
+        </script>
+    </div>
+</div>
+<!--确认停止跟单-->
+<div class="step_3_btn2_sure">
+    <div class="confirmBox" style="width:240px;height:180px;margin-top:-100px;margin-left:-140px;">
+        <img src="__STATIC__image/not_login_icon.png" style="display: block;width:40px;margin:0 auto;padding:10px 0 5px 0;">
+        <p style="font-size:20px;color:#333333;text-align: center;">停止跟单交易<br><span style="color: #611987;font-size: 16px;">(系统订单将会平仓)</span></p>
+        <div style="width:80%;margin:0 auto;" class="not_login_btn">
+            <button style="margin-top: 10px;" class="step_3_btn2_sure_btn1">确认</button>
+            <button style="margin-top: 10px;float:right;background: #fff;color:#611987;border:1px solid #611987;" class="step_3_btn2_sure_btn2">取消</button>
+        </div>
+    </div>
+</div>
+<!-- 启动成功-->
+<div class="buy_succeed" id="buy_succeed">
+    <div class="confirmBox" style="width:240px;height:180px;margin-top:-100px;margin-left:-140px;">
+        <div class="buy_succeed_close"></div>
+        <img src="__STATIC__image/starting.gif" style="display: block;width:50px;margin:0 auto;padding:20px 0 10px 0;">
+        <p style="font-size:22px;color:#333333;text-align: center;padding-bottom:10px;">启动成功，等待下单!</p>
+        <p style="font-size:18px;color:#999999;text-align: center;">（等待时无需其他操作）</p>
+    </div>
+</div>
+<!-- 还未登录-->
+<div class="no_login" id="no_login">
+    <div class="confirmBox" style="width:280px;height:258px;margin-top:-100px;margin-left:-140px;">
+        <div class="no_login_close"></div>
+        <img src="__STATIC__image/not_login_icon.png" style="display: block;width:40px;margin:0 auto;padding:18px 0;">
+        <p style="font-size:20px;color:#333333;text-align: center;">您还未登录!</p>
+        <div style="width:90%;margin:0 auto;" class="not_login_btn">
+            <button class="vip_login_btn" style="background:#611987;">登录</button>
+            <button style="float:right;background: #fff;color:#611987;border:1px solid #611987;" class="no_login_btn2">创建练习账户</button>
+        </div>
+        <img src="__STATIC__image/login_title_icon.png" style="clear:both;display:block;margin:0 auto;padding:10px 0 4px;width:234px;">
+        <div style="width:196px;;margin:0 auto;height:50px;">
+            <a href="__API__tlogin.qq/login.html" class="three_login"  style="margin-left:0!important;width:25px;"><img src="__STATIC__image/qq_login.png" style="width:38px;"></a>
+            <a class="three_login" style="width:25px;" href="__API__tlogin.weibo/login"><img src="__STATIC__image/weibo_login.png" style="width:38px;"></a>
+            <a href="__API__tlogin.wechat/login" class="three_login" style="width:25px;"><img src="__STATIC__image/weixin_login.png" style="width:38px;"></a>
+        </div>
+    </div>
+</div>
+<!-- 还未绑定-->
+<div class="no_binding" id="no_binding">
+    <div class="confirmBox" style="width:240px;height:180px;margin-top:-100px;margin-left:-140px;">
+        <img src="__STATIC__image/not_login_icon.png" style="display: block;width:40px;margin:0 auto;padding:18px 0;">
+        <p style="font-size:20px;color:#333333;text-align: center;">您还未绑定MT4账户!</p>
+        <div style="width:80%;margin:0 auto;" class="not_login_btn">
+            <button class="user_info_btn7">绑定MT4</button>
+            <button style="float:right;background: #fff;color:#611987;border:1px solid #611987;" class="no_binding_btn2">稍后</button>
+        </div>
+    </div>
+</div>
+<!--还未购买服务-->
+<div class="no_buy" id="no_buy">
+    <div class="confirmBox" style="width:240px;height:180px;margin-top:-100px;margin-left:-140px;">
+        <img src="__STATIC__image/not_login_icon.png" style="display: block;width:40px;margin:0 auto;padding:10px 0 5px 0;">
+        <p style="font-size:20px;color:#333333;text-align: center;">您还未开通服务!<br><span style="color: #611987;font-size: 16px;">(只能跟随一个信号)</span></p>
+        <div style="width:80%;margin:0 auto;" class="not_login_btn">
+            <button style="margin-top: 10px;" onclick="window.open('{:url('user/vip')}')">立即开通</button>
+            <button style="margin-top: 10px;float:right;background: #fff;color:#611987;border:1px solid #611987;" class="no_buy_btn2">稍后</button>
+        </div>
+    </div>
+</div>
+<!--未購買vip2-->
+<div class="no_vip2">
+    <div class="confirmBox" style="width:240px;height:180px;margin-top:-100px;margin-left:-140px;">
+        <img src="__STATIC__image/not_login_icon.png" style="display: block;width:40px;margin:0 auto;padding:10px 0 5px 0;">
+        <p style="font-size:20px;color:#333333;text-align: center;">您还未购买 ViP2 服务!<br><span style="color: #611987;font-size: 16px;">(不能使用反向跟单)</span></p>
+        <div style="width:80%;margin:0 auto;" class="not_login_btn">
+            <button style="margin-top: 10px;" onclick="window.open('{:url('user/vip')}')">立即开通</button>
+            <button style="margin-top: 10px;float:right;background: #fff;color:#611987;border:1px solid #611987;" class="no_vip2_btn2">稍后</button>
+        </div>
+    </div>
+</div>
+<!--未購買vip3,不能绑定多-->
+<div class="no_vip3">
+    <div class="confirmBox" style="width:240px;height:180px;margin-top:-120px;margin-left:-120px;">
+        <img src="__STATIC__image/not_login_icon.png" style="display: block;width:40px;margin:0 auto;padding:10px 0 5px 0;">
+        <p style="font-size:20px;color:#333333;text-align: center;">您还未购买 ViP3 服务!<br><span style="color: #611987;font-size: 16px;">(只能绑定一个MT4账号)</span></p>
+        <div style="width:80%;margin:0 auto;" class="not_login_btn">
+            <button style="margin-top: 10px;" onclick="window.open('{:url('user/vip')}')">立即开通</button>
+            <button style="margin-top: 10px;float:right;background: #fff;color:#611987;border:1px solid #611987;" class="no_vip3_btn2">稍后</button>
+        </div>
+    </div>
+</div>
+<!--设置个人资料-->
+<div class="set_my_data">
+    <div class="confirmBox" style="width: 400px;height:360px;margin-top:-180px;">
+        <div class="set_my_data_close"></div>
+        <!--<img src="image/confirm_head.png" class="confirm_head">-->
+        <p class="confirmTitle">我的信息</p>
+        <div class="set_my_data_div"><span>昵称</span><input class="my_name" placeholder="请输入您的昵称" value="{$info.nickname}"></div>
+        <div class="set_my_data_div"><span>地区</span><input class="my_address" placeholder="请选择您所在的地区" value="{$info.area}" readonly='readonly'><img src="__STATIC__image/select_icon_03.png" class="input_btn">
+            <ul>
+                <li>China,中国</li>
+                <li>Russia</li>
+                <li>Singapore</li>
+                <li>Australia</li>
+                <li>Korea</li>
+                <li>New Zealand</li>
+                <li>Canada</li>
+                <li>Germany</li>
+                <li>Switzerland</li>
+                <li>Japan</li>
+                <li>France</li>
+                <li>England</li>
+                <li>America</li>
+            </ul>
+        </div>
+        <style>
+            .ke-button-common{display: none;}
+            .ke-upload-area{width:100%!important;height:100%!important;position: absolute;left: 0;top: 0;cursor: pointer!important;}
+        </style>
+        <div class="set_my_data_div"><span>头像</span><img
+                src="<?php if(strstr($info['u_img'], 'http')) {?>{$info['u_img']}<?php } elseif(!empty($info['u_img'])) {?>__STATIC__upload/image/{$info.u_img} <?php } else {?>../image/set_my_data.png <?php }?>"
+                class="my_header" id="previewImg"><input type="text" class="ImageUrl" value="{$info.u_img}"
+                                                         style="display: none;"><a href="javascript:void(0)"
+                                                                                   class="up_header"><i></i>上传头像<input
+                type="button" id="selectImg"></a></div>
+        <div class="set_my_data_tips" style="float: right;margin-right: 40px;width: 270px;height: 25px;line-height: 25px;color: #ff3939;"></div>
+        <button class="set_my_data_btn">提交</button>
+    </div>
+    <!--上传我的信息，头像...-->
+    <script type="text/javascript">
+        /*传递到后台接口*/
+        /*头像*/
+        KindEditor.ready(function (K) {
+            var editor = K.create('#detail', config);
+            var uploadbuttona = K.uploadbutton({
+                button : K('#selectImg')[0],
+                fieldName : 'imgFile',
+                url : '{:url("master/uploadImg")}',
+                afterUpload : function (data) {
+                    if (data.error === 0) {
+                        var url = K.formatUrl(data.url, 'relative');
+                        var newUrl = url.replace(/\\/g,'/');
+                        if(newUrl.substr(0,1)=='/'){
+                            newUrl = newUrl.substr(1,url.length);
+                        }
+                        $(".ImageUrl").val(newUrl);
+                        var URL = '__STATIC__upload/image/'+newUrl;
+//                        console.log(URL);
+                        setTimeout(function () {
+                            $("#previewImg").attr("src",URL);
+                        },500);
+                    } else {
+                        win.alert('',data.message);
+                    }
+                },
+                afterError : function (str) {
+                    $(".set_my_data_tips").html('自定义错误信息: ' + str);
+                }
+            });
+            uploadbuttona.fileBox.change(function (e) {
+                uploadbuttona.submit();
+            });
+        });
+        /*昵称，地区*/
+        $(".set_my_data_btn").on("click", function () {
+            var uid = {$uid};
+            var u_img;
+            setTimeout(function () {
+                u_img = $(".ImageUrl").val();
+                var my_name = $(".my_name").val();
+                var my_address = $(".my_address").val();
+                if(my_name == ''){
+                    $(".set_my_data_tips").html("请输入您的昵称");
+                    return false;
+                }
+                if(my_name.length>11){
+                    $(".set_my_data_tips").html("昵称输入过长");
+                    return false;
+                }
+                if(my_address == ''){
+                    $(".set_my_data_tips").html("请选择您所在的地区");
+                    return false;
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: "{:url('index/update_userinfo')}",
+                    data: {
+                        uid : uid,
+                        nickname : my_name,
+                        area : my_address,
+                        u_img : u_img
+                    },
+                    success: function (response) {
+//                console.log(response);
+                        if (response) {
+                            var json = JSON.parse(response);
+                            if (json.code == '200') {
+                                $(".set_my_data_tips").html("提交成功");
+                                setTimeout(function () {
+//                                    $(".set_my_data").hide();
+                                    window.location.reload();
+                                },1000);
+                            }else if(json.code == '302'){
+                                $(".set_my_data_tips").html("信息未更改");
+                            }
+                        }
+
+                    }
+                });
+            },500);
+        });
+    </script>
+</div>
+<!--创建练习账号-->
+<div class="TYPE" style="display: none;"></div>
+<div class="establish_account">
+    <div class="confirmBox" style="width: 400px;height:400px;margin-top:-230px;">
+        <div class="establish_account_close"></div>
+        <!--<img src="image/confirm_head.png" class="confirm_head">-->
+        <p class="confirmTitle">创建练习账户</p>
+        <div class="inputItems" style="margin-top:5px;">
+            <img src="__STATIC__image/win_name.png" class="win_icon">
+            <input name="ulogin" type="text" placeholder="请输入您的手机号" class="win_input" id="login3" maxlength="25">
+        </div>
+        <div style="width:320px;height:40px;margin:0 auto;margin-top:10px;">
+            <div class="inputItems" style="width:216px;float:left;margin-top:0;border-radius: 6px 0 0 6px;border-right: none;">
+                <img src="__STATIC__image/win_yanzheng.png" class="win_icon">
+                <input name="mcode" type="number" placeholder="请输入验证码" class="win_input register_win_input_3" maxlength="6" style="width:230px;">
+            </div>
+            <div class="register_win_yzm_2">获取验证码</div>
+        </div>
+        <div class="inputItems">
+            <img src="__STATIC__image/win_password.png" class="win_icon">
+            <input name="new_pwd1_login" type="password" placeholder="请输入您的密码" id="password_3" class="win_input" maxlength="25">
+        </div>
+        <div class="inputItems">
+            <img src="__STATIC__image/win_minvite.png" class="win_icon">
+            <input name="new_pwd2_login" type="password" placeholder="请输入邀请码(选填)" id="refferee_3" class="win_input" maxlength="25">
+        </div>
+        <div class="inputItems inputItems_btn">
+            <a href="javascript:void(0)" class="establish_account_btn1 active">自动生成MT4账户</a>
+            <a href="javascript:void(0)" class="establish_account_btn2">已有MT4账户</a>
+        </div>
+        <div class="establish_account_tips" style="width: 320px;height: 25px;line-height: 25px;margin: 0 auto;color: #ff3939;"></div>
+        <button class="confirm_btn establish_account_btn" style="width:320px;margin-top:0;">确认</button>
+    </div>
+    <script>
+        $(".inputItems_btn a").on("click", function () {
+            $(this).addClass("active").siblings().removeClass("active");
+        });
+
+        var countdown=60;
+        function settime(obj) {
+            obj = $(obj);
+            if (countdown == 0) {
+                obj.css({"background":"#611987","border": "1px solid #611987"});
+                obj.html("获取验证码");
+                countdown = 60;
+                return;
+            } else {
+                obj.css({"background":"#cccccc","border": "1px solid #999999","border-left": "1px solid #cccccc"});
+                obj.html("重发短信(" + countdown + ")秒");
+                countdown--;
+            }
+            setTimeout(function() {settime(obj) },1000);
+        }
+
+        function gettelcode3() {
+            var mlogin = $("#login3").val();
+            if(mlogin==""){
+                $(".establish_account_tips").html('请输入您的手机号码！').show();
+                return false;
+            }
+            var tel= /^1[3458]\d{9}$/;
+            if(!tel.test(mlogin)){
+                $(".establish_account_tips").html('请输入正确的手机号！').show();
+                return false;
+            }
+            $.ajax({
+                type : 'POST',
+                url : "{:url('index/get_smscode')}",
+                data : {mobile : mlogin},
+                success : function (response){
+//                console.log(response);
+                    if(response){
+                        var json = JSON.parse(response);
+                        if(json.code=='200'){
+                            settime(".register_win_yzm_2");
+                        }
+                        $(".establish_account_tips").html(json.message).show();
+                    }
+
+                },
+                beforeSend : function(){
+                    //$('#page_tag_load').show();
+                },
+                complete : function(){
+                    //$('#page_tag_load').hide();
+                }
+            });
+
+
+        }
+
+        $(".register_win_yzm_2").click(function(){
+            if(countdown==60){
+                gettelcode3();
+            }else{
+                $(".establish_account_tips").html('请稍后再试!').show();
+            }
+        });
+
+        $(".establish_account_btn").click(function(){
+            var mlogin = $("#login3").val();
+            var register_win_input = $(".register_win_input_3").val();
+            var mpassword = $("#password_3").val();
+            var refferee = $("#refferee_3").val() || 0;
+            if(mlogin==""){
+                $(".establish_account_tips").html('请输入您的手机号码！').show();
+                return false;
+            }
+            var tel= /^1[3458]\d{9}$/;
+            if(!tel.test(mlogin)){
+                $(".establish_account_tips").html('请输入正确的手机号！').show();
+                return false;
+            }
+            if(register_win_input==""){
+                $(".establish_account_tips").html('请输入短信验证码！').show();
+                return false;
+            }
+            if(mpassword==""){
+                $(".establish_account_tips").html('请输入密码！').show();
+                return false;
+            }
+            var type = 0;
+            if($(".establish_account_btn1 ").hasClass("active")){
+                type = 1;
+            }else if($(".establish_account_btn2 ").hasClass("active")){
+                type = 0;
+            }
+            $.ajax({
+                type : 'POST',
+                dataType : 'json',
+                url : "{:url('index/register')}",
+                data : {
+                    "login" : mlogin,
+                    "password" : mpassword,
+                    "verify" : register_win_input,  //短信验证码
+                    "code":refferee,  //邀请码
+                    "type" : type
+                },
+                async:false,
+                success : function (data){
+                    var json = JSON.parse(data);
+                    $(".establish_account_tips").html(json.msg).show();
+                    if(json.code==200){
+                        /*如果注册成功，判断选择的“自动生成MT4”还是“已有MT4”，来进行更换弹窗*/
+                        if($(".establish_account_btn1 ").hasClass("active")){
+                            //console.log("自动生成")
+                            var mt4server = json.demo.mt4server;
+                            var mt4id = json.demo.mt4id;
+                            var mt4pwd = json.demo.mt4pwd;
+                             $.ajax({
+                                        type: 'POST',
+                                        dataType : 'json',
+                                        url : "{:url('api.account/add')}",
+                                        data : {
+                                            'zhmt4server' : mt4server,
+                                            'zhmt4uid' : mt4id,
+                                            'zhmt4pwd' : mt4pwd,
+                                            "type":'demo'
+                                        },
+                                        async:false,
+                                        success: function (data) {
+                                            /*var indexOf = mt4server.indexOf('-');
+                                            var mt4broker = mt4server.substr(0, indexOf);*/
+                                            $(".establish_account_p0").html($("#login3").val());
+                                            $(".establish_account_p1").html(mt4server);
+                                            $(".establish_account_p2").html(mt4id);
+                                            $(".establish_account_p3").html(mt4pwd);
+
+                                            $(".establish_account").hide();
+                                            $(".establish_account_info").fadeIn();
+                                            //  establish_account_info();
+                                            $(".establish_account_info_img").css("display","block");
+                                            setTimeout(function () {
+                                                $(".establish_account_info_img").css("display","none");
+                                                $(".establish_account_info_div").fadeIn();
+                                            },1000);
+                                        }
+                             });
+                            
+                        }else if($(".establish_account_btn2 ").hasClass("active")){
+                                // console.log("已有")
+                            $(".establish_account").hide();
+                            $(".vip_register").fadeIn();
+                            $(".vip_register_header").find("span:nth-child(2)").addClass("active");
+                            $(".vip_register_step1").hide();
+                            $(".vip_register_step2").show();
+                            // <!--注册第二步，绑定MT4-->
+                            var uid=json.uid;
+//                        console.log(uid);
+                            /*选择实盘和模拟*/
+                            $(".Live").on("click", function () {
+                                $(".Live").addClass("account_active");
+                                $(".Demo").removeClass("account_active");
+                                $(".broker").show();
+                                $(".server").show();
+                                $(".broker_demo").hide();
+                                $(".server_demo").hide();
+                                $("#button3").css("width","100%");
+                                $(".open_demo_btn").hide();
+                                $(".whatBox").show();
+
+                                $("#change_binding_button").css("width","100%");
+                            });
+                            $(".Demo").on("click", function () {
+                                $(".Demo").addClass("account_active");
+                                $(".Live").removeClass("account_active");
+                                $(".broker").hide();
+                                $(".server").hide();
+                                $(".broker_demo").show();
+                                $(".server_demo").show();
+                                $("#button3").css("width","180px");
+                                $(".open_demo_btn").show();
+                                $(".whatBox").hide();
+
+                                $("#change_binding_button").css("width","180px");
+                            });
+                            $("#button3").click(function() {
+                                var display=$(".server").css("display");
+                                if(display=="block"){                       //绑定Live账户
+                                    var mmt4uid = $("#mt4uid").val();
+                                    var mmt4pwd = $("#mt4pwd").val();
+                                    var mmt4server = $("#mt4server").val();
+                                    if (mmt4server == "") {
+                                        $(".register_tips2").html('请输入MT4服务器！');
+                                        return false;
+                                    }
+                                    if (mmt4uid == "") {
+                                        $(".register_tips2").html('请输入MT4帐号！');
+                                        return false;
+                                    }
+                                    if (mmt4pwd == "") {
+                                        $(".register_tips2").html('请输入MT4主密码！');
+                                        return false;
+                                    }
+
+                                    $.ajax({
+                                        type: 'POST',
+                                        dataType : 'json',
+                                        url : "{:url('api.account/add')}",
+                                        data : {
+                                            'zhmt4server' : mmt4server,
+                                            'zhmt4uid' : mmt4uid,
+                                            'zhmt4pwd' : mmt4pwd,
+                                            "type":'live'
+                                        },
+                                        success: function (data) {
+                                                    if(data.code==200){
+                                                        $(".change_binding").hide();
+                                                        $(".vip_register_step3").fadeIn();
+                                                        vip_register_step3();
+                                                    }else {
+                                                        $(".change_binding").hide();
+                                                        win.alert('', data.msg);
+                                                    }
+                                                    /*win.alert('', data.msg, function () {
+                                                        $(".change_binding").hide();
+                                                        if(data.msg=='数据保存成功,请等待管理员审核!'){
+                                                            $(".vip_register_step3").fadeIn();
+                                                            vip_register_step3();
+                                                        }
+                                                    });*/
+                                                    /*进入第三步，生成服务器页面*/
+                                                    /*$(".vip_register_step1").hide();
+                                                     $(".vip_register_step2").hide();*/
+                                                    $(".vip_register_step1").show();
+                                                    $(".vip_register_step2").hide();
+                                                    $(".vip_register").hide();
+                                                    /*$(".vip_register_step3").fadeIn();*/
+                                                    /*第三步头部样式*/
+                                                    /* $(".vip_register_header").find("span:nth-child(3)").addClass("active");*/
+                                                    /*vip_register_step3();*/
+                                                    $("#mt4broker").val("");
+                                                    $("#mt4server").val("");
+                                                    $("#mt4uid").val("");
+                                                    $("#mt4pwd").val("");
+                                                    setmt4();
+                                        }
+                                    });
+                                }else if(display=="none"){                       //绑定Demo账户
+                                    var mmt4uid_demo = $("#mt4uid").val();
+                                    var mmt4pwd_demo = $("#mt4pwd").val();
+                                    var mmt4server_demo = $("#mt4server_demo").val();
+//            console.log(mmt4uid_demo + mmt4pwd_demo + mmt4server_demo);
+                                    if (mmt4server_demo == "") {
+                                        $(".register_tips2").html('请输入MT4服务器！');
+                                        return false;
+                                    }
+                                    if (mmt4uid_demo == "") {
+                                        $(".register_tips2").html('请输入MT4帐号！');
+                                        return false;
+                                    }
+                                    if (mmt4pwd_demo == "") {
+                                        $(".register_tips2").html('请输入MT4主密码！');
+                                        return false;
+                                    }
+                                    var t=$(".TYPE").html();
+                                    $.ajax({
+                                        type: 'POST',
+                                        dataType : 'json',
+                                        url : "{:url('api.account/add')}",
+                                        data : {
+                                            'zhmt4server' : mmt4server_demo,
+                                            'zhmt4uid' : mmt4uid_demo,
+                                            'zhmt4pwd' : mmt4pwd_demo,
+                                            "type":'live'
+                                        },
+                                        success: function (data) {
+                                            if(data.code==200){
+                                                $(".change_binding").hide();
+                                                $(".vip_register_step3").fadeIn();
+                                                vip_register_step3();
+                                            }else {
+                                                $(".change_binding").hide();
+                                                win.alert('', data.msg);
+                                            }
+                                                    /*win.alert('', data.msg, function () {
+                                                        $(".change_binding").hide();
+                                                        if(data.msg=='数据保存成功,请等待管理员审核!'){
+                                                            $(".vip_register_step3").fadeIn();
+                                                            vip_register_step3();
+                                                        }
+                                                    });*/
+                                                    /*进入第三步，生成服务器页面*/
+                                                    /* $(".vip_register_step1").hide();
+                                                     $(".vip_register_step2").hide();
+                                                     $(".vip_register_step3").show();*/
+                                                    $(".vip_register_step1").show();
+                                                    $(".vip_register_step2").hide();
+                                                    $(".vip_register").hide();
+//                                                    $(".vip_register_step3").fadeIn();
+                                                    /*第三步头部样式*/
+                                                    /*$(".vip_register_header").find("span:nth-child(3)").addClass("active");*/
+//                                                    vip_register_step3();
+                                                    $("#mt4broker_demo").val("");
+                                                    $("#mt4server_demo").val("");
+                                                    $("#mt4uid").val("");
+                                                    $("#mt4pwd").val("");
+                                                    setmt4();
+                                        }
+                                    });
+                                }
+                            });
+                            /*绑定示例隐藏显示*/
+                            $('.what').on("click",function() {
+                                if($(".whatBox").css("display")=="none"){
+                                    $(".whatBox").css('display', 'block');
+                                }else {
+                                    $(".whatBox").css('display', 'none');
+                                }
+                            });
+                            <!--注册第三步，生成服务器，等待审核-->
+                            function vip_register_step3(){
+                                $('.loadingIcon_3').hover(function() {
+//        $(this).attr("src","image/pay_icon_08.png");
+                                    $(".code").css("display","block");
+                                }, function() {
+//        $(this).attr("src","image/pay_icon_07.png");
+                                    $(".code").css("display","none");
+                                });
+                                setTimeout(function(){
+                                    $(".cloud").attr("src","__STATIC__image/loading_icon_03_2.png").animate({top:"25px"},1000);
+                                    $(".vip_register_step3 h1").animate({top:"100px"},1000);
+                                    $(".vip_register_step3 h1 span").html("正在生成云端服务");
+                                },3000);
+                                setTimeout(function(){
+                                    $(".wait").fadeIn(1000);
+                                },4000);
+                                setTimeout(function(){
+                                    $(".jump").fadeIn(1000);
+                                },5000);
+                                setTimeout(function(){
+                                    location.reload();
+                                },8000);
+                                /*function wait(){
+                                 $.ajax({
+                                 type:"POST",
+                                 url:"",
+                                 datatype: "json",
+                                 success : function (response){
+                                 if(response){
+                                 var json = JSON.parse(response);
+                                 if(json.status=="yes"){
+                                 $(".wait").html("");
+                                 $(".wait").html("恭喜您，通过审核！").css("color","#ff6c00");
+                                 }
+                                 if(json.status=="4006"){
+                                 $(".wait").html("");
+                                 $(".wait").html("绑定失败！请重新绑定账户！").css("color","#ff6c00");
+                                 }
+                                 if(json.status=="4004"){
+                                 $(".wait").html("");
+                                 $(".wait").html("请先登录！").css("color","#ff6c00");
+                                 }
+                                 }
+                                 }
+                                 });
+                                 }
+                                 setInterval(function () {wait();},3000);*/
+                            }
+                        }
+                    }
+                }
+            });
+            return true;
+        });
+    </script>
+</div>
+<!--创建练习账户里面自动生成账户信息弹窗-->
+<div class="establish_account_info">
+    <div class="confirmBox" style="width: 400px;height:320px;margin-top:-200px;">
+        <div class="establish_account_info_close"></div>
+        <!--<img src="image/confirm_head.png" class="confirm_head">-->
+        <p class="confirmTitle">账户信息</p>
+        <img src="__STATIC__image/establish_account_info.gif" class="establish_account_info_img">
+        <div class="establish_account_info_div">
+            <ul>
+                <li><p><i></i><span>我的账户 :</span></p><p class="establish_account_p0"></p></li>
+                <li><p><i></i><span>MT4服务器 :</span></p><p class="establish_account_p1"></p></li>
+                <li><p><i></i><span>MT4账号 :</span></p><p class="establish_account_p2"></p></li>
+                <li><p><i></i><span>MT4密码 :</span></p><p class="establish_account_p3"></p></li>
+            </ul>
+            <button class="confirm_btn establish_account_info_btn" style="width:320px;margin-top:0;">确认登录</button>
+        </div>
+    </div>
+    <!--点击确认登录-->
+    <script>
+        $(".establish_account_info_btn").on("click", function () {
+//            console.log("登录");
+            $(".establish_account_info").hide();
+            var mlogin    = $("#login3").val();
+            var mpassword = $("#password_3").val();
+            $.ajax({
+                type : 'POST',
+                url : "{:url('index/signin')}",
+                data : {
+                    login : mlogin,
+                    password : mpassword
+                },
+                success : function (response){
+                    if(response){
+                        var json = JSON.parse(response);
+                        if(json.code==200){
+//                            window.location.reload();
+                            window.location.href = "{:url('user/trade')}";
+                            return true;
+                        }
+                    }
+                }
+            });
+            return true;
+        });
+    </script>
+</div>
+<!--功能升级中弹窗-->
+<div class="hint_1">
+    <div class="confirmBox" style="width:240px;height:180px;margin-top:-100px;margin-left:-140px;">
+        <div class="hint_1_close"></div>
+        <img src="__STATIC__image/hint_1.png" style="display: block;width:50px;margin: 0 auto;padding:35px 0 30px 0;">
+        <p style="font-size:20px;color:#333333;text-align: center;padding-bottom:10px;">该功能升级中...</p>
+    </div>
+</div>
+<!--超出组合上限弹窗-->
+<div class="hint_2">
+    <div class="confirmBox" style="width:240px;height:180px;margin-top:-100px;margin-left:-140px;">
+        <div class="hint_2_close"></div>
+        <img src="__STATIC__image/hint_2.png" style="display: block;width:50px;margin:0 auto;padding:35px 0 30px 0;">
+        <p style="font-size:20px;color:#333333;text-align: center;padding-bottom:10px;">超出组合上限...</p>
+    </div>
+</div>
+<!--请先移除组合弹窗-->
+<div class="hint_3">
+    <div class="confirmBox" style="width:240px;height:180px;margin-top:-100px;margin-left:-140px;">
+        <div class="hint_3_close"></div>
+        <img src="__STATIC__image/hint_3.png" style="display: block;width:50px;margin:0 auto;padding:35px 0 30px 0;">
+        <p style="font-size:18px;color:#333333;text-align: center;padding-bottom:10px;">提示:请先移除组合中的信号!</p>
+    </div>
+</div>
+<!--即将到来-->
+<div class="hint_4" style="display: none;width: 100%;height: 100%;background-color: rgba(0,0,0,0.4);position: fixed;top: 0;z-index: 1000;">
+    <div class="confirmBox" style="width:240px;height:180px;margin-top:-100px;margin-left:-140px;">
+        <div class="hint_4_close" style="position: absolute;top: -10px;right: -10px;width: 30px;height: 30px;cursor: pointer;background: url(../image/buchang_close.png)no-repeat center;background-size: cover;z-index: 1;"></div>
+        <img src="__STATIC__image/hint_4.png" style="display: block;width:50px;margin: 0 auto;padding:35px 0 30px 0;">
+        <p style="font-size:20px;color:#333333;text-align: center;padding-bottom:10px;">即将到来...</p>
+    </div>
+</div>
+<!--全局设置-->
+<div class="global_setting_box">
+    <div class="confirmBox" style="width: 480px;height:320px;margin-top:-160px;margin-left: -240px;">
+        <div class="global_setting_close"></div>
+        <!--<img src="image/confirm_head.png" class="confirm_head">-->
+        <p class="confirmTitle">全局设置</p>
+        <div class="set_option">
+            <div class="set_type"><span class="set_type1 active">关闭</span> <a href="javascript:void(0);" class="toggle toggle-on toggle3"></a> <span class="set_type2">开启</span></div>
+            <div class="set_option_li set_option_li1">
+                <p title="当您的账户单日净值涨跌幅（通常指盈利或亏损）达到您预设的比例，执行相应操作。">净<span class="space"></span>值:</p>
+                <div><span>单日涨幅</span><select><option>10%</option></select></div>
+                <div><span>单日跌幅</span><select><option>10%</option></select></div>
+                <div><span>操作</span><select><option>停止跟单</option></select></div>
+            </div>
+            <div class="set_option_li">
+                <p title="当您的账户在跟单的过程中出现了设定的指标，执行相应操作。例如：某权威平台发布“利多”黄金的信号，&#10则此时立即平仓sell的黄金订单，并在一定时间内屏蔽该品种sell订单的指令。">消<span class="space"></span>息:</p>
+                <div><select><option>消息来源</option></select></div>
+                <div><select><option>经济事件</option></select></div>
+                <div><span>操作</span><select><option>降低仓位</option></select></div>
+            </div>
+            <div class="set_option_li">
+                <p title="设置一些常见的指标规则，当出现了指标行情时，执行相应操作。">指<span class="space"></span>标:</p>
+                <div><select><option>添加经济指标</option></select></div>
+                <div><select><option>设置指标规格</option></select></div>
+                <div><span>操作</span><select><option>屏蔽订单</option></select></div>
+            </div>
+            <div class="set_option_li">
+                <p title="通过对目标数据进行事实监听，大数据达到某些指数，执行相应操作。">大数据:</p>
+                <div><select><option>采集目标</option></select></div>
+                <div><select><option>数据类型</option></select></div>
+                <div><span>操作</span><select><option>停止1小时</option></select></div>
+            </div>
+            <a class="set_option_btn"><span>+</span><span>添加更多限定</span></a>
+        </div>
+    </div>
+</div>
+<!--app下载-->
+<div class="app_download">
+    <div class="confirmBox" style="width: 400px;height:320px;margin-top:-160px;margin-left: -240px;">
+        <div class="app_download_close"></div>
+        <p class="confirmTitle">APP下载</p>
+        <div class="app_download_code"><img src="__STATIC__image/app_download.png"><i class="app_download_line"></i></div>
+        <p class="app_download_p">扫描下载手机版APP</p>
+    </div>
+</div>
+
+
+<!-- 利汇 -->
+{if(@$pagefrom =='levelmax')}
+<style>
+    .main_inner {
+        margin: 0 auto;
+    }
+    .o_main{ margin: 0 auto;}
+    #inner2{display:block!important;}
+    #inner1{display:none!important;}
+</style>
+<div class="levelmax_setting">
+        <img src="__STATIC__image/levelmax_set.png" class="levelmax_set">
+        <div class="user_info levelmax_user_info">
+            <ul class="user_info_ul" id="levelmax_user_info_ul" style="background:#fff;display:block;box-shadow: 0 0 10px #e2e1e1;right: 0;bottom: 67px;top: initial;border-radius:10px;">
+                    <?php if($uid === 0) {?>
+                    <li class="user_info_btn20"><i></i><span>登录</span></li>
+                    <li class="user_info_btn21"><i></i><span>注册</span></li>
+                    <?php } else {?>
+                        <li class="user_info_btn1"><i></i><span>我的账户</span></li>
+                        <li class="user_info_btn6" style="display:none;"><i></i><span></span></li>
+                        <li class="user_info_btn6"><i></i><span>修改密码</span></li>
+                        <li class="user_info_btn7"><i></i><span>更换MT4账户</span></li> 
+                        <a href="{:url('index/signout', ['callback'=>'master'])}"><li class="user_info_btn8" id="exit"><i></i><span>退出</span></li></a>
+                    <?php }?>
+            </ul>
+        </div>
+</div>
+<script>
+    $(".levelmax_setting").click(function(){
+        $(".levelmax_user_info").show();
+    });
+
+</script>
+{/if}
+
+<!--点击右上角登录注册按钮-->
+<script type="text/javascript">
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r != null){
+        r[2]=r[2].replace(/<.*?>/ig,"");
+        }
+        if (r != null) return unescape(r[2]); return null;
+    }
+    
+    /*头部导航“服务”，“用户信息”*/
+    $(".serve").on("click", function (event) {
+        $(".serve_ul").fadeIn();
+        event.stopPropagation();
+    });
+    $("body").click(function(event){
+        $(".serve_ul").hide();
+    });
+    $(".user_info_btn").on("click", function (event) {
+        $(".user_info_ul_normal").fadeIn();
+        event.stopPropagation();
+    });
+    $("body").click(function(event){
+        $(".user_info_ul_normal").hide();
+    });
+    /*站内信*/
+    $(".news").on("click", function () {
+        $(".news_box").fadeIn();
+        /*加载站内信息*/
+    });
+    $(".news_box_close").on("click", function () {
+        $(".news_box").hide();
+    });
+    /*右上角登录注册按钮*/
+    $(".vip_login_btn,.user_info_btn20").on("click", function () {
+        $(".no_login").hide();
+        $(".vip_login").fadeIn();
+    });
+    $(".vip_login_close").on("click", function () {
+        $(".vip_login").hide();
+    });
+    $(".vip_register_btn,.user_info_btn21").on("click", function () {
+        $(".vip_register").fadeIn();
+    });
+    $(".vip_register_close").on("click", function () {
+        $(".vip_register").hide();
+    });
+    $(".vip_register_step3_close").on("click", function () {
+        $(".vip_register_step3").hide();
+    });
+    $("#forget").on("click", function () {
+        $(".vip_login").hide();
+        $(".change_password_login").fadeIn();
+    });
+    $("#register").on("click", function () {
+        $(".vip_login").hide();
+        $(".vip_register").fadeIn();
+    });
+    /*右上角用户信息弹窗*/
+    /*我的账户*/
+    $(".user_info_btn1").on("click", function () {
+        $(".my_info").fadeIn();
+    });
+    $(".my_info_close").on("click", function () {
+        $(".my_info").hide();
+    });
+    $(".deposit_btn").on("click", function () {
+        $(".my_info").hide();
+        $(".deposit").fadeIn();
+    });
+    /*账户明细*/
+    $(".accountdetail").on("click", function () {
+        $(".my_info").hide();
+        $(".deposit").hide();
+        $(".detail").fadeIn();
+        var data = {};
+        var html = '';
+        $.ajax({
+            type : 'get',
+            dateType : 'json',
+            url : "{:url('index/money')}",
+            data : data,
+            success : function (data) {
+                var json = JSON.parse(data);
+//            console.log(uid);
+                console.log(json);
+                for (var i=0;i<json.data.length;i++) {
+                    var add_time=json.data[i].add_time;
+//                console.log(add_time);
+                    var d = new Date();                                     //转换时间
+                    d.setTime(parseInt(add_time) * 1000);
+                    var hour;
+                    var minute;
+                    var month;
+                    var day;
+                    var year;
+                    hour = d.getHours();
+                    minute = d.getMinutes();
+                    month = d.getMonth() + 1;    // Note: January is 0, February is 1, and so on.
+                    day = d.getDate();
+                    year = d.getFullYear();
+                    if (month.toString().length < 2) {
+                        month = "0" + month.toString();
+                    }
+                    if (day.toString().length < 2) {
+                        day = "0" + day.toString();
+                    }
+                    var time1 = hour + ":" + minute;
+                    var time2 = year + "/" + month + "/" + day;        //转换后的时间1
+//                console.log(time1+"/"+time2);
+                    var type=json.data[i].type;
+                    var img;
+                    if(type==1){
+                        img="__STATIC__image/detail_icon1.jpg";
+                    }else if(type==2){
+                        img="__STATIC__image/detail_icon2.jpg";
+                    }else if(type==3){
+                        img="__STATIC__image/detail_icon3.jpg";
+                    }else if(type==4){
+                        img="__STATIC__image/detail_icon4.jpg";
+                    }
+//                console.log(descripthion);
+                    var uname=json.data[i].uname;
+                    var descripthion=json.data[i].descripthion;
+                    html += '<ul><li><p>'+time1+'</p><p>'+time2+'</p></li><li><img src="'+img+'"></li><li><span class="detail_uname">'+uname+'</span>元</li><li>'+descripthion+'</li></ul>'
+                    $(".detailBox").html(html);
+                    var Uname=parseInt(uname);
+                    if(Uname<0){
+                        $(".detail_uname").css("color","#ff0000")
+                    }else {
+                        $(".detail_uname").css("color","#0580f9")
+                    }
+                }
+            }
+        });
+        /*div向下滚动加载更多明细*/
+        $(".detail_btn").on("click",function () {
+            console.log("123456");
+            var page;
+            $.ajax({
+                type : 'get',
+                dateType : 'json',
+                url : "{:url('index/money')}",
+                data : page,
+                success : function (data) {
+                    var json = JSON.parse(data);
+                    console.log(json);
+                    for (var i=0;i<json.data.length;i++) {
+                        for(page=0;page<json.data.length/10;page++){
+                            page=page+1;
+                            var add_time=json.data[i].add_time;
+                            var d = new Date();                                     //转换时间
+                            d.setTime(parseInt(add_time) * 1000);
+                            var hour;
+                            var minute;
+                            var month;
+                            var day;
+                            var year;
+                            hour = d.getHours();
+                            minute = d.getMinutes();
+                            month = d.getMonth() + 1;    // Note: January is 0, February is 1, and so on.
+                            day = d.getDate();
+                            year = d.getFullYear();
+                            if (month.toString().length < 2) {
+                                month = "0" + month.toString();
+                            }
+                            if (day.toString().length < 2) {
+                                day = "0" + day.toString();
+                            }
+                            var time1 = hour + ":" + minute;
+                            var time2 = year + "/" + month + "/" + day;        //转换后的时间1
+//                console.log(time1+"/"+time2);
+                            var type=json.data[i].type;
+                            var img;
+                            if(type==1){
+                                img="__STATIC__image/detail_icon1.jpg";
+                            }else if(type==2){
+                                img="__STATIC__image/detail_icon2.jpg";
+                            }else if(type==3){
+                                img="__STATIC__image/detail_icon3.jpg";
+                            }else if(type==4){
+                                img="__STATIC__image/detail_icon4.jpg";
+                            }
+//                console.log(descripthion);
+                            var uname=json.data[i].uname;
+                            var descripthion=json.data[i].descripthion;
+                            html += '<ul><li><p>'+time1+'</p><p>'+time2+'</p></li><li><img src="'+img+'"></li><li><span class="detail_uname">'+uname+'</span>元</li><li>'+descripthion+'</li></ul>'
+                            $(".detailBox").html(html);
+                            var Uname=parseInt(uname);
+                            if(Uname<0){
+                                $(".detail_uname").css("color","#611987")
+                            }else {
+                                $(".detail_uname").css("color","#0580f9")
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    });
+
+    $(".detail_close").on("click", function () {
+        $(".detail").hide();
+    });
+    /*分享返佣，我的邀请弹窗*/
+    $(".user_info_btn3").on("click", function () {
+        $(".my_invitationCode").fadeIn();
+    });
+    $(".my_invitationCode_close").on("click", function () {
+        $(".my_invitationCode").hide();
+    });
+    $(".rebate_btn").click(function(){
+        $(".my_invitationCode_inner").addClass("login_to_register");
+        setTimeout(function(){
+            $(".my_invitationCode").hide();
+            $(".rebate").show();
+            $(".my_invitationCode_inner").removeClass("login_to_register");
+        },600);
+    });
+    getInvitationCode();
+    function getInvitationCode(){
+        /*获取我的推广连接*/
+        var uid={$uid};
+        var url = "{:url('share/reg')}?uid="+uid;
+        $(".invitationCode_url").html(url).attr("href",url);
+        /*点击“复制按钮”，导入复制js插件*/
+        var clipboard = new Clipboard('.copyURL');
+        $(".copyURL").attr("data-clipboard-text", url);
+        clipboard.on('success', function (e) {
+            win.alert("","复制成功！");
+        });
+        clipboard.on('error', function (e) {
+            win.alert("","复制失败！");
+        });
+        /*获取我的推广二维码图案*/
+        $(".invitationCode_box").qrcode({
+            width: 90,
+            height: 90,
+            text: url
+        });
+    }
+    /*我的返佣信息弹窗*/
+    $(".user_info_btn4").on("click", function () {
+        $(".rebate").fadeIn();
+    });
+    $(".my_rebate_close").on("click", function () {
+        $(".rebate").hide();
+    });
+    $(".invitationCode_btn").click(function(){
+        $(".rebate_inner").addClass("login_to_register");
+        setTimeout(function(){
+            $(".rebate").hide();
+            $(".my_invitationCode").show();
+            $(".rebate_inner").removeClass("login_to_register");
+        },600);
+    });
+    my_rebate();
+    function my_rebate(){
+        var uid={$uid};
+        $.ajax({
+            url: '{:url("v1.web/get_invite_data","","","api")}',
+            type: 'get',
+            dataType: 'jsonp',
+            jsonp: 'callback',
+            data: {uid:uid},
+            success: function (data) {
+//                console.log(data);
+                if(data.code == 200){
+                    var arr_sub = data.data.arr_sub;
+                    var arr_sub_mt4 = data.data.arr_sub_mt4;
+                    var arr_sub_buy = data.data.arr_sub_buy;
+                    var arr_sub2 = data.data.arr_sub2;
+                    var arr_sub2_mt4 = data.data.arr_sub2_mt4;
+                    var arr_sub2_buy = data.data.arr_sub2_buy;
+//                    console.log(arr_sub);
+                    $(".register_num_1").html(arr_sub);
+                    $(".binding_num_1").html(arr_sub_mt4);
+                    $(".buy_num_1").html(arr_sub_buy);
+                    $(".register_num_2").html(arr_sub2);
+                    $(".binding_num_2").html(arr_sub2_mt4);
+                    $(".buy_num_2").html(arr_sub2_buy);
+                }
+            }
+        });
+    };
+    /*提现弹窗*/
+    $(".rebate_out").on("click", function () {
+        $('.rebate').hide();
+        $(".deposit").fadeIn();
+    });
+    $(".deposit_close").on("click", function () {
+        $(".deposit").hide();
+    });
+    /*$("#deposit_button").on("click", function () {             //提现
+        var bank_account = $("#bank_account").val();
+        var bank_deposit = $("#bank_deposit").val();
+        //console.log(bank_account);
+        if (bank_account == "") {
+            $(".deposit_tips").html('请输入提现金额！').show();
+            return false;
+        }
+        var regu = /^[0-9]+\.?[0-9]*$/;
+        if (!regu.test(bank_account)) {
+            $(".deposit_tips").html('请输入正确的提现金额！').show();
+            return false;
+        }
+        var dot = bank_account.indexOf(".");                        //只能输入小数点后两位的金额
+        if (dot != -1) {
+            var dotCnt = bank_account.substring(dot + 1, bank_account.length);
+            if (dotCnt.length > 2) {
+                $(".deposit_tips").html('提现金额只能保留两位小数！').show();
+                return false;
+            }
+        }
+        var depositMoney = $(".depositMoney").html();
+        if (parseInt(bank_account) > parseInt(depositMoney)) {           //金额超过可提现金额
+            $(".deposit_tips").html('金额超过可提现金额！').show();
+            return false;
+        }
+        if (bank_deposit == "") {
+            $(".deposit_tips").html('请输入支付宝账号！').show();
+            return false;
+        }
+        var tel = /^1[3458]\d{9}$/;
+        var email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+        if (!email.test(bank_deposit) && !tel.test(bank_deposit)) {
+            $(".deposit_tips").html('请输入正确的支付宝账号！').show();
+            return false;
+        }
+        $(".deposit_tips").html('').show();        //输入正确的时候，清空提示框
+        var uid = {$uid};
+        var postData = {
+            uid: uid,
+            amount: bank_account,//提现金额
+            alipay_account: bank_deposit //支付宝账号
+        };
+        $.ajax({
+            url: 'http://www.gailougaoshou.com/intelvest/api/withdraw/add',
+            type: 'post',
+            data: JSON.stringify(postData),
+            dataType: 'json',
+            contentType: 'application/json;charset=utf8',
+            success: function (body) {
+                //console.log(body);
+                $(".deposit_tips").html('申请成功，请等待处理！').show();
+            }
+        })
+    });*/
+    /*我的信号*/
+    $(".user_info_btn5").on("click", function () {
+        $(".my_signal").fadeIn();
+    });
+    $(".my_signal_close").on("click", function () {
+        $(".my_signal").hide();
+    });
+    /*修改密码*/
+    $(".user_info_btn6").on("click", function () {
+        $(".change_password").fadeIn();
+        $(".change_password_login").hide();
+        $('.upwd').click(function () {
+            var old_pwd = $("input[name='old_pwd']").val();  //
+            var mcode = $("input[name='mcode']").val();  //短信验证码
+            var new_pwd = $("input[name='new_pwd1']").val();
+            var new_pwd2 = $("input[name='new_pwd2']").val();
+            if(old_pwd==''){
+                win.alert('', '原始密码不能为空');
+                return false;
+            }
+            if(new_pwd==''){
+                win.alert('', '新密码不能为空');
+                return false;
+            }
+            if (new_pwd == old_pwd) {
+                win.alert('', '新密码不能和原始密码一致');
+                return false;
+            }
+            if (new_pwd != new_pwd2) {
+                win.alert('', '两次输入的密码不一致');
+                return false;
+            }
+            var data = {
+                'old_pwd' : old_pwd,
+                //'mcode' : mcode,
+                'new_pwd' : new_pwd
+
+            };
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                data : data,
+                url: "{:url('index/update_pwd')}",
+                success:function(data){
+                    var json = JSON.parse(data);
+                    win.alert('',json.msg,function(){
+                        $(".change_password").hide();
+                    });
+                }
+            })
+        })
+
+    });
+    $(".change_password_close").on("click", function () {
+        $(".change_password").hide();
+    });
+    /*改绑MT4弹窗*/
+    $(".user_info_btn7").on("click", function () {
+        $(".no_binding").hide();
+        $(".mul_mt4").fadeIn();
+    });
+    $(".Live").on("click", function () {
+        $(".Live").addClass("account_active");
+        $(".Demo").removeClass("account_active");
+        $(".broker").show();
+        $(".server").show();
+        $(".broker_demo").hide();
+        $(".server_demo").hide();
+        $("#button3").css("width","100%");
+        $(".open_demo_btn").hide();
+        $(".whatBox").show();
+
+        $("#change_binding_button").css("width","100%");
+        if (GetQueryString("server") == 'levelmax') {
+            $("#change_binding_button").width('100%');
+        }
+    });
+    $(".Demo").on("click", function () {
+        $(".Demo").addClass("account_active");
+        $(".Live").removeClass("account_active");
+        $(".broker").hide();
+        $(".server").hide();
+        $(".broker_demo").show();
+        $(".server_demo").show();
+        $("#button3").css("width","180px");
+        $(".open_demo_btn").show();
+        
+        $(".whatBox").hide();
+
+        $("#change_binding_button").css("width","180px");
+       if (GetQueryString("server") == 'levelmax') {
+            $("#change_binding_button").width('100%');
+        }
+    });
+    /*绑定示例隐藏显示*/
+    $('.what').on("click",function() {
+        if($(".whatBox").css("display")=="none"){
+            $(".whatBox").css('display', 'block');
+        }else {
+            $(".whatBox").css('display', 'none');
+        }
+    });
+    <!--弹出生成demo账户弹窗-->
+    $(".open_demo_btn2").on("click", function () {
+        $(".vip_register_inner").animate({left:"0"},600);
+        $(".to_demo").animate({left:"400px"},600);
+
+        $(".change_binding_inner").animate({left:"0"},600);
+    });
+    $(".to_demo_close").on("click", function () {
+        $(".vip_register_inner").animate({left:"200px"},600);
+        $(".to_demo").animate({left:"200px"},600);
+
+        $(".change_binding_inner").animate({left:"200px"},600);
+    });
+    $(".to_levelmax_demo_btn").on("click", function () {
+        $(".vip_register_inner").animate({left:"200px"},600);
+        $(".to_demo").animate({left:"200px"},600);
+
+        $(".change_binding_inner").animate({left:"200px"},600);
+    });
+    // 多mt4添加
+    $("#mulMT4bind").click(function(){
+        $(".mul_mt4").fadeIn();
+    });
+    var add=false;
+    var mt4_change=false;
+    var src_id;
+    setmt4();
+    function setmt4(){
+        $.ajax({
+            url : "{:url('api.account/get')}",
+            type : 'get',
+            dataType : 'jsonp',
+            jsonp:'callback',
+            success :function(body){
+                if(body.code=202){
+                    var html='';
+                    var item=body.data;
+                    for(var i=0;i<item.length;i++){
+                        if(item[i].sh==0){
+                            html+='<li>'+
+                                '<div>'+
+                                    '<img src="__STATIC__image/mul_mt4_icon1.png" class="mul_mt4_icon1">'+
+                                    '<div class="mul_mt4_server">服&nbsp;&nbsp;务&nbsp;&nbsp;器：</div>'+
+                                    '<div class="mul_mt4_server2">'+item[i].mt4server+'</div>'+
+                                '</div>'+
+                                '<div>'+
+                                    '<img src="__STATIC__image/mul_mt4_icon2.jpg" class="mul_mt4_icon1">'+
+                                    '<div class="mul_mt4_server">MT4账号：</div>'+
+                                    '<div class="mul_mt4_server2">'+item[i].mt4id+'<span  style="color:red">(审核中)</span></div>'+
+                                '</div>'+
+                                ' <div class="change_mt4_button" style="background:#ccc;">更换</div>'+
+                                '</li>';
+                        }else if(item[i].sh==1){
+                            html+='<li>'+
+                                    '<div>'+
+                                        '<img src="__STATIC__image/mul_mt4_icon1.png" class="mul_mt4_icon1">'+
+                                        '<div class="mul_mt4_server">服&nbsp;&nbsp;务&nbsp;&nbsp;器：</div>'+
+                                        '<div class="mul_mt4_server2">'+item[i].mt4server+'</div>'+
+                                    '</div>'+
+                                    '<div>'+
+                                        '<img src="__STATIC__image/mul_mt4_icon2.jpg" class="mul_mt4_icon1">'+
+                                        '<div class="mul_mt4_server">MT4账号：</div>'+
+                                        '<div class="mul_mt4_server2">'+item[i].mt4id+'</div>'+
+                                    '</div>'+
+                                    ' <div class="change_mt4_button" onclick="changeMT4('+item[i].id+')">更换</div>'+
+                                '</li>';
+                            }   
+                    }
+                        $(".mul_mt4_bind").html(html);
+                }
+            }
+        });
+    }
+    $(".add_mt4_server").click(function(){
+        var myVIP="{$info['server']}";
+        if($(".mul_mt4_bind").html()==''){
+            $(".mul_mt4").hide();
+            $("#change_binding").fadeIn();
+            add=true;
+            $("#changebindtitle").html("增加MT4帐号");
+        }else{
+            if(myVIP=='vip3'){
+                if($(".mul_mt4_bind>li").length>=5){
+                    win.alert("","最多绑定5个帐号");
+                }else{
+                    $(".mul_mt4").hide();
+                    $("#change_binding").fadeIn();
+                    add=true;
+                    $("#changebindtitle").html("增加MT4帐号");
+                }
+            }else{
+                $(".no_vip3").fadeIn();
+                $(".mul_mt4").hide();
+            }
+        }
+    });
+    function changeMT4(thisid){
+        $(".mul_mt4").hide();
+        $("#change_binding").fadeIn();
+        src_id=thisid;
+        mt4_change=true;
+         $("#changebindtitle").html("更换MT4帐号");
+    }
+    $('#change_binding_button').click(function () {
+        var display=$(".server").css("display");
+        if(mt4_change){
+            $.ajax({
+                type: 'post',
+                dateType: 'json',
+                url: '{:url("master/get_status")}',
+                data: {
+                    slave_mt4id : src_id
+                },
+                async: false,
+                success : function (data) {
+                    var json = JSON.parse(data);
+                    //console.log(json.status);
+                    if(json.status==2){  //未跟单
+                        if(display=="block") {                       //绑定Live账户
+                            var mt4server_2 = $('#mt4server_2').val();  //mt4服务器
+                            var mt4uid_2 = $('#mt4uid_2').val();  //mt4账号
+                            var mt4pwd_2 = $('#mt4pwd_2').val();  //mt4密码
+                            if (mt4server_2 == "") {
+                                $(".change_binding_tips").html('请输入MT4服务器！');
+                                return false;
+                            }
+                            if (mt4uid_2 == "") {
+                                $(".change_binding_tips").html('请输入MT4帐号！');
+                                return false;
+                            }
+                            if (mt4pwd_2 == "") {
+                                $(".change_binding_tips").html('请输入MT4主密码！');
+                                return false;
+                            }
+                            $.ajax({
+                                type : 'post',
+                                dataType : 'json',
+                                url : "{:url('api.account/add')}",
+                                data : {
+                                    'zhmt4server' : mt4server_2,
+                                    'zhmt4uid' : mt4uid_2,
+                                    'zhmt4pwd' : mt4pwd_2,
+                                    'src_id':src_id,
+                                    "type":'live'
+                                },
+                                async: false,
+                                success : function (data) {
+                                    if(data.code==200){
+                                        $(".change_binding").hide();
+                                        $(".vip_register_step3").fadeIn();
+                                        vip_register_step3();
+                                    }else {
+                                        $(".change_binding").hide();
+                                        win.alert('', data.msg);
+                                    }
+                                    /*win.alert('', data.msg, function () {
+                                        $(".change_binding").hide();
+                                        if(data.msg=='数据保存成功,请等待管理员审核!'){
+                                            $(".vip_register_step3").fadeIn();
+                                            vip_register_step3();
+                                        }
+                                    });*/
+                                    $("#mt4broker_2").val("");
+                                    $('#mt4server_2').val("");
+                                    $('#mt4uid_2').val("");
+                                    $('#mt4pwd_2').val("");
+                                    mt4_change=false;
+                                    setmt4();
+                                }
+                            });
+                        }else {
+                            var mt4server_demo_2 = $('#mt4server_demo_2').val();  //mt4 demo服务器
+                            var mt4uid_demo_2 = $('#mt4uid_2').val();  //mt4账号
+                            var mt4pwd_demo_2 = $('#mt4pwd_2').val();  //mt4密码
+                            if (mt4server_demo_2 == "") {
+                                $(".change_binding_tips").html('请输入MT4服务器！');
+                                return false;
+                            }
+                            if (mt4uid_demo_2 == "") {
+                                $(".change_binding_tips").html('请输入MT4帐号！');
+                                return false;
+                            }
+                            if (mt4pwd_demo_2 == "") {
+                                $(".change_binding_tips").html('请输入MT4主密码！');
+                                return false;
+                            }
+                            $.ajax({
+                                type : 'post',
+                                dataType : 'json',
+                                url : "{:url('api.account/add')}",
+                                data : {
+                                    'zhmt4server' : mt4server_demo_2,
+                                    'zhmt4uid' : mt4uid_demo_2,
+                                    'zhmt4pwd' : mt4pwd_demo_2,
+                                    'src_id':src_id,
+                                    "type":'live'
+                                },
+                                async: false,
+                                success : function (data) {
+                                    if(data.code==200){
+                                        $(".change_binding").hide();
+                                        $(".vip_register_step3").fadeIn();
+                                        vip_register_step3();
+                                    }else {
+                                        $(".change_binding").hide();
+                                        win.alert('', data.msg);
+                                    }
+                                    /*win.alert('', data.msg, function () {
+                                        $(".change_binding").hide();
+                                        if(data.msg=='数据保存成功,请等待管理员审核!'){
+                                            $(".vip_register_step3").fadeIn();
+                                            vip_register_step3();
+                                        }
+                                    });*/
+                                    $("#mt4broker_demo_2").val("");
+                                    $('#mt4server_demo_2').val("");
+                                    $('#mt4uid_2').val("");
+                                    $('#mt4pwd_2').val("");
+                                    mt4_change=false;
+                                    setmt4();
+                                }
+                            });
+                        } 
+                    }else if(json.status==1){       //表示跟单状态为1，正在运行;
+                        win.alert('', '请先停止跟单', function () {
+                             mt4_change=false;
+                        });
+                    }
+                }
+            });
+            
+        }
+        else if(add){
+           if(display=="block") {                       //绑定Live账户
+                var mt4server_2 = $('#mt4server_2').val();  //mt4服务器
+                var mt4uid_2 = $('#mt4uid_2').val();  //mt4账号
+                var mt4pwd_2 = $('#mt4pwd_2').val();  //mt4密码
+                if (mt4server_2 == "") {
+                    $(".change_binding_tips").html('请输入MT4服务器！');
+                    return false;
+                }
+                if (mt4uid_2 == "") {
+                    $(".change_binding_tips").html('请输入MT4帐号！');
+                    return false;
+                }
+                if (mt4pwd_2 == "") {
+                    $(".change_binding_tips").html('请输入MT4主密码！');
+                    return false;
+                }
+                $.ajax({
+                    type : 'post',
+                    dataType : 'json',
+                    url : "{:url('api.account/add')}",
+                    data : {
+                        'zhmt4server' : mt4server_2,
+                        'zhmt4uid' : mt4uid_2,
+                        'zhmt4pwd' : mt4pwd_2,
+                        "type":'live'
+                    },
+                    success : function (data) {
+                        if(data.code==200){
+                            $(".change_binding").hide();
+                            $(".vip_register_step3").fadeIn();
+                            vip_register_step3();
+                        }else {
+                            $(".change_binding").hide();
+                            win.alert('', data.msg);
+                        }
+                        /*win.alert('', data.msg, function () {
+                            $(".change_binding").hide();
+                            if(data.msg=='数据保存成功,请等待管理员审核!'){
+                                $(".vip_register_step3").fadeIn();
+                                vip_register_step3();
+                            }
+                        });*/
+                        $("#mt4broker_2").val("");
+                        $('#mt4server_2').val("");
+                        $('#mt4uid_2').val("");
+                        $('#mt4pwd_2').val("");
+//                        $(".vip_register_step3").fadeIn();
+                        add=false;
+                        setmt4();
+                    }
+                });
+            }else {
+                var mt4server_demo_2 = $('#mt4server_demo_2').val();  //mt4 demo服务器
+                var mt4uid_demo_2 = $('#mt4uid_2').val();  //mt4账号
+                var mt4pwd_demo_2 = $('#mt4pwd_2').val();  //mt4密码
+                if (mt4server_demo_2 == "") {
+                    $(".change_binding_tips").html('请输入MT4服务器！');
+                    return false;
+                }
+                if (mt4uid_demo_2 == "") {
+                    $(".change_binding_tips").html('请输入MT4帐号！');
+                    return false;
+                }
+                if (mt4pwd_demo_2 == "") {
+                    $(".change_binding_tips").html('请输入MT4主密码！');
+                    return false;
+                }
+                $.ajax({
+                    type : 'post',
+                    dataType : 'json',
+                    url : "{:url('api.account/add')}",
+                    data : {
+                        'zhmt4server' : mt4server_demo_2,
+                        'zhmt4uid' : mt4uid_demo_2,
+                        'zhmt4pwd' : mt4pwd_demo_2,
+                        "type":'live'
+                    },
+                    success : function (data) {
+                        if(data.code==200){
+                            $(".change_binding").hide();
+                            $(".vip_register_step3").fadeIn();
+                            vip_register_step3();
+                        }else {
+                            $(".change_binding").hide();
+                            win.alert('', data.msg);
+                        }
+                        /*win.alert('', data.msg, function () {
+                            $(".change_binding").hide();
+                            if(data.msg=='数据保存成功,请等待管理员审核!'){
+                                $(".vip_register_step3").fadeIn();
+                                vip_register_step3();
+                            }
+                        });*/
+                        $("#mt4broker_demo_2").val("");
+                        $('#mt4server_demo_2').val("");
+                        $('#mt4uid_2').val("");
+                        $('#mt4pwd_2').val("");
+                        add=false;
+                        setmt4();
+                    }
+                });
+            } 
+        }
+        else{
+            if(display=="block") {                       //绑定Live账户
+                var mt4server_2 = $('#mt4server_2').val();  //mt4服务器
+                var mt4uid_2 = $('#mt4uid_2').val();  //mt4账号
+                var mt4pwd_2 = $('#mt4pwd_2').val();  //mt4密码
+                if (mt4server_2 == "") {
+                    $(".change_binding_tips").html('请输入MT4服务器！');
+                    return false;
+                }
+                if (mt4uid_2 == "") {
+                    $(".change_binding_tips").html('请输入MT4帐号！');
+                    return false;
+                }
+                if (mt4pwd_2 == "") {
+                    $(".change_binding_tips").html('请输入MT4主密码！');
+                    return false;
+                }
+                $.ajax({
+                    type : 'post',
+                    dataType : 'json',
+                    url : "{:url('index/unbinding')}",
+                    data : {
+                        'mt4server' : mt4server_2,
+                        'mt4uid' : mt4uid_2,
+                        'mt4pwd' : mt4pwd_2,
+                         "type":'live'
+                    },
+                    success : function (data) {
+                        var json = JSON.parse(data);
+                        if(json.code==200){
+                            $(".change_binding").hide();
+                            $(".vip_register_step3").fadeIn();
+                            vip_register_step3();
+                        }else {
+                            $(".change_binding").hide();
+                            win.alert('', json.msg);
+                        }
+                        /*win.alert('', json.msg, function () {
+                            $(".change_binding").hide();
+                            if(data.msg=='数据保存成功,请等待管理员审核!'){
+                                $(".vip_register_step3").fadeIn();
+                                vip_register_step3();
+                            }
+                        });*/
+                        $("#mt4broker_2").val("");
+                        $('#mt4server_2').val("");
+                        $('#mt4uid_2').val("");
+                        $('#mt4pwd_2').val("");
+//                        $(".vip_register_step3").fadeIn();
+                    }
+                });
+            }else {
+                var mt4server_demo_2 = $('#mt4server_demo_2').val();  //mt4 demo服务器
+                var mt4uid_demo_2 = $('#mt4uid_2').val();  //mt4账号
+                var mt4pwd_demo_2 = $('#mt4pwd_2').val();  //mt4密码
+                var type = 0;
+                if (mt4server_demo_2 == "") {
+                    $(".change_binding_tips").html('请输入MT4服务器！');
+                    return false;
+                }
+                if (mt4uid_demo_2 == "") {
+                    $(".change_binding_tips").html('请输入MT4帐号！');
+                    return false;
+                }
+                if (mt4pwd_demo_2 == "") {
+                    $(".change_binding_tips").html('请输入MT4主密码！');
+                    return false;
+                }
+                if($(".TYPE").html() != ''){
+                    type = 1;
+                }
+                $.ajax({
+                    type : 'post',
+                    dataType : 'json',
+                    url : "{:url('index/unbinding')}",
+                    data : {
+                        'mt4server' : mt4server_demo_2,
+                        'mt4uid' : mt4uid_demo_2,
+                        'mt4pwd' : mt4pwd_demo_2,
+                         "type":'live'
+                    },
+                    success : function (data) {
+                        var json = JSON.parse(data);
+                        if(json.code==200){
+                            $(".change_binding").hide();
+                            $(".vip_register_step3").fadeIn();
+                            vip_register_step3();
+                        }else {
+                            $(".change_binding").hide();
+                            win.alert('', json.msg);
+                        }
+                        /*win.alert('', json.msg, function () {
+                            $(".change_binding").hide();
+                            if(data.msg=='数据保存成功,请等待管理员审核!'){
+                                $(".vip_register_step3").fadeIn();
+                                vip_register_step3();
+                            }
+                        });*/
+                        $("#mt4broker_demo_2").val("");
+                        $('#mt4server_demo_2').val("");
+                        $('#mt4uid_2').val("");
+                        $('#mt4pwd_2').val("");
+                    }
+                });
+            }
+            add=false;
+            mt4_change=false;
+        }
+    });
+    $(".change_binding_close").on("click", function () {
+        $(".change_binding").hide();
+        add=false;
+        mt4_change=false;
+    });
+    function vip_register_step3(){
+        $('.loadingIcon_3').hover(function() {
+//        $(this).attr("src","image/pay_icon_08.png");
+            $(".code").css("display","block");
+        }, function() {
+//        $(this).attr("src","image/pay_icon_07.png");
+            $(".code").css("display","none");
+        });
+        setTimeout(function(){
+            $(".cloud").attr("src","__STATIC__image/loading_icon_03_2.png").animate({top:"25px"},1000);
+            $(".vip_register_step3 h1").animate({top:"100px"},1000);
+            $(".vip_register_step3 h1 span").html("正在生成云端服务");
+        },3000);
+        setTimeout(function(){
+            $(".wait").fadeIn(1000);
+        },4000);
+        setTimeout(function(){
+            $(".jump").fadeIn(1000);
+        },5000);
+        setTimeout(function(){
+            location.reload();
+        },8000);
+        /*function wait(){
+         $.ajax({
+         type:"POST",
+         url:"",
+         datatype: "json",
+         success : function (response){
+         if(response){
+         var json = JSON.parse(response);
+         if(json.status=="yes"){
+         $(".wait").html("");
+         $(".wait").html("恭喜您，通过审核！").css("color","#ff6c00");
+         }
+         if(json.status=="4006"){
+         $(".wait").html("");
+         $(".wait").html("绑定失败！请重新绑定账户！").css("color","#ff6c00");
+         }
+         if(json.status=="4004"){
+         $(".wait").html("");
+         $(".wait").html("请先登录！").css("color","#ff6c00");
+         }
+         }
+         }
+         });
+         }
+         setInterval(function () {wait();},3000);*/
+    }
+    var uid = '{$info.uid}';
+    var recharge = $("#recharge_money").html();
+    //recharge_submit(uid,recharge,"#wechatre_charge");
+    /*充值弹窗*/
+    $(".user_info_btn23").on("click", function () {
+        $(".recharge").fadeIn();
+        var uid = '{$info.uid}';
+        var recharge = $("#recharge_money").html();
+        recharge_submit(uid,recharge,"#wechatre_charge")
+    });
+    $(".recharge_close").on("click", function () {
+        $(".recharge").hide();
+    });
+    $(".recharge_price_li").on("click", function () {
+        var uid = '{$info.uid}';
+        $(this).addClass("active").siblings().removeClass("active");
+        var recharge = $(this).find("p").find("span").html();
+        $("#recharge_money").html(recharge);
+        recharge_submit(uid,recharge,"#wechatre_charge");
+    });
+    function recharge_submit(uid,recharge,obj){     //生成微信支付二维码
+        var src='__API__pay.wxpay/qrcode.html?uid='+uid+'&server=recharge&amount='+recharge+'&type=10';
+        $(obj).attr("src",src);
+    }
+    $('.recharge_apay_btn').on('click', function () {
+        var uid = '{$info.uid}';
+        var recharge = $("#recharge_money").html();
+        $('input[name=uid]').val(uid);
+        $('input[name=amount]').val(recharge);
+        $('#recharge_form').submit();
+    });
+    /*确认下单弹窗*/
+    $(".buy_sure_close").on("click", function () {
+        $(".buy_sure").hide();
+    });
+    /*成功下单*/
+    $(".buy_succeed_close").on("click", function () {
+        $(".buy_succeed").hide();
+    });
+    /*还未登录弹窗*/
+    $(".no_login_close").on("click", function () {
+        $(".no_login").hide();
+    });
+    $(".no_login_btn2").on("click", function () {
+        $(".no_login").hide();
+        $(".establish_account").fadeIn();
+    });
+    /*点击头部，创建练习账户*/
+    $(".banner_top").on("click", function () {
+        $(".establish_account").fadeIn();
+    });
+    /*创建练习账户*/
+    $(".establish_account_close").on("click", function () {
+        $(".establish_account").hide();
+    });
+    /*创建练习账户自动生成信息弹窗*/
+    $(".establish_account_info_close").on("click", function () {
+        $(".establish_account_info").hide();
+    });
+    /*还未绑定弹窗*/
+    $(".no_binding_btn2").on("click", function () {
+        $(".no_binding").hide();
+    });
+    /*还未购买服务弹窗*/
+    $(".no_buy_btn2").on("click", function () {
+        $(".no_buy").hide();
+    });
+    /*還未開通vip2服務*/
+    $(".no_vip2_btn2").on("click", function () {
+        $(".no_vip2").hide();
+    });
+    /*還未開通vip3服務*/
+    $(".no_vip3_btn2").on("click", function () {
+        $(".no_vip3").hide();
+    });
+    /*设置个人资料*/
+    $(".user_info_btn2").on("click", function () {
+        $(".set_my_data").fadeIn();
+    });
+    $(".set_my_data_close").on("click", function () {
+        $(".set_my_data").hide();
+    });
+    $(".my_address").on("click", function (even) {
+        $(".set_my_data_div ul").show();
+        event.stopPropagation();
+    });
+    $(".input_btn").on("click", function (even) {
+        $(".set_my_data_div ul").show();
+        event.stopPropagation();
+    });
+    $("body").click(function(event){
+        $(".set_my_data_div ul").hide();
+    });
+    $(".set_my_data_div ul li").on("click", function () {
+        $(".my_address").val( $(this).html());
+    });
+    /*功能升级中，超出组合上限，先移除选择信号....弹窗功能*/
+    $(".hint_1_close").on("click", function () {
+        $(".hint_1").hide();
+    });
+    $(".hint_2_close").on("click", function () {
+        $(".hint_2").hide();
+    });
+    $(".hint_3_close").on("click", function () {
+        $(".hint_3").hide();
+    });
+    $(".hint_4_close").on("click", function () {
+        $(".hint_4").hide();
+    });
+    /*全局设置*/
+    $(".global_setting").on("click", function () {
+        $(".global_setting_box").fadeIn();
+    });
+    $(".global_setting_close").on("click", function () {
+        $(".global_setting_box").hide();
+    });
+    $(".set_option_li select").addClass('disabled');/*禁止点击*/
+    $(".toggle3").on("click", function () {
+        /*判断是否登录*/
+        var uid = {$uid};
+        if(uid != 0){
+            $(".global_setting_box").hide();
+            $(".hint_1").fadeIn();
+        }else{              //未登录
+            $(".global_setting_box").hide();
+            $(".no_login").fadeIn();
+        }
+    });
+    /*app下载*/
+    $(".app_download_close").on("click", function () {
+        $(".app_download").hide();
+    });
+    /*免费延长vip弹窗1*/
+    $(".free_tovip_window1_btn1").on("click", function () {
+        $(".free_tovip_window1").hide();
+        $(".my_invitationCode").fadeIn();
+    });
+    $(".free_tovip_window1_btn2").on("click", function () {
+        console.log("上传文章截图");
+    });
+    $(".free_tovip_window1_close").on("click", function () {
+        $(".free_tovip_window1").hide();
+    });
+    /*免费延长vip弹窗2，vip即将到期*/
+    $(".free_tovip_window2_btn1").on("click", function () {
+        $(".free_tovip_window2").hide();
+        window.location.href = "{:url('user/vip')}";
+    });
+    $(".free_tovip_window2_btn2").on("click", function () {
+        $(".free_tovip_window2").hide();
+        $(".free_tovip_window1").fadeIn();
+    });
+    $(".free_tovip_window2_btn3").on("click", function () {
+        $(".free_tovip_window2").hide();
+        $(".free_tovip_window3").fadeIn();
+    });
+    <!--免费延长vip弹窗3，不续费跟单-->
+    $(".free_tovip_window3_btn1").on("click", function () {
+        $(".free_tovip_window3").hide();
+    });
+    $(".free_tovip_window3_btn2").on("click", function () {
+        $(".free_tovip_window3").hide();
+        $(".free_tovip_window1").fadeIn();
+    });
+
+
+    /*input获取焦点的时候，所有的tips提示，实时消失*/
+    $('input').focus(function() {
+        $(".login_tips").html("");
+        $(".register_tips1").html("");
+        $(".register_tips2").html("");
+        $(".change_binding_tips").html("");
+        $(".set_my_data_tips").html("");
+        $(".establish_account_tips").html("");
+        $(".deposit_tips").html("");
+    });
+</script>
+
+<!-- alipay form 充值功能支付宝参数接口-->
+<form id="recharge_form" method="post" action="__API__pay.alipay/create_order.html" style="display:none;">
+    <input type="hidden" name="WIDbody" value="yshfx用户充值" />
+    <input type="hidden" name="uid" value="{$info.uid}" />
+    <input type="hidden" name="server" value="recharge" />
+    <input type="hidden" name="WIDsubject" value="订单系统" />
+    <input type="hidden" name="amount" value="500" />
+    <input type="hidden" name="from" value="yshfx">
+    <input type="hidden" name="type" value="10">
+</form>
+
+<!--登录-->
+<script type="text/javascript">
+    function keyEnter(){
+            if (event.keyCode == 13) {
+                var mlogin    = $("#login").val();
+                var mpassword = $("#password").val();
+                if(mlogin==""){
+                    $(".login_tips").html( '请输入您的手机号码！').show();
+                    return false;
+                }
+                if(mpassword==""){
+                    $(".login_tips").html('请输入密码！').show();
+                    return false;
+                }
+                $.ajax({
+                    type : 'POST',
+                    url : "{:url('index/signin')}",
+                    data : {
+                        login : mlogin,
+                        password : mpassword
+                    },
+                    success : function (response){
+                        if(response){
+                            var json = JSON.parse(response);
+                            $(".login_tips").html(json.msg).show();
+                            if(json.code==200){
+                                window.location.reload();
+                                return true;
+                            }else if(json.code==302){
+                                $(".login_tips").html(json.msg).show();
+                                return true;
+                            }else {
+                                $(".login_tips").html('正在登录......').show();
+                                return true;
+                            }
+                        }
+
+                    },
+                    beforeSend : function(){
+                        //$('#page_tag_load').show();
+                    },
+                    complete : function(){
+                        //$('#page_tag_load').hide();
+                    }
+                });
+
+                return true;
+            }
+        }
+    $(".vip_login_btn").on("click", function () {       //登录弹窗显示的时候，enter键登录
+        document.onkeydown =keyEnter;
+    });
+
+    $("#button").click(function(){
+            var mlogin    = $("#login").val();
+            var mpassword = $("#password").val();
+            if(mlogin==""){
+                $(".login_tips").html('请输入您的手机号码！').show();
+                return false;
+            }
+            if(mpassword==""){
+                $(".login_tips").html( '请输入密码！').show();
+                return false;
+            }
+            $.ajax({
+                type : 'POST',
+                url : "{:url('index/signin')}",
+                data : {
+                    login : mlogin,
+                    password : mpassword
+                },
+                success : function (response){
+                    if(response){
+                        var json = JSON.parse(response);
+                        $(".login_tips").html(json.msg).show();
+                        if(json.code==200){
+                            window.location.reload();
+                            return true;
+                        }else if(json.code==302){
+                            $(".login_tips").html(json.msg).show();
+                            return true;
+                        }else {
+                            $(".login_tips").html('正在登录......').show();
+                            return true;
+                        }
+                    }
+
+                },
+                beforeSend : function(){
+                    //$('#page_tag_load').show();
+                },
+                complete : function(){
+                    //$('#page_tag_load').hide();
+                }
+            });
+            return true;
+        });
+</script>
+<!--注册第一步，填写用户信息--><!--注册第二步，绑定MT4--><!--改绑MT4--> <!--注册第三步，生成服务器，等待审核-->
+<script type="text/javascript">
+    $(".vip_register_header").find("span:nth-child(1)").addClass("active");
+    var countdown=60;
+    function settime(obj) {
+        obj = $(obj);
+        if (countdown == 0) {
+            obj.css({"background":"#611987","border": "1px solid #611987"});
+            obj.html("获取验证码");
+            countdown = 60;
+            return;
+        } else {
+            obj.css({"background":"#cccccc","border": "1px solid #999999","border-left": "1px solid #cccccc"});
+            obj.html("重发短信(" + countdown + ")秒");
+            countdown--;
+        }
+        setTimeout(function() {settime(obj) },1000);
+    }
+
+    function gettelcode2() {
+        var mlogin = $("#login2").val();
+        if(mlogin==""){
+            $(".register_tips1").html('请输入您的手机号码！').show();
+            return false;
+        }
+        var tel= /^1[3458]\d{9}$/;
+        if(!tel.test(mlogin)){
+            $(".register_tips1").html('请输入正确的手机号！').show();
+            return false;
+        }
+        //settime("#reSend");
+        $.ajax({
+            type : 'POST',
+            url : "{:url('index/get_smscode')}",
+            data : {mobile : mlogin},
+            success : function (response){
+//                console.log(response);
+                if(response){
+                    var json = JSON.parse(response);
+                    if(json.code=='200'){
+                        settime(".register_win_yzm");
+                    }
+                    $(".register_tips1").html(json.message).show();
+                }
+
+            },
+            beforeSend : function(){
+                //$('#page_tag_load').show();
+            },
+            complete : function(){
+                //$('#page_tag_load').hide();
+            }
+        });
+
+
+    }
+
+    $(".register_win_yzm").click(function(){
+        if(countdown==60){
+            gettelcode2();
+        }else{
+            $(".register_tips1").html('请稍后再试!').show();
+        }
+    });
+
+    $("#button2").click(function(){
+        var mlogin = $("#login2").val();
+        var register_win_input = $(".register_win_input").val();
+        var mpassword = $("#password2").val();
+        // var mrpassword = $("#rpassword").val();
+        var refferee = $("#refferee").val() || 0;
+        if(mlogin==""){
+            $(".register_tips1").html('请输入您的手机号码！').show();
+            return false;
+        }
+        var tel= /^1[3458]\d{9}$/;
+        if(!tel.test(mlogin)){
+            $(".register_tips1").html('请输入正确的手机号！').show();
+            return false;
+        }
+        if(register_win_input==""){
+         $(".register_tips1").html('请输入短信验证码！').show();
+            return false;
+         }
+        if(mpassword==""){
+            $(".register_tips1").html('请输入密码！').show();
+            return false;
+        }
+        // if(mrpassword==""){
+        //     $(".register_tips1").html('请输入确认密码！').show();
+        //     return false;
+        // }
+        // if(mrpassword == mpassword){}else{
+        //     $(".register_tips1").html('确认密码需与登录密码一致！').show();
+        //     return false;
+        // }
+
+        $.ajax({
+            type : 'POST',
+            url : "{:url('index/register')}",
+            data : {
+                login : mlogin,
+                password : mpassword,
+                verify : register_win_input,  //短信验证码
+                code:refferee  //邀请码
+            },
+            success : function (data){
+                var json = JSON.parse(data);
+                if(json){
+                    //var json = JSON.parse(response);
+//                    console.log(json);
+                    var mid= refferee;
+                    $(".register_tips1").html(json.msg).show();
+                    if(json.code==200){
+                        /*按照邀请码传递数据*/
+                        /*if(mid!=""){
+                            $.get('http://www.gailougaoshou.com/intelvest/api/urelation/add?uid='+json.result.uid+'&pid='+mid,function(result){
+                                console.log(result);
+                                if (!result.success) {console.log('user relation to database fail') }
+                                console.log(json.result.uid);
+                                console.log(mid);
+                            });
+                        }*/
+                        /*进入第二步，绑定页面*/
+                        $(".vip_register_step1").hide();
+                        $(".vip_register_step2").show();
+                        $(".vip_register_step3").hide();
+                        /*第二步头部样式*/
+                        $(".vip_register_header").find("span:nth-child(2)").addClass("active");
+
+                        <!--注册第二步，绑定MT4-->
+                        var uid=json.uid;
+//                        console.log(uid);
+                        /*选择实盘和模拟*/
+                        $(".Live").on("click", function () {
+                            $(".Live").addClass("account_active");
+                            $(".Demo").removeClass("account_active");
+                            $(".broker").show();
+                            $(".server").show();
+                            $(".broker_demo").hide();
+                            $(".server_demo").hide();
+                            $("#button3").css("width","100%");
+                            $(".open_demo_btn").hide();
+                            $(".whatBox").show();
+
+                            $("#change_binding_button").css("width","100%");
+                        });
+                        $(".Demo").on("click", function () {
+                            $(".Demo").addClass("account_active");
+                            $(".Live").removeClass("account_active");
+                            $(".broker").hide();
+                            $(".server").hide();
+                            $(".broker_demo").show();
+                            $(".server_demo").show();
+                            $("#button3").css("width","180px");
+                            $(".open_demo_btn").show();
+                            $(".whatBox").hide();
+
+                            $("#change_binding_button").css("width","180px");
+                        });
+                        $("#button3").click(function() {
+                            var display=$(".server").css("display");
+                            if(display=="block"){                       //绑定Live账户
+                                var mmt4uid = $("#mt4uid").val();
+                                var mmt4pwd = $("#mt4pwd").val();
+                                var mmt4server = $("#mt4server").val();
+                                if (mmt4server == "") {
+                                    $(".register_tips2").html('请输入MT4服务器！');
+                                    return false;
+                                }
+                                if (mmt4uid == "") {
+                                    $(".register_tips2").html('请输入MT4帐号！');
+                                    return false;
+                                }
+                                if (mmt4pwd == "") {
+                                    $(".register_tips2").html('请输入MT4主密码！');
+                                    return false;
+                                }
+
+                                $.ajax({
+                                    type: 'POST',
+                                    dataType : 'json',
+                                    url : "{:url('api.account/add')}",
+                                    data : {
+                                        'zhmt4server' : mmt4server,
+                                        'zhmt4uid' : mmt4uid,
+                                        'zhmt4pwd' : mmt4pwd,
+                                        "type":'live'
+                                    },
+                                    success: function (data) {
+                                        if(data.code==200){
+                                            $(".change_binding").hide();
+                                            $(".vip_register_step3").fadeIn();
+                                            vip_register_step3();
+                                        }else {
+                                            $(".change_binding").hide();
+                                            win.alert('', data.msg);
+                                        }
+                                            /*win.alert('', data.msg, function () {
+                                                $(".change_binding").hide();
+                                                if(data.msg=='数据保存成功,请等待管理员审核!'){
+                                                    $(".vip_register_step3").fadeIn();
+                                                    vip_register_step3();
+                                                }
+                                            });*/
+                                                /*进入第三步，生成服务器页面*/
+                                                /*$(".vip_register_step1").hide();
+                                                 $(".vip_register_step2").hide();*/
+                                                $(".vip_register_step1").show();
+                                                $(".vip_register_step2").hide();
+                                                $(".vip_register").hide();
+//                                                $(".vip_register_step3").fadeIn();
+                                                /*第三步头部样式*/
+                                                /* $(".vip_register_header").find("span:nth-child(3)").addClass("active");*/
+//                                                vip_register_step3();
+                                                $("#mt4broker").val("");
+                                                $("#mt4server").val("");
+                                                $("#mt4uid").val("");
+                                                $("#mt4pwd").val("");
+                                                setmt4();
+                                    }
+                                });
+                            }else if(display=="none"){                       //绑定Demo账户
+                                var mmt4uid_demo = $("#mt4uid").val();
+                                var mmt4pwd_demo = $("#mt4pwd").val();
+                                var mmt4server_demo = $("#mt4server_demo").val();
+                                var type = 0;
+//            console.log(mmt4uid_demo + mmt4pwd_demo + mmt4server_demo);
+                                if (mmt4server_demo == "") {
+                                    $(".register_tips2").html('请输入MT4服务器！');
+                                    return false;
+                                }
+                                if (mmt4uid_demo == "") {
+                                    $(".register_tips2").html('请输入MT4帐号！');
+                                    return false;
+                                }
+                                if (mmt4pwd_demo == "") {
+                                    $(".register_tips2").html('请输入MT4主密码！');
+                                    return false;
+                                }
+                                if($(".TYPE").html() != ''){
+                                    type = 1;
+                                }
+                                $.ajax({
+                                    type: 'POST',
+                                    dataType : 'json',
+                                    url : "{:url('api.account/add')}",
+                                    data : {
+                                        'zhmt4server' : mmt4server_demo,
+                                        'zhmt4uid' : mmt4uid_demo,
+                                        'zhmt4pwd' : mmt4pwd_demo,
+                                        "type":'live'
+                                    },
+                                    success: function (data) {
+                                        if(data.code==200){
+                                            $(".change_binding").hide();
+                                            $(".vip_register_step3").fadeIn();
+                                            vip_register_step3();
+                                        }else {
+                                            $(".change_binding").hide();
+                                            win.alert('', data.msg);
+                                        }
+                                                /*win.alert('', data.msg, function () {
+                                                    $(".change_binding").hide();
+                                                    if(data.msg=='数据保存成功,请等待管理员审核!'){
+                                                        $(".vip_register_step3").fadeIn();
+                                                        vip_register_step3();
+                                                    }
+                                                });*/
+                                                /*进入第三步，生成服务器页面*/
+                                                /* $(".vip_register_step1").hide();
+                                                 $(".vip_register_step2").hide();
+                                                 $(".vip_register_step3").show();*/
+                                                $(".vip_register_step1").show();
+                                                $(".vip_register_step2").hide();
+                                                $(".vip_register").hide();
+//                                                $(".vip_register_step3").fadeIn();
+                                                /*第三步头部样式*/
+                                                /*$(".vip_register_header").find("span:nth-child(3)").addClass("active");*/
+//                                                vip_register_step3();
+                                                $("#mt4broker_demo").val("");
+                                                $("#mt4server_demo").val("");
+                                                $("#mt4uid").val("");
+                                                $("#mt4pwd").val("");
+                                                setmt4();
+                                    }
+                                });
+                            }
+                        });
+
+                        /*绑定示例隐藏显示*/
+                        $('.what').on("click",function() {
+                            if($(".whatBox").css("display")=="none"){
+                                $(".whatBox").css('display', 'block');
+                            }else {
+                                $(".whatBox").css('display', 'none');
+                            }
+                        });
+                        <!--弹出生成demo账户弹窗-->
+                        /*$(".open_demo_btn").on("click", function () {
+                            $(".vip_register_inner").animate({left:"0"},600);
+                            $(".to_demo").animate({left:"500px"},600);
+
+                            $(".change_binding_inner").animate({left:"0"},600);
+                        });
+                        $(".to_demo_close").on("click", function () {
+                            $(".vip_register_inner").animate({left:"250px"},600);
+                            $(".to_demo").animate({left:"250px"},600);
+
+                            $(".change_binding_inner").animate({left:"250px"},600);
+                        });
+                        $(".to_levelmax_demo_btn").on("click", function () {
+                            $(".vip_register_inner").animate({left:"250px"},600);
+                            $(".to_demo").animate({left:"250px"},600);
+
+                            $(".change_binding_inner").animate({left:"250px"},600);
+                        });*/
+
+                        <!--注册第三步，生成服务器，等待审核-->
+                        function vip_register_step3(){
+                            $('.loadingIcon_3').hover(function() {
+//        $(this).attr("src","image/pay_icon_08.png");
+                                $(".code").css("display","block");
+                            }, function() {
+//        $(this).attr("src","image/pay_icon_07.png");
+                                $(".code").css("display","none");
+                            });
+                            setTimeout(function(){
+                                $(".cloud").attr("src","__STATIC__image/loading_icon_03_2.png").animate({top:"25px"},1000);
+                                $(".vip_register_step3 h1").animate({top:"100px"},1000);
+                                $(".vip_register_step3 h1 span").html("正在生成云端服务");
+                            },3000);
+                            setTimeout(function(){
+                                $(".wait").fadeIn(1000);
+                            },4000);
+                            setTimeout(function(){
+                                $(".jump").fadeIn(1000);
+                            },5000);
+                            setTimeout(function(){
+                                location.reload();
+                            },8000);
+                        }
+
+                        return true;
+                    }
+                }
+
+            },
+            beforeSend : function(){
+                //$('#page_tag_load').show();
+            },
+            complete : function(){
+                //$('#page_tag_load').hide();
+            }
+        });
+
+        return true;
+    });
+</script>
+<!--一键生成MT4模拟账户-->
+<script>
+    $(".open_demo_btn1").on("click", function () {
+        $.ajax({
+            type: 'POST',
+            url: "{:url('master/get_mt4_demo')}",
+            success: function (data) {
+                var json = JSON.parse(data);
+                if (json.code == 200) {
+                    var mt4server = json.demo.mt4server;
+                    var mt4id = json.demo.mt4id;
+                    var mt4pwd = json.demo.mt4pwd;
+                    var indexOf = mt4server.indexOf('-');
+                    var mt4broker = mt4server.substr(0, indexOf);
+                    $("#mt4broker_demo").val(mt4broker);
+                    $("#mt4server_demo").val(mt4server);
+                    $("#mt4uid").val(mt4id);
+                    $("#mt4pwd").val(mt4pwd);
+                    /*改绑弹窗里面同样功能*/
+                    $("#mt4broker_demo_2").val(mt4broker);
+                    $("#mt4server_demo_2").val(mt4server);
+                    $("#mt4uid_2").val(mt4id);
+                    $("#mt4pwd_2").val(mt4pwd);
+                    /*type*/
+                    $(".TYPE").html('demo');
+                }else if(json.code == 302){
+                    $(".register_tips2").html("暂无demo账户");
+                }
+            }
+        });
+    });
+</script>
+
+<!--忘记密码-->
+<script type="text/javascript">
+    var countdown=60;
+    function settime(obj) {
+        obj = $(obj);
+        if (countdown == 0) {
+            obj.css({"background":"#611987","border": "1px solid #611987"});
+            obj.html("获取验证码");
+            countdown = 60;
+            return;
+        } else {
+            obj.css({"background":"#cccccc","border": "1px solid #999999","border-left": "1px solid #cccccc"});
+            obj.html("重发短信(" + countdown + ")秒");
+            countdown--;
+        }
+        setTimeout(function() {settime(obj) },1000);
+    }
+    function gettelcode() {
+        var ulogin = $("input[name='ulogin']").val();
+        if(ulogin==""){
+            win.alert('','请输入您的手机号码！');
+            return false;
+        }
+        $.ajax({
+            type : 'POST',
+            url : "{:url('index/get_smscode')}",
+            data : {mobile : ulogin, 'type' : 2},
+            success : function (response){
+                if(response){
+                    var json = JSON.parse(response);
+//                    console.log(json);
+                    if(json.code=='200'){
+                        settime(".win_yzm");
+                    }
+                    win.alert('',json.msg);
+                }
+            },
+            beforeSend : function(){},
+            complete : function(){}
+        });
+    }
+    $(".win_yzm").click(function(){
+        if(countdown==60){
+            gettelcode();
+        }else{
+            win.alert('','请稍后再试!');
+        }
+    });
+    $('.upwd_login').click(function () {
+        var ulogin = $("input[name='ulogin']").val();  //
+        var mcode = $("input[name='mcode']").val();  //短信验证码
+        var new_pwd = $("input[name='new_pwd1_login']").val();
+        var new_pwd2 = $("input[name='new_pwd2_login']").val();
+        if(mcode==''){
+            win.alert('', '请输入验证码');
+            return false;
+        }
+        if (new_pwd !== new_pwd2) {
+            win.alert('', '两次输入的密码不一致');
+            return false;
+        }
+        var data = {
+            'mobile' : ulogin,
+            'verify': mcode,
+            'password' : new_pwd
+        };
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            data : data,
+            url: "{:url('index/update_init')}",
+            success:function(data){
+                var json = JSON.parse(data);
+                if(json.code==200){
+                    win.alert('',json.msg, function () {
+                        $(".change_password_login").hide();
+                    });
+                }else {
+                    win.alert('',json.msg);
+                }
+            }
+        })
+    })
+    //无法跟单指定链接
+    $(".cannot_link_close").click(function(){
+        $(".bomb_cannot_link").hide();
+    });
+</script>
+
+<!--返回顶部-->
+<a href="javascript:void(0)" class="backTop"></a>
+<script type="text/javascript">
+    $(window).scroll(function() {
+        if ($(window).scrollTop() >= 192) {
+            $(".backTop").fadeIn(1000);
+        } else {
+            $(".backTop").fadeOut(1000);
+        }
+    });
+    $(".backTop").click(function(){
+        $('body,html').animate({scrollTop:0},500);
+        return false;
+    });
+</script>
+
+<!--百度统计代码-->
+<div style="display: none">
+    <script type="text/javascript" defer="defer">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?e9362348ebacd434659e2784a3e060f2";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</div>
+
+</body>
+</html>

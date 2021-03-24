@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>绑定帐号</title>
+    <script src="__STATIC__js/jquery-2.2.0.min.js"></script>
+    <script>
+        /* 根据分辨率缩放网页 */
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                    resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                    recalc = function () {
+                        var clientWidth = docEl.clientWidth;
+                        if (!clientWidth) return;
+                        docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                    };
+
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
+    <style>
+        /* 公共 */
+        body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,a,code,em,img,q,small,strong,dd,dl,dt,li,ol,ul,fieldset,form,label,table,tbody,tr,th,td,input{ margin:0;padding:0;border:0 }
+        html{ width: 100%; font-size: 100px; outline: 0; -webkit-text-size-adjust:none; }
+        body{ -webkit-user-select: none;}
+        a,a:active,a:hover,a:focus,a:visited{text-decoration:none; -webkit-tap-highlight-color:rgba(255,0,0,0);}
+        a,img{-webkit-touch-callout:none}
+        img{vertical-align: top}
+        ol,ul,li{list-style:none}
+        textarea,input{resize:none;outline:0;-webkit-appearance:none;white-space:pre-wrap;word-wrap:break-word;background:#fff;}
+        button{border: none;outline: none;}
+        .clearfix:after{display:block;clear:both;content:"";visibility:hidden;height:0}
+        .hide{ display: none; }
+        .show{ display: block; }
+        /*login、登录页面*/
+        html,body{background-color: #ffffff;}
+        .login .banner,.login_result .banner{width: 100%;height: 3.5rem;background: url("__STATIC__image/app_binding_bg.png")no-repeat center;background-size: cover;padding-top: 1.5rem;}
+        .logo{display: block;width: 2.1rem;height: 2.1rem;background: url("__STATIC__image/app_binding_logo.png")no-repeat center;background-size: cover;margin: 0 auto;}
+        .login_result .logo{width: 1.6rem;height: 1.6rem;background: url("__STATIC__image/app_binding_logo2.png")no-repeat center;background-size: cover;}
+        .login_p{font-size: .3rem;line-height: 1rem;color: #611987;text-align: center;letter-spacing: .05rem;padding-top: .2rem;}
+        .login_result .login_p{font-size: .46rem;padding-top: .5rem;}
+        .login_result .login_result_p{font-size: .3rem;color: #888888;text-align: center;}
+        .username,.password{padding: 0 .24rem;margin-top: .23rem;height: .9rem;position: relative;}
+        .username i,.password i{display: block;float: left;width: .5rem;height: .5rem;margin: .2rem .3rem 0 .1rem;}
+        .username i{background: url("__STATIC__image/app_binding_icon01.png")no-repeat center;background-size: cover;}
+        .password i{background: url("__STATIC__image/app_binding_icon02.png")no-repeat center;background-size: cover;}
+        .username input,.password input{display: block;float: left;width: 5.62rem;height: .88rem;border: .01rem solid #611987;border-radius: .1rem;font-size: .3rem;padding: 0 .23rem;}
+        .login input::-webkit-input-placeholder { /* WebKit browsers */  color: #999; font-size: .3rem; }
+        .login input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */  color: #999; font-size: .3rem; }
+        .login input::-moz-placeholder { /* Mozilla Firefox 19+ */  color: #999; font-size: .3rem; }
+        .login input:-ms-input-placeholder { /* Internet Explorer 10+ */  color: #999; font-size: .3rem; }
+        .pass_close{display: block;width: .36rem;height: .36rem;background: url("__STATIC__image/app_binding_icon03.png")no-repeat center;background-size: cover;position: absolute;right: .95rem;top: .26rem;}
+        .pass_see{display: block;width: .36rem;height: .36rem;background: url("__STATIC__image/app_binding_icon04.png")no-repeat center;background-size: cover;position: absolute;right: .4rem;top: .26rem;}
+        .login_btn,.login_result_btn{letter-spacing: .1rem;display: block;width: 7.02rem;height: 1rem;line-height: 1rem;margin: .68rem auto 0 auto;text-align: center;font-size: .4rem;background-color: #611987;color: #ffffff;border-radius: .15rem;}
+        .login_result_btn{margin: 1.14rem auto 0 auto;}
+        .login_b{position: fixed;bottom: 0;padding: 0 .24rem;width: 7.02rem;}
+        .login_b a{display: block;font-size: .3rem;color: #611987;line-height: 1rem;}
+        .login_b a:nth-child(1){float: left;}
+        .login_b a:nth-child(2){float: right;}
+    </style>
+    <script>
+        $(function () {
+            $(".login_btn").on("click", function () {
+                $(".login").hide();
+                $(".login_result").show();
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="login">
+    <div class="banner"><i class="logo"></i><p class="login_p">请输入亿思汇帐号，绑定微信</p></div>
+    <div class="username"><i></i><input type="tel" placeholder="请输入您的手机号"></div>
+    <div class="password"><i></i><input type="text" placeholder="请输入密码"><span class="pass_close"></span><span class="pass_see"></span></div>
+    <a href="javascript:void(0)" class="login_btn">立即绑定</a>
+    <div class="login_b"><a href="javascript:void(0)">忘记密码？</a><a href="javascript:void(0)">注册新用户</a></div>
+</div>
+<div class="login_result" style="display: none;">
+    <div class="banner"><i class="logo"></i><p class="login_p">绑定成功~</p></div>
+    <p class="login_result_p">你的亿思汇账号已经绑定微信，无需再次操作~</p>
+    <a href="javascript:void(0)" class="login_result_btn">进入亿思汇</a>
+</div>
+</body>
+</html>

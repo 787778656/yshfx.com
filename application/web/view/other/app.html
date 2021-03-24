@@ -1,0 +1,72 @@
+{extend name="web@base/main"/}
+{block name="body"}
+<style>
+    *{margin:0;padding:0;}
+    .app_e_main{width:100%;background: #f3f3f3;}
+    .app_e_box{width:1200px;margin:0 auto;background: #fff;}
+    .app-e-logo{width:100%;display: block;}
+    .app_e_text1{font-size:24px;color: #230a03;margin-left:364px;line-height: 80px;}
+    .app_e_text2{float:right;width:150px;height:42px;background: #611987;border-radius: 4px;text-align: center;line-height: 42px;font-size:24px;color:#fff;margin:19px 344px 19px 0;cursor: pointer;}
+    .vip_head,.footer-logo,.footer-t,.footer-m{display: none;}
+    .vip_footer{height:auto;}
+    .app_e_text{position: fixed;bottom:0;left:50%;width:1200px;margin-left:-600px;background: #fff;display: none;}
+    .app_e_text3{width:1200px;margin:0 auto;}
+    @media screen and (max-device-width:1025px){
+        .vip_head{display: none;}
+        .app_e_box{width:100%;padding-bottom:120px;}
+        .vip_footer{display: none;}
+        iframe{display:none!important;}
+        .app_e_text1{font-size:35px;margin-left:120px;font-weight:bold;color:#230a03;height:120px;line-height: 120px;}
+        .app_e_text2{float:right;width:45%;height:120px;margin:0;border-radius: 0;font-size:35px;line-height: 120px;}
+        .app_e_text,.app_e_text3{position: fixed;bottom:0;left:0;width:100%;background: #fff;display: none;margin-left:0}
+        .app_e_text3{display:none;}
+    }
+</style>
+<div class="app_e_main">
+    <div class="app_e_box">
+        <img src="__STATIC__image/app-e-logo.jpg" class="app-e-logo">
+        <div class="app_e_text">
+            <a class="app_e_text2">立即前往</a>
+            <p class="app_e_text1">下载APP  一键复制交易</p>
+        </div>
+        <div class="app_e_text3">
+            <a class="app_e_text2">立即前往</a>
+            <p class="app_e_text1">下载APP  一键复制交易</p>
+        </div>
+    </div>
+</div>
+<script>
+    app_pc_phone();
+    function app_pc_phone() {
+        if ($("body").width() < 1025) {
+            $(".app-e-logo").attr("src", "__STATIC__image/app-e-logo-phone.jpg");
+            $(".app_e_text2").click(function () {
+                location.href = '__HTTP__other/scan_download.html';
+            });
+            $(window).scroll(function(){
+               if($(this).scrollTop()>0){
+                   $(".app_e_text").show();
+               }
+            });
+        } else {
+            $(".app_e_text1").html("一键复制牛人交易");
+            $(".app_e_text2").click(function () {
+                location.href = '__HTTP__master/index.html';
+            });
+            $(window).scroll(function(){
+                if($(this).scrollTop()>0){
+                    $(".app_e_text").show();
+                }
+                if($(this).scrollTop()>($(".app-e-logo").height()-$(window).height())){
+                    $(".app_e_text").hide();
+                }
+            });
+        }
+    }
+    $(window).resize(function(){
+        location.reload();
+        app_pc_phone();
+    });
+
+</script>
+{/block}

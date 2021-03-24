@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="http://res.v.yshfx.com/">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="shortcut icon" href="__STATIC__image/favicon.ico" />
+    <link href="__STATIC__css/base.css" rel="stylesheet">
+    <style>
+        .main{width: 100%;height: 3500px;background: url("__STATIC__image/pk01.png")no-repeat #040823 top center;}
+        @media screen and (max-width:1200px) {.main{width: 1200px;}.matching{width: 1200px;}}
+        .main_t,.main_b{width: 1200px;margin: 0 auto;}
+        .main_t{height: 480px;}
+        .main_b{height: 3000px;}
+        .main_t_l,.main_t_r{width: 594px;height: 314px;float: left;background: url("__STATIC__image/pk02.png")no-repeat;background-size: contain;margin-top: 200px;font-weight: bold;}
+        .main_t_r{float: right;}
+        .main_t h4{text-align: center;padding-top: 73px;padding-right: 5px;font-size: 18px;font-weight: bold;margin-bottom: 5px;background-image: -webkit-linear-gradient(left, #be985a 40%, #f3e58d 50%, #be985a 60%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;}
+        .main_t .main_t_l p{height: 25px;line-height: 25px;font-size: 16px;}
+        .main_t .main_t_l p span:nth-child(1){display: inline-block;width: 100px;padding-left: 120px;background-image: -webkit-linear-gradient(left, #be985a 50%, #f3e58d 70%, #be985a 90%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;}
+        .main_t .main_t_l p span:nth-child(2){float: right;display: inline-block;width: 100px;padding-right: 100px;background-image: -webkit-linear-gradient(left, #be985a 0%, #f3e58d 20%, #be985a 40%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;}
+        .main_t_r_box{position:relative;height:132px;}
+        .main_t_r_box .box{overflow:hidden;position:relative;height:132px;}
+        .list{width: 100%;height: 132px;position:absolute;top:0;left:0;}
+        .main_t .main_t_r li{height: 33px;line-height: 33px;font-size: 16px;}
+        .main_t .main_t_r li span:nth-child(1){display: inline-block;width: 100px;padding-left: 120px;background-image: -webkit-linear-gradient(left, #be985a 50%, #f3e58d 65%, #be985a 80%);;-webkit-background-clip: text;-webkit-text-fill-color: transparent;}
+        .main_t .main_t_r li span:nth-child(2){float: right;display: inline-block;width: 300px;padding-right: 50px;background-image: -webkit-linear-gradient(left, #be985a 20%, #f3e58d 50%, #be985a 80%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;}
+        .main_t .main_t_r li span i{display: inline-block;vertical-align: middle;width: 25px;height: 25px;background-image: -webkit-linear-gradient(left, #be985a 20%, #f3e58d 50%, #be985a 80%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;text-align: center;line-height: 25px;border-radius: 50%;border: 1px solid #ead6a4;margin-right: 20px;margin-top: -3px;}
+        .main_b_title{width: 100%;height: 36px;background: url("__STATIC__image/pk03.png")no-repeat center;background-size: contain;}
+        .main_b_inner{padding: 0 30px;}
+        .main_b_inner li{margin-top: 15px;width: 100%;height: 120px;background: url("__STATIC__image/pk04.png")no-repeat center;}
+        .li_l,.li_r{float: left;width: 500px;height: 116px;background: #fff;border: 2px solid #4888ff;border-radius: 8px;position: relative;}
+        .li_r{float: right;border: 2px solid #e9c577;}
+        .li_l .grade{float: left;width: 130px;height: 100%;}
+        .li_l .grade_img{margin-left: 20px;width: 100px;}
+        .li_r .grade{float: right;width: 130px;height: 100%;}
+        .li_r .grade_img{margin-right: 20px;width: 100px;margin-left: 10px;}
+        .star-vote{width:90px;height:20px;position:relative;overflow:hidden;margin: -15px 0 0 25px;}
+        .li_r .star-vote{margin: -15px 25px 0 15px;}
+        .star-vote>span{position:absolute;width:90px;height:17px;left:0px;top:1px;}
+        .star-vote>.add-star{background:url("__STATIC__image/pk09.png")no-repeat center;background-size: contain;}
+        .star-vote>.del-star{background:url("__STATIC__image/pk10.png")no-repeat white center;background-size: contain;}
+        .li_l .state{float: right;width: 330px;height: 96px;padding: 20px 20px 0 0;position: relative;}
+        .li_r .state{float: left;width: 330px;height: 96px;padding: 20px 0 0 20px;position: relative;}
+        .li_l .state_num{float: left;width: 270px;height: 65px;padding-top: 5px;margin-right: -20px;z-index: 0;}
+        .li_r .state_num{float: right;width: 270px;height: 65px;padding-top: 5px;margin-left: -20px;z-index: 0;}
+        .modulusContent{width:100%;height:11px;border: 1px solid #ca0000;float:left;border-radius: 3px;margin-top: 12px;position: relative;}
+        .modulusContent2{width:100%;height:11px;border: 1px solid #014fa1;float:left;border-radius: 3px;margin-top: 5px;position: relative;}
+        .moduluscontain{position: absolute;height:100%;width:0;top:0;right:0;z-index:1;border-radius: 3px;background: -webkit-linear-gradient(left, #ff0103, #fe9402);}
+        .moduluscontain2{position: absolute;height:100%;width:0;background: #611987;top:0;right:0;z-index:1;border-radius: 3px;background: -webkit-linear-gradient(left, #0e8df8, #65fdff);}
+        .li_r .moduluscontain{left: 0;background: -webkit-linear-gradient(left, #fe9402, #ff0103);}
+        .li_r .moduluscontain2{left: 0;background: -webkit-linear-gradient(left, #65fdff, #0e8df8);}
+        .modulusConTips li,.modulusConTips2 li{width:137px;float:left;font-size:16px;color:#999999;}
+        .moduluscontainBox{position: absolute;top:-21px;left:-20px;width:30px;}
+        .moduluscontainBox2{position: absolute;bottom :-21px;left:-20px;width:30px;}
+        .moduluscontainBox p{background: #ff0409;color:#fff;border-radius: 4px;text-align: center;font-size: 12px;}
+        .moduluscontainBox2 p{background: #037cff;color:#fff;border-radius: 4px;text-align: center;font-size: 12px;}
+        .modulus_text_tip{position: absolute;width:8px;bottom:-4px;left:11px;}
+        .moduluscontainBox2 .modulus_text_tip{position: absolute;width:8px;top:-4px;left:11px;}
+        .li_l .state .state_head{width: 70px;height: 70px;background: url("__STATIC__image/pk07.png")no-repeat;background-size: cover;position: absolute;top: 20px;right: 20px;z-index: 2;}
+        .li_r .state .state_head{width: 70px;height: 70px;background: url("__STATIC__image/pk08.png")no-repeat;background-size: cover;position: absolute;top: 20px;left: 20px;z-index: 2;}
+        .state_head img:nth-child(1){width: 54px;height: 54px;border-radius: 50%;margin: 5.5px 8px 10.5px 8px;}
+        .skill{width: 339px;height: 152px;position: absolute;right: 18px;top: -40px;}
+        .li_l .skill{transform:rotate(180deg);-ms-transform:rotate(180deg);-moz-transform:rotate(180deg);-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);position: absolute;left: 18px;top: -50px;}
+        .state .state_p{width: 100%;height: 20px;line-height: 20px;float: right;text-align: right;color: #333333;}
+        .li_r .state .state_p{float: left;text-align: left;}
+        .state .state_p a{float: left;margin-left: 60px;margin-right: 20px;color: #333333;}
+        .li_r .state .state_p a{margin-right: 60px;margin-left: 20px;}
+        .state .state_p a span{vertical-align: middle;}
+        .state .state_p a i{vertical-align: middle;display: inline-block;width: 11px;height: 6px;background: url(../image/vip23.png)no-repeat;background-size: cover;margin-left: 1px;}
+        .state .state_p span:nth-child(2){float: left;}
+        .state .state_p .name{display: inline-block;width: 90px;height: 20px;margin-left: 20px;margin-right: -10px;overflow: hidden;text-overflow: ellipsis;white-space: normal;text-align: center;}
+        .li_r .state .state_p .name{float: left;margin-left: -10px;margin-right: 20px;}
+        /*展开*/
+        .unfold_info{display: none;position: absolute;left: -2px;top: 110px;width: 500px;height: 142px;background: #fff;border: 2px solid #4888ff;border-top: none;border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;z-index: 99;}
+        .li_r .unfold_info{border: 2px solid #e9c577;border-top: none;}
+        .unfold_info_top{width: 220px;height: 22px;line-height: 22px;margin-top: 4px;float: left;padding: 0 15px;font-size: 16px;}
+        .unfold_info_top p span{color: #007eff;font-size: 18px;}
+        .unfold_info_li{width: 136px;height: 37px;float: left;padding: 0 15px;}
+        .unfold_info_li p{font-size: 14px;color: #808080;}
+        .unfold_info_li .modulusContent{margin-top: 2px;background: #e5e5e5;border: none;}
+        .unfold_info_li .modulusContent .moduluscontain{background: #00a8ff;left: 0;}
+
+        /*底部匹配功能*/
+        .matching{width: 100%;height: 70px;position: fixed;bottom: 0;text-align: center;padding-bottom: 20px;background: url("__STATIC__image/pk05.png")no-repeat bottom center;padding-top: 100px;z-index: 99;}
+        .matching img{vertical-align: middle;}
+        .matching a{display: inline-block;font-weight: bold;background-image: -webkit-linear-gradient(left, #be985a 20%, #f3e58d 50%, #be985a 80%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;vertical-align: middle;}
+        .matching .matching_a{font-size: 18px;border-bottom: 1px solid #d6c995;margin-bottom: -28px;}
+        .matching .matching_btn{width: 162px;height: 40px;font-size: 20px;text-align: center;line-height: 40px;margin-left: 50px;border-radius: 8px;margin-bottom: -12px;background: -webkit-linear-gradient(left, #060322 0%, #273260 50%, #060322 100%);border: 1px solid #987637;}
+        .matching .matching_btn span{background-image: -webkit-linear-gradient(left, #be985a 20%, #f3e58d 50%, #be985a 80%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;}
+        /*弹窗*/
+        .pk_rule,.pk_matching{width: 100%;height: 100%;position: fixed;left: 0;top: 0;z-index: 99;display: none;}
+        .pk_rule_inner{width: 665px;height: 376px;background: url("__STATIC__image/pk17.png")no-repeat;background-size: cover;position: absolute;margin: auto;top: 0;bottom: 0;left: 0;right: 0;padding: 100px;}
+        .pk_rule_close{width: 30px;height: 30px;background: url("__STATIC__image/pk18.png")no-repeat;background-size: cover;position: absolute;right: 70px;top: 100px;cursor: pointer;}
+        .pk_rule_inner h4{text-align: center;font-weight: bold;font-size: 18px;background-image: -webkit-linear-gradient(left, #be985a 40%, #f3e58d 50%, #be985a 60%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;margin-bottom: 20px;}
+        .pk_rule_inner p{font-size: 16px;color: #ffffff;line-height: 30px;height: 300px;overflow-y: scroll;cursor: s-resize;}
+        .pk_rule_inner p::-webkit-scrollbar{display: none;}
+        .pk_rule_inner p i{float: left;}
+        .pk_rule_inner p span{display: inline-block;padding-left: 20px;width: 620px;}
+        .pk_rule_bottom{position: absolute;left: 418px;bottom: 90px;-webkit-animation: twinkling 0.5s infinite 0.2s ease-in-out alternate;animation: twinkling 0.5s infinite 0.2s ease-in-out alternate;cursor: pointer;}
+        @keyframes twinkling{0%{opacity:0.1;}100%{opacity:1;}}
+        /*.pk_matching{display: block;}*/
+        .pk_matching_inner{left: 800px;top:800px;width:162px;height:40px;/*width: 465px;height: 276px;*/background: url("__STATIC__image/pk17.png")no-repeat;background-size: cover;position: absolute;margin: auto;/*top: 0;left: 0;*/bottom: 0;right: 0;padding: 50px;}
+        .pk_matching_close{width: 34px;height: 32px;background: url("__STATIC__image/pk20.png")no-repeat;background-size: cover;position: absolute;right: 50px;top: 70px;cursor: pointer;}
+        .pk_matching_time{width: 280px;height: 90px;background: url("__STATIC__image/pk19.png")no-repeat;background-size: contain;margin: 0 auto 20px auto;}
+        .pk_matching_time p{text-align: center;font-size: 16px;color: #ffffff;line-height: 22px;}
+        .pk_matching_time p:nth-child(2){font-size: 18px;line-height: 26px;text-shadow: 1px 0 1px rgba(255,255,255,0.5), 0 1px 1px rgba(255,255,255,0.5),0 -1px 1px rgba(255,255,255,0.5), -1px 0 1px rgba(255,255,255,0.5);}
+        .pk_matching_time p:nth-child(3){font-size: 18px;line-height: 26px;margin-top: 15px;font-weight: bold;background-image: -webkit-linear-gradient(left, #be985a 40%, #f3e58d 50%, #be985a 60%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;}
+        .pk_matching_l,.pk_matching_r{width: 100px;height: 100px;float: left;margin-left: 65px;}
+        .pk_matching_r{float: right;margin-right: 65px;}
+        .pk_matching_l .pk_head{width: 80px;height: 80px;margin: 0 auto;background: url("__STATIC__image/pk07.png")no-repeat;background-size: cover;}
+        .pk_matching_r .pk_head{width: 80px;height: 80px;margin: 0 auto;background: url("__STATIC__image/pk08.png")no-repeat;background-size: cover;}
+        .pk_head img{width: 64px;height: 64px;border-radius: 50%;margin: 6px 8px 11px 8px;}
+        .pk_matching_l p,.pk_matching_r p{color: #ffffff;width: 100%;text-align: center;font-size: 16px;overflow: hidden;text-overflow: ellipsis;white-space: normal;}
+
+    </style>
+    <script src="__STATIC__js/jquery-2.2.0.min.js" type="text/javascript"></script>
+    <script src="__STATIC__js/jqueryscroll.js" type="text/javascript"></script>
+    <script>
+        $(function () {
+            /*实时Top10栏滚动效果*/
+            $(".main_t_r_box").cxScroll({direction:"bottom",speed:700,time:1500,plus:false,minus:false});
+            /*交易者“展开”*/
+            $(".unfold").on("click", function () {
+                if($(this).parent().parent().parent().find(".unfold_info").css("display") == "none"){       //展开部分隐藏的时候
+                    $(this).parent().parent().parent().find(".unfold_info").css("display","block");
+                    $(this).find("span").html("收起");
+                    $(this).find("i").css("transform","rotate(180deg)");
+                }else {
+                    $(this).parent().parent().parent().find(".unfold_info").css("display","none");
+                    $(this).find("span").html("展开");
+                    $(this).find("i").css("transform","rotate(0deg)");
+                }
+            });
+            /*星星评分*/
+            $(".main_b_inner li").each(function () {
+                var score1 = $(this).find(".li_l").find(".score").html();
+                var score2 = $(this).find(".li_r").find(".score").html();
+                var Score1 = score1/10;          //除以10；
+                var Score2 = score2/10;
+                var del_move1=(Score1*$(".star-vote").width())/10;
+                var del_move2=(Score2*$(".star-vote").width())/10;
+                $(this).find(".li_l").find(".del-star").css("backgroundPosition",-del_move1+"px 0px");
+                $(this).find(".li_l").find(".del-star").css("left",del_move1+"px");
+                $(this).find(".li_r").find(".del-star").css("backgroundPosition",-del_move2+"px 0px");
+                $(this).find(".li_r").find(".del-star").css("left",del_move2+"px");
+            });
+            /*交易规则弹窗*/
+            $(".matching_a").on("click", function () {
+                $(".pk_rule").fadeIn();
+                $(".pk_rule_close").on("click", function () {
+                    $(".pk_rule").hide();
+                });
+                $(".pk_rule_bottom").on("click", function () {
+                    var t = $(".pk_rule_inner p").scrollTop();
+                    $(".pk_rule_inner p").animate({scrollTop: t+100},300);
+                });
+            });
+            /*匹配弹窗*/
+            var count = 0;
+            $(".matching_btn").on("click", function () {
+                $(".pk_matching").fadeIn(500);
+                $(".pk_matching_inner").animate({"left":0,"top":0,"right":"0","bottom":"0","margin":"auto",width:"465px",height:"276px"},500).css("opacity","1");
+                /*$(".matching_btn span").html("开始匹配");*/
+                count ++;
+                if (count == 1){            //只在第一次点击的时候执行一次；
+                    settime(".matching_time");
+                    /*随机头像,名称*/
+                    var send = setInterval(randomIMG,100);         //setinterval执行函数要去掉函数后面的括号；
+                    function randomIMG(){
+                        var IMG = ["__STATIC__image/about03.png","__STATIC__image/about04.png","__STATIC__image/about05.png","__STATIC__image/about06.png","__STATIC__image/about07.png"];
+                        var NAME = ["111","222","333","444","555"];
+                        var zindex = Math.floor(Math.random()*IMG.length);
+                        $(".pk_matching_r .pk_head img").attr("src",IMG[zindex]);
+                        $(".pk_matching_r p").html(NAME[zindex]);
+                    }
+                    /*匹配成功，停止随机*/
+                    setTimeout(function () {
+                        window.clearInterval(send);
+//                        settime(".matching_time").stop(true);
+
+                    },5000);
+                }
+            });
+            $(".pk_matching_close").on("click", function () {
+                $(".pk_matching_inner").animate({"left": "800px","top":"800px",width:"162px",height:"40px","opacity":"0"},500);
+                setTimeout(function () {
+                    $(".pk_matching").hide();
+                },500)
+            });
+            var s = 0;
+            var m = 0;
+            function settime(obj) {
+                obj = $(obj);
+                if(s < 10){ s = '0'+s; }
+                if(s == 60){
+                    s = '0'+0;
+                    m = m+1;
+                }
+                if(m<10){
+                    M = '0'+m;
+                }else if(m>59){
+                    M = '0'+0;
+                }else {
+                    M = m;
+                }
+                obj.find("span:nth-child(2)").html(s);
+                obj.find("span:nth-child(1)").html(M);
+                if($(".pk_matching_inner").css("opacity") == "1"){
+                    $(".matching_btn span").html("匹配中...");
+                }else if($(".pk_matching_inner").css("opacity") == "0"){
+                    $(".matching_btn span").html($(".pk_matching_time").find("p:nth-child(2)").html());
+                }
+                s++;
+                setTimeout(function() {settime(obj) },1000);
+            }
+
+        });
+    </script>
+</head>
+<body>
+<div class="main">
+    <div class="main_t">
+        <div class="main_t_l">
+            <h4>赛 季 奖 励</h4>
+            <p><span>第 1 名</span><span>¥ 50000</span></p>
+            <p><span>第 2 名</span><span>¥ 10000</span></p>
+            <p><span>第 3 名</span><span>¥ 5000</span></p>
+            <p><span>前10名</span><span>¥ 1000</span></p>
+            <p><span>前50名</span><span>VIP2 30天</span></p>
+        </div>
+        <div class="main_t_r">
+            <h4>实时 TOP 10</h4>
+            <div class="main_t_r_box">
+                <div class="box">
+                    <ul class="list">
+                        <li><span>TOP 1</span><span><i>?</i>暂无</span></li>
+                        <li><span>TOP 2</span><span><i>?</i>暂无</span></li>
+                        <li><span>TOP 3</span><span><i>?</i>暂无 (大师进入排行 TOP3)</span></li>
+                        <li><span>TOP 4</span><span><i>?</i>暂无</span></li>
+                        <li><span>TOP 5</span><span><i>?</i>暂无</span></li>
+                        <li><span>TOP 6</span><span><i>?</i>暂无</span></li>
+                        <li><span>TOP 7</span><span><i>?</i>暂无</span></li>
+                        <li><span>TOP 8</span><span><i>?</i>暂无</span></li>
+                        <li><span>TOP 9</span><span><i>?</i>暂无</span></li>
+                        <li><span>TOP 10</span><span><i>?</i>暂无 (黄金进入排行 TOP10)</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main_b">
+        <div class="main_b_title"></div>
+        <ul class="main_b_inner">
+            <li>
+                <div class="li_l">
+                    <div class="grade">
+                        <img src="__STATIC__image/pk11.png" class="grade_img">
+                        <p class="score" style='display: none;'>80</p>
+                        <div class="star-vote"><span class="add-star"></span><span class="del-star"></span></div>
+                    </div>
+                    <div class="state">
+                        <div class="state_head"><img src="__STATIC__image/vip02.png"><!--<img src="__STATIC__image/skill03.gif" class="skill skill03">--></div>
+                        <div class="state_num">
+                            <div class="modulusContent">
+                                <div class="moduluscontain" style="width: 68%;"></div>
+                                <div class="moduluscontainBox" style="left: 73px;">
+                                    <p class="target">68%</p>
+                                    <img src="__STATIC__image/modulus_text_tip3.png" class="modulus_text_tip">
+                                </div>
+                            </div>
+                            <div class="modulusContent2">
+                                <div class="moduluscontain2" style="width: 28%;"></div>
+                                <div class="moduluscontainBox2" style="left: 179px;">
+                                    <p class="target2">28%</p>
+                                    <img src="__STATIC__image/modulus_text_tip4.png" class="modulus_text_tip">
+                                </div>
+                            </div>
+                        </div>
+                        <p class="state_p"><a href="javascript:void(0)" class="unfold"><span>展开</span><i></i></a><span>排名 : <span>00001</span></span><span class="name">Tre</span></p>
+                    </div>
+                    <div class="unfold_info">
+                        <div class="unfold_info_top"><p>结余战斗力 : <span>80</span></p></div>
+                        <div class="unfold_info_top"><p>净值战斗力 : <span>88</span></p></div>
+                        <div class="unfold_info_li"><p>年度预测</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>交易胜率</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大净值涨幅</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大偏移占比</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>利润因子</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大净值跌幅</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大入金加载</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>亏损偏移占比</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大单日亏损</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                    </div>
+                </div>
+                <div class="li_r">
+                    <div class="grade">
+                        <img src="__STATIC__image/pk12.png" class="grade_img">
+                        <p class="score" style='display: none;'>40</p>
+                        <div class="star-vote"><span class="add-star"></span><span class="del-star"></span></div>
+                    </div>
+                    <div class="state">
+                        <div class="state_head"><img src="__STATIC__image/vip02.png"><img src="__STATIC__image/skill03.gif" class="skill skill03"></div>
+                        <div class="state_num">
+                            <div class="modulusContent">
+                                <div class="moduluscontain" style="width: 68%;"></div>
+                                <div class="moduluscontainBox" style="left: 168px;">
+                                    <p class="target">68%</p>
+                                    <img src="__STATIC__image/modulus_text_tip3.png" class="modulus_text_tip">
+                                </div>
+                            </div>
+                            <div class="modulusContent2">
+                                <div class="moduluscontain2" style="width: 28%;"></div>
+                                <div class="moduluscontainBox2" style="left: 61px;">
+                                    <p class="target2">28%</p>
+                                    <img src="__STATIC__image/modulus_text_tip4.png" class="modulus_text_tip">
+                                </div>
+                            </div>
+                        </div>
+                        <p class="state_p"><span class="name">TredingFunTredingFun</span><span>排名 : <span>00001</span></span><a href="javascript:void(0)" class="unfold"><span>展开</span><i></i></a></p>
+                    </div>
+                    <div class="unfold_info">
+                        <div class="unfold_info_top"><p>结余战斗力 : <span>80</span></p></div>
+                        <div class="unfold_info_top"><p>净值战斗力 : <span>88</span></p></div>
+                        <div class="unfold_info_li"><p>年度预测</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>交易胜率</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大净值涨幅</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大偏移占比</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>利润因子</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大净值跌幅</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大入金加载</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>亏损偏移占比</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大单日亏损</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li_l">
+                    <div class="grade">
+                        <img src="__STATIC__image/pk11.png" class="grade_img">
+                        <p class="score" style='display: none;'>20</p>
+                        <div class="star-vote"><span class="add-star"></span><span class="del-star"></span></div>
+                    </div>
+                    <div class="state">
+                        <div class="state_head"><img src="__STATIC__image/vip02.png"><!--<img src="__STATIC__image/skill03.gif" class="skill skill03">--></div>
+                        <div class="state_num">
+                            <div class="modulusContent">
+                                <div class="moduluscontain" style="width: 68%;"></div>
+                                <div class="moduluscontainBox" style="left: 73px;">
+                                    <p class="target">68%</p>
+                                    <img src="__STATIC__image/modulus_text_tip3.png" class="modulus_text_tip">
+                                </div>
+                            </div>
+                            <div class="modulusContent2">
+                                <div class="moduluscontain2" style="width: 28%;"></div>
+                                <div class="moduluscontainBox2" style="left: 179px;">
+                                    <p class="target2">28%</p>
+                                    <img src="__STATIC__image/modulus_text_tip4.png" class="modulus_text_tip">
+                                </div>
+                            </div>
+                        </div>
+                        <p class="state_p"><a href="javascript:void(0)" class="unfold"><span>展开</span><i></i></a><span>排名 : <span>00001</span></span><span class="name">TredingFunTredingFun</span></p>
+                    </div>
+                    <div class="unfold_info">
+                        <div class="unfold_info_top"><p>结余战斗力 : <span>80</span></p></div>
+                        <div class="unfold_info_top"><p>净值战斗力 : <span>88</span></p></div>
+                        <div class="unfold_info_li"><p>年度预测</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>交易胜率</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大净值涨幅</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大偏移占比</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>利润因子</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大净值跌幅</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大入金加载</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>亏损偏移占比</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大单日亏损</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                    </div>
+                </div>
+                <div class="li_r">
+                    <div class="grade">
+                        <img src="__STATIC__image/pk12.png" class="grade_img">
+                        <p class="score" style='display: none;'>60</p>
+                        <div class="star-vote"><span class="add-star"></span><span class="del-star"></span></div>
+                    </div>
+                    <div class="state">
+                        <div class="state_head"><img src="__STATIC__image/vip02.png"><img src="__STATIC__image/skill03.gif" class="skill skill03"></div>
+                        <div class="state_num">
+                            <div class="modulusContent">
+                                <div class="moduluscontain" style="width: 68%;"></div>
+                                <div class="moduluscontainBox" style="left: 168px;">
+                                    <p class="target">68%</p>
+                                    <img src="__STATIC__image/modulus_text_tip3.png" class="modulus_text_tip">
+                                </div>
+                            </div>
+                            <div class="modulusContent2">
+                                <div class="moduluscontain2" style="width: 28%;"></div>
+                                <div class="moduluscontainBox2" style="left: 61px;">
+                                    <p class="target2">28%</p>
+                                    <img src="__STATIC__image/modulus_text_tip4.png" class="modulus_text_tip">
+                                </div>
+                            </div>
+                        </div>
+                        <p class="state_p"><span class="name">TredingFunTredingFun</span><span>排名 : <span>00001</span></span><a href="javascript:void(0)" class="unfold"><span>展开</span><i></i></a></p>
+                    </div>
+                    <div class="unfold_info">
+                        <div class="unfold_info_top"><p>结余战斗力 : <span>80</span></p></div>
+                        <div class="unfold_info_top"><p>净值战斗力 : <span>88</span></p></div>
+                        <div class="unfold_info_li"><p>年度预测</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>交易胜率</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大净值涨幅</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大偏移占比</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>利润因子</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大净值跌幅</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大入金加载</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>亏损偏移占比</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大单日亏损</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="li_l">
+                    <div class="grade">
+                        <img src="__STATIC__image/pk11.png" class="grade_img">
+                        <p class="score" style='display: none;'>60</p>
+                        <div class="star-vote"><span class="add-star"></span><span class="del-star"></span></div>
+                    </div>
+                    <div class="state">
+                        <div class="state_head"><img src="__STATIC__image/vip02.png"><!--<img src="__STATIC__image/skill03.gif" class="skill skill03">--></div>
+                        <div class="state_num">
+                            <div class="modulusContent">
+                                <div class="moduluscontain" style="width: 68%;"></div>
+                                <div class="moduluscontainBox" style="left: 73px;">
+                                    <p class="target">68%</p>
+                                    <img src="__STATIC__image/modulus_text_tip3.png" class="modulus_text_tip">
+                                </div>
+                            </div>
+                            <div class="modulusContent2">
+                                <div class="moduluscontain2" style="width: 28%;"></div>
+                                <div class="moduluscontainBox2" style="left: 179px;">
+                                    <p class="target2">28%</p>
+                                    <img src="__STATIC__image/modulus_text_tip4.png" class="modulus_text_tip">
+                                </div>
+                            </div>
+                        </div>
+                        <p class="state_p"><a href="javascript:void(0)" class="unfold"><span>展开</span><i></i></a><span>排名 : <span>00001</span></span><span class="name">TredingFunTredingFun</span></p>
+                    </div>
+                    <div class="unfold_info">
+                        <div class="unfold_info_top"><p>结余战斗力 : <span>80</span></p></div>
+                        <div class="unfold_info_top"><p>净值战斗力 : <span>88</span></p></div>
+                        <div class="unfold_info_li"><p>年度预测</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>交易胜率</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大净值涨幅</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大偏移占比</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>利润因子</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大净值跌幅</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大入金加载</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>亏损偏移占比</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大单日亏损</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                    </div>
+                </div>
+                <div class="li_r">
+                    <div class="grade">
+                        <img src="__STATIC__image/pk12.png" class="grade_img">
+                        <p class="score" style='display: none;'>80</p>
+                        <div class="star-vote"><span class="add-star"></span><span class="del-star"></span></div>
+                    </div>
+                    <div class="state">
+                        <div class="state_head"><img src="__STATIC__image/vip02.png"><img src="__STATIC__image/skill03.gif" class="skill skill03"></div>
+                        <div class="state_num">
+                            <div class="modulusContent">
+                                <div class="moduluscontain" style="width: 68%;"></div>
+                                <div class="moduluscontainBox" style="left: 168px;">
+                                    <p class="target">68%</p>
+                                    <img src="__STATIC__image/modulus_text_tip3.png" class="modulus_text_tip">
+                                </div>
+                            </div>
+                            <div class="modulusContent2">
+                                <div class="moduluscontain2" style="width: 28%;"></div>
+                                <div class="moduluscontainBox2" style="left: 61px;">
+                                    <p class="target2">28%</p>
+                                    <img src="__STATIC__image/modulus_text_tip4.png" class="modulus_text_tip">
+                                </div>
+                            </div>
+                        </div>
+                        <p class="state_p"><span class="name">TredingFunTredingFun</span><span>排名 : <span>00001</span></span><a href="javascript:void(0)" class="unfold"><span>展开</span><i></i></a></p>
+                    </div>
+                    <div class="unfold_info">
+                        <div class="unfold_info_top"><p>结余战斗力 : <span>80</span></p></div>
+                        <div class="unfold_info_top"><p>净值战斗力 : <span>88</span></p></div>
+                        <div class="unfold_info_li"><p>年度预测</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>交易胜率</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大净值涨幅</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大偏移占比</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>利润因子</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大净值跌幅</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大入金加载</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>亏损偏移占比</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大单日亏损</p><div class="modulusContent"><div class="moduluscontain" style="width: 68%;"></div></div></div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="matching">
+    <img src="__STATIC__image/pk06.png"><a href="javascript:void(0)" class="matching_a">查看规则</a><a href="javascript:void(0)"  class="matching_btn"><span>开始匹配</span></a>
+</div>
+<!--弹窗-->
+<div class="pk_rule">
+    <div class="pk_rule_inner">
+        <div class="pk_rule_close"></div>
+        <h4>王者交易赛规则</h4>
+        <p>
+            <i>1.</i>  <span>PK规则：当您参与排位时，系统会自动匹配一个相同段位的“对手”进行PK，系统会在双方账
+            户发生变化的时候开始比拼（数据比拼），“红条”为结余变化（盈利/亏损），“蓝条”为净值
+            变化（浮盈/浮亏），按照百分比进行比拼，当某一方高于另外一方时，则较低的一方“红条/蓝
+            条”将按比例降低，直至有一方“红条”和“蓝条”都变为0则为PK结束。</span><br><br>
+            <i>2.</i>  <span>数据比拼：数据为结余和净值的百分比除以仓位比（考虑杠杆转化为1:100 杠杠为1:500的需要除
+            以5），同仓位转化机制，这个数字每变化约10%进行pk一次。</span><br><br>
+            <i>3.</i>  <span>胜出规则：当PK结束，“红条”和“蓝条”为0的用户则为失败，另一方为胜出。</span><br><br>
+            <i>4.</i>  <span>晋级规则：每胜出一次，段位等级上升一颗星，满星后晋升一个段位，但失败一次则段位等级下
+            降一个星，等级为0时则下降一个段位。</span><br><br>
+            <i>5.</i>  <span>段位规则：段位一共分为：青铜，白银，黄金，钻石，荣耀大师，最强王者 一共6个段位，每个段位为5级（5颗星）。</span><br><br>
+            <i>6.</i>  <span>赛季规则：每个赛季为1个月。</span><br><br>
+            <i>7.</i>  <span>参与规则：本站所有实盘用户均可参与比赛，不限金额（比赛并不统计金额大小）。</span><br><br>
+        </p>
+        <img src="__STATIC__image/pk18_2.png" class="pk_rule_bottom">
+    </div>
+</div>
+<div class="pk_matching">
+    <div class="pk_matching_inner">
+        <div class="pk_matching_close"></div>
+        <div class="pk_matching_time">
+            <p>预计匹配时间 <span>01:59</span></p>
+            <p class="matching_time"><span>00</span> : <span>00</span></p>
+            <p>匹配中...</p>
+        </div>
+        <div class="pk_matching_l"><div class="pk_head"><img src="__STATIC__image/vip02.png"></div><p>TredingFunTredingFun</p></div>
+        <div class="pk_matching_r"><div class="pk_head"><img src="__STATIC__image/vip02.png"></div><p>???</p></div>
+    </div>
+</div>
+</body>
+</html>

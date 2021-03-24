@@ -1,0 +1,310 @@
+{extend name="web@base/main"/}
+{block name="body"}
+<link href="__STATIC__css/studiocreate.css" rel="stylesheet"/>
+<script src="__STATIC__js/brokers.js" rel="stylesheet"></script>
+<input type="hidden" value="{$arrStudio.uid}" name="arrStudiouid">
+<div class="createlivemain">
+    <div class="createlivebox">
+        <p class="createlive_head"><span style="border-bottom:2px solid #611987;padding-bottom:10px;">创建工作室</span></p>
+        <ul class="createlivehead">
+            <li>
+                <img src="__STATIC__image/createlivehead_icon1.png">
+                <p>创建工作室</p>
+            </li>
+        </ul>
+        <div class="createlive">
+            <div style="width:100%;height:40px;background:#f5f5f5;">
+                <img src="__STATIC__image/createlivehead_icon2.png" style="width:22px;float:left;margin:9px 10px;">
+                <p style="line-height:40px;font-size:16px;color:#611987;">创建工作室</p>
+            </div>
+            <div style="clear:both;margin-top:20px;">
+                <div style="float:left;">
+                    <div style="position: relative;width:100px;height:32px;border:1px solid #d5b56d;border-radius: 6px;overflow: hidden">
+                        <img src="__STATIC__image/studiologo_bg_icon.png" style="position: absolute;top:0;right:0;">
+                        <img src="__STATIC__image/createneccisary.png" style="position: absolute;top:-4px;right:-3px;">
+                        <img src="__STATIC__image/createlivehead_icon_e.jpg"  class="createlivehead_show" id="createlivehead_show">
+                    </div>
+                    <p style="font-size:14px;color:#999999;">请上传100*32px<br>png、jpg格式图片</p>
+                    <p id="showpic" style="width:150px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></p>
+                    <p id="uploadtip" style="display:none;">0</p>
+                    <div class="createlivehead_upload" style="cursor:pointer">
+                        <img src="__STATIC__image/createlivehead_icon4.jpg" style="width:14px;float:left;margin:5px 7px;cursor:pointer;overflow: hidden">
+                        <p style="font-size:14px;color:#611987;line-height:25px;position: relative;width:70px!important;height:25px!important;cursor:pointer!important;" id="pic">上 传
+                            <input type="file" accept="__STATIC__image/png" class="fileimage" id="fileimages" style="cursor:pointer!important;z-index:811212;width:70px!important;height:25px!important;">
+                        </p>
+                    </div>
+                </div>
+                <ul class="createinput">
+                    <li style="background:url(__STATIC__image/createneccisary.png) no-repeat 607px 13px">
+                        <p>昵   称:</p>
+                        <input type="text" placeholder="为你的工作室创建一个名字吧" id="name">
+                    </li>
+                    <li>
+                        <p>签   名:</p>
+                        <input type="text" placeholder="请输入工作室签名" id="sign">
+                    </li>
+                    <li style="background:url(__STATIC__image/createneccisary.png) no-repeat 607px 13px">
+                        <p>电   话:</p>
+                        <input type="telephone" placeholder="请输入电话号码" id="tel">
+                    </li>
+                    <li style="background:url(__STATIC__image/createneccisary.png) no-repeat 607px 13px">
+                        <p>邮   箱:</p>
+                        <input type="email" placeholder="请输入你的邮箱" id="email">
+                    </li>
+                    <li>
+                        <p>Q    Q:</p>
+                        <input type="text" placeholder="请输入你的QQ" id="qq">
+                    </li>
+                    <li>
+                        <p>微   信:</p>
+                        <input type="text" placeholder="请输入你的微信号码" id="wechat">
+                    </li>
+                    <li>
+                        <p>经纪商:</p>
+                        <input type="text" placeholder="请选择经纪商" id="mt4server" style="background:url(__STATIC__image/select_icon_03.png) no-repeat  450px -2px;">
+                        <div class="click_btn" show="false"></div>
+                        <ul class="allbroker">
+                        </ul>
+                    </li>
+                    <li>
+                        <p>开户链接:</p>
+                        <input type="text" placeholder="请输入你的开户链接" id="link">
+                    </li>
+                    <li style="background:url(__STATIC__image/createneccisary.png) no-repeat 607px 13px">
+                        <p>工作室介绍:</p>
+                        <textarea  placeholder="请输入工作室介绍" id="introduction"></textarea>
+                    </li>
+                    <li style="background:url(__STATIC__image/createneccisary.png) no-repeat 607px 13px;height:40px;">
+                        <p>上传证件:</p>
+                        <div class="createuploadcard">
+                            <p id="cert">请上传身份证或营业执照</p>
+                            <input placeholder="请上传身份证或营业执照" type="file" accept="__STATIC__image/*"  class="idcardbox" id="idcardbox">
+                        </div>
+                    </li>
+                    <button class="tocreateroom">立即创建</button>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bomb_logo_cut">
+    <div class="logo_cut">
+        <div class="logo_cut_close"></div>
+        <div id="clipArea"></div>
+        <button id="clipBtn">截取</button>
+    </div>
+</div>
+<script src="__STATIC__js/iscroll-zoom.js" rel="stylesheet"></script>
+<script src="__STATIC__js/hammer.js" rel="stylesheet"></script>
+<script src="__STATIC__js/lrz.all.bundle.js" rel="stylesheet"></script>
+<script src="__STATIC__js/jquery.photoClips.js" rel="stylesheet"></script>
+<script>
+    var clipArea = new bjj.PhotoClip("#clipArea", {
+        size: [120, 38.4],
+        outputSize: [120,  38.4],
+        file: "#fileimages",
+        view: "#createlivehead_show",
+        ok: "#clipBtn",
+        loadStart: function() {
+            console.log("照片读取中");
+        },
+        loadComplete: function() {
+            console.log("照片读取完成");
+        },
+        clipFinish: function(dataURL) {
+            //alert(dataURL);
+            $(".bomb_logo_cut").hide();
+        }
+    });
+    $("#fileimages").on("change",function(){
+        $(".bomb_logo_cut").fadeIn();
+    });
+    $(".logo_cut_close").click(function(){
+        $(".bomb_logo_cut").hide();
+    });
+    $(".click_btn").click(function(event){
+        event.stopPropagation();
+        if($(this).attr("show")=='false'){
+            $(".allbroker").show();
+            $(this).attr("show","true");
+        }else{
+            $(".allbroker").hide();
+            $(this).attr("show","false");
+        }
+    });
+    $("body").click(function(){
+        $(".allbroker").hide();
+        $(".click_btn").attr("show","false");
+    });
+    function showbrokers(obj){
+        $("#mt4server").val($(obj).html());
+        $(".allbroker").hide();
+        $(".click_btn").attr("show","false");
+    }
+    var html='';
+    for(var i=0;i<brokers.length;i++){
+        html+='<li id="'+brokers[i].ID+'" onclick="showbrokers(this)">'+brokers[i].SHOWNAME+'</li>';
+    }
+    $(".allbroker").html(html);
+    $("#mt4server").on("keyup",function(){
+        $(".allbroker").html('').show();
+        $(".click_btn").attr("show","true");
+        var text=$(this).val();
+        var html2='';
+        for(var j=0;j<brokers.length;j++){
+            if((brokers[j].SHOWNAME.toLowerCase()).indexOf(text.toLowerCase()) !=-1){
+                html2+='<li id="'+brokers[j].ID+'" onclick="showbrokers(this)">'+brokers[j].SHOWNAME+'</li>';
+            }
+        }
+        $(".allbroker").html(html2);
+    });
+    /*var URL2;
+    KindEditor.ready(function (K) {
+        var editor = K.create('#detail', config);
+        var uploadbuttona = K.uploadbutton({
+            button : K('#fileimages')[0],
+            fieldName : 'imgFile',
+            url : '{:url("master/uploadImg")}',
+            afterUpload : function (data) {
+                //console.log(data);
+                if (data.error === 0) {
+                    var url = K.formatUrl(data.url, 'relative');
+                    var newUrl = url.replace(/\\/g,'/');
+                    if(newUrl.substr(0,1)=='/'){
+                        newUrl = newUrl.substr(1,url.length);
+                    }
+                    //$(".ImageUrl").val(newUrl);
+                    URL2 = newUrl;
+                    console.log(URL2);
+                    $("#uploadtip").html("1");
+                    setTimeout(function () {
+                        $("#createlivehead_show").attr("src",'__BASIC__upload/image/'+URL2);
+                    },500);
+                } else {
+                    win.alert('',data.message);
+                }
+            },
+            afterError : function (str) {
+                $(".pic_upload_tips").html('自定义错误信息: ' + str);
+            }
+        });
+        uploadbuttona.fileBox.change(function (e) {
+            uploadbuttona.submit();
+        });
+    });*/
+    var URL3;
+    KindEditor.ready(function (K) {
+        var editor = K.create('#detail', config);
+        var uploadbuttona = K.uploadbutton({
+            button : K('#idcardbox')[0],
+            fieldName : 'imgFile',
+            url : '{:url("master/uploadImg")}',
+            afterUpload : function (data) {
+                //console.log(data);
+                if (data.error === 0) {
+                    var url = K.formatUrl(data.url, 'relative');
+                    var newUrl = url.replace(/\\/g,'/');
+                    if(newUrl.substr(0,1)=='/'){
+                        newUrl = newUrl.substr(1,url.length);
+                    }
+                    //$(".ImageUrl").val(newUrl);
+                    URL3 = newUrl;
+                    console.log(URL3);
+                    $("#cert").html(URL3);
+                } else {
+                    win.alert('',data.message);
+                }
+            },
+            afterError : function (str) {
+                $(".pic_upload_tips").html('自定义错误信息: ' + str);
+            }
+        });
+        uploadbuttona.fileBox.change(function (e) {
+            uploadbuttona.submit();
+        });
+    });
+    $(".tocreateroom").click(function(){
+        if(!"{$uid}" || "{$uid}"=='0'){
+            $("#vip_login").fadeIn();
+            return false;
+        }
+        if($("#name").val()==''){
+            win.alert('','请输入您的昵称');
+            return false;
+        }
+        if($("#tel").val()==''){
+            win.alert('','请输入您的电话');
+            return false;
+        }
+        if($("#email").val()==''){
+            win.alert('','请输入您的邮箱');
+            return false;
+        }
+        if($("#introduction").val()==''){
+            win.alert('','请输入您的工作室介绍');
+            return false;
+        }
+        if($("#cert").html()=='请上传身份证或营业执照'){
+            win.alert('','请上传您的证件');
+            return false;
+        }
+        if($("#createlivehead_show").attr("src")=="__STATIC__image/createlivehead_icon_e.jpg"){
+            win.alert('','请上传工作室头像');
+            return false;
+        }
+        var uid="{$uid}";
+        var name=$("#name").val();
+        var sign=$("#sign").val();
+        var tel=$("#tel").val();
+        var email=$("#email").val();
+        var qq=$("#qq").val();
+        var wechat=$("#wechat").val();
+        var mt4server=$("#mt4server").val();
+        var link=$("#link").val();
+        var introduction=$("#introduction").val();
+        var cert=$("#cert").html();
+        var add_time=Date.parse( new Date() ).toString().sub(0,11);
+        var logopic=$("#createlivehead_show").attr("src");
+        var roominfo={
+            "uid":uid,
+            "name":name,
+            "sign":sign,
+            "tel":tel,
+            "email":email,
+            "qq":qq,
+            "wechat":wechat,
+            "mt4server":mt4server,
+            "link":link,
+            "introduction":introduction,
+            "cert":cert,
+            "add_time":add_time,
+            "pic":logopic
+        };
+        if($("input[name='arrStudiouid']").val()){
+            roominfo.pid=$("input[name='arrStudiouid']").val();
+        }else{
+            roominfo.pid='0';
+        }
+        $.ajax({
+            url:"{:url('api.studio/add')}",
+            type:"post",
+            dataType:"json",
+            data:roominfo,
+            async:false,
+            success:function(body){
+                console.log(body);
+                if(body.code==200){
+                    win.alert('',body.msg);
+                    location.href='__HTTP__studio/{$uid}.html';
+                    $(".tocreateroom").attr("disabled","true");
+                }else{
+                    win.alert('',body.msg);
+                }
+            },
+            error:function(){
+                win.alert('','出错，请重试！');
+            }
+        });
+    });
+</script>
+{/block}

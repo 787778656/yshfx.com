@@ -1,0 +1,181 @@
+{extend name="web@base/main"/}
+{block name="body"}
+<link href="__STATIC__css/user_index.css?20180615" rel="stylesheet">
+<style>
+    .header{background: #ffffff;box-shadow: 0 1px 1px rgba(0,0,0,0.1);}
+    .main {height: 1110px;padding-top: 110px;}
+    .main_inner{min-height: 950px;box-shadow: 2px 2px 10px #c2c3c5;width: 1200px;padding: 0;}
+    .main_l{width: 100%;height: 350px;float: left;background: url("__STATIC__image/center_bg.png")no-repeat;background-size: cover;}
+    .main_l_info{text-align: center;padding-top: 100px;position: relative;}
+    .main_l_info .main_l_info_head{width: 70px;height: 70px;margin: 0 auto;position: relative;}
+    .main_l_info img{display: inline-block;width: 70px;height: 70px;border-radius: 50%;}
+    .main_l_info i{display: block;position: absolute;right: 0;bottom: 0;width: 26px;height: 26px;background: url("__STATIC__image/center01_2.png")no-repeat;background-size: cover;cursor: pointer;}
+    .main_l_info p{line-height: 40px;font-size: 16px;color: #ffffff;font-weight: bold;letter-spacing:2px;width: 150px;margin: 0 auto;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+    .main_l_info a{position: absolute;right: 42px;bottom: 10px;font-size: 14px;line-height: 18px;color: #ffffff;border-bottom: 1px solid #ffffff;letter-spacing: 0;}
+    .main_l_info a:hover{color: #fff6e7;border-bottom: 1px solid #fff6e7;}
+    .main_l_money p{padding-left: 500px;margin-bottom: 10px;font-size: 14px;color: #ffffff;line-height: 20px;text-align: left;position: relative;}
+    .main_l_money p span{line-height: 30px;font-size: 20px;margin-left: 20px;}
+    .main_l_money p a{display: inline-block;border-bottom: 1px solid #fff;height: 20px;line-height: 20px;text-align: center;color: #fff;font-size: 14px;margin-left: 50px;}
+    .main_l_btn{width: 300px;margin: 18px auto;}
+    .main_l_btn a{display: inline-block;width: 130px;height: 36px;font-size: 16px;color: #611987;background: #ffffff;border-radius: 4px;text-align: center;line-height: 36px;font-weight: bold;}
+    .main_l_btn a:nth-child(1){float: left;}
+    .main_l_btn a:nth-child(2){float: right;}
+    .main_l_btn a:hover{background: #fff6e7;}
+    .main_r{width: 1136px;height: 550px;float: left;margin: 24px 32px;}
+    .main_r h3{font-size: 16px;color: #666666;line-height: 38px;border-bottom: 1px solid #dedfe0;font-weight: bold;}
+    .main_r ul{height: 80px;margin: 20px 0;}
+    .main_r ul li{display: block;float: left;width: 264px;height: 100px;border-radius: 4px;margin: 0 10px;text-align: center;position: relative;background: #f7f7f9;}
+    .main_r ul li:last-child{margin-right: 0;}
+    /*.main_r ul:nth-child(2) li{background: #f7f7f9;}
+    .main_r ul:nth-child(4) li{background: #f2feff;}
+    .main_r ul:nth-child(6) li{background: #fffbf3;}*/
+    .main_r ul li a{display: block;width: 100%;height: 100%;}
+    .main_r ul li a img{margin: 24px 0 6px 0;display: inline-block;width: 26px;height: 26px;}
+    .main_r ul li a p{line-height: 20px;font-size: 16px;color: #7d7d8b;}
+    .main_r ul li .vip_class{position: absolute;right: -3px;top: -3px;}
+</style>
+<script>
+    $(function () {
+        $(".main_l_money p i").click(function (event) {
+            $(this).find("span").fadeIn();
+            event.stopPropagation();
+        });
+        $(".main_l_money p i span").click(function () {
+            event.stopPropagation();
+        });
+        $("body").click(function (event) {
+            $(".main_l_money p i span").hide();
+        });
+        $(".center_btn01").click(function () {
+            $(".binding_tel").fadeIn();
+        });
+        $(".center_btn03").click(function () {
+            $(".mul_mt4").fadeIn();
+        });
+        $(".center_btn22").click(function () {
+            $(".register_mam").fadeIn();
+        });
+        $(".center_btn41").click(function () {
+            $(".mini_app").fadeIn();
+            $(".mini_app_p").html("请使用小程序 → 个人中心 → 营销图片")
+        });
+        $(".center_btn44").click(function () {
+            $(".mini_app").fadeIn();
+            $(".mini_app_p").html("请使用小程序 → 个人中心 → 我的红包")
+        });
+
+        // 担保弹窗
+        $(".usergra_btn").click(function(){
+            $("#guarantee").fadeIn();
+        });
+        $("#guaranclose").click(function(){
+            $("#guarantee").fadeOut();
+        });
+        var graarrow = true;
+        $(".guarantee_intel").click(function(){
+            if(graarrow == true){
+                $(".guarantlist").show();
+                $(".guarant_arrow").css({"transform":"rotate(180deg)","transition":"all 0.5s"})
+                graarrow = false;
+            }else if(graarrow == false){
+                $(".guarantlist").hide();
+                $(".guarant_arrow").css({"transform":"rotate(0deg)","transition":"all 0.5s"})
+                graarrow = true;
+            }
+        });
+        $(".guarantlist>li").click(function(){
+            for(var i=0;i<$(".guarantlist>li").length;i++){
+                var index = $(this).index();
+                $(".guarant_span").html($(".guarantlist>li").eq(index).html());
+            }
+        })
+        $(".center21_btn").click(function(){
+            $(".rebate_rule").show();
+        });
+        $(".rebate_rule_close").click(function(){
+            $(".rebate_rule").hide();
+        });
+        $(".center22_btn").click(function(){
+            win.alert("","暂未开通！");
+        });
+    });
+</script>
+<div class="main">
+    <div class="main_inner">
+        <div class="main_l">
+            <div class="main_l_info">
+                <div class="main_l_info_head">
+                {if !empty($info['u_img'])}
+                {if strstr($info['u_img'], 'http')}
+                <img src="{$info['u_img']}" class="trade_user_img" style="border-radius: 50%;">
+                {else/}
+                <img src="__STATIC__upload/image/{$info['u_img']}" class="trade_user_img" style="border-radius: 50%;">
+                {/if}
+                {else/}
+                <img src="__STATIC__image/vip_nav15.png" class="trade_user_img">
+                {/if}
+                <i class="user_info_btn2"></i>
+                </div>
+                <p>{$info['nickname'] ? $info['nickname'] : substr_replace($info['login'], '***', 4, 3);}</p>
+            </div>
+            <div class="main_l_money">
+                <p>总<i style="display: inline-block;width: 0.5em;"></i>资<i style="display: inline-block;width: 0.5em;"></i>产(元)：<span>{$info['imoney']+$info['smoney']+$info['credit']}</span><a href="javascript:void(0)" class="accountdetail">明细</a></p>
+                <p>可用余额(元)：<span>{$info['imoney']}</span><a href="javascript:void(0)" class="deposit_btn">提现</a></p>
+            </div>
+            <!--<div class="main_l_btn">
+                <a href="javascript:void(0)" class="recharge_btn">充 值</a>
+                <a href="javascript:void(0)" class="deposit_btn">提 现</a>
+            </div>-->
+        </div>
+        <div class="main_r">
+            <h3>设置</h3>
+            <ul>
+                <li><a href="{:url('user/trade')}" target="_blank"><img src="__STATIC__image/center06.png"><p>我的交易</p></a></li>
+                <li><a href="javascript:void(0)" class="center_btn03"><img src="__STATIC__image/center07.png"><p>MT4管理</p></a></li>
+                <li><a href="javascript:void(0)" class="user_info_btn6"><img src="__STATIC__image/center08.png"><p>修改密码</p></a></li>
+                <li><a href="javascript:void(0)"><img src="__STATIC__image/center09.png"><p>更多</p></a></li>
+            </ul>
+            <h3>跟随交易</h3>
+            <ul>
+                <li><a href="{:url('user/trade')}?id=3" target="_blank"><img src="__STATIC__image/center13.png"><p>跟单设置</p></a></li>
+                <li><a href="{:url('master/create')}" target="_blank"><img src="__STATIC__image/center14.png"><p>上传信号</p></a></li>
+                <li><a href="javascript:void(0)" class="user_info_btn5"><img src="__STATIC__image/center15.png"><p>我的信号</p></a></li>
+                <li>
+                    {switch info.server}
+                    {case vip1}<a href="{:url('user/vip')}" target="_blank"><img src="__STATIC__image/center16.png"><p>VIP1 (剩余{$serverDay}天)</p></a><img src="__STATIC__image/vip_class1.png" class="vip_class">{/case}
+                    {case vip2}<a href="{:url('user/vip')}" target="_blank"><img src="__STATIC__image/center16.png"><p>VIP2 (剩余{$serverDay}天)</p></a><img src="__STATIC__image/vip_class2.png" class="vip_class">{/case}
+                    {case vip3}<a href="{:url('user/vip')}" target="_blank"><img src="__STATIC__image/center16.png"><p>VIP3 (剩余{$serverDay}天)</p></a><img src="__STATIC__image/vip_class3.png" class="vip_class">{/case}
+                    {default /}<a href="{:url('user/vip')}" target="_blank"><img src="__STATIC__image/center16.png"><p>VIP服务</p></a><img src="__STATIC__image/vip_class0.png" class="vip_class">
+                    {/switch}
+                </li>
+            </ul>
+            <h3>推广</h3>
+            <ul>
+                <li><a href="javascript:void(0)" class="user_info_btn3"><img src="__STATIC__image/center18.png"><p>我的推广码</p></a></li>
+                <li><a href="javascript:void(0)" class="user_info_btn4"><img src="__STATIC__image/center19.png"><p>我的返佣</p></a></li>
+                <li><a href="{:url('user/fanyong')}" target="_blank"><img src="__STATIC__image/center21.png"><p>返佣说明</p></a></li>
+                <li><a href="javascript:void(0)" class="center22_btn"><img src="__STATIC__image/center22.png"><p>招商加盟</p></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="rebate_rule" style="display: none;width: 100%;height: 100%;background-color: rgba(0,0,0,0.4);position: fixed;top: 0;z-index: 1000;">
+    <div class="confirmBox" style="height:500px;margin-top:-250px;width:600px;margin-left:-300px;">
+        <div class="rebate_rule_close" style="    position: absolute;top: -10px;right: -10px;width: 30px;height: 30px;cursor: pointer;
+        background: url(__STATIC__image/buchang_close.png)no-repeat center;background-size: cover;z-index: 1;"></div>
+        <div style="position:relative">
+            <p class="confirmTitle"><span>返佣说明</span></p>
+        </div>
+        <div style="padding: 0 20px;">
+        　　<p style="text-indent:2em;">注册用户通过推广分享个人专属二维码或邀请码发展下级用户可以获取一定的返佣；返佣规则如下：</p>
+
+        　　<p style="text-indent:2em;">1、若下级用户选择购买VIP服务，则获取下级用户购买VIP服务费用的20%/月作为佣金；例如：当月若干个下级用户一共购买了100000元服务费，那么将会获取20000元佣金（100000*20%）；注：下级用户自购买跟单服务费的佣金第二天结算到个人中心账户里；提现24小时内到账；</p>
+
+        　　<p style="text-indent:2em;">2、若下级用户选择成为永久VIP，则获取下级用户20元/手（交易量）作为佣金；例如：当月若干个下级用户一共交易了1000手，那么将会获取20000元佣金（1000*20）；注：下级用户自开始跟单所产生的交易量佣金第二天结算到个人中心账户里；提现24小时内到账；</p>
+
+        　　<p style="text-indent:2em;">3、不限制下级用户选择跟单服务的方式，两种返佣方式独立运行计算互不干扰；</p>
+        </div>
+    </div>
+</div>
+{/block}

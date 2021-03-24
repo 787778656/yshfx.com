@@ -1,0 +1,8 @@
+runtime/
+.idea/
+application/database.php
+application/admin/database.php
+application/config.php
+public/index.php
+__thinkphp__/
+application/ea/

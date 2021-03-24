@@ -1,0 +1,145 @@
+{extend name="web@base/main"/}
+{block name="body"}
+<style>
+    .main {height: 805px;padding-top: 15px;}
+    .main_inner{min-height: 700px;box-shadow: 2px 2px 10px #c2c3c5;width: 1200px;padding: 0;}
+    .main_l{width: 300px;height: 700px;float: left;background: url("__STATIC__image/center01.png")no-repeat;background-size: cover;}
+    .main_l_info{text-align: center;padding-top: 30px;position: relative;}
+    .main_l_info .main_l_info_head{width: 90px;height: 90px;margin: 0 auto;position: relative;}
+    .main_l_info img{display: inline-block;width: 90px;height: 90px;border-radius: 50%;}
+    .main_l_info i{display: block;position: absolute;right: 0;bottom: 0;width: 26px;height: 26px;background: url("__STATIC__image/center01_2.png")no-repeat;background-size: cover;cursor: pointer;}
+    .main_l_info p{line-height: 40px;font-size: 16px;color: #ffffff;font-weight: bold;letter-spacing:2px;width: 150px;margin: 0 auto;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+    .main_l_info a{position: absolute;right: 42px;bottom: 10px;font-size: 14px;line-height: 18px;color: #ffffff;border-bottom: 1px solid #ffffff;letter-spacing: 0;}
+    .main_l_info a:hover{color: #fff6e7;border-bottom: 1px solid #fff6e7;}
+    .main_l_money{padding: 18px 0 10px 0;}
+    .main_l_money p{margin-bottom: 30px;font-size: 16px;color: #ffffff;line-height: 20px;text-align: center;position: relative;}
+    .main_l_money p span{font-weight: bold;display: block;line-height: 48px;font-size: 20px;}
+    .main_l_money p:nth-child(1) span{font-size: 30px;line-height: 52px;}
+    .main_l_money p:nth-child(1) a{display: block;border: none;position: absolute;right: 16px;bottom: 0;width: 40px;height: 20px;line-height: 20px;text-align: center;color: #611987;background: #ffffff;font-size: 14px;border-radius: 4px;}
+    .main_l_money p:nth-child(1) a:hover{background: #fff6e7;}
+    .main_l_money p i{display: inline-block;width: 16px;height: 16px;margin-left: 8px;background: url("__STATIC__image/center02.png")no-repeat;background-size: cover;cursor: pointer;vertical-align: middle;margin-top: -2px;position: absolute;bottom: 1px;}
+    .main_l_money p i span{position: absolute; left: -16px; top: 26px; display: none; font-size: 12px; width: 250px; height: 80px; border-radius: 8px;color: #7d7d8b;font-weight: normal;
+        line-height: 20px; text-align: left; padding: 5px; background: rgb(255, 255, 255);box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px; text-indent: 2em;z-index: 1;}
+    .main_l_money p i img{position: absolute;left: 10px;top: -11px;}
+    .main_l_btn{padding: 0 15px;margin-top: 18px;}
+    .main_l_btn a{display: inline-block;width: 130px;height: 36px;font-size: 16px;color: #611987;background: #ffffff;border-radius: 4px;text-align: center;line-height: 36px;font-weight: bold;}
+    .main_l_btn a:nth-child(1){float: left;}
+    .main_l_btn a:nth-child(2){float: right;}
+    .main_l_btn a:hover{background: #fff6e7;}
+    .main_r{width: 836px;height: 652px;float: left;padding: 24px 32px;}
+    .main_r h3{font-size: 16px;color: #666666;line-height: 38px;border-bottom: 1px solid #dedfe0;font-weight: bold;}
+    .main_r ul{height: 80px;margin: 20px 0;}
+    .main_r ul li{display: block;float: left;width: 206px;height: 80px;border-radius: 4px;margin-right: 4px;text-align: center;position: relative;}
+    .main_r ul li:last-child{margin-right: 0;}
+    .main_r ul:nth-child(2) li,.main_r ul:nth-child(8) li{background: url("__STATIC__image/center03.png")no-repeat;background-size: cover;}
+    .main_r ul:nth-child(4) li,.main_r ul:nth-child(6) li{background: url("__STATIC__image/center04.png")no-repeat;background-size: cover;}
+    .main_r ul li a{display: block;width: 100%;height: 100%;}
+    .main_r ul li a img{margin: 14px 0 6px 0;display: inline-block;width: 26px;height: 26px;}
+    .main_r ul li a p{line-height: 20px;font-size: 13px;color: #7d7d8b;}
+    .main_r ul li .vip_class{position: absolute;right: -3px;top: -3px;}
+</style>
+<script>
+    $(function () {
+        $(".main_l_money p i").click(function (event) {
+            $(this).find("span").fadeIn();
+            event.stopPropagation();
+        });
+        $(".main_l_money p i span").click(function () {
+            event.stopPropagation();
+        });
+        $("body").click(function (event) {
+            $(".main_l_money p i span").hide();
+        });
+        $(".center_btn01").click(function () {
+            $(".binding_tel").fadeIn();
+        });
+        $(".center_btn03").click(function () {
+            $(".mul_mt4").fadeIn();
+        });
+        $(".center_btn22").click(function () {
+            $(".register_mam").fadeIn();
+        });
+        $(".center_btn41").click(function () {
+            $(".mini_app").fadeIn();
+            $(".mini_app_p").html("请使用小程序 → 个人中心 → 营销图片")
+        });
+        $(".center_btn44").click(function () {
+            $(".mini_app").fadeIn();
+            $(".mini_app_p").html("请使用小程序 → 个人中心 → 我的红包")
+        });
+    });
+</script>
+<div class="main">
+    <div class="main_inner">
+        <div class="main_l">
+            <div class="main_l_info">
+                <div class="main_l_info_head">
+                {if !empty($info['u_img'])}
+                {if strstr($info['u_img'], 'http')}
+                <img src="{$info['u_img']}" class="trade_user_img" style="border-radius: 50%;">
+                {else/}
+                <img src="__STATIC__upload/image/{$info['u_img']}" class="trade_user_img" style="border-radius: 50%;">
+                {/if}
+                {else/}
+                <img src="__STATIC__image/share_head_img.png" class="trade_user_img">
+                {/if}
+                <i class="user_info_btn2"></i>
+                </div>
+                <p>{$info['nickname'] ? $info['nickname'] : substr_replace($info['login'], '***', 4, 3);}</p>
+                <a href="{:url('index/signout')}" class="user_info_btn8" id="exit">退出</a>
+            </div>
+            <div class="main_l_money">
+                <p><span>{$info['imoney']+$info['smoney']+$info['credit']}</span>总 资 产 (元)<a href="javascript:void(0)" class="accountdetail">明细</a></p>
+                <p><span>{$info['imoney']}</span>可 用 余 额 (元)</p>
+                <p><span>{$info['smoney']}</span>冻 结 资 金 (元)</p>
+                <p><span>{$info['credit']}</span>信 用 金 (元)<i>
+                    <span>信用金 : 可用于抵扣保证金或预缴费，不可提现，发起或参与保障交易优先使用信用金，当保证金或预缴费退回时，优先退回至信用金，当信用金低于授权金额时需补足信用金。
+                        <img src="__STATIC__image/indexheadbg.png">
+                    </span>
+                </i></p>
+            </div>
+            <div class="main_l_btn">
+                <a href="javascript:void(0)" class="recharge_btn">充 值</a>
+                <a href="javascript:void(0)" class="deposit_btn">提 现</a>
+            </div>
+        </div>
+        <div class="main_r">
+            <h3>设置</h3>
+            <ul>
+                <li><a href="javascript:void(0)" class="center_btn01"><img src="__STATIC__image/center05.png"><p>绑定手机号</p></a></li>
+                <li><a href="{:url('user/trade')}" target="_blank"><img src="__STATIC__image/center06.png"><p>我的交易</p></a></li>
+                <li><a href="javascript:void(0)" class="center_btn03"><img src="__STATIC__image/center07.png"><p>MT4管理</p></a></li>
+                <li><a href="javascript:void(0)" class="user_info_btn6"><img src="__STATIC__image/center08_2.png"><p>修改密码</p></a></li>
+            </ul>
+            <h3>保障交易</h3>
+            <ul>
+                <li><a href="{:url('user/trade')}?id=2" target="_blank"><img src="__STATIC__image/center09.png"><p>我的投资</p></a></li>
+                <li><a href="javascript:void(0)" class="center_btn22"><img src="__STATIC__image/center10.png"><p>发起MAM项目</p></a></li>
+                <li><a href="javascript:void(0)" class="user_info_btn25"><img src="__STATIC__image/center11.png"><p>项目管理</p></a></li>
+                <li><a href="{:url('credit')}" target="_blank"><img src="__STATIC__image/center12.png"><p>信用金</p></a></li>
+            </ul>
+            <h3>跟随交易</h3>
+            <ul>
+                <li><a href="{:url('user/trade')}?id=3" target="_blank"><img src="__STATIC__image/center13.png"><p>跟单设置</p></a></li>
+                <li><a href="{:url('master/create')}" target="_blank"><img src="__STATIC__image/center14.png"><p>上传信号</p></a></li>
+                <li><a href="javascript:void(0)" class="user_info_btn5"><img src="__STATIC__image/center15.png"><p>我的信号</p></a></li>
+                <li><a href="{:url('user/vip')}" target="_blank"><img src="__STATIC__image/center16.png"><p>会员系统</p></a>
+                {switch info.server}
+                {case 'vip1'}<img src="__STATIC__image/vip_class1.png" class="vip_class">{/case}
+                {case 'vip2'}<img src="__STATIC__image/vip_class2.png" class="vip_class">{/case}
+                {case 'vip3'}<img src="__STATIC__image/vip_class3.png" class="vip_class">{/case}
+                {default /}<img src="__STATIC__image/vip_class0.png" class="vip_class">
+                {/switch}
+                </li>
+            </ul>
+            <h3>推广</h3>
+            <ul>
+                <li><a href="javascript:void(0)" class="center_btn41"><img src="__STATIC__image/center17.png"><p>营销图片</p></a></li>
+                <li><a href="javascript:void(0)" class="user_info_btn3"><img src="__STATIC__image/center18.png"><p>我的推广码</p></a></li>
+                <li><a href="javascript:void(0)" class="user_info_btn4"><img src="__STATIC__image/center19.png"><p>我的返佣</p></a></li>
+                <li><a href="javascript:void(0)" class="center_btn44"><img src="__STATIC__image/center20.png"><p>我的红包</p></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{/block}

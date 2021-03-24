@@ -1,0 +1,341 @@
+{extend name="web@base/main"/}
+{block name="body"}
+<style> 
+.vip_head,.header{display:none;}
+.reg_body{width:100%;background: #f3f3f3;}
+.reg_box{width:100%;background: #fff;margin-top:60px;padding-bottom: 46px;}
+.invite_box{clear:both;padding-top:14px;}
+#yzm_li{width:60%;float:left;margin-bottom: 14px;}
+@media screen and (min-device-width:1025px){
+    .reg_banner{width:1200px;}
+    .regShareBox{width:640px;margin:0 auto;}
+    .reg_title{font-size:26px;color:#333333;float:left;line-height: 32px;margin-left:6px;height: 32px;display: inline-flex;}
+    .invite_input{height:48px;line-height: 50px;font-size:20px;padding:0 15px;width:518px;}
+    .reg_yzm{width: 262px;}
+    .read_pro{font-size:20px;float:left;line-height:22px;padding:20px 0 25px;margin-left:10px;}
+    .yzm_get{width:36%;height:50px;background: #611987;float:right;margin-top:14px;border-radius: 6px;font-size:20px;line-height: 50px;text-align:center;color:#fff;cursor:pointer;}
+    .reg_success{width:100%;height:60px;background: #611987;clear:both;text-align: center;line-height: 60px;font-size:26px;color:#fff;border-radius: 6px;cursor:pointer;}
+    .invite_box li{width:100%;height:50px;border:1px solid #dbdbdb;border-radius: 6px;margin-top:14px;}
+    .reg_icon>img{width:40px;margin:0 auto;display:block;}
+    .reg_icon{width:90px;height:38px;float:left;margin:5px 0;border-right:1px solid #dbdbdb;}
+    .agreeIcon{width:22px;float:left;padding:20px 0 25px;}
+    .register_tips2{font-size: 18px;height: 30px;
+    clear: both;
+    text-align: left;
+    color: red;
+    padding-bottom: 10px;}
+    .reg_main{width:1200px;background: #fff;margin:0 auto;}
+    .reg_per_tele{color:#611987;display: inline-block;max-width: 200px;overflow: hidden;height: 32px;text-overflow: ellipsis;white-space: nowrap;line-height: 32px;}
+}
+@media screen and (max-device-width:1025px){
+    body{position: relative;}
+    .reg_banner{width:100%;}
+    .regShareBox{width: 86%;margin:0 auto;}
+    .reg_title{    font-size: 36px;
+    color: #333333;
+    float: left;
+    line-height: 36px;
+    margin-left: 6px;display: inline-flex;}
+    .invite_input{height: 78px;
+    line-height: 80px;
+    font-size: 30px;
+    padding: 0 15px;
+    width: 60%;
+    margin-top: 5px;}
+    .read_pro{font-size:28px;float:left;line-height:28px;padding:20px 0 25px;margin-left:10px;}
+    .vip_footer{position: absolute;bottom:0;left:0;}
+    .yzm_get{width:36%;height:90px;background: #611987;float:right;margin-top:14px;border-radius: 6px;font-size:30px;line-height: 90px;text-align:center;color:#fff;cursor:pointer;}
+    .reg_success{width:100%;height:100px;background: #611987;clear:both;text-align: center;line-height: 100px;font-size:38px;color:#fff;border-radius: 6px;cursor:pointer;}
+    .invite_box li{width:100%;height:90px;border:1px solid #dbdbdb;border-radius: 6px;margin-top:14px;}
+    .reg_icon>img{width:40px;margin:20px auto;display:block;}
+    .reg_icon{width:90px;height:78px;float:left;margin:5px 0;border-right:1px solid #dbdbdb;}
+    .agreeIcon{width:30px;float:left;padding:20px 0 25px;}
+    .register_tips2{font-size: 30px;
+    clear: both;
+    text-align: left;
+    color: red;
+    padding-bottom: 10px;}
+    .reg_main{width:100%;background: #fff;margin:0 auto;}
+    .vip_footer{width:100%;min-width:0;}
+    .footer-t p{width:100%;}
+    .footer-m ul{width:100%;}
+    .footer-m ul .footer_li{    margin-right: 18px;}
+    .reg_per_tele{color:#611987;display: inline-block;max-width: 224px;overflow: hidden;height: 36px;text-overflow: ellipsis;white-space: nowrap;line-height: 36px;}
+}
+
+
+
+</style>
+<div class="reg_body">
+    <div class="reg_main">
+        <img src="__STATIC__image/reg_banner.jpg" class="reg_banner">
+        <div class="reg_box">
+            <div  class="regShareBox">
+                <div>
+                    <img src="__STATIC__image/reg_head_icon.jpg" style="width:32px;float:left;">
+                    {if !empty($inviteInfo)}
+                    <p class="reg_title">您的好友 <span class="reg_per_tele"><?php echo empty($inviteInfo['login']) ? $inviteInfo['nickname'] : substr_replace($inviteInfo['login'], '***', 4, 3);?></span> 分享了一个外汇赚钱秘籍</p>
+                    {/if}
+                </div>
+                <ul class="invite_box">
+                    <li>
+                        <div class="reg_icon">
+                            <img src="__STATIC__image/reg_icon1.jpg">
+                        </div>
+                        <input type="num" class="invite_input" placeholder="请输入手机号" maxlength="11" id="reg_phone">
+                    </li>
+                    <li id="yzm_li">
+                        <div class="reg_icon">
+                            <img src="__STATIC__image/reg_icon2.jpg">
+                        </div>
+                        <input type="num" class="invite_input reg_yzm" placeholder="验证码" maxlength="6" id="reg_yzm">
+                    </li>
+                    <div class="yzm_get">获取验证码</div> <!-- 正在获取(16)-->
+                    <li style="clear:both;">
+                        <div class="reg_icon">
+                            <img src="__STATIC__image/reg_icon3.jpg">
+                        </div>
+                        <input type="password" class="invite_input" placeholder="设置6-12位密码" id="reg_pass">
+                    </li>
+                    <li>
+                        <div class="reg_icon">
+                            <img src="__STATIC__image/reg_icon3.jpg">
+                        </div>
+                        <input type="password" class="invite_input" placeholder="请再次输入您的密码" id="reg_pass2">
+                    </li>
+                </ul>
+                <img src="__STATIC__image/agreeIcon.jpg" class="agreeIcon">
+                <p  class="read_pro">我已阅读并同意<a href="{:url('other/protocol')}" target="_blank" style="color:#611987;">《服务+免责协议》</a></p>
+                <p class="register_tips2" ></p>
+                <div class="reg_success">立即使用</div>
+            </div>
+        </div>
+    </div>
+</div>
+{if !empty($inviteInfo)}
+<input type="hidden"  name="inviteUid" value="{$inviteInfo['uid']}">
+{/if}
+
+<script>
+    $(function(){
+        if(window.screen.width<1025){
+            if($(".reg_body").height()+$(".vip_footer").height()>$(window).height()){
+                $("body").height($(".reg_body").height()+$(".vip_footer").height());
+            }else{
+                $("body").height($(window).height());
+            }
+        }
+    });
+    var countdown2=60;
+    function settime2(obj) {
+        obj = $(obj);
+        if (countdown == 0) {
+            obj.css({"background":"#611987"});
+            obj.html("获取验证码");
+            obj.removeClass("disabled");
+            countdown = 60;
+            return;
+        } else {
+            obj.css({"background":"#cccccc"});
+            obj.html("重发短信(" + countdown + ")秒");
+            obj.addClass("disabled");
+            countdown--;
+        }
+        setTimeout(function() {settime2(obj) },1000);
+    }
+     function gettelcode22() {
+        var mlogin = $("#reg_phone").val();
+        if(mlogin==""){
+            $(".register_tips2").html('请输入您的手机号码！').show();
+            return false;
+        }
+        var tel= /^1[345678]\d{9}$/;
+        if(!tel.test(mlogin)){
+            $(".register_tips2").html('请输入正确的手机号！').show();
+            return false;
+        }
+         var geetest_challenge = $("input[name=geetest_challenge]").val();
+         var geetest_validate = $("input[name=geetest_validate]").val();
+         var geetest_seccode = $("input[name=geetest_seccode]").val();
+        $.ajax({
+            type : 'POST',
+            url : "{:url('index/get_smscode')}",
+            data : {mobile : mlogin,
+                    geetest_challenge : geetest_challenge,
+                    geetest_validate : geetest_validate,
+                    geetest_seccode : geetest_seccode
+            },
+            success : function (response){
+                if(response){
+                    var json = JSON.parse(response);
+                    if(json.code=='200'){
+                        settime2(".yzm_get");
+                    }
+                    $(".register_tips2").html(json.message).show();
+                }
+
+            },
+            beforeSend : function(){
+                //$('#page_tag_load').show();
+            },
+            complete : function(){
+                //$('#page_tag_load').hide();
+            }
+        });
+
+
+    }
+    $(".yzm_get").click(function(){
+        var mlogin = $("#reg_phone").val();
+        if(mlogin==""){
+            $(".register_tips2").html('请输入您的手机号码！').show();
+            return false;
+        }
+        var tel= /^1[3458]\d{9}$/;
+        if(!tel.test(mlogin)){
+            $(".register_tips2").html('请输入正确的手机号！').show();
+            return false;
+        }
+        $(".verify").show();
+        $(".verify_close").click(function () {
+            $(".verify").hide();
+            $("#embed-captcha").html("");
+        });
+        /*判断人工验证通过*/
+        var handlerEmbed = function (captchaObj) {
+            $("#embed-submit").click(function (e) {
+                var validate = captchaObj.getValidate();
+                if (!validate) {
+                    $("#notice")[0].className = "show";
+                    setTimeout(function () {
+                        $("#notice")[0].className = "hide";
+                    }, 2000);
+                    e.preventDefault();
+                }
+            });
+            // 将验证码加到id为captcha的元素里，同时会有三个input的值：geetest_challenge, geetest_validate, geetest_seccode
+            captchaObj.appendTo("#embed-captcha");
+            captchaObj.onReady(function () {
+                $("#wait")[0].className = "hide";
+            });
+            // 更多接口参考：http://www.geetest.com/install/sections/idx-client-sdk.html
+        };
+        $.ajax({
+            // 获取id，challenge，success（是否启用failback）
+            url: "__HTTP__api.gop/startCaptchaServlet.html?t=" + (new Date()).getTime(), // 加随机数防止缓存
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                // 使用initGeetest接口
+                // 参数1：配置参数
+                // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件
+                initGeetest({
+                    gt: data.gt,
+                    challenge: data.challenge,
+                    new_captcha: data.new_captcha,
+                    product: "float", // 产品形式，包括：float，embed，popup。注意只对PC版验证码有效
+                    offline: !data.success // 表示用户后台检测极验服务器是否宕机，一般不需要关注
+                    // 更多配置参数请参见：http://www.geetest.com/install/sections/idx-client-sdk.html#config
+                }, handlerEmbed);
+
+                var setInt = setInterval(function () {
+                    if($("input[name=geetest_challenge]").val() != "" && $("input[name=geetest_challenge]").val() != undefined){
+                        setTimeout(function () {
+                            $(".verify").hide();
+                            if(countdown==60){
+                                gettelcode22();
+                                clearInterval(setInt);
+                            }else{
+                                $(".register_tips2").html('请稍后再试!').show();
+                            }
+                            $("#embed-captcha").html("");
+                        },1500);
+                    }
+                },2000);
+
+            }
+        });
+    });
+    $(".reg_success").click(function(){
+        var mlogin = $("#reg_phone").val();
+        var register_win_input = $("#reg_yzm").val();
+        var mpassword = $("#reg_pass").val();
+        var mrpassword = $("#reg_pass2").val();
+        if(mlogin==""){
+            $(".register_tips2").html('请输入您的手机号码！').show();
+            return false;
+        }
+        var tel= /^1[3458]\d{9}$/;
+        if(!tel.test(mlogin)){
+            $(".register_tips2").html('请输入正确的手机号！').show();
+            return false;
+        }
+        if(register_win_input==""){
+         $(".register_tips2").html('请输入短信验证码！').show();
+            return false;
+         }
+        if(mpassword==""){
+            $(".register_tips2").html('请输入密码！').show();
+            return false;
+        }
+        if(mrpassword==""){
+            $(".register_tips2").html('请输入确认密码！').show();
+            return false;
+        }
+        if(mrpassword == mpassword){}else{
+            $(".register_tips2").html('确认密码需与登录密码一致！').show();
+            return false;
+        }
+        var uid=$("input[name='inviteUid']").val();
+        $.ajax({
+            type : 'POST',
+            url : "{:url('index/register')}",
+            data : {
+                login : mlogin,
+                password : mpassword,
+                verify : register_win_input,  //短信验证码
+                code:uid  //邀请码
+            },
+            success : function (data){
+                console.log(data.msg);
+                var json = JSON.parse(data);
+                if(json){
+                    var mid= refferee;
+                    $(".register_tips2").html(json.msg).show();
+                    if(json.code==200){
+                        $(".reg_success").attr("disabled","true");
+                       $(".register_tips2").html(json.msg).show();
+                       setTimeout(function(){
+                            /*if(/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)||/(Android)/i.test(navigator.userAgent)){
+                                location.href='http://www.srefx.com/other/scan_download.html';
+                            }else{
+                                location.href="{:url('index/index')}";
+                            }*/
+                           location.href="{:url('index/index')}";
+                       },1000);
+                    }
+                }
+
+            },
+            beforeSend : function(){
+                //$('#page_tag_load').show();
+            },
+            complete : function(){
+                //$('#page_tag_load').hide();
+            }
+        });
+
+        return true;
+    });
+    function IsPC(){    
+     var userAgentInfo = navigator.userAgent;  
+     var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");    
+     var flag = true;    
+     for (var v = 0; v < Agents.length; v++) {    
+         if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }    
+     }    
+     return flag;    
+  } 
+</script>
+
+{/block}

@@ -1,0 +1,82 @@
+{extend name="web@base/studio"/}
+{block name="tdk"}
+<title>亿思汇交易行情分析-亿思汇官网</title>
+<meta name="keywords" content="亿思汇,亿思汇交易行情分析,亿思汇官网"/>
+<meta name="description" content="想知道金融交易行情吗？快来yshfx官网，亿思汇官网拥有完整的金融交易行情，能够让你24小时对行情了如指掌。"/>
+{/block}
+{block name="body"}
+<style>
+    body{width:100%;background: #f3f3f3;}
+    .tradeview_main{width:100%;margin:0 auto;background: #fff;margin-top:48px;position: relative;}
+    .tradeview_head{font-size:20px;color:#333333;text-align:center;width:100%;padding:15px 0;}
+    .mt4_tip{position: absolute;width:300px;height:40px;top:50%;left:50%;margin-top:-20px;margin-left:-150px;font-size:20px;}
+</style>
+<div class="tradeview_main">
+    <div style="width:100%;margin:0 auto;position:relative;">
+        <!-- TradingView Widget BEGIN -->
+        <script type="text/javascript" src="__STATIC__market/tradeview.js"></script>
+        <script type="text/javascript">
+            var h=$(window).height()-48;
+            new TradingView.widget({
+                "width": '100%',
+                "height": h,
+                "symbol": "OANDA:EURUSD",
+                "interval": "30",
+                "timezone": "Asia/Shanghai",
+                "theme": "Light",
+                "style": "1",
+                "locale": "zh_CN",
+                "toolbar_bg": "#f1f3f6",
+                "enable_publishing": false,
+                "hide_side_toolbar": false,
+                "allow_symbol_change": true,
+                "save_image": false,
+                "watchlist": [
+                    "FX:EURUSD",
+                    "FX:EURJPY",
+                    "OANDA:USDJPY",
+                    "OANDA:USDCHF",
+                    "FX_IDC:XAUUSD",
+                    "FX_IDC:XAGUSD",
+                    "OANDA:GBPUSD",
+                    "OANDA:GBPJPY",
+                    "FX:EURGBP",
+                    "FX:EURAUD",
+                    "OANDA:AUDUSD",
+                    "OANDA:AUDJPY",
+                    "BITSTAMP:BTCUSD",
+                    "FX:EURCHF",
+                    "FOREXCOM:USDCAD",
+                    "OANDA:AUDCAD",
+                    "FX_IDC:USDNZD",
+                    "OANDA:EURNZD",
+                    "OANDA:USDSGD",
+                    "OANDA:AUDNZD",
+                    "OANDA:AUDCHF",
+                    "FOREXCOM:AUDNZD",
+                    "OANDA:CADJPY",
+                    "OANDA:NZDUSD",
+                    "OANDA:NZDCAD",
+                    "OANDA:NZDJPY",
+                    "OANDA:GBPAUD",
+                    "OANDA:GBPCAD",
+                    "OANDA:GBPCHF",
+                    "FOREXCOM:GBPNZD"
+                ],
+                "hideideas": true
+            });
+            $(window).resize(function(){
+                location.reload();
+            });
+        </script>
+        <!-- TradingView Widget END -->
+    </div>
+    <img src="__STATIC__image/mt4_blank.png" style="position:absolute;bottom:35px;left:66px;">
+    <p class="mt4_tip">首次加载可能较慢，请稍候!</p>
+    <script>
+        setTimeout(function(){
+            $(".mt4_tip").fadeOut();
+        },1200);
+    </script>
+</div>
+{/block}

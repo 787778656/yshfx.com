@@ -1,0 +1,316 @@
+{extend name="web@base/main"/}
+{block name="body"}
+<style>
+    .inner{display:none;}
+    #inner1{display:block;}
+    #inner1 h1{line-height: 60px;}
+    #inner1 h2{line-height: 50px;}
+    #inner1 h3{line-height: 40px;}
+    #inner1 .p{text-indent: 2em;}
+    #inner1 p .strong_2{color: #611987;}
+    #inner1 p img{vertical-align: middle;margin-right: 5px;}
+    #inner1 p span{vertical-align: middle;}
+    .protocol_vip_btn{display: block;text-align: center;width: 188px;height: 40px;line-height: 40px;font-weight: bold;background: #611987;outline: none;border: none;border-radius: 8px;
+        font-size: 18px;color: #ffffff;margin: 0 auto;}
+    .protocol_vip_btn:hover{color: #ffffff;}
+    .protocol_a1{color: #333333;border-bottom: 1px solid #333333;}
+    .protocol_a1:hover{color: #333333;}
+    .protocol_a2{color: #611987;border-bottom: 1px solid #611987;}
+    .protocol_a2:hover{color: #611987;}
+</style>
+<div class="inner" id="inner1" style="width: 1200px;line-height: 30px;padding: 0 0 20px 0;margin: 110px auto 0 auto;background-color: #ffffff;">
+    <h2 style="text-align: center; padding-top: 6%;padding-bottom: 2%;">永久VIP权限说明</h2>
+<!--
+    <p><strong>永久VIP1权限</strong>：凡是<strong class="strong_2">通过下面MYFX Markets开户链接</strong>开立MT4交易账户，入金达到10000usd以上（包含10000usd）的用户可以永久享受亿思汇平台智能跟单VIP1服务！详情参考VIP1服务项目；注：不足10000usd的用户依旧需要购买VIP服务；</p>
+    <br>
+    <p><strong>永久VIP2权限</strong>：凡是<strong class="strong_2">通过下面MYFX Markets开户链接</strong>开立MT4交易账户，入金达到20000usd以上（包含20000usd）的用户可以永久享受亿思汇平台智能跟单VIP2服务！详情参考VIP2服务项目；注：不足10000usd的用户依旧需要购买VIP服务；</p>
+    <br>
+    <p><strong>永久VIP3权限</strong>：凡是<strong class="strong_2">通过下面MYFX Markets开户链接</strong>开立MT4交易账户，入金达到50000usd以上（包含50000usd）的用户可以永久享受亿思汇平台智能跟单VIP3服务！详情参考VIP3服务项目；注：不足10000usd的用户依旧需要购买VIP服务；</p>
+-->
+    <p class="p"><strong>
+        通过社区里面合作经纪商开户链接办理账户（如下所示）免费跟单合作请联系客服微信：cslj999<br>
+    1、资金不足5000美金赠送VIP1跟单权限；权限包括：单一信号跟随+风控工具；（推荐优质信号，可自行交易）。<br>
+    2、资金5000美金以上赠送VIP2跟单权限；权限包括：多信号组合跟随+反向跟单+风控工具；（推荐优质信号，可自行交易）<br>
+    3、资金50000美金以上赠送VIP3跟单权限；权限包括：多信号组合跟随+反向跟单+风控工具+多个MT4账户跟单（推荐优质信号，可自行交易）<br>
+    </strong></p>
+    <br>
+    <p class="p"><strong>亿思汇免责声明</strong>：有关亿思汇社交平台永久VIP权限并非强制要求，纯为用户自由选择；亿思汇不接触客户资金，所有交易均通过购买VIP跟单服务和开户经纪商完成。亿思汇不保证用户盈利，且不承担任何责任。用户须知从事外汇和差价合约等金融产品的杠杆交易具有高风险，损失有可能超过本金，请量力而行，入市前需充分了解潜在的风险。交易杠杆化产品并不适合所有投资者，在交易前请考虑您的经验水平，经济能力和投资目标，如有必要请寻求独立财务建议。</p>
+    <br>
+    <p class="p"><img src="__STATIC__image/vip15.png"><span>我已阅读并同意以上免责声明条款</span></p>
+    <br>
+   
+    <div class="container">
+        <div class="row">
+            <script>
+                    $(function () {
+                        $(".open_account_title").click(function () {
+                            $(this).parent().parent().find("li").find("a").removeClass("active");
+                            $(this).addClass("active");
+                        });
+                        $(".open_account_title1").click(function () {
+                            $(this).parent().parent().parent().find(".open_account_content").hide();
+                            $(this).parent().parent().parent().find(".open_account1").show();
+                        });
+                        $(".open_account_title2").click(function () {
+                            $(this).parent().parent().parent().find(".open_account_content").hide();
+                            $(this).parent().parent().parent().find(".open_account2").show();
+                        });
+                        $(".open_account_title3").click(function () {
+                            $(this).parent().parent().parent().find(".open_account_content").hide();
+                            $(this).parent().parent().parent().find(".open_account3").show();
+                        });
+                    });
+            </script>
+            <style>
+                .open_account_bot {float: left;width: 100%;margin: 50px 0 100px 0;}
+                .open_account_bot_div{width: 100%;height: 180px;border: 1px solid #dedede;margin-bottom: 30px;}
+                .open_account_bot_l{width: 25%;height: 180px;float: left;background: #26326e;text-align: center;}
+                li:nth-child(1) .open_account_bot_div:nth-child(2) .open_account_bot_l{background: #d97e2e;}
+                li:nth-child(1) .open_account_bot_div:nth-child(3) .open_account_bot_l{background: #c5482f;}
+                li:nth-child(2) .open_account_bot_div:nth-child(1) .open_account_bot_l{background: #468fcd;}
+                li:nth-child(2) .open_account_bot_div:nth-child(2) .open_account_bot_l{background: #4457cb;}
+                li:nth-child(2) .open_account_bot_div:nth-child(3) .open_account_bot_l{background: #5c2ab8;}
+                .open_account_bot_l img{display: block;margin: 35px auto;}
+                .open_account_bot_l p{display: inline-block;width: 86px;height: 30px;line-height: 30px;font-size: 16px;color: #fff;vertical-align: middle;margin-right: 10px;}
+                .open_account_bot_l button{vertical-align: middle;width: 86px;height: 30px;background: #fff;border-radius: 2px;color: #333;}
+                .open_account_bot_r{width: 75%;height: 180px;float: left;padding: 0 18px;}
+                .open_account_bot_r ul:nth-child(1){display: block;width: 100%;height: 50px;line-height: 50px;border-bottom: 1px solid #dedede;}
+                .open_account_bot_r ul:nth-child(1) li{display: inline-block;width: 100px;height: 50px;}
+                .open_account_bot_r ul:nth-child(1) li a{display: inline-block;width: auto;height: 50px;border-bottom: 1px solid transparent;font-size: 16px;}
+                .open_account_bot_r ul:nth-child(1) li a.active{color: #3d7fba;border-bottom: 1px solid #3d7fba;}
+                .open_account_bot_r ul:nth-child(2){display: block;margin: 20px 0;}
+                .open_account_bot_r ul:nth-child(2) li{display: inline-block;float: left;width: 32%;}
+                .open_account_bot_r ul:nth-child(2) li:nth-child(3n){width: 36%;}
+                .open_account_bot_r ul:nth-child(2) li p{line-height: 40px;white-space: nowrap;color: #585756;font-size: 14px;}
+                .open_account_bot_r ul:nth-child(2) li p span{color: #000;}
+                .open_account2,.open_account3{display: none;margin: 20px 0;}
+                .open_account2 p,.open_account3 p{font-size: 12px;color: #333;margin-top: 20px;line-height: 150%;}
+                .open_account_bot .flexslider .slides img {width: 120px;margin: 35px auto 20px auto;}
+                .open_account_bot .flex-control-nav {bottom: -50px;}
+                .open_account_bot .flex-direction-nav a{border-radius: 50%;}
+                .open_account_bot .flex-direction-nav .flex-prev {left: -85px;}
+                .open_account_bot .flex-direction-nav .flex-next {right: -85px;}
+                .open_account_bot .flex-control-paging li a {border-color: #d0d0d0;}
+                .open_account_bot .flex-control-paging li a.flex-active {background-color: #d0d0d0;}
+                .open_account_bot_r ul:first-child li{float: left;line-height: 50px;}
+            </style>
+            <div class="open_account_bot">
+                <div class="flexslider flexslider1" id="flexslider1">
+                    <ul class="slides">
+                        <li>
+                            <div class="open_account_bot_div">
+                                <div class="open_account_bot_l"><img src="__STATIC__image/account1.png"><p>XM</p><a href="https://clicks.pipaffiliates.com/c?c=557850&l=zh-hans&p=1" target="_blank"><button type="button">立即开户</button></a></div>
+                                <div class="open_account_bot_r">
+                                    <ul>
+                                        <li><a href="javascript:void(0)" class="open_account_title open_account_title1 active">交易情况</a></li>
+                                        <li><a href="javascript:void(0)" class="open_account_title open_account_title2">监管资质</a></li>
+                                        <li><a href="javascript:void(0)" class="open_account_title open_account_title3">出入金说明</a></li>
+                                    </ul>
+                                    <ul class="open_account_content open_account1">
+                                        <li><p>美元出入金：<span>支持</span></p></li>
+                                        <li><p>交易杠杆：<span>最高888：1</span></p></li>
+                                        <li><p>入金方式：<span>银联，信用卡，电汇等多种</span></p></li>
+                                        <li><p>人民币出入金：<span>支持</span></p></li>
+                                        <li><p>最低入金金额：<span>$20.00</span></p></li>
+                                        <li><p>免费跟单资金量：<span>$5000.00</span></p></li>
+                                    </ul>
+                                    <div class="open_account_content open_account2">
+                                        <p style="margin-top: -10px;">英国金融行为监管局 FCA牌照（监管号码：705428）<br>
+                                        澳大利亚证券及投资委员会 ASIC（监管号码：443670）<br>
+                                        塞浦路斯证券和交易委员会 CySEC（监管号码：120/10）<br>
+                                        伯利兹国际金融服务委员会 IFSC （监管号码：IFSC60/354/TS/18）<br>
+                                        </p>
+                                    </div>
+                                    <div class="open_account_content open_account3">
+                                        <p>当天到账，出入金免费，手续费XM承担<br>
+                                        出入金链接：https://clicks.pipaffiliates.com/c?c=350339&l=zh-hans&p=12<br>
+                                        出入金时间：当天工作日时间 9:00-18:00 均可到账<br>
+                                            </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="open_account_bot_div">
+                                <div class="open_account_bot_l"><img src="__STATIC__image/account6.png"><p>Trademax</p><a href="https://portal.tmgm.com/register?node=Mjk2MDE=&language=zh" target="_blank"><button type="button">立即开户</button></a></div>
+                                <div class="open_account_bot_r">
+                                    <ul>
+                                        <li><a href="javascript:void(0)" class="open_account_title open_account_title1 active">交易情况</a></li>
+                                        <li><a href="javascript:void(0)" class="open_account_title open_account_title2">监管资质</a></li>
+                                        <li><a href="javascript:void(0)" class="open_account_title open_account_title3">出入金说明</a></li>
+                                    </ul>
+                                    <ul class="open_account_content open_account1">
+                                        <li><p>美元出入金：<span>支持</span></p></li>
+                                        <li><p>交易杠杆：<span>最高1：400</span></p></li>
+                                        <li><p>入金方式：<span>银联，信用卡，电汇等多种</span></p></li>
+                                        <li><p>人民币出入金：<span>支持</span></p></li>
+                                        <li><p>最低入金金额：<span>$500.00</span></p></li>
+                                        <li><p>免费跟单资金量：<span>$5000.00</span></p></li>
+                                    </ul>
+                                    <div class="open_account_content open_account2">
+                                        <p style="margin-top: -10px;">
+                                            澳大利亚证券及投资委员会ASIC牌照<br>
+                                             监管号码：436416<br>
+                                            瓦努阿图金融服务委员会VFSC牌照					
+                                                <br>
+                                        </p>
+                                    </div>
+                                    <div class="open_account_content open_account3">
+                                        <p>
+                                            出金方式及出金方式：银联入金即时到账，银联出金两个工作日到账，电汇出入金5个工作日左右到账。<br>
+                                            出金链接：在官网直接办理即可。<br>
+                                            出入金时间：工作日均可办理。<br>
+                                                </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="open_account_bot_div">
+                                <div class="open_account_bot_l"><img src="__STATIC__image/account3.png"><p>澳汇</p><a href="https://www.ausforex.asia/zh-cn/account/registering-a-live-account-e30.shtml?key=7bYS%2fnKgaR0%3d" target="_blank"><button type="button">立即开户</button></a></div>
+                                <div class="open_account_bot_r">
+                                    <ul>
+                                        <li><a href="javascript:void(0)" class="open_account_title open_account_title1 active">交易情况</a></li>
+                                        <li><a href="javascript:void(0)" class="open_account_title open_account_title2">监管资质</a></li>
+                                        <li><a href="javascript:void(0)" class="open_account_title open_account_title3">出入金说明</a></li>
+                                    </ul>
+                                    <ul class="open_account_content open_account1">
+                                        <li><p>美元出入金：<span>支持</span></p></li>
+                                        <li><p>交易杠杆：<span>外汇最高1:400</span></p></li>
+                                        <li><p>入金方式：<span>银联、电汇等</span></p></li>
+                                        <li><p>人民币出入金：<span>支持</span></p></li>
+                                        <li><p>最低入金金额：<span>银联$50.00,电汇无要求</span></p></li>
+                                        <li><p>免费跟单资金量：<span>$5000.00</span></p></li>
+                                    </ul>
+                                    <div class="open_account_content open_account2">
+                                        <p>英国金融行为监管局（FCA） EEA 授权，<br>
+                                            监管编号：803268；<br>
+                                            香港证监会（SFC）第三类牌照监管，<br>
+                                        </p>
+                                    </div>
+                                    <div class="open_account_content open_account3">
+                                        <p>
+                                            银联入金即时到账；银联出金两个工作日左右到账；均不收取手续费。<br>
+                                            电汇方式出入金5个工作日左右到账；银行会收取部分手续费	<br>					
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="open_account_bot_div">
+                                <div class="open_account_bot_l"><img src="__STATIC__image/account4.png"><p>AVA</p><a href="https://www.avatrade.cn/?tag=140789" target="_blank"><button type="button">立即开户</button></a></div>
+                                <div class="open_account_bot_r">
+                                    <ul>
+                                        <li><a href="javascript:void(0)" class="open_account_title open_account_title1 active">交易情况</a></li>
+                                        <li><a href="javascript:void(0)" class="open_account_title open_account_title2">监管资质</a></li>
+                                        <li><a href="javascript:void(0)" class="open_account_title open_account_title3">出入金说明</a></li>
+                                    </ul>
+                                    <ul class="open_account_content open_account1">
+                                        <li><p>美元出入金：<span>支持</span></p></li>
+                                        <li><p>交易杠杆：<span>400:1</span></p></li>
+                                        <li><p>入金方式：<span>电汇、银联</span></p></li>
+                                        <li><p>人民币出入金：<span>支持</span></p></li>
+                                        <li><p>最低入金金额：<span>$100.00</span></p></li>
+                                        <li><p>免费跟单资金量：<span>无限制</span></p></li>
+                                    </ul>
+                                    <div class="open_account_content open_account2">
+                                        <p>
+                                            爱尔兰央行监管：(Reference No.: C53877)<br>
+                                            日本Financial Services Agency监管： (License.: 1662)<br>
+                                            日本金融期货协会监管：(License No.: 1574)<br>
+                                            澳大利亚证券投资委员会监管： (License No.:406684)<br>
+                                        </p>
+                                    </div>
+                                    <div class="open_account_content open_account3">
+                                        <p>
+                                            支持银联入金，入金时间大部分情况可以实时到帐，出金在3到5个工作日以内，大于100人民币可出金。平台不收取其他费用<br>
+                                            说明：<br>
+                                            1. 具体到账时间取决于各银行、中间机构的办理情况<br>
+                                            2. 具体限额可能因客户银行、发卡行规定而各有不同 <br>
+                                            3. AvaTrade不担保入金到账时间，请客户提早入金确保账户保证金充足，AvaTrade不对入金无法及时到账产生的损失负责。<br>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="open_account_bot_div">
+                                <div class="open_account_bot_l"><img src="__STATIC__image/account2.png"><p>FXTM富拓</p><a href="https://www.forextimechina.com.cn/zh?partner_id=4932273" target="_blank"><button type="button">立即开户</button></a></div>
+                                <div class="open_account_bot_r">
+                                    <ul>
+                                        <li><a href="javascript:void(0)" class="open_account_title open_account_title1 active">交易情况</a></li>
+                                        <li><a href="javascript:void(0)" class="open_account_title open_account_title2">监管资质</a></li>
+                                        <li><a href="javascript:void(0)" class="open_account_title open_account_title3">出入金说明</a></li>
+                                    </ul>
+                                    <ul class="open_account_content open_account1">
+                                        <li><p>美元出入金：<span>支持</span></p></li>
+                                        <li><p>交易杠杆：<span>最高1000：1</span></p></li>
+                                        <li><p>入金方式：<span>第三方银联或银行电汇</span></p></li>
+                                        <li><p>人民币出入金：<span>支持</span></p></li>
+                                        <li><p>最低入金金额：<span>$5/€5/£5</span></p></li>
+                                        <li><p>免费跟单资金量：<span>$50000.00</span></p></li>
+                                    </ul>
+                                    <div class="open_account_content open_account2">
+                                        <p>英国金融行为监管局 FCA牌照（监管号码：777911）<br>
+                                        英国金融行为监管局 FCA EEA牌照（EEA：600475）<br>
+                                        塞浦路斯证券和交易委员会 CySEC（监管号码：185/12）<br>
+                                        南非金融部门行为监管局 FSCA（监管号码：FSP46614）<br>
+                                        伯利兹国际金融服务委员会 IFSC （监管号码：IFSC/60/345/APM/18）<br>
+                                        </p>
+                                    </div>
+                                    <div class="open_account_content open_account3">
+                                        <p>出金优惠：银联、电汇、信用卡<br>
+                                        出金连接：在官网直接办理即可<br>
+                                        出入金时间：工作日均可办理
+                                            </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="open_account_bot_div">
+                                <div class="open_account_bot_l"><img src="__STATIC__image/account5.png"><p>CXM 希盟</p><a href="https://broker.cxmtrading.com/introduce?iid=S&uid=5578" target="_blank"><button type="button">立即开户</button></a></div>
+                                <div class="open_account_bot_r">
+                                    <ul>
+                                        <li><a href="javascript:void(0)" class="open_account_title open_account_title1 active">交易情况</a></li>
+                                        <li><a href="javascript:void(0)" class="open_account_title open_account_title2">监管资质</a></li>
+                                        <li><a href="javascript:void(0)" class="open_account_title open_account_title3">出入金说明</a></li>
+                                    </ul>
+                                    <ul class="open_account_content open_account1">
+                                        <li><p>美元出入金：<span>支持</span></p></li>
+                                        <li><p>交易杠杆：<span>500：1</span></p></li>
+                                        <li><p>入金方式：<span>银联，信用卡，电汇，数字货币等</span></p></li>
+                                        <li><p>人民币出入金：<span>支持</span></p></li>
+                                        <li><p>最低入金金额：<span>$500.00</span></p></li>
+                                        <li><p>免费跟单资金量：<span>$5000.00</span></p></li>
+                                    </ul>
+                                    <div class="open_account_content open_account2">
+                                        <p style="margin-top: -10px;">
+                                            英国金融行为监管局FCA牌照<监管号：612233><br>
+                                        </p>
+                                    </div>
+                                    <div class="open_account_content open_account3">
+                                        <p>
+                                        出金方式：银联，电汇，信用卡，数字货币<br>
+                                        出入金时间：工作日时间段均可办理<br>
+                                        出金政策：每笔大于1000美金的出金免任何手续费，低于1000美金的出金，每月有一次可以免通道费，其它情况每笔出金收取10美金的通道费。<br>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- 轮播 -->
+	<script type="text/javascript" charset="utf-8" src="__STATIC__js/jquery.flexslider-min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+	        $(".flexslider1").flexslider({
+                slideshow: false,       //载入页面时，是否自动播放
+	            slideshowSpeed: 3000, //展示时间间隔ms
+	            animationSpeed: 100, //滚动时间ms
+	            touch: true //是否支持触屏滑动
+	        });
+	    });
+    </script>
+    
+{/block}

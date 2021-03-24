@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="http://res.v.yshfx.com/">
+    <meta charset="UTF-8">
+    <title>亿思汇app下载</title>
+    <link rel="stylesheet" href="__STATIC__css/swiper.min.css">
+    <script src="__STATIC__js/swiper.min.js"></script>
+    <script type="text/javascript" src="__STATIC__js/jquery-2.2.0.min.js"></script>
+    <style type="text/css">
+        /* 公共 */
+        body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,a,code,em,img,q,small,strong,dd,dl,dt,li,ol,ul,fieldset,form,label,table,tbody,tr,th,td,input{ margin:0;padding:0;border:0 }
+        html{ width: 100%; font-size: 100px; outline: 0; -webkit-text-size-adjust:none; }
+        body{ -webkit-user-select: none;}
+        a,a:active,a:hover,a:focus,a:visited{text-decoration:none; -webkit-tap-highlight-color:rgba(255,0,0,0);}
+        a,img{-webkit-touch-callout:none}
+        img{vertical-align: top}
+        ol,ul,li{list-style:none}
+        textarea,input{resize:none;outline:0;-webkit-appearance:none;white-space:pre-wrap;word-wrap:break-word;background:#fff;}
+        button{border: none;outline: none;}
+        .clearfix:after{display:block;clear:both;content:"";visibility:hidden;height:0}
+        .hide{ display: none; }
+        .show{ display: block; }
+        /*扫码下载页*/
+        body{width: 100%;height: 100%;background: url("__STATIC__image/scan01.png")no-repeat top center #000142;background-size: contain;}
+        .scan_download{float: left;width: 100%;padding-top: 3.58rem;padding-bottom: 1.75rem;background: url("__STATIC__image/scan02.png")no-repeat bottom center;background-size: contain;}
+        .download_info{float: left;padding: 0 .49rem;}
+        .logo{display: inline-block;float: left;width: 1.76rem;height: 1.76rem;background: url("__STATIC__image/show00.png")no-repeat center;background-size: cover;}
+        .info{float: left;padding-left: .4rem;}
+        .info p:nth-child(1){font-size: .32rem;color: #FFFFFF;line-height: .6rem;}
+        .info p:nth-child(1) span{font-size: .4rem;}
+        .info p:nth-child(2){font-size: .3rem;color: #FFFFFF;line-height: .7rem;}
+        .info p:nth-child(3){font-size: .2rem;color: #FFFFFF;line-height: .45rem;}
+        .info p:nth-child(3) i{display: inline-block;float: left;width: .23rem;height: .23rem;background: url("__STATIC__image/star.png")no-repeat center;background-size: cover;margin: .1rem .1rem 0 0;}
+        .download_bth{display: block;float: left;margin: .5rem .49rem;width: 6.52rem;height: .9rem;background: #00a2ff;border-radius: .15rem;line-height: .9rem;font-size: .36rem;color: #FFFFFF;}
+        .download_bth i{display: inline-block;float: left;width: .33rem;height: .33rem;background: url("__STATIC__image/download.png")no-repeat center;background-size: cover;margin: .3rem .16rem 0 2.4rem;}
+        .download_show{float: left;width: 100%;height: 9.44rem;position: relative;}
+        .swiper-container {width: 100%;}
+        .swiper-wrapper{width: 19.72rem!important;height: 9.44rem!important;}
+        .swiper-slide{width: 4.69rem!important;height: 9.44rem!important;padding: 0 .12rem;}
+        .swiper-slide img{width: 100%;height: 100%;}
+        .pagination {padding-left: .24rem;height: .18rem!important;position: absolute; bottom: -.68rem;}
+        .swiper-pagination-switch { display: inline-block;float: left; width: .18rem; height: .18rem; border-radius: .09rem; background: #fff;
+            margin:0 .05rem;opacity: 0.4;cursor: pointer;transition:all 1s ease-out; }
+        .swiper-active-switch { width: .18rem; opacity: 1 }
+        .is_weixin{display: none;position: fixed;left: 0;top: 0;width: 100%;height: 100%;background: rgba(0,0,0,0.8);z-index: 99;}
+        .is_weixin_close{display: block;width: .3rem;height: .3rem;position: absolute;left: .5rem;top: 1rem;background: url("__STATIC__image/is_weixin_close.png")no-repeat;background-size: cover;}
+        .is_weixin img{display: block;width: 90%;margin: 1rem auto;}
+    </style>
+    <script type="text/javascript">
+        /* 根据分辨率缩放网页 */
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                    resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                    recalc = function () {
+                        var clientWidth = docEl.clientWidth;
+                        if (!clientWidth) return;
+                        docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                    };
+
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
+    <script type="text/javascript">
+        $(function(){
+            var browser = {
+                versions: function() {
+                    var u = navigator.userAgent, app = navigator.appVersion;
+                    return {    //移动终端浏览器版本信息
+                        trident: u.indexOf('Trident') > -1, //IE内核
+                        presto: u.indexOf('Presto') > -1, //opera内核
+                        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                        mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端
+                        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                        iPad: u.indexOf('iPad') > -1, //是否iPad
+                        webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+                    };
+                }(),
+                language: (navigator.browserLanguage || navigator.language).toLowerCase()
+            };
+            $(".download_bth").click(function(){
+                if(browser.versions.ios||browser.versions.iPhone||browser.versions.iPad){
+                    window.location="https://itunes.apple.com/cn/app/%E6%99%BA%E6%B1%87%E6%8A%95/id1250338842?mt=8";
+                }else if(browser.versions.android){
+                    is_weixn();         //判断安卓手机是否在微信打开，是，提示在游览器中打开；否，直接打开；
+                    function is_weixn(){
+                        var ua = navigator.userAgent.toLowerCase();
+                        if(ua.match(/MicroMessenger/i)=="micromessenger") {
+//                            return true;
+                            $(".is_weixin").show();
+                            $(".is_weixin_close").on("click", function () {
+                                $(".is_weixin").hide();
+                            });
+                        } else {
+//                            return false;
+                            window.location="http://srefx.com/download/app/sharefx_3.0.apk";
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="scan_download">
+        <div class="download_info">
+            <i class="logo"></i>
+            <div class="info">
+                <p><span>亿思汇</span>-智能外汇跟单社区</p>
+                <p>下载次数：11万次</p>
+                <p><i></i><i></i><i></i><i></i><i></i>(星级评价)</p>
+            </div>
+        </div>
+        <a href="javascript:void(0)" class="download_bth"><i></i>立即下载</a>
+        <div class="download_show">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"> <img src="__STATIC__image/show01.png"> </div>
+                    <div class="swiper-slide"> <img src="__STATIC__image/show02.png"> </div>
+                    <div class="swiper-slide"> <img src="__STATIC__image/show03.png"> </div>
+                    <div class="swiper-slide"> <img src="__STATIC__image/show04.png"> </div>
+                </div>
+            </div>
+            <div class="pagination"></div>
+        </div>
+        <script>
+            var mySwiper = new Swiper('.swiper-container',{
+                pagination: '.pagination',
+                slidesPerView: 1.52,
+                paginationClickable: true,
+                autoplayDisableOnInteraction : false
+            })
+        </script>
+    </div>
+    <div class="is_weixin"><i class="is_weixin_close"></i><img src="__STATIC__image/is_weixin.png"></div>
+</body>
+</html>

@@ -1,0 +1,253 @@
+{extend name="web@base/main"/}
+{block name="body"}
+<script>
+    $(function () {
+        $(".mam_register input").focus(function () {
+            $(this).css("border","1px solid #dcdcdc");
+        });
+        $(".input_btn").on("click", function () {
+            $(this).parent().find("input").css("border","1px solid #dcdcdc");
+            if($(this).parent().find("ul").css("display") == "none"){
+                $(this).parent().find("ul").show();
+                $(this).parent().parent().siblings().find(".input_box ul").hide();
+            }else {
+                $(this).parent().find("ul").hide();
+            }
+        });
+        $("body").on("click", function (even) {
+            $(".input_box ul").hide();
+        });
+        $(".input_box").on("click", function () {
+            event.stopPropagation();
+        });
+        $(".input_box ul li").on("click", function () {
+            $(this).parent().hide();
+            $(this).parent().parent().find("input").val($(this).html());
+        });
+
+        $(".mam_gtype").siblings().find("li").on("click",function () {        //如果选择保障池，下面选项内容固定
+            $(".mam_ctype").html('<span style="color: #999999">请选择收益模式</span>');
+            if($(this).html() == '保本'){
+                $(".mam_ctype").siblings("ul").html("<li>按净收益提取 <span style='color: #611987;'>50%</span></li><li>按净收益提取 <span style='color: #611987;'>60%</span></li><li>按净收益提取 <span style='color: #611987;'>70%</span></li>");
+                $(".mam_balance").val("").css("background","#ffffff").siblings(".input_btn").removeClass("disabled");
+                $(".mam_begin_money").val("").css("background","#ffffff").removeAttr("readonly");
+            }else if($(this).html() == '保障池'){
+                $(".mam_ctype").siblings("ul").html("<li>按手数收取佣金 <span style='color: #611987;'>5+2 USD</span>/手<span style='color: #999999;'>($2进入保障池)</span></li><li>按手数收取佣金 <span style='color: #611987;'>8+2 USD</span>/手<span style='color: #999999;'>($2进入保障池)</span></li><li>按手数收取佣金 <span style='color: #611987;'>10+2 USD</span>/手<span style='color: #999999;'>($2进入保障池)</span></li>");
+                $(".mam_balance").val("每日").css("background","#f5f5f5").siblings(".input_btn").addClass("disabled");
+                $(".mam_begin_money").val("∞").css("background","#f5f5f5").attr("readonly","readonly");
+                $(".mam_guarantee_money").html("0");
+            }else if($(this).html() == '无'){
+                $(".mam_ctype").siblings("ul").html("<li>按手数收取佣金 <span style='color: #611987;'>5 USD</span>/手</li><li>按手数收取佣金 <span style='color: #611987;'>8 USD</span>/手</li><li>按手数收取佣金 <span style='color: #611987;'>10 USD</span>/手</li>");
+                $(".mam_balance").val("每日").css("background","#f5f5f5").siblings(".input_btn").addClass("disabled");
+                $(".mam_begin_money").val("∞").css("background","#f5f5f5").attr("readonly","readonly");
+                $(".mam_guarantee_money").html("0");
+            }
+            mam_ctype();
+        });
+        mam_ctype();
+        function mam_ctype() {
+            $(".mam_ctype").siblings("ul").find("li").on("click", function () {
+                $(this).parent().hide();
+                $(".mam_ctype").html($(this).html());
+            });
+        }
+        $(".mam_begin_money").keyup(function(){        //保证金和资金管理规模变化
+            var mam_guarantee_money = ($(".mam_begin_money").val()*0.1).toFixed(2);
+            $(".mam_guarantee_money").html(mam_guarantee_money);
+            if($(".mam_begin_money").val() == ''){
+                $(".mam_guarantee_money").html("0");
+            }
+        });
+        if($(".mam_guarantee_money").html()==NaN){
+            $(".mam_guarantee_money").html("0");
+        }
+        /*点击“下一步”注册，“重置”*/
+        $(".mam_register_btn01").on("click", function () {
+            var mt4server = $(".select").val();
+            var name = $(".mam_name").val();
+            var mt4id = $(".mam_mt4id").val();
+            var mt4pwd = $(".mam_mt4pwd").val();
+            var gtype = $(".mam_gtype").val();
+            var ctype = $(".mam_ctype").html();
+            var balance = $(".mam_balance").val();
+            var begin_money = $(".mam_begin_money").val();
+            if(mt4server == ''){
+                $(".select").css("border","1px solid red");
+                return false;
+            }
+            if(name == ''){
+                $(".mam_name").css("border","1px solid red");
+                return false;
+            }
+            if(mt4id == ''){
+                $(".mam_mt4id").css("border","1px solid red");
+                return false;
+            }
+            if(mt4pwd == ''){
+                $(".mam_mt4pwd").css("border","1px solid red");
+                return false;
+            }
+            if(gtype == ''){
+                $(".mam_gtype").css("border","1px solid red");
+                return false;
+            }
+            if(ctype == ''||ctype == '<span style="color: #999999">请选择收益模式</span>'){
+                $(".mam_ctype").css("border","1px solid red");
+                return false;
+            }
+            if(balance == ''){
+                $(".mam_balance").css("border","1px solid red");
+                return false;
+            }
+            var begin_money_r = /^\+?[1-9][0-9]*$/;
+            if(begin_money == '' || !begin_money_r.test(begin_money) && begin_money != '∞'){
+                $(".mam_begin_money").css("border","1px solid red");
+                return false;
+            }
+            if(gtype=='保本'){
+                gtype = 1;
+            }else if(gtype=='保障池'){
+                gtype = 2;
+            }else if(gtype=='无'){
+                gtype = 3;
+            }
+            if(ctype=='按净收益提取 <span style="color: #611987;">50%</span>'){
+                ctype = 0.5;
+            }else if(ctype=='按净收益提取 <span style="color: #611987;">60%</span>'){
+                ctype = 0.6;
+            }else if(ctype=='按净收益提取 <span style="color: #611987;">70%</span>'){
+                ctype = 0.7;
+            }else if(ctype=='按手数收取佣金 <span style="color: #611987;">5+2 USD</span>/手<span style="color: #999999;">($2进入保障池)</span>'){
+                ctype = 7;
+            }else if(ctype=='按手数收取佣金 <span style="color: #611987;">8+2 USD</span>/手<span style="color: #999999;">($2进入保障池)</span>'){
+                ctype = 10;
+            }else if(ctype=='按手数收取佣金 <span style="color: #611987;">10+2 USD</span>/手<span style="color: #999999;">($2进入保障池)</span>'){
+                ctype = 12;
+            }else if(ctype=='按手数收取佣金 <span style="color: #611987;">5 USD</span>/手'){
+                ctype = 5;
+            }else if(ctype=='按手数收取佣金 <span style="color: #611987;">8 USD</span>/手'){
+                ctype = 8;
+            }else if(ctype=='按手数收取佣金 <span style="color: #611987;">10 USD</span>/手'){
+                ctype = 10;
+            }
+            if(balance=='每日'){
+                balance = 1;
+            }else if(balance=='每周'){
+                balance = 7;
+            }else if(balance=='每月'){
+                balance = 30;
+            }else if(balance=='每三月'){
+                balance = 90;
+            }
+            if(begin_money=='∞'){
+                begin_money = 0;
+            }
+
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: "{:url('api.mam/add')}",
+                data: {
+                    'mt4server': mt4server,
+                    "name": name,
+                    'mt4id': mt4id,
+                    'mt4pwd': mt4pwd,
+                    "gtype": gtype,
+                    'ctype': ctype,
+                    'balance': balance,
+                    'begin_money': begin_money
+                },
+                success: function (data) {
+                    console.log(data);
+                    if (data.code == 200) {
+                        win.alert("","申请成功，请等待审核", function () {
+                            $(".mam_register").find('input').val("").css("background","#ffffff").siblings(".input_btn").removeClass("disabled");
+                            $(".mam_begin_money").removeAttr("readonly");
+                            location.href="{:url('mam/index')}";
+                        });
+                    }else {
+                        win.alert("",data.msg);
+                    }
+                }
+            });
+        });
+        $(".mam_register_btn02").on("click", function () {
+            $(".mam_register").find('input').val("").css("background","#ffffff").siblings(".input_btn").removeClass("disabled");
+            $(".mam_begin_money").removeAttr("readonly");
+        });
+    });
+</script>
+<style>
+    .main_inner h3{line-height: 48px;padding-top: 26px;border-bottom: 2px solid #ebebeb;margin-bottom: 18px;}
+    .main_inner h3 span{display: inline-block;line-height: 48px;margin-bottom: -2px;border-bottom: 2px solid #611987;}
+    .mam_title{float: left;width: 170px;height: 40px;line-height: 40px;text-align: center;font-size: 16px;background: #611987;color: #ffffff;}
+    .mam_title i{display: inline-block;width: 20px;height: 20px;background: url("__STATIC__image/mam_register_00.png")no-repeat;background-size: cover;vertical-align: middle;margin-right: 8px;}
+    .mam_title span{vertical-align: middle;}
+    .mam_main{float: right;width: 910px;}
+    .mam_main_title{height: 40px;line-height: 40px;text-align: left;font-size: 16px;background: #f5f5f5;color: #585858;padding-left: 20px;}
+    .mam_main_title i{display: inline-block;width: 20px;height: 20px;background: url("__STATIC__image/mam_register_01.png")no-repeat;background-size: cover;vertical-align: middle;margin-right: 8px;}
+    .mam_main_title span{vertical-align: middle;}
+    .mam_register{margin-left: 140px;padding-top: 10px;}
+    .mam_register li{margin-top: 10px;height: 42px;line-height: 42px;font-size: 16px;}
+    .mam_register li p{display: inline-block;float: left;width: 130px;vertical-align: middle;color: #585858;}
+    .mam_register li p i{display: inline-block;width: 1em;}
+    .mam_register li .input_box{display: inline-block;vertical-align: middle;width: 500px;height: 42px;border-radius: 5px;position: relative;}
+    .mam_register li .input_box .input_btn{display: inline-block;width: 40px;height: 40px;background: url("__STATIC__image/select_icon_03.png")no-repeat center 0;background-size: 50px;position: absolute;top: 0;right: 0;cursor: pointer;}
+    .mam_register li input{display: inline-block;float: left;vertical-align: middle;width: 440px;height: 40px;border: 1px solid #dcdcdc;border-radius: 5px;font-size: 16px;padding: 0 45px 0 15px;}
+    .mam_register li input::-webkit-input-placeholder{color: #999999;}
+    .mam_register li input:-moz-placeholder{color: #999999;}
+    .mam_register li .input_box ul{display: none;position: absolute;left: 0;top: 36px;width: 100%;border: 1px solid #dcdcdc;border-top: none;background: #ffffff;border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;z-index: 9;}
+    .mam_register li .input_box ul li{margin-top: 0;height: 34px;line-height: 34px;font-size: 14px;padding-left: 15px;color: #585858;cursor: pointer;}
+    .mam_register li .input_box ul li:hover{background: #dcdcdc;}
+    .mam_ctype{display: inline-block;float: left;vertical-align: middle;width: 440px!important;height: 40px;border: 1px solid #dcdcdc;border-radius: 5px;font-size: 16px;padding: 0 45px 0 15px;}
+    .mam_register li .label{display: inline-block;vertical-align: middle;width: 10px;height: 10px;background: url(../image/createneccisary.png) no-repeat;background-size: cover;margin-left: 10px;}
+    .mam_register_hint{width: 630px;height: 50px;line-height: 50px;font-size: 16px;text-align: right;margin-left: 140px;color: #585858;}
+    .mam_register_hint span{vertical-align: middle;}
+    .mam_register_hint span:nth-child(2),.mam_register_hint span:nth-child(3){color: #611987;font-size: 22px;}
+    .mam_register_hint i{vertical-align: middle;display: inline-block;width: 20px;height: 20px;background: url("__STATIC__image/mam_icon.png")no-repeat;background-size: cover;margin-left: 10px;}
+    .mam_register_btn{width: 630px;margin-left: 140px;text-align: right;margin-top: 20px;}
+    .mam_register_btn01{display: inline-block;width: 220px;height: 40px;background: #611987;color: #ffffff;border: 1px solid #611987;font-size: 18px;text-align: center;line-height: 40px;border-radius: 6px;}
+    .mam_register_btn02{display: inline-block;width: 220px;height: 40px;background: #ffffff;color: #611987;border: 1px solid #611987;font-size: 18px;text-align: center;line-height: 40px;border-radius: 6px;margin-left: 16px;}
+    .mam_register_btn02 i{display: inline-block;width: 1em;}
+</style>
+<div class="main">
+    <div class="main_inner">
+        <h3><span>成为MAM经理</span></h3>
+        <p class="mam_title"><i></i><span>成为MAM经理</span></p>
+        <div class="mam_main">
+            <p class="mam_main_title"><i></i><span>成为MAM经理</span></p>
+            <ul class="mam_register">
+                <li><p>经济商:</p><div class="input_box broker">
+                    <input type="text" placeholder="请选择您所在的经济商" class="select_2"><i class="input_btn broker_btn"></i>
+                    <div class="option_2"><ul class="mt4broker_ul" style="width: 100%;height: 200px;overflow-y: scroll;"></ul></div>
+                </div><i class="label"></i></li>
+                <li><p>服务器:</p><div class="input_box server">
+                    <input type="text" placeholder="请选择您所在的服务器" class="select"><i class="input_btn select_btn"></i>
+                    <div class="option"><ul class="mt4server_ul" style="width: 100%;height: 200px;overflow-y: scroll;"></ul></div>
+                </div><i class="label"></i></li>
+                <li><p>MAM名称:</p><input type="text" placeholder="请输入MAM交易的项目名称" class="mam_name"><i class="label"></i></li>
+                <li><p>MT4账号:</p><input type="text" placeholder="请输入您的MT4账号" class="mam_mt4id"><i class="label"></i></li>
+                <li><p>观摩密码:</p><input type="text" placeholder="请输入您的MT4观摩密码" class="mam_mt4pwd"><i class="label"></i></li>
+                <li><p>保障模式:</p><div class="input_box">
+                    <input type="text" placeholder="请选择保障模式" readonly="readonly" class="mam_gtype"><i class="input_btn"></i>
+                    <ul><li>保本</li><li>保障池</li><li>无</li></ul>
+                </div><i class="label"></i></li>
+                <li><p>收益模式:</p><div class="input_box">
+                    <p type="text" readonly="readonly" class="mam_ctype"><span style="color: #999999">请选择收益模式</span></p><i class="input_btn"></i>
+                    <ul><li>按净收益提取 <span style='color: #611987;'>50%</span></li><li>按净收益提取 <span style='color: #611987;'>60%</span></li><li>按净收益提取 <span style='color: #611987;'>70%</span></li></ul>
+                </div><i class="label"></i></li>
+                <li><p>结算周期:</p><div class="input_box">
+                    <input type="text" placeholder="请选择结算周期" readonly="readonly" class="mam_balance"><i class="input_btn"></i>
+                    <ul><li>每周</li><li>每月</li><li>每三个月</li></ul>
+                </div><i class="label"></i></li>
+                <li><p>资金管理规模:</p><input type="text" placeholder="请输入MAM资金管理规模" class="mam_begin_money"><i class="label"></i></li>
+            </ul>
+            <div class="mam_register_hint"><span>您需要预缴保证金 : </span><span class="mam_guarantee_money">0</span><span style="font-size: 20px;"> USD</span><i></i></div>
+            <div class="mam_register_btn">
+                <a href="javascript:void(0)" class="mam_register_btn01">下一步</a>
+                <a href="javascript:void(0)" class="mam_register_btn02">重<i></i>置</a>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

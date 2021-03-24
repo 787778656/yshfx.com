@@ -1,0 +1,62 @@
+{extend name="web@base/main"/}
+{block name="tdk"}
+<title>亿思汇返佣说明-亿思汇官网</title>
+<meta name="keywords" content="亿思汇,亿思汇返佣,亿思汇返佣说明,亿思汇官网"/>
+<meta name="description" content="亿思汇返佣说明。"/>
+{/block}
+{block name="body"}
+<link href="__STATIC__css/order.css" rel="stylesheet">
+ <style>
+    .trade7{position: relative;margin: 180px 0 100px 0;}
+    .shareslideleft{position: absolute;right:50%;top:256px;margin-right:270px;cursor:pointer;}
+    .shareslideright{position: absolute;left:50%;top:256px;margin-left:270px;cursor:pointer;}
+    .clicklink{position: absolute;right:50%;top:178px;margin-right:88px;width:65px;height:28px;cursor:pointer;display:none;}
+    .clicklink2{position: absolute;left:50%;top:269px;margin-left:5px;width:72px;height:28px;cursor:pointer;display:none;}
+    .qq_share1_studio iframe,.qq_share1_mam iframe{position: absolute!important;top: 12px;left: 18px;opacity: 0;}
+    .qqzone_share1_studio iframe,.qqzone_share1_mam iframe{position: absolute!important; top: 18px; left: 18px; opacity: 0;}
+    .shareicon_all>li{cursor: pointer;}
+    .reward_logo {    width: 458px;    display: block;    margin: 20px auto;}
+ </style>
+ <script>
+     $(function(){
+        $(".shareslideleft").click(function(){
+            var share=$(".trade7").attr("share");
+            if(share==2){
+                $(".trade7").attr("share","1");
+                $(".trade7_Head").attr("src","__STATIC__image/trade7_Head.png");
+                $(".reward_logo").attr("src","__STATIC__image/reward_logos.png");
+                $(".shareslideleft").attr("src","__STATIC__image/shareslideleft2.png");
+                $(".shareslideright").attr("src","__STATIC__image/shareslideright1.png");
+            }else if(share==3){
+                $(".trade7").attr("share","2");
+                $(".trade7_Head").attr("src","__STATIC__image/trade7_Head2.png");
+                $(".reward_logo").attr("src","__STATIC__image/reward_logos2.png");
+                $(".shareslideleft").attr("src","__STATIC__image/shareslideleft1.png");
+                $(".shareslideright").attr("src","__STATIC__image/shareslideright1.png");
+            }
+        });
+        $(".shareslideright").click(function(){
+            var share=$(".trade7").attr("share");
+            if(share==1){
+                $(".trade7").attr("share","2");
+                $(".trade7_Head").attr("src","__STATIC__image/trade7_Head2.png");
+                $(".reward_logo").attr("src","__STATIC__image/reward_logos2.png");
+                $(".shareslideright").attr("src","__STATIC__image/shareslideright1.png");
+                $(".shareslideleft").attr("src","__STATIC__image/shareslideleft1.png");
+            }else if(share==2){
+                $(".trade7").attr("share","3");
+                $(".trade7_Head").attr("src","__STATIC__image/trade7_Head3.png");
+                $(".reward_logo").attr("src","__STATIC__image/reward_logos3.png");
+                $(".shareslideright").attr("src","__STATIC__image/shareslideright2.png");
+                $(".shareslideleft").attr("src","__STATIC__image/shareslideleft1.png");
+            }
+        });
+     })
+ </script>
+<div class="trade trade7" share="1" style="display: block;">
+    <img src="__STATIC__image/shareslideleft2.png" class="shareslideleft">
+    <img src="__STATIC__image/shareslideright1.png" class="shareslideright">
+    <img src="__STATIC__image/trade7_Head.png" style="width:315px;margin:30px auto 6px;display:block;" class="trade7_Head">
+    <img src="__STATIC__image/reward_logos.png" class="reward_logo">
+</div>
+{/block}

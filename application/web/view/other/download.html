@@ -1,0 +1,61 @@
+{extend name="web@base/main"/}
+{block name="body"}
+<style type="text/css">
+    .banner{width: 100%;height: 635px;background: #f3f3f3;}
+    .banner_inner{margin: 48px auto 0 auto;width: 1200px;height: 100%;background: url("__STATIC__image/download_banner.png")no-repeat top center;position: relative;}
+    .banner .banner_btn{position: absolute;left: 50px;bottom: 50px;width: 382px;height: 202px;background: url("__STATIC__image/download_banner_pic01.png")no-repeat top center;}
+    .banner .banner_btn .free_download{display: block;width: 100%;height: 70px;line-height: 70px;position: absolute;left: 0;top: 66px;text-align: center;font-size: 24px;color: #ffffff;}
+    .banner .banner_btn ul{padding: 0 15px;position: absolute;left: 0;bottom: 0;height: 66px;line-height: 66px;}
+    .banner .banner_btn ul li{padding: 11px 15px;float: left;}
+    .main{width: 100%;background: #f3f3f3;}
+    .main_inner{margin: 0 auto;width: 1100px;height: 950px;clear: both;background: #fff;padding: 50px 50px 0 50px;position: relative;}
+    .content .p1{line-height: 50px;font-size: 20px;}
+    .content .p2{line-height: 40px;margin: 30px 0;font-size: 20px;}
+    .content .p3{margin: 60px 0 40px 0;font-size: 24px;text-align: center;color: #510c76;}
+    .computer,.phone{width: 50%;float: left;}
+    .computer .title,.phone .title{text-align: left;padding-left: 100px;padding-bottom: 30px;height: 30px;}
+    .computer .title img,.phone .title img{vertical-align: middle;margin-right: 30px;}
+    .computer .title span,.phone .title span{vertical-align: middle;font-size: 24px;line-height: 30px;}
+    .computer ul,.phone ul{display: block;margin: 0 auto;width: 350px;}
+    .computer ul li,.phone ul li{float: left;margin: 0 25px;}
+</style>
+<div class="banner">
+    <div class="banner_inner">
+        <div class="banner_btn">
+            <a href="http://www.besfx.com/mt4setup.exe" class="free_download">免费下载</a>
+            <ul>
+                <li><a href="http://www.besfx.com/mt4setup.exe" target="_blank"><img src="__STATIC__image/download_banner_pic02.png"></a></li>
+                <li><a href="https://www.mql5.com/zh/articles/1356" target="_blank"><img src="__STATIC__image/download_banner_pic03.png"></a></li>
+                <li><a href="https://www.mql5.com/zh/articles/1358" target="_blank"><img src="__STATIC__image/download_banner_pic04.png"></a></li>
+                <li><a href="https://itunes.apple.com/cn/app/metatrader-4/id496212596?utm_campaign=www.metatrader4.com" target="_blank"><img src="__STATIC__image/download_banner_pic05.png"></a></li>
+                <li><a href="https://download.mql5.com/cdn/mobile/mt4/android?hl=zh&utm_campaign=www.metatrader4.com" target="_blank"><img src="__STATIC__image/download_banner_pic06.png"></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="main">
+    <div class="main_inner">
+        <div class="content clearfix">
+            <p class="p1">MetaTrader 4是一款国际交易平台，能够分析金融市场并使用EA交易。移动交易，交易信号和市场是MetaTrader 4的组成部分，可以增强您的国际交易体验。</p>
+            <img src="__STATIC__image/download_00.png" style="display: block;width: 80%;margin: 0 auto;">
+            <p class="p2">具有广泛需求的数百万交易者选择了MetaTrader 4 在市场上交易。该平台为所有技术水平的交易者提供了充足的机遇：先进的技术分析，灵活的交易系统，算法交易和EA交易，以及移动交易应用程序。<br>信号 和 市场 的附加服务更加扩大了MetaTrader 4的服务范围。信号服务允许您复制其他交易者的交易，而市场为您提供了供您购买的各种EA交易和技术指标。</p>
+            <p class="p3">下载 MetaTrader 4，享受最广泛的国际交易机会</p>
+            <div class="computer">
+                <div class="title"><img src="__STATIC__image/download_01.png"><span>个人计算机</span></div>
+                <ul>
+                    <li><a href="http://www.besfx.com/mt4setup.exe" target="_blank"><img src="__STATIC__image/download_03.png"></a></li>
+                    <li><a href="https://www.mql5.com/zh/articles/1356" target="_blank"><img src="__STATIC__image/download_04.png"></a></li>
+                    <li><a href="https://www.mql5.com/zh/articles/1358" target="_blank"><img src="__STATIC__image/download_05.png"></a></li>
+                </ul>
+            </div>
+            <div class="phone">
+                <div class="title"><img src="__STATIC__image/download_02.png"><span>智能手机和平板电脑</span></div>
+                <ul>
+                    <li><a href="https://itunes.apple.com/cn/app/metatrader-4/id496212596?utm_campaign=www.metatrader4.com" target="_blank"><img src="__STATIC__image/download_06.png"></a></li>
+                    <li><a href="https://download.mql5.com/cdn/mobile/mt4/android?hl=zh&utm_campaign=www.metatrader4.com" target="_blank"><img src="__STATIC__image/download_07.png"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MT4用户跟单系统</title>
+    <link href="__STATIC__css/base.css" rel="stylesheet">
+    <link href="__STATIC__css/order_vip.css" rel="stylesheet">
+    <link href="__STATIC__window/window.css" rel="stylesheet">
+    <script src="__STATIC__window/window.js" type="text/javascript"></script>
+    <script src="__STATIC__js/jquery-2.2.0.min.js" type="text/javascript"></script>
+
+    <link href="__STATIC__css/page.css" rel="stylesheet">
+    <link href="__STATIC__css/mam.css?v=20180408" rel="stylesheet">
+</head>
+<body>
+{include file="mam/inc/mam_list"/}
+<script>
+    $(function () {
+        /*mam经理li的交互动态*/
+        $(".step_1_signal_a").hover(function () {
+            $(this).parent().find(".peel").animate({"height":"44px","width":"40px"},300);
+            $(this).parent().find(".back").animate({"height":"40px","width":"40px"},300);
+        }, function () {
+            $(this).parent().find(".peel").animate({"height":"23px","width":"20px"},300);
+            $(this).parent().find(".back").animate({"height":"20px","width":"20px"},300);
+        });
+        $(".signal_btn1").hover(function () {
+            $(this).css({"background":"#ffa200","color":"#fff"});
+        }, function () {
+            $(this).css({"background":"#fff","color":"#ffa200"});
+        });
+
+        $(".signal_btn1").on("click", function () {
+            //var This = $("#iframe_imam_list").contents();
+
+                var This = $(window.parent.document).contents();
+                if(This.find(".isFollow").val() == 'true'){
+                    This.find(".win_onlyone").show();
+                    return false;
+                }
+                This.find(".step_1").hide();
+                This.find(".step_2").show();
+                This.find(".order_step_2").css("display","inline-block");
+                This.find(".order_step_2").addClass("active").siblings().removeClass("active");
+
+                var account = $(this).parent().find(".id").html();
+                This.find(".step_2 .signal li").find(".id").html(account);
+                This.find(".step_2 .signal li").find(".signal_btn1").hide();
+                if(This.find("#iframe_imam").attr("data") == 'isnew'){
+                    This.find("#iframe_imam").show().attr("src","__HTTP__mam/imam/id/"+account+"/isnew/1.html");
+                }else {
+                    This.find("#iframe_imam").show().attr("src","__HTTP__mam/imam/id/"+account+".html");
+                }
+                This.find(".nodata").hide();
+            });
+
+
+    });
+</script>
+</body>
+</html>
+

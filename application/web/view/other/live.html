@@ -1,0 +1,1279 @@
+{extend name="web@base/studio"/}
+{block name="body"}
+<script src="__STATIC__js/jqueryscroll.js" type="text/javascript"></script>
+<style>
+    body{min-width:1200px!important;}
+    *::-webkit-scrollbar{background-color: #f9f9f9;width: 8px;}
+     .scroll_vertical{position:relative;height:40px;line-height:40px;float:right;width: 300px;}
+        .scroll_vertical .box{overflow:hidden;position:relative;height:35px;}
+        .scroll_vertical .plus,.scroll_vertical .minus{position:absolute;left:50px;width:120px;height:30px;background:#09f;cursor:pointer;}
+        .scroll_vertical .plus{top:10px;}
+        .scroll_vertical .minus{bottom:10px;}
+        .scroll_vertical .plus:hover,
+        .scroll_vertical .minus:hover{background:#0cf;}
+        .scroll_vertical ul{position:absolute;top:0;right:10px;}
+        .scroll_vertical li{height:140px;text-align:center;color:#611987;}
+        .indexordernum2 .indexordernum_text{height:30px;width:370px;overflow: hidden;line-height: 30px;text-overflow:ellipsis ;white-space: nowrap;}
+        .vip_login_btn span:hover{color:#611987!important;}
+
+    .live_main{width:100%;background: #f3f3f3;margin-top:49px;}
+    .live_box{width:1200px;height:auto;margin:0 auto;padding-top:10px;}
+    .live_room{width:816px;height:650px;background: #fff;}
+    .live_room_name{font-size:17px;color:#333333;float:left;line-height: 30px;padding-left: 20px;}
+    .live_room_logo{height:28px;border-radius: 6px;border:1px solid #bfc0c0;float:left;margin:0 10px 0 8px;}
+    .to_open{cursor:pointer;font-size:14px;float:right;color:#611987;width:68px;text-align:center;line-height:26px;height:26px;border-radius: 2px;border:1px solid #611987;margin:2px 20px 0 10px;}
+    .not_open{font-size:14px;float:right;color:#611987;line-height:30px;}
+    .live_room_intro{width:776px;height:550px;background: #000;margin:0 auto;}
+    .live_room_detail{width:776px;height:550px;background: #000;margin:0 auto;display:none;position: relative}
+    .live_room_detail embed{height:100%;margin:0 auto;display: block;}
+    .live_room_link{width:300px;height:40px;padding-left:44px;display:block;line-height: 40px;border-radius: 4px;border:1px solid #999999;margin:0 auto;background: url(__STATIC__image/live_room_link_icon.png) no-repeat 10px 8px;background-color:#fff;font-size:16px;line-height: 34px;}
+    .live_link_submit{width:346px;height:40px;background: #611987;border-radius: 4px;line-height: 40px;text-align: center;font-size:20px;color:#3b2a00;margin:30px auto 10px;cursor:pointer;}
+    .live_info{height:210px;width:776px;margin-top:10px;background: #fff;padding:16px 20px;}
+    .live_info_head{width:100%;border-bottom:1px solid #dadada;height:16px;padding-bottom:16px;}
+    .live_info_head_li{cursor:pointer;float:left;font-size:16px;color:#333333;margin-right:25px;height:16px;padding:0 4px;padding-bottom:15px;}
+    .live_info_head_active{color:#611987;border-bottom:2px solid #611987;}
+    .live_person{width:60px;height:60px;border-radius: 60px;border:1px solid #c4c4c4;object-fit: cover;float:left;}
+    .live_info_studio{padding-top:20px;}
+    .live_studio_name{font-size:18px;color:#333333;padding:6px 0 3px;}
+    .live_studio_intro{font-size:16px;color:#999999;float:left;}
+    .live_studio_information{width:100%;clear:left;padding-top:10px;}
+    .live_studio_information li{width:33.3%;float:left;font-size:14px;color:#555555;}
+    .live_studio_information li p{padding-top:18px;}
+    .live_info_introduce{padding-top:24px;}
+    .live_video_trailer{overflow-y: hidden;height: 192px;width: 100%;position: relative}
+    .live_video_trailer li{clear:both;padding-top:22px;height:16px;}
+    .live_studio_video_icon{width:16px;float:left;}
+    .live_trailer_p1,.live_trailer_p2,.live_trailer_p3{font-size:14px;color:#666666;float:left;line-height: 16px;padding-left:16px;}
+    .live_trailer_p2{height:24px;border:1px solid #ccc;margin-left:15px;padding:0 1px;margin-top:-2px;}
+    .live_trailer_p3{width:230px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;height:18px;line-height:18px;margin-top:-2px;margin-left:15px;padding:2px 5px;border:1px solid #ccc;}
+    .how_toget_code{width:346px;margin:6px auto;text-align: right;font-size:16px;color:#611987;cursor: pointer;}
+    .live_about{width:370px;float:right;height:650px;background: #fff;position: relative;}
+    .live_about_head{height:53px;width:100%;background: #f6f7f9;}
+    .live_about_head1{cursor:pointer;width:185px;float:left;height:50px;line-height: 50px;text-align: center;border-right:1px solid #edeef2;border-top:2px solid #edeef2;font-size:15px;color:#555555}
+    .live_about_head1_active{border-top:2px solid #611987;border-bottom:1px solid #fff;color:#611987;background: #fff;}
+    .live_about_signal{padding:0 15px 10px;height:497px;overflow-y: scroll;}
+    .live_about_signal>li{height:210px;border-bottom:1px solid #dadada;padding-top: 10px;}
+    .live_about_signal>li:last-child{border-bottom:none;}
+    .live_about_chart{width:100!important;height:100px!important;}
+    .live_signal_info>li{width:20%;float:left;font-size:14px;color:#777777;}
+    .live_signal_info>li>p{margin-top:4px;}
+    .live_about_signal_head{padding:14px 0 0;color:#333333;font-size:14px;float:left;}
+    .load_signal{height:44px;position: absolute;bottom:36px;left:15px;border:1px solid #611987;width:340px;border-radius: 6px;text-align: center;line-height: 44px;font-size:20px;color:#611987;cursor:pointer;background: url(__STATIC__image/load_signal_icon.png) no-repeat 91px 10px;text-indent: 51px;}
+    .live_about_signal_box{height:599px;position:relative}
+    .live_message_box{height:242px;width:370px;position: relative;background: #fff;margin-top:10px;}
+    .live_message{height:152px;overflow-y: scroll;padding:0 10px;}
+    .live_message>li{padding:10px;background: #f4f4f4;margin-top:6px;}
+    .live_message_name{font-size:14px;color:#333333;}
+    .live_message_time{float:right;font-size:14px;color:#333333;}
+    .live_message_text{font-size:12px;color:#666666;line-height: 22px;padding:6px 0 0;}
+    .live_message_send{width:260px;height:34px;display:block;font-size:14px;border:none;background:#f4f4f4;padding-left:10px; border-radius: 4px;}
+    .live_message_submit{float:right;width:58px;height:34px;text-align: center;line-height: 34px;background: #611987;border-radius: 6px;font-size:14px;color:#fff;cursor:pointer;}
+    .live_visitor{width:1168px;padding:20px 16px;background: #fff;margin-top:10px ;}
+    .live_visitor_head{width:50px;height:50px;border-radius: 50px;border:1px solid #bcbcbc;object-fit: cover;margin-left:5px;}
+    .live_visitor_box li{width:60px;display:inline-block;margin-left:14px;}
+    .live_visitor_box li:nth-child(15n+1){margin-left:0;}
+    .live_visitor_name{width:60px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;text-align: center;font-size:12px;height:18px;}
+    .live_visitor_time,.live_visitor_ip{width:60px;text-align: center;color:#666666;font-size:12px;height:18px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+    .tocreate{width:100%;height:52px;background: #fff;margin-top:20px;}
+    .createbtn{width:120px;height:30px;cursor:pointer;border-radius: 4px;background: #611987;color:#fff;text-align: center;line-height: 30px;float:left;margin-left:80px;margin-top:12px;}
+    .douyu{width:100%;height:100%;background: rgba(0,0,0,0.6);position: fixed;top:0;left:0;z-index:101;display:none;}
+    .douyu_step{width:410px;height:440px;padding:30px 20px;position: absolute;top:50%;left:50%;margin-top:-250px;margin-left:-205px;background: #fff;border-radius: 8px;}
+    .douyustep{float:left;margin-left:10px;}
+    .douyustep li{margin-top:85px;}
+    .douyustep_img{float:left;margin-left:32px;}
+    .douyustep_img img{display:block;width:178px;margin-top:10px;}
+    .create_live{width:60px;padding:9px 0;background: #fff;position: absolute;top:45%;left:50%;margin-left:620px;cursor:pointer;box-shadow: 0 0 10px #ccc;font-size:16px;color:#611987;text-align: center;line-height: 20px;border-radius: 6px;}
+    .liveinfo_myroominfo{clear:both;font-size:14px;color:#666666;width:610px;height:90px;line-height:26px;padding-top:10px;overflow:hidden;text-overflow:ellipsis ;}
+    .live_room_star{float:left;height:30px;margin-left:5px;}
+    .live_room_star img{float:left;height:18px;margin-top:6px;margin-left:5px;}
+    .live_room_level{width:52px;height:24px;float:left;margin-left:10px;margin-top:4px;background: #611987;color:#fff;font-size:14px;text-align: center;line-height:24px;border-radius: 4px;cursor:pointer;}
+    .show_telephone{font-size:14px;color:#611987;border:1px solid #611987;float:left;height:22px;line-height:22px;width:90px;border-radius: 4px;text-align: center;margin-left:10px;cursor:pointer;}
+    .toopen_account{font-size:12px;color:#611987;border:1px solid #611987;float:left;height:20px;line-height:20px;width:62px;border-radius: 4px;text-align: center;margin-left:10px;cursor:pointer;margin-top:18px;}
+    .liveinfo_myroominfo_edit{font-size:14px;color:#611987;border:1px solid #611987;float:left;height:20px;line-height:20px;width:46px;border-radius: 4px;text-align: center;margin-left:10px;cursor:pointer;margin-top: 2px;}
+    .liveinfo_roominfo_textarea{font-size: 14px;width:585px;height: 80px;line-height: 26px;border:1px solid #e5e5e5;border:none;display:block;padding:0 10px;}
+    .liveinfo_roominfo_textarea_box{clear: both;width:606px;height: 84px;margin-top: 14px;float:left;position: relative;padding-bottom:25px;border:1px solid #ccc;border-radius: 4px;}
+    .liveinfo_roominfo_textarea_btn{width:40px;height:20px;line-height: 20px;text-align: center;border-radius: 4px;border:1px solid #611987;color:#611987;font-size:12px;position: absolute;cursor:pointer;}
+    .live_studio_video_time{width:20px;height:18px;line-height:18px;border:1px solid #ccc;padding:2px 5px;color:#666666;margin-top: -2px;}
+    .live_trailer_p1_no{border:none;}
+    .live_trailer_p2_no{appearance:none;-moz-appearance:none;-webkit-appearance:none;border:none;}
+    .live_trailer_p3_no{border:none;}
+    #live_video_trailer_edit{font-size:12px;color:#611987;border:1px solid #611987;height:20px;line-height:20px;width:42px;border-radius: 4px;text-align: center;cursor:pointer;position: absolute;top:10px;right:0;}
+    .pay_rule{position: absolute;bottom:12px;right:10px;font-size:14px;color:#611987;border-bottom:1px solid #611987;cursor:pointer;}
+    .live_about_service{height:599px;}
+    .live_about_service_detail{font-size:14px;color:#555555;text-align: center;padding-top:73px;line-height: 30px;}
+    #live_about_service_detail2{display:none;}
+    .live_room_visit{width:100%;height:40px;background:#000;position: absolute;top:0;left:0;}
+    .live_about_signal_free{float:right;min-width:54px;padding:0 4px;height:26px;border:1px solid #611987;margin:5px 0;text-align: center;line-height: 26px;font-size:14px;color:#611987;border-radius: 10px 0 10px 0;}
+    .live_about_signal_free2{float:right;min-width:54px;padding:0 4px;height:26px;border:1px solid #da171a;margin:5px 0;text-align: center;line-height: 26px;font-size:14px;color:#da171a;border-radius: 10px 0 10px 0;}
+    .live_about_signal_free3{float:right;min-width:54px;padding:0 4px;height:26px;border:1px solid #16a21c;margin:5px 0;text-align: center;line-height: 26px;font-size:14px;color:#16a21c;border-radius: 10px 0 10px 0;}
+    .free_Brokers_icon{height:26px;float:right;margin:5px 0;border:1px solid #e1e1e1;border-radius:6px;margin-right:10px;}
+    .signal_open_link{float:right;float:right;margin:5px 0;height:26px;width:69px;border:1px solid #16a21c;border-radius:6px;margin-right:10px;color:#16a21c;font-size:14px;text-align: center;line-height: 26px;cursor :pointer;}
+    .live_about_signal_pay{float:right;min-width:54px;padding:0 4px;height:26px;border:1px solid #008aff;margin:5px 0;text-align: center;line-height: 26px;font-size:14px;color:#008aff;border-radius: 10px 0 10px 0;}
+    .free_blank{width: 332px;height: 100px;background: rgba(0,0,0,0.2);position: absolute;left:0;top:0;z-index:3;display: none;}
+    .live_about_chart_box{margin: 10px auto;clear:both;position: relative;width:100!important;height:100px!important;cursor: pointer;border:1px solid #f5f2f2;}
+    .signal_share_icon{width:45px;position: absolute;top:0;left:0;}
+    .live_about_chart_box:hover .free_blank{display:block;}
+    .copy_signal_btn{width:100px;height:34px;background: #611987;color:#fff;margin:35px auto;border-radius: 6px;text-align: center;line-height: 34px;}
+    .douyustep_close,.contact_close,.upgrade_close,.invite5_close,.uploadmode_close,.uploadall_close,.reprint_close,.payreprint_close{    position: absolute;top: -10px;right: -10px;width: 30px;height: 30px;cursor: pointer;background: url(__STATIC__image/buchang_close.png)no-repeat center;background-size: cover;z-index: 1;}
+    .bomb_contact,.bomb_upgrade,.bomb_invite5,.bomb_upload,.bomb_upload_all,.bomb_reprint,.bomb_payreprint{width:100%;height:100%;background: rgba(0,0,0,0.6);position: fixed;top:0;left:0;z-index:101;display: none}
+    .contact_information{width:380px;padding:10px 0 20px;position: absolute;top:30%;left:50%;margin-left:-190px;background: #fff;border-radius: 8px;}
+    .upgrade_information{width:370px;height:400px;padding:10px 30px;position: absolute;top:50%;left:50%;margin-left:-215px;margin-top:-210px;background: #fff;border-radius: 8px;}
+    .invite5_information{width:240px;height:160px;padding:10px 30px;position: absolute;top:50%;left:50%;margin-left:-150px;margin-top:-90px;background: #fff;border-radius: 8px;}
+    .uploadmode{width:260px;height:190px;padding:10px 30px;position: absolute;top:50%;left:50%;margin-left:-160px;margin-top:-105px;background: #fff;border-radius: 8px;}
+    .upload_all{width:380px;padding:20px 30px 40px;position: absolute;top:50%;left:50%;margin-left:-210px;margin-top:-230px;background: #fff;border-radius: 8px;}
+    .reprint{width:380px;padding:20px 30px 40px;position: absolute;top:50%;left:50%;margin-left:-210px;margin-top:-230px;background: #fff;border-radius: 8px;}
+    .payreprint{width:380px;padding:10px 30px 40px;position: absolute;top:50%;left:50%;margin-left:-210px;margin-top:-230px;background: #fff;border-radius: 8px;}
+
+    .tobuy_button{border-bottom:1px solid #611987;cursor:pointer;}
+    .tobuy_icon{margin:10px auto;display:block;}
+    .grade_buy_box,.payreprint_grade_buy_box{width:356px;height:80px;margin:0 auto;border-bottom:1px dotted #ccc;padding-bottom:15px;}
+    .grade_buy_box_li,.payreprint_grade_buy_box_li{width:110px;height:80px;float:left;border:1px solid #e5e5e5;border-radius: 8px;margin-left:10px;overflow: hidden;cursor:pointer;}
+    .grade_buy_box .grade_buy_box_li:nth-child(1), .payreprint_grade_buy_box .payreprint_grade_buy_box_li:nth-child(1){margin-left:0;}
+    .grade_buy_box_li_active,.payreprint_grade_buy_box_li_active{border:1px solid #d8a152;background: url(__STATIC__image/grade_buy_box_li_active_bg.jpg) no-repeat right bottom;}
+    .grademoney1,.payreprint_grademoney1{width:90px;margin:0 auto;font-size:14px;color:#666666;border-bottom:1px solid #d8a152;text-align: center;margin-top: 7px;}
+    .grademoney,.payreprint_grademoney{font-size:26px;color:#d3a672;}
+    .grademoney2,.payreprint_grademoney2{font-size:20px;color:#d3a672;text-align: center;}
+    .deserve_money,.payreprint_deserve_money{color:#d8a152;font-weight: bold;}
+    .deserve_money_ma,.payreprint_deserve_money_ma{height:120px;}
+    .deserve_money_ma li,.payreprint_deserve_money_ma li{width:50%;height:120px;float:left;}
+    .deserve_money_ma li img,.payreprint_deserve_money_ma li img{width:82px;height:82px;padding:5px;border:1px solid #02aaef;display:block;margin:0 auto;}
+    .pay_to_apay,.payreprint_pay_to_apay{font-size:14px;cursor:pointer;width:96px;margin:7px auto;background:#02aaef;color:#fff;text-align:center;height:26px;line-height:26px;border-radius:4px;}
+    .contact_info2{display:none;}
+    .bomb_head{font-size:20px;text-align: center;padding:10px 0;}
+    .upgrade_p1{font-size:15px;color:#000000;line-height: 26px;margin-top:4px;}
+    .upgrade_p2{font-size:14px;color:#666666;line-height: 24px;}
+    .upgrade_btn{width:70px;height:26px;float:right;margin-top: 20px;border:1px solid #611987;border-radius: 4px;font-size:15px;color:#611987;line-height: 26px;text-align: center;cursor:pointer;}
+    .upgrade_known{width:100%;height:44px;background: #611987;text-align: center;line-height: 44px;color:#3b2a00;border-radius: 4px;margin-top:14px;cursor: pointer;}
+    .alert_tip_img{display: block;margin:0 auto;}
+    .invite5_togo{width:100%;height:44px;background: #611987;text-align: center;line-height: 44px;border-radius: 4px;margin-top:10px;cursor: pointer;font-size:20px;color:#fff;}
+    .uploadmode_ul>li{width:40%;float:left;border:1px solid #611987;border-radius: 4px;cursor: pointer}
+    .uploadmode_ul>li>img{width:56px;margin:20px auto;display:block;}
+    .uploadmode_ul>li>p{text-align: center;background: #611987;height:34px;line-height: 34px;color:#fff;}
+    .uploadallrules{float:right;font-size:16px;color:#611987;border-bottom:1px solid #611987;margin-top:15px;cursor:pointer;}
+    .uploadall_head{height:36px;width:375px;border:1px solid #611987;border-radius: 4px;}
+    .uploadall_head_li{width:93px;height:36px;float:left;line-height:36px;text-align: center;border-right:1px solid #611987;cursor:pointer;}
+    .uploadall_head>li:last-child{border-right:none;}
+    .uploadall_head_p{float:left;font-size:14px;margin-left:20px;color:#999999;}
+    .uploadall_head_icon{float:right;width:14px;margin-top: 10px;margin-right:17px;}
+    .uploadall_head_li_active{background: #611987}
+    .uploadall_head_li_active .uploadall_head_p{color:#3b2a00;}
+    .uploadall_input li,.reprint_input li{position:relative;width:380px;height:40px;border-radius: 4px;border:1px solid #999999;margin-top:10px;}
+    .uploadall_input li>img,.reprint_input li>img{width:30px;float:left;margin:5px;}
+    .uploadallinput,.reprintinput{width:328px;padding-left:10px;float:left;height:40px;font-size:17px;}
+    .uploadall_submit{width:100%;height:45px;border-radius: 4px;background: #611987;text-align: center;line-height:45px;margin-top:20px;font-size:20px;color:#3b2a00;cursor:pointer;}
+    .uploadallli_add,.reprint_add{display:none;}
+    .selectdetail{display: none;z-index:3;position: absolute;width:380px;top:36px;left:-1px;background: #fff;border:1px solid #999999;border-top:none;border-radius: 0 0 4px 4px;overflow:hidden;}
+    .selectdetail div{height:36px;padding-left:50px;line-height: 36px;cursor:pointer;}
+    .selectdetail div:hover{background: #f1f1f1;color:#611987}
+    .reprint_signal{display:none;z-index:4;position: absolute;width:380px;height:168px;overflow-y:scroll;top:36px;left:-1px;background: #fff;border:1px solid #999999;border-top:none;border-radius: 0 0 4px 4px;}
+    .reprint_signal>div{padding-left:50px;height:36px;line-height: 36px;cursor:pointer;}
+    .reprint_signal>div>img{width:30px;height:30px;border-radius: 30px;border:1px solid #bdbdbd;object-fit: cover;float:left;margin-top:3px;}
+    .reprint_signal>div>p{font-size:16px;color:#999999;line-height:36px;float:left;margin-left:10px;width:250px;overflow:hidden;text-overflow: ellipsis;white-space: nowrap}
+    .reprint_signal>div:hover{background: #f1f1f1;}
+    .reprint_signal>div:hover p{color:#611987}
+    .live_room_visit img{float:right;width:30px;height:30px;margin-right:6px;margin-top:5px;object-fit: cover;}
+</style>
+<script src="__STATIC__js/echarts.min.js"></script>
+<div class="live_main">
+    <div class="live_box">
+        <div class="live_about">
+            <ul class="live_about_head">
+                <li class="live_about_head1 live_about_head1_active" id="jyxh">交易信号</li>
+                <!-- <li class="live_about_head1" id="ly">留  言</li> -->
+                <li class="live_about_head1" style="border-right:none;width:123px;" id="zgfw">资管服务</li>
+            </ul>
+            <!-- 交易信号 -->
+            <div class="liveabout live_about_signal_box">
+                <ul class="live_about_signal">
+                    <!-- 免费 -->
+                    <li>
+                        <p class="live_about_signal_head">信号：#0000203</p>
+                        <div class="live_about_signal_free">免  费</div>
+                        <div class="live_about_chart_box">
+                            <img src="__STATIC__image/signal_share.png" class="signal_share_icon">
+                            <div class="free_blank">
+                                <div class="copy_signal_btn">复制跟单</div>
+                            </div>
+                            <div class="live_about_chart" data-chart='0,1,2,3,4,5,6,7,8,9,10,13,16,30,500'></div>
+                        </div>
+                        <ul class="live_signal_info">
+                            <li>
+                                <p>利润率</p>
+                                <p style="color:#611987">349.88%</p>
+                            </li>
+                            <li>
+                                <p>交易胜率</p>
+                                <p>41%</p>
+                            </li>
+                            <li>
+                                <p>交易时长</p>
+                                <p>82周</p>
+                            </li>
+                            <li>
+                                <p>跟随人数</p>
+                                <p>153</p>
+                            </li>
+                            <li>
+                                <p>最大回撤</p>
+                                <p>20%</p>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- 付费 -->
+                    <li>
+                        <p class="live_about_signal_head">信号：#0000203</p>
+                        <div class="live_about_signal_pay">￥500/月</div>
+                        <div class="live_about_chart_box">
+                            <div class="free_blank">
+                                <div class="copy_signal_btn">复制跟单</div>
+                            </div>
+                            <div class="live_about_chart" data-chart='0,1,2,3,4,5,6,7,8,9,10,13,16,30,500'></div>
+                        </div>
+                        <ul class="live_signal_info">
+                            <li>
+                                <p>利润率</p>
+                                <p style="color:#611987">349.88%</p>
+                            </li>
+                            <li>
+                                <p>交易胜率</p>
+                                <p>41%</p>
+                            </li>
+                            <li>
+                                <p>交易时长</p>
+                                <p>82周</p>
+                            </li>
+                            <li>
+                                <p>跟随人数</p>
+                                <p>153</p>
+                            </li>
+                            <li>
+                                <p>最大回撤</p>
+                                <p>20%</p>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- 指定经纪商 -->
+                    <li>
+                        <p class="live_about_signal_head">信号：#0000203</p>
+                        <div class="live_about_signal_free2">免  费</div>
+                        <img src="__STATIC__image/broker/1.png" class="free_Brokers_icon">
+                        <div class="live_about_chart_box">
+                            <div class="free_blank">
+                                <div class="copy_signal_btn">复制跟单</div>
+                            </div>
+                            <div class="live_about_chart" data-chart='0,1,2,3,4,5,6,7,8,9,10,13,16,30,500'></div>
+                        </div>
+                        <ul class="live_signal_info">
+                            <li>
+                                <p>利润率</p>
+                                <p style="color:#611987">349.88%</p>
+                            </li>
+                            <li>
+                                <p>交易胜率</p>
+                                <p>41%</p>
+                            </li>
+                            <li>
+                                <p>交易时长</p>
+                                <p>82周</p>
+                            </li>
+                            <li>
+                                <p>跟随人数</p>
+                                <p>153</p>
+                            </li>
+                            <li>
+                                <p>最大回撤</p>
+                                <p>20%</p>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- 指定开户链接 -->
+                    <li>
+                        <p class="live_about_signal_head">信号：#0000203</p>
+                        <div class="live_about_signal_free3">免  费</div>
+                        <a class="signal_open_link" href="">开户链接</a>
+                        <div class="live_about_chart_box">
+                            <div class="free_blank">
+                                <div class="copy_signal_btn">复制跟单</div>
+                            </div>
+                            <div class="live_about_chart" data-chart='0,1,2,3,4,5,6,7,8,9,10,13,16,30,500'></div>
+                        </div>
+                        <ul class="live_signal_info">
+                            <li>
+                                <p>利润率</p>
+                                <p style="color:#611987">349.88%</p>
+                            </li>
+                            <li>
+                                <p>交易胜率</p>
+                                <p>41%</p>
+                            </li>
+                            <li>
+                                <p>交易时长</p>
+                                <p>82周</p>
+                            </li>
+                            <li>
+                                <p>跟随人数</p>
+                                <p>153</p>
+                            </li>
+                            <li>
+                                <p>最大回撤</p>
+                                <p>20%</p>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="load_signal">上传更多信号</div>
+                <p class="pay_rule">资费规则</p>
+            </div>
+            <!-- 资管服务 -->
+            <div class="liveabout live_about_service"  style="display:none;">
+                <!-- 用户 -->
+                <p class="live_about_service_detail" id="live_about_service_detail1">本工作室暂不提供资管服务</p>
+                <!-- 工作室 -->
+                <p class="live_about_service_detail" id="live_about_service_detail2">跨平台 PAMM 服务<br>即将到来 敬请关注</p>
+            </div>
+        </div>
+        <!-- 直播间 -->
+        <div class="live_room">
+            <div style="padding:16px 0;height:30px;">
+                <!-- <img src="image/liveroom_image.jpg" style="height:40px;float:left;margin:-5px 0 0 20px">
+                <img src="image/live_room_logo.jpg" class="live_room_logo"> -->
+                <p class="live_room_name">欢迎来到小牛工作室</p>
+                <div class="live_room_star">
+                    <img src="__STATIC__image/star4.png">
+                    <img src="__STATIC__image/star3.png">
+                    <img src="__STATIC__image/star2.png">
+                    <img src="__STATIC__image/star1.png">
+                </div>
+                <p class="live_room_level">升  级</p>
+                <p class="to_open">立即激活</p>
+                <p class="not_open">未开放</p>
+            </div>
+            <div class="live_room_intro">
+                <div style="width:100%;height:55px;background:#000;"></div>
+                <div style="width:100%;height:440px;background:#f6f7f9;">
+                    <p style="font-size:20px;color:#555555;text-align:center;padding:130px 0 14px;">提交你的斗鱼直播间flash地址</p>
+                    <input type="text" placeholder="请输入您的斗鱼直播间flash地址" class="live_room_link">
+                    <div class="live_link_submit">提  交</div>
+                    <p class="how_toget_code">获取斗鱼直播间flash地址？</p>
+                </div> 
+                <div style="width:100%;height:55px;background:#000;">
+                    <img src="__STATIC__image/video_icon1.png" style="height:32px;float:left;margin:11px;">
+                    <img src="__STATIC__image/video_icon2.png" style="height:32px;float:right;margin:11px;">
+                </div>
+            </div>
+            <div class="live_room_detail">
+                <div class="live_room_visit">
+                    <img src="__STATIC__image/index4info_img.png">
+                    <img src="__STATIC__image/index4info_img.png">
+                    <img src="__STATIC__image/index4info_img.png">
+                    <img src="__STATIC__image/index4info_img.png">
+                    <img src="__STATIC__image/index4info_img.png">
+                    <div id="pic_list_3" class="scroll_vertical">
+                        <div class="box">
+                            <ul class="list">
+                                <li class="indexordernum_text">dhiodod进入工作室</li> 
+                                <li class="indexordernum_text">dhiodod进入工作室</li>       
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <embed class="live_room_flash" width="776" height="360" allownetworking="all" allowscriptaccess="always" src="" quality="high" bgcolor="#000" wmode="window" allowfullscreen="true" allowFullScreenInteractive="true" type="application/x-shockwave-flash">
+            </div>
+        </div>
+        <!-- 留言 -->
+        <div class="live_message_box" style="float:right;">
+                <div style="width:349px;margin:0 auto;border-bottom:1px solid #dadada;color:#611987;padding:10px 0 0;"><div style="border-bottom:2px solid #611987;display:inline-block;padding-bottom:10px;">留   言</div></div>
+                <ul class="live_message">
+                    <li>
+                        <p class="live_message_time">14:32</p>
+                        <p class="live_message_name">游客</p>
+                        <p class="live_message_text">嘉宾下午好，帮忙看看002630，现在这个位置能补仓吗？</p>
+                    </li>
+                    <li>
+                        <p class="live_message_time">14:32</p>
+                        <p class="live_message_name">游客</p>
+                        <p class="live_message_text">嘉宾下午好，帮忙看看002630，现在这个位置能补仓吗？</p>
+                    </li>
+                    <li>
+                        <p class="live_message_time">14:32</p>
+                        <p class="live_message_name">游客</p>
+                        <p class="live_message_text">嘉宾下午好，帮忙看看002630，现在这个位置能补仓吗？</p>
+                    </li>
+                    <li>
+                        <p class="live_message_time">14:32</p>
+                        <p class="live_message_name">莫言</p>
+                        <p class="live_message_text">s阳老师 看看中字头 601088 别的涨 它不涨的季度近嘉宾下午好，帮忙看看002630，现在这个位置能补仓吗？</p>
+                    </li>
+                    <li>
+                        <p class="live_message_time">14:32</p>
+                        <p class="live_message_name">游客</p>
+                        <p class="live_message_text">嘉宾下午好，帮忙看看002630，现在这个位置能补仓吗？</p>
+                    </li>
+                    <li>
+                        <p class="live_message_time">14:32</p>
+                        <p class="live_message_name">莫言</p>
+                        <p class="live_message_text">s阳老师 看看中字头 601088 别的涨 它不涨的季度近嘉宾下午好，帮忙看看002630，现在这个位置能补仓吗？</p>
+                    </li>
+                    <li>
+                        <p class="live_message_time">14:32</p>
+                        <p class="live_message_name">游客</p>
+                        <p class="live_message_text">嘉宾下午好，帮忙看看002630，现在这个位置能补仓吗？</p>
+                    </li>
+                    <li>
+                        <p class="live_message_time">14:32</p>
+                        <p class="live_message_name">莫言</p>
+                        <p class="live_message_text">s阳老师 看看中字头 601088 别的涨 它不涨的季度近嘉宾下午好，帮忙看看002630，现在这个位置能补仓吗？</p>
+                    </li>
+                    <li>
+                        <p class="live_message_time">14:32</p>
+                        <p class="live_message_name">游客</p>
+                        <p class="live_message_text">嘉宾下午好，帮忙看看002630，现在这个位置能补仓吗？</p>
+                    </li>
+                    <li>
+                        <p class="live_message_time">14:32</p>
+                        <p class="live_message_name">莫言</p>
+                        <p class="live_message_text">s阳老师 看看中字头 601088 别的涨 它不涨的季度近嘉宾下午好，帮忙看看002630，现在这个位置能补仓吗？</p>
+                    </li>
+                </ul>
+                <div style="width:344px;height:40px;background:#fff;position:absolute;left:10px;bottom:2px;">
+                    <div class="live_message_submit">留言</div>
+                    <input class="live_message_send" placeholder="请输入留言" maxlength="100">
+                </div>
+            </div>
+        <!-- 工作室 -->
+        <div class="live_info">
+            <ul class="live_info_head">
+               <li class="live_info_head_li live_info_head_active" id="gzs">工 作 室</li> 
+               <li class="live_info_head_li" id="gzsjs">工作室介绍</li>
+               <li class="live_info_head_li" id="zbyg">直播预告</li>
+            </ul>
+            <!-- 工 作 室 -->
+            <div class="liveinfo live_info_studio" >
+                <img src="__STATIC__image/studio_exp.jpg" class="live_person">
+                <div style="float:left;padding-left:20px;">
+                    <p class="live_studio_name">小牛</p>
+                    <p class="live_studio_intro">智能外汇跟单</p>
+                    <p class="show_telephone">展现联系方式</p>
+                </div>
+                <ul class="live_studio_information">
+                    <li>
+                        <p>电话：132 **** 3356</p>
+                        <p>微信：45d*****356</p>
+                    </li>
+                    <li>
+                        <p>邮    箱：256****25@qq.com</p>
+                        <p>经纪商：levelmax</p>
+                    </li>
+                    <li>
+                        <p>QQ：2*******5</p>
+                        <p style="float:left;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space: nowrap;">开户链接：www.baidu.com</p>
+                        <a class="toopen_account" href="https://www.baidu.com/" target="_blank">立即开户</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- 工作室介绍 -->
+            <div class="liveinfo live_info_introduce" style="display:none;">
+                <img src="__STATIC__image/studio_exp.jpg" style="border:1px solid #c2c2c2;width:140px;height:140px;border-radius:140px;object-fit:cover;background:#fff;float:left;">
+                <div style="float:left;padding-left:20px;">
+                    <p style="font-size:18px;color:#333333;float:left;">小牛工作室</p>
+                    <p class="liveinfo_myroominfo_edit">编辑</p>
+                    <p class="liveinfo_myroominfo">致力于增强社区用户对外汇市场的认知，提升实战交易技巧，改善投资者亏损的现状。多重量级行业嘉宾、资深交易员、机构团队等入驻，为您实时在线，同步解读外汇交易基本面、财经数据、优秀交易策略、重大事件等，让交易不再孤单！</p>
+                    <div class="liveinfo_roominfo_textarea_box" style="display:none;">
+                        <textarea placeholder="请编辑工作室介绍" class="liveinfo_roominfo_textarea"></textarea>
+                        <div class="liveinfo_roominfo_textarea_btn" style="bottom:3px;right:57px;">取消</div>
+                        <div class="liveinfo_roominfo_textarea_btn" style="background:#611987;color:#fff;bottom:3px;right:8px;">确定</div>
+                    </div>
+                </div>
+            </div>
+            <!-- 直播预告 -->
+            <ul class="liveinfo live_video_trailer" style="display:none;">
+                <div id="live_video_trailer_edit">编辑</div>
+                <li>
+                    <img src="__STATIC__image/live_studio_video_icon.png" class="live_studio_video_icon">
+                    <p class="live_trailer_p1">
+                        <input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no" value="12">:<input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no" value="00">
+                        -<input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no" value="13">:<input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no" value="00">
+                    </p>
+                    <select class="live_trailer_p2 live_trailer_p2_no">
+                        <option selected>请选择</option>
+                        <option>录播</option>
+                        <option>直播</option>
+                    </select>
+                    <input class="live_trailer_p3 live_trailer_p3_no" placeholder="请填写内容">
+                </li>
+                <li>
+                    <img src="__STATIC__image/live_studio_video_icon.png" class="live_studio_video_icon">
+                    <p class="live_trailer_p1">
+                        <input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no">:<input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no">
+                        -<input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no">:<input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no">
+                    </p>
+                    <select class="live_trailer_p2 live_trailer_p2_no">
+                        <option selected>请选择</option>
+                        <option>录播</option>
+                        <option>直播</option>
+                    </select>
+                    <input class="live_trailer_p3 live_trailer_p3_no" placeholder="请填写内容">
+                </li>
+                <li>
+                    <img src="__STATIC__image/live_studio_video_icon.png" class="live_studio_video_icon">
+                    <p class="live_trailer_p1">
+                        <input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no">:<input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no">
+                        -<input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no">:<input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no">
+                    </p>
+                    <select class="live_trailer_p2 live_trailer_p2_no">
+                        <option selected>请选择</option>
+                        <option>录播</option>
+                        <option>直播</option>
+                    </select>
+                    <input class="live_trailer_p3 live_trailer_p3_no" placeholder="请填写内容">
+                </li>
+                <li>
+                    <img src="__STATIC__image/live_studio_video_icon.png" class="live_studio_video_icon">
+                    <p class="live_trailer_p1">
+                        <input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no">:<input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no">
+                        -<input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no">:<input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no">
+                    </p>
+                    <select class="live_trailer_p2 live_trailer_p2_no">
+                        <option selected>请选择</option>
+                        <option>录播</option>
+                        <option>直播</option>
+                    </select>
+                    <input class="live_trailer_p3 live_trailer_p3_no" placeholder="请填写内容">
+                </li>
+            </ul>
+        </div>
+        <!-- 访客 -->
+        <div class="live_visitor">
+            <p style="font-size:16px;color:#333333;padding-bottom:10px;">访客</p>
+            <ul class="live_visitor_box">
+                <li>
+                    <img src="__STATIC__image/combinationHead4.png" class="live_visitor_head">
+                    <p class="live_visitor_name">jsdijdijf</p>
+                    <p class="live_visitor_ip">192.168.1.1</p>
+                    <p class="live_visitor_time">12:26</p>
+                </li>
+                <li>
+                    <img src="__STATIC__image/combinationHead4.png" class="live_visitor_head">
+                    <p class="live_visitor_name">jsdijdijf</p>
+                    <p class="live_visitor_ip">192.168.1.1</p>
+                    <p class="live_visitor_time">12:26</p>
+                </li>
+                <li>
+                    <img src="__STATIC__image/combinationHead4.png" class="live_visitor_head">
+                    <p class="live_visitor_name">jsdijdijf</p>
+                    <p class="live_visitor_ip">192.168.1.1</p>
+                    <p class="live_visitor_time">12:26</p>
+                </li>
+                <li>
+                    <img src="__STATIC__image/combinationHead4.png" class="live_visitor_head">
+                    <p class="live_visitor_name">jsdijdijf</p>
+                    <p class="live_visitor_ip">192.168.1.1</p>
+                    <p class="live_visitor_time">12:26</p>
+                </li>
+                <li>
+                    <img src="__STATIC__image/combinationHead4.png" class="live_visitor_head">
+                    <p class="live_visitor_name">jsdijdijf</p>
+                    <p class="live_visitor_ip">192.168.1.1</p>
+                    <p class="live_visitor_time">12:26</p>
+                </li>
+                <li>
+                    <img src="__STATIC__image/combinationHead4.png" class="live_visitor_head">
+                    <p class="live_visitor_name">jsdijdijf</p>
+                    <p class="live_visitor_ip">192.168.1.1</p>
+                    <p class="live_visitor_time">12:26</p>
+                </li>
+                <li>
+                    <img src="__STATIC__image/combinationHead4.png" class="live_visitor_head">
+                    <p class="live_visitor_name">jsdijdijf</p>
+                    <p class="live_visitor_ip">192.168.1.1</p>
+                    <p class="live_visitor_time">12:26</p>
+                </li>
+                <li>
+                    <img src="__STATIC__image/combinationHead4.png" class="live_visitor_head">
+                    <p class="live_visitor_name">jsdijdijf</p>
+                    <p class="live_visitor_ip">192.168.1.1</p>
+                    <p class="live_visitor_time">12:26</p>
+                </li>
+                <li>
+                    <img src="__STATIC__image/combinationHead4.png" class="live_visitor_head">
+                    <p class="live_visitor_name">jsdijdijf</p>
+                    <p class="live_visitor_ip">192.168.1.1</p>
+                    <p class="live_visitor_time">12:26</p>
+                </li>
+                <li>
+                    <img src="__STATIC__image/combinationHead4.png" class="live_visitor_head">
+                    <p class="live_visitor_name">jsdijdijf</p>
+                    <p class="live_visitor_ip">192.168.1.1</p>
+                    <p class="live_visitor_time">12:26</p>
+                </li>
+                <li>
+                    <img src="__STATIC__image/combinationHead4.png" class="live_visitor_head">
+                    <p class="live_visitor_name">jsdijdijf</p>
+                    <p class="live_visitor_ip">192.168.1.1</p>
+                    <p class="live_visitor_time">12:26</p>
+                </li>
+                <li>
+                    <img src="__STATIC__image/combinationHead4.png" class="live_visitor_head">
+                    <p class="live_visitor_name">jsdijdijf</p>
+                    <p class="live_visitor_ip">192.168.1.1</p>
+                    <p class="live_visitor_time">12:26</p>
+                </li>
+                <li>
+                    <img src="__STATIC__image/combinationHead4.png" class="live_visitor_head">
+                    <p class="live_visitor_name">jsdijdijf</p>
+                    <p class="live_visitor_ip">192.168.1.1</p>
+                    <p class="live_visitor_time">12:26</p>
+                </li>
+                <li>
+                    <img src="__STATIC__image/combinationHead4.png" class="live_visitor_head">
+                    <p class="live_visitor_name">jsdijdijf</p>
+                    <p class="live_visitor_ip">192.168.1.1</p>
+                    <p class="live_visitor_time">12:26</p>
+                </li>
+                <li style="cursor:pointer;">
+                    <img src="__STATIC__image/load_more.jpg" class="live_visitor_head">
+                    <p class="live_visitor_name">&nbsp;</p>
+                    <p class="live_visitor_ip">&nbsp;</p>
+                    <p class="live_visitor_time">&nbsp;</p>
+                </li>
+            </ul>
+        </div>
+        <div class="tocreate">
+            <div style="width:1200px;margin:0 auto;">
+                <p style="font-size:17px;line-height:52px;color:#999999;float:left;margin-left:404px;">本工作室由亿思汇提供技术服务</p>
+                <div class="createbtn">免费创建</div>
+            </div>
+        </div>
+        <div class="tocreate" style="display:none;">
+            <div style="width:1200px;margin:0 auto;">
+                <p style="font-size:17px;line-height:52px;color:#999999;float:left;margin-left:404px;">立即展现我的工作室吧</p>
+                <div class="createbtn">立即分享</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="create_live">创建<br>工作室</div>
+<div class="douyu">
+    <div class="douyu_step">
+        <div class="douyustep_close"></div>
+        <p style="font-size:20px;color:#333333;text-align:center;padding:0 0 20px;">如何获取斗鱼直播间flash地址</p>
+        <div style="float:left;">
+            <img src="__STATIC__image/douyu_step_icon.png" style="float:left;">
+            <ul class="douyustep">
+                <a href="https://www.douyu.com/" target="_blank"><li style="margin-top:0;color:#611987;"><span style="border-bottom:1px solid #611987;cursor:pointer;">注册斗鱼账号</span></li></a>
+                <li>认证个人信息</li>
+                <a href="https://www.douyu.com/client?platform=1" target="_blank"><li style="color:#611987;"><span style="border-bottom:1px solid #611987;cursor:pointer;">下载客户端开直播间</span></li></a>
+                <li>获取直播间flash地址</li>
+            </ul>
+            <div class="douyustep_img">
+                <img src="__STATIC__image/douyustep_img1.png" style="margin-top:0;">
+                <img src="__STATIC__image/douyustep_img2.png">
+                <img src="__STATIC__image/douyustep_img3.png">
+                <img src="__STATIC__image/douyustep_img4.png">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 展开联系方式 -->
+<div class="bomb_contact">
+    <div class="contact_information">
+         <div class="contact_close"></div>
+        <div class="contact_info1">
+            <p style="font-size:18px;color:#333333;text-align:center;padding:10px 0;">展现我的联系方式</p>
+            <p style="float:left;font-size:16px;color:#333333;margin-left: 83px;">工作室等级到达：</p>
+            <img src="__STATIC__image/star3.png" style="float:left;margin-left:10px;padding:3px 0;">
+            <img src="__STATIC__image/star3.png" style="float:left;margin-left:10px;padding:3px 0;">
+            <img src="__STATIC__image/star3.png" style="float:left;margin-left:10px;padding:3px 0;">
+            <p style="font-size:16px;color:#333333;text-align:center;padding:10px 0;clear:both;width:90%;margin:0 auto;border-bottom:1px dotted #ccc;">自动免费显示</p>
+            <div style="font-size:18px;color:#611987;text-align:center;margin-top:10px;"><span class="tobuy_button">直接购买</span></div>
+            <img src="__STATIC__image/tobuy_icon1.jpg" class="tobuy_icon">
+        </div>
+        <div class="contact_info2">
+            <ul class="grade_buy_box">
+                <li class="grade_buy_box_li grade_buy_box_li_active" data-price="588">
+                    <p class="grademoney1"><span class="grademoney">588</span>元</p>
+                    <p class="grademoney2">月</p>
+                </li>
+                <li class="grade_buy_box_li" data-price="1280">
+                    <p class="grademoney1"><span class="grademoney">1280</span>元</p>
+                    <p class="grademoney2">3月</p>
+                </li>
+                <li class="grade_buy_box_li" data-price="3880">
+                    <p class="grademoney1"><span class="grademoney">3880</span>元</p>
+                    <p class="grademoney2">年</p>
+                </li>
+            </ul>
+            <p style="text-align:center;font-size:16px;color:#666666;padding:10px 0;">应付金额：<span class="deserve_money">588</span>元</p>
+            <ul class="deserve_money_ma">
+                <li>
+                    <img src="" style="border:1px solid #80ca59;">
+                    <div style="width:100px;margin:4px auto;">
+                        <img src="__STATIC__image/wei_icon.jpg" style="clear:both;width:20px;height:20px;float: left;border:none;">
+                        <p style="font-size:14px;color:#27323f;float:left;line-height:30px;">微信支付</p>
+                    </div>
+                </li>
+                <li>
+                    <img src="__STATIC__image/apay.jpg">
+                    <div class="pay_to_apay">支付宝支付</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- 升级方式 -->
+<div class="bomb_upgrade">
+    <div class="upgrade_information">
+        <div class="upgrade_close"></div>
+        <p class="bomb_head">升级方式</p>
+        <div>
+            <p class="upgrade_p1">自然增长：</p>
+            <p class="upgrade_p2">每月自然增加1星</p>
+        </div>
+        <div>
+            <p class="upgrade_btn" id="upgrade_upload">立即上传</p>
+            <p class="upgrade_p1">创建信号：</p>
+            <p class="upgrade_p2">每上传一个信号增加1星（上限为5星）</p>
+        </div>
+        <div>
+            <p class="upgrade_btn">暂未开放</p>
+            <p class="upgrade_p1">添加服务：</p>
+            <p class="upgrade_p2">每添加一个资管产品增长2星（上限为4星）</p>
+        </div>
+        <div>
+            <p class="upgrade_btn">立即邀请</p>
+            <p class="upgrade_p1">邀请好友：</p>
+            <p class="upgrade_p2">每邀请一个用户注册（MT4认证后）增加1星</p>
+        </div>
+        <div>
+            <p class="upgrade_p1">流量贡献：</p>
+            <p class="upgrade_p2">每在外汇相关论坛/贴吧/媒体发布一篇关于亿思汇平台的正面文章，增加1星（需截图发送至客服确认）</p>
+        </div>
+        <div class="upgrade_known">知道了</div>
+    </div>
+</div>
+<!-- 邀请5个好友注册 -->
+<div class="bomb_invite5" id="bomb_invite5">
+    <div class="invite5_information">
+        <div class="invite5_close"></div>
+        <img src="__STATIC__image/not_login_icon.png" class="alert_tip_img">
+        <p style="font-size:18px;text-align:center;padding:10px 0;">邀请至少5个好友注册</p>
+        <div class="invite5_togo" id="invite5_togo">立即邀请</div>
+    </div>
+</div>
+<!-- 创建至少一个”共享信号” -->
+<div class="bomb_invite5" id="bomb_create1">
+    <div class="invite5_information">
+        <div class="invite5_close"></div>
+        <img src="__STATIC__image/not_login_icon.png" class="alert_tip_img">
+        <p style="font-size:18px;text-align:center;padding:10px 0;">创建至少一个”共享信号”</p>
+        <div class="invite5_togo" id="create1_togo">立即创建</div>
+    </div>
+</div>
+<!-- 上传方式 -->
+<div class="bomb_upload">
+    <div class="uploadmode">
+        <div class="uploadmode_close"></div>
+        <p class="bomb_head">请选择上传信号的方式</p>
+        <ul class="uploadmode_ul">
+            <li id="upload_mysignal">
+                <img src="__STATIC__image/uploadmode_icon1.jpg">
+                <p>上传自有信号</p>
+            </li>
+            <li style="float:right;border:1px solid #dc551b;" id="upload_platformsignal">
+                <img src="__STATIC__image/uploadmode_icon2.jpg">
+                <p style="background:#dc551b;">转载平台信号</p>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- 上传信号-->
+<div class="bomb_upload_all">
+    <div class="upload_all">
+        <div class="uploadall_close"></div>
+        <span class="uploadallrules">规则</span>
+        <p class="bomb_head">上传信号</p>
+        <ul class="uploadall_head">
+            <li class="uploadall_head_li uploadall_head_li_active" id="share_head">
+                <p class="uploadall_head_p">共 享</p>
+                <img src="__STATIC__image/uploadall_head_icon2.png" class="uploadall_head_icon" title="可在亿思汇首页展示并提供给任意用户跟随（首页信号固定获得收益）">
+            </li>
+            <li class="uploadall_head_li" id="pay_head">
+                <p class="uploadall_head_p">付 费</p>
+                <img src="__STATIC__image/uploadall_head_icon1.png" class="uploadall_head_icon" title="设置一个跟随价格按月收费（信号不显示在亿思汇首页）">
+            </li>
+            <li class="uploadall_head_li" id="broker_head">
+                <p class="uploadall_head_p" style="margin-left:4px;">指定经纪商</p>
+                <img src="__STATIC__image/uploadall_head_icon1.png" class="uploadall_head_icon" style="margin-right:2px;" title="与在工作室在同一个经纪商可完全免费使用（信号不显示在亿思汇首页）">
+            </li>
+            <li class="uploadall_head_li" id="brokerlink_head">
+                <p class="uploadall_head_p" style="line-height:17px;margin-left:10px;">指定<br>链接开户</p>
+                <img src="__STATIC__image/uploadall_head_icon1.png" class="uploadall_head_icon" style="margin-right:4px;" title="使用工作室开户链接开户可免费使用（通过工作室链接开户，首次启动跟单时会通知工作室核实mt4账户归属，核实通过可免费跟随）">
+            </li>
+        </ul>
+        <ul class="uploadall_input">
+            <li>
+                <img src="__STATIC__image/uploadall_icon1.jpg">
+                <input type="text" class="uploadallinput" placeholder="请选择经纪商" style="background:url(__STATIC__image/select_icon_03.png) no-repeat 290px -1px">
+            </li>
+            <li>
+                <img src="__STATIC__image/uploadall_icon2.jpg">
+                <input type="text" class="uploadallinput" placeholder="请选择服务器" style="background:url(__STATIC__image/select_icon_03.png) no-repeat 290px -1px">
+            </li>
+            <li>
+                <img src="__STATIC__image/uploadall_icon3.jpg">
+                <input type="text" class="uploadallinput" placeholder="请输入信号名称">
+            </li>
+            <li>
+                <img src="__STATIC__image/uploadall_icon4.jpg">
+                <input type="text" class="uploadallinput" placeholder="请输入MT4账号">
+            </li>
+            <li>
+                <img src="__STATIC__image/uploadall_icon5.jpg">
+                <input type="text" class="uploadallinput" placeholder="请输入MT4观摩密码">
+            </li>
+            <div class="uploadallli_add" id="uploadallli_add_ff">
+                <p style="float:right;line-height:40px;">元/月</p>
+                <li style="width:330px;">
+                    <img src="__STATIC__image/uploadall_icon6.jpg">
+                    <input type="number" class="uploadallinput" placeholder="请输入跟单价格" style="width:275px;">
+                </li>
+            </div>
+            <li class="uploadallli_add" id="uploadallli_add_jjs">
+                <img src="__STATIC__image/uploadall_icon1.jpg">
+                <input type="text" class="uploadallinput" placeholder="请输入指定的经纪商">
+            </li>
+            <li class="uploadallli_add" id="uploadallli_add_lj">
+                <img src="__STATIC__image/uploadall_icon7.jpg">
+                <input type="text" class="uploadallinput" placeholder="请输入指定的开户链接">
+            </li>
+        </ul>
+        <input type="button" value="提  交" class="uploadall_submit" id="uploadall_submit">
+    </div>
+</div>
+<!-- 转载信号 -->
+<div class="bomb_reprint">
+    <div class="reprint">
+        <div class="reprint_close"></div>
+        <p class="bomb_head">转载信号</p>
+        <ul class="reprint_input">
+            <li>
+                <img src="__STATIC__image/uploadall_icon1.jpg">
+                <input type="button" class="reprintinput" id="choose_reprint_signal" show="false" value="请选择转载的信号" style="text-align:left;cursor:pointer;color: #696969;background:url(__STATIC__image/select_icon_03.png) no-repeat 290px -1px">
+                <div class="reprint_signal">
+                    <div>
+                        <img src="__STATIC__image/index4info_img.png">
+                        <p>boi hdifjiojfopfkpof</p>
+                    </div>
+                    <div>
+                        <img src="__STATIC__image/index4info_img.png">
+                        <p>boi hdifjiojfopfkpof</p>
+                    </div>
+                    <div>
+                        <img src="__STATIC__image/index4info_img.png">
+                        <p>boi hdifjiojfopfkpof</p>
+                    </div>
+                    <div>
+                        <img src="__STATIC__image/index4info_img.png">
+                        <p>boi hdifjiojfopfkpof</p>
+                    </div>
+                    <div>
+                        <img src="__STATIC__image/index4info_img.png">
+                        <p>boi hdifjiojfopfkpof</p>
+                    </div>
+                    <div>
+                        <img src="__STATIC__image/index4info_img.png">
+                        <p>boi hdifjiojfopfkpof</p>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <img src="__STATIC__image/uploadall_icon4.jpg">
+                <input type="text" class="reprintinput" placeholder="请设置信号名称">
+            </li>
+            <li>
+                <img src="__STATIC__image/uploadall_icon8.jpg">
+                <input type="button" class="reprintinput" value="请选择信号类型" id="reprint_selecttype" show="false" style="cursor:pointer;color:#676565;text-align:left;background:url(__STATIC__image/select_icon_03.png) no-repeat 290px -1px">
+                <div class="selectdetail">
+                    <div value="1">共 享</div>
+                    <div value="2">付 费</div>
+                    <div value="3">指定经纪商</div>
+                    <div value="4">指定链接开户</div>
+                </div>
+            </li>
+            <div class="reprint_add" id="reprint_add_ff">
+                <p style="float:right;line-height:40px;">元/月</p>
+                <li style="width:330px;">
+                    <img src="__STATIC__image/uploadall_icon6.jpg">
+                    <input type="number" class="uploadallinput" placeholder="请输入跟单价格" style="width:275px;">
+                </li>
+            </div>
+            <li class="reprint_add" id="reprint_add_jjs">
+                <img src="__STATIC__image/uploadall_icon1.jpg">
+                <input type="text" class="uploadallinput" placeholder="请输入指定的经纪商">
+            </li>
+            <li class="reprint_add" id="reprint_add_lj">
+                <img src="__STATIC__image/uploadall_icon7.jpg">
+                <input type="text" class="uploadallinput" placeholder="请输入指定的开户链接">
+            </li>
+        </ul>
+        <input type="button" value="提  交" class="uploadall_submit" id="reprint_submit">
+    </div>
+</div>
+<!-- 付费转载 -->
+<div class="bomb_payreprint">
+    <div class="payreprint">
+        <div class="payreprint_close"></div>
+        <p class="bomb_head">付费转载</p>
+        <div class="payreprint_contact_info2" style="display:block;">
+            <ul class="payreprint_grade_buy_box">
+                <li class="payreprint_grade_buy_box_li payreprint_grade_buy_box_li_active" data-price="588">
+                    <p class="payreprint_grademoney1"><span class="payreprint_grademoney">500</span>元</p>
+                    <p class="payreprint_grademoney2">月</p>
+                </li>
+                <li class="payreprint_grade_buy_box_li" data-price="1280">
+                    <p class="payreprint_grademoney1"><span class="payreprint_grademoney">1000</span>元</p>
+                    <p class="payreprint_grademoney2">3月</p>
+                </li>
+                <li class="payreprint_grade_buy_box_li" data-price="3880">
+                    <p class="payreprint_grademoney1"><span class="payreprint_grademoney">1800</span>元</p>
+                    <p class="payreprint_grademoney2">年</p>
+                </li>
+            </ul>
+            <p style="text-align:center;font-size:16px;color:#666666;padding:10px 0;">应付金额：<span class="payreprint_deserve_money">500</span>元</p>
+            <ul class="payreprint_deserve_money_ma">
+                <li>
+                    <img src="" style="border:1px solid #80ca59;">
+                    <div style="width:100px;margin:4px auto;">
+                        <img src="__STATIC__image/wei_icon.jpg" style="clear:both;width:20px;height:20px;float: left;border:none;">
+                        <p style="font-size:14px;color:#27323f;float:left;line-height:30px;">微信支付</p>
+                    </div>
+                </li>
+                <li>
+                    <img src="__STATIC__image/apay.jpg">
+                    <div class="payreprint_pay_to_apay">支付宝支付</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        setChart();
+    });
+    $("#jyxh").click(function(){
+        $(".live_about_head1").removeClass("live_about_head1_active");
+        $(this).addClass("live_about_head1_active");
+        $(".liveabout").hide();
+        $(".live_about_signal_box").show();
+    });
+     $("#zgfw").click(function(){
+        $(".live_about_head1").removeClass("live_about_head1_active");
+        $(this).addClass("live_about_head1_active");
+        $(".liveabout").hide();
+        $(".live_about_service").show();
+    });
+    $("#gzs").click(function(){
+        $(".live_info_head_li").removeClass("live_info_head_active");
+        $(this).addClass("live_info_head_active");
+        $(".liveinfo").hide();
+        $(".live_info_studio").show();
+    });
+     $("#gzsjs").click(function(){
+        $(".live_info_head_li").removeClass("live_info_head_active");
+        $(this).addClass("live_info_head_active");
+        $(".liveinfo").hide();
+        $(".live_info_introduce").show();
+    });
+     $("#zbyg").click(function(){
+        $(".live_info_head_li").removeClass("live_info_head_active");
+        $(this).addClass("live_info_head_active");
+        $(".liveinfo").hide();
+        $(".live_video_trailer").show();
+    });
+    $(".how_toget_code").click(function(){
+         $(".douyu").fadeIn();
+    });
+    $(".douyustep_close").click(function(){
+        $(".douyu").fadeOut();
+    });
+    //游客
+    $("#pic_list_3").cxScroll({direction:"bottom",speed:700,time:1500,plus:false,minus:false});
+    //工作室介绍
+    $(".liveinfo_myroominfo_edit").click(function(){
+        $(".liveinfo_myroominfo").hide();
+        $(".liveinfo_roominfo_textarea_box").show();
+    });
+    // 展示联系方式
+    $(".show_telephone").click(function(){
+        $(".bomb_contact").fadeIn();
+    });
+    $(".tobuy_button").click(function(){
+        $(".contact_info2").fadeIn();
+        $(".tobuy_icon").attr("src","__STATIC__image/tobuy_icon2.jpg");
+    });
+    $(".contact_close").click(function(){
+        $(".bomb_contact").hide();
+        $(".contact_info1").show();
+        $(".contact_info2").hide();
+        $(".tobuy_icon").attr("src","__STATIC__image/tobuy_icon1.jpg");
+    });
+    $(".grade_buy_box_li").click(function(){
+        $(".grade_buy_box_li").removeClass("grade_buy_box_li_active");
+        $(this).addClass("grade_buy_box_li_active");
+        $(".deserve_money").html($(this).data("price"));
+    });
+    //升级方式
+    $(".live_room_level").click(function(){
+        $(".bomb_upgrade").fadeIn();
+    });
+    $(".upgrade_close,.upgrade_known").click(function(){
+        $(".bomb_upgrade").hide();
+    });
+    //立即邀请,创建至少一个”共享信号”
+    $(".invite5_close").click(function(){
+        $(".bomb_invite5").hide();
+    });
+    // 提交
+    $(".live_link_submit").click(function(){
+        $(".live_room_flash").attr("src",$(".live_room_link").val());
+        $(".live_room_intro").hide();
+        $(".live_room_detail").show();
+    });
+    //上传方式
+    $(".uploadmode_close").click(function(){
+        $(".bomb_upload").hide();
+    });
+    //上传信号
+    $(".load_signal").click(function(){
+        $(".bomb_upload").fadeIn();
+    });
+    $("#upgrade_upload").click(function(){
+        $(".bomb_upgrade").hide();
+        $(".bomb_upload").fadeIn();
+    });
+    $("#upload_mysignal").click(function(){
+        $(".bomb_upload").hide();
+        $(".bomb_upload_all").fadeIn();
+    });
+    $("#upload_platformsignal").click(function(){
+        $(".bomb_upload").hide();
+        $(".bomb_reprint").fadeIn();
+    });
+    $("#share_head").click(function(){
+        $(".uploadall_head_li").removeClass("uploadall_head_li_active").find(".uploadall_head_icon").attr("src","__STATIC__image/uploadall_head_icon1.png");
+        $(this).addClass("uploadall_head_li_active").find(".uploadall_head_icon").attr("src","__STATIC__image/uploadall_head_icon2.png");
+        $(".uploadallli_add").hide();
+    });
+    $("#pay_head").click(function(){
+        $(".uploadall_head_li").removeClass("uploadall_head_li_active").find(".uploadall_head_icon").attr("src","__STATIC__image/uploadall_head_icon1.png");
+        $(this).addClass("uploadall_head_li_active").find(".uploadall_head_icon").attr("src","__STATIC__image/uploadall_head_icon2.png");
+        $(".uploadallli_add").hide();
+        $("#uploadallli_add_ff").show();
+    });
+    $("#broker_head").click(function(){
+        $(".uploadall_head_li").removeClass("uploadall_head_li_active").find(".uploadall_head_icon").attr("src","__STATIC__image/uploadall_head_icon1.png");
+        $(this).addClass("uploadall_head_li_active").find(".uploadall_head_icon").attr("src","__STATIC__image/uploadall_head_icon2.png");
+        $(".uploadallli_add").hide();
+         $("#uploadallli_add_jjs").show();
+    });
+    $("#brokerlink_head").click(function(){
+        $(".uploadall_head_li").removeClass("uploadall_head_li_active").find(".uploadall_head_icon").attr("src","__STATIC__image/uploadall_head_icon1.png");
+        $(this).addClass("uploadall_head_li_active").find(".uploadall_head_icon").attr("src","__STATIC__image/uploadall_head_icon2.png");
+        $(".uploadallli_add").hide();
+         $("#uploadallli_add_lj").show();
+    });
+    $(".uploadall_close").click(function(){
+        $(".bomb_upload_all").hide();
+    });
+    //转载信号
+    $("#reprint_selecttype").click(function(event){
+        event.stopPropagation();
+        if($(this).attr("show")=="false"){
+            $(".selectdetail").fadeIn();
+            $(this).attr("show","true")
+        }else{
+            $(".selectdetail").hide();
+            $(this).attr("show","false")
+        }
+    });
+    $(".selectdetail div").click(function(){
+        $("#reprint_selecttype").val($(this).text());
+        if($(this).attr("value")=="1"){
+            $(".reprint_add").hide();
+        }else if($(this).attr("value")=="2"){
+            $(".reprint_add").hide();
+            $("#reprint_add_ff").show();
+        }else if($(this).attr("value")=="3"){
+            $(".reprint_add").hide();
+            $("#reprint_add_jjs").show();
+        }else if($(this).attr("value")=="4"){
+            $(".reprint_add").hide();
+            $("#reprint_add_lj").show();
+        }
+    });
+    $("body").click(function(){
+        $(".selectdetail").hide();
+        $(".reprint_signal").hide();
+        $("#reprint_selecttype").attr("show","false");
+        $("#choose_reprint_signal").attr("show","false")
+    });
+    $(".reprint_signal>div").click(function(){
+        $(".reprint_signal").hide();
+        $("#choose_reprint_signal").val($(this).find("p").html());
+        $("#choose_reprint_signal").attr("show","false")
+    });
+    $("#choose_reprint_signal").click(function(event){
+         event.stopPropagation();
+        if($(this).attr("show")=="false"){
+             $(".reprint_signal").fadeIn();
+             $(this).attr("show","true")
+        }else{
+             $(".reprint_signal").hide();
+            $(this).attr("show","false")
+        }
+    });
+    $(".reprint_close").click(function(){
+        $(".bomb_reprint").hide();
+    });
+    $("#reprint_submit").click(function(){
+        $(".bomb_reprint").hide();
+        $(".bomb_payreprint").fadeIn();
+    });
+    //付费转载
+    $(".payreprint_grade_buy_box_li").click(function(){
+        $(".payreprint_grade_buy_box_li").removeClass("payreprint_grade_buy_box_li_active");
+        $(this).addClass("payreprint_grade_buy_box_li_active");
+        $(".payreprint_deserve_money").html($(this).data("price"));
+    });
+    $(".payreprint_close").click(function(){
+        $(".bomb_payreprint").hide();
+    });
+    // 图表
+    function setChart(){
+        var chartbox=document.getElementsByClassName("live_about_chart");
+        for(var n=0;n<chartbox.length;n++){
+            chart(chartbox[n].getAttribute("data-chart"),chartbox[n]);
+        }
+    }
+    function chart(chart,obj){
+        var d=chart.split(",");
+        var xy=[];
+        for(var i=0;i<d.length;i++){
+            xy[i]=[i,d[i]];
+        }
+        var dom = obj;
+        var myChart = echarts.init(dom);
+        var option = {
+            tooltip: {
+                trigger: 'axis',
+                triggerOn: 'mousemove',
+                formatter: function (params) {
+                },
+                axisPointer:{
+                    type:'line',
+                    lineStyle:{
+                        width:0
+                    }
+                },
+                backgroundColor: '#fff',
+                borderColor: '#611987',
+                borderWidth: '1',
+                textStyle: {
+                    fontSize: 12,
+                    color: '#000'
+                }
+            },
+            grid: {
+                show:false,
+                left:0,
+                right:-9,
+                top:2,
+                bottom:2,
+                borderColor:'#f5f2f2'
+            },
+            xAxis: {
+                type: "category",
+                //show:false,
+                //scale: true,
+                axisLine: {
+                    show:false
+                },
+                axisTick:{
+                    show:false
+                },
+                data: xy.map(function (item) {
+                    return item[0]
+                }),
+                splitLine: {
+                    show: false,
+                    interval:1,
+                    lineStyle: {
+                        color: "#f5f2f2",
+                        type: "solid"
+                    }
+                }
+            },
+            yAxis: [
+                {
+                    type: 'value',
+                    //show:false,
+                    axisLabel: {
+                        formatter: '{value} '
+                    },
+                    axisLine: {
+                        show:false
+                    },
+                    splitLine: {
+                        show: false,
+                        interval:1,
+                        lineStyle: {
+                            color: "#f5f2f2",
+                            type: "solid"
+                        }
+                    }
+                }
+            ],
+            series: [
+                {
+                    animation: true,
+                    animationDuration: 300,
+                    name: '交易',
+                    type: 'line',
+                    smooth: true,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 2
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#611987'
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(255,144,0,0.3)'
+                            },
+                                {
+                                    offset: 1,
+                                    color: 'rgba(255, 255, 255,0.3)'
+                                }
+                            ])
+                        }
+                    },
+                    data: xy.map(function (item) {
+                        return item;
+                    })
+                }
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+
+        }
+    }
+</script>
+{/block}

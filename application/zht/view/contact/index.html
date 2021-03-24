@@ -1,0 +1,121 @@
+{extend name="admin@base/main"/}
+{block name="body"}
+<div class="col-sm-12 widget-container-span">
+	<div class="widget-box transparent">
+		<div class="no-border">
+			<ul class="nav nav-tabs">
+                <li class="action active mynavTab"><a href="javascript:;">留言列表</a></li>
+			</ul>
+		</div>
+		<div class="widget-body">
+			<div class="widget-main padding-12 no-padding-left no-padding-right">
+				<div class="tab-content padding-4">
+					<div class="row">
+						<div class="col-xs-12 no-padding-right">
+							<form id="search" style="margin-bottom:10px" method="post" action="{:url('index')}">
+							   <input type="text" class="inp_date inp_w90" name="keyword" id="uid" value="{$keyword}" placeholder="名称或手机号">
+								<select name="status">
+									<option value="">状态</option>
+									<option value="0">未联系</option>
+									<option value="1">已联系</option>
+								</select>
+							   <button style="padding: 0px 12px; margin-top:-3px" type="button" class="btn btn-info mybtn2 dosubmit"
+							   data="{:url('index')}"> <i class="icon-ok bigger-110"></i> 搜索</button>
+							</form>
+							<div class="table-responsive">
+								<table id="sample-table-1"
+									class="table table-striped table-bordered table-hover">
+									<thead>
+										<tr>
+											<th class="center">ID</th>
+											<th class="center">名称</th>
+											<th class="center">手机号</th>
+											<th class="center">邮箱</th>
+											<th class="center">内容</th>
+											<th class="center">最后操作员</th>
+											<th class="center">留言时间</th>
+											<th class="center">处理时间</th>
+											<th class="center">状态</th>
+											<th class="center">操作</th>
+										</tr>
+									</thead>
+									<tbody>
+									{volist name='data' id='content'}
+										<tr>
+											<td class="center">{$content.id}</td>
+											<td class="center">{$content.name}</td>
+											<td class="center">{$content.mobile}</td>
+											<td class="center">{$content.email}</td>
+											<td>{$content.content}</td>
+											<td class="center">{$content.operator}</td>
+											<td class="center col-sm-2">{$content.add_time|date='Y-m-d H:i:s', ###}</td>
+											<td class="center col-sm-2">{$content.modify_time|date='Y-m-d H:i:s', ###}</td>
+											<td style="text-align: center;" id="{$content.id}">
+												<select class="sh-status">
+													<option value="1" <?php if($content['status']==1) echo 'selected';?>>已联系</option>
+													<option value="0" <?php if($content['status']==0) echo 'selected';?>>未联系</option>
+												</select>
+											</td>
+											<td id="{$content.id}" class="center">
+												<button class="btn btn-danger btn-del" style="padding: 0px 12px; margin-top:-3px" data-del="1">删除</button>
+											</td>
+										</tr>
+									{/volist}
+									</tbody>
+								</table>
+								<div>
+
+								<div class="pagination" style="margin:0px;float: right;">
+									<td class="pagination" colspan="9" align="center" style="border: none;">{$data->render()}</td>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    $("td").on("click",".btn-del",function(){
+        var id = $(this).parent().attr('id'); //定义id值为点击的此td的id值；
+        var del = $(this).data('del') || 0;
+
+        if (del == 1) {
+            if (confirm("此操作不可恢复，确定删除吗？")) {
+                $.ajax({
+                    type: "post",
+                    dataType: "text",
+                    url: "{:url('delete')}",
+                    data: {'id': id},
+                    success: function (data) {
+                        window.location.reload();
+                    }
+                })
+            }
+        }
+    });
+
+	$('.sh-status').change(function(){
+		var id = $(this).parent().attr('id'); //定义id值为点击的此td的id值；
+		var status = $(this).val();
+		if (status == 0){
+			return false;
+		}
+		$.ajax({
+			type: "post",
+			dataType: "text",
+			url: "{:url('check')}",
+			data: {'id': id, 'status': status},
+			success: function (data) {
+				window.location.reload();
+			}
+		})
+	});
+
+    $('.dosubmit').click(function(){
+        $('#search').submit();
+    });
+</script>
+{/block}

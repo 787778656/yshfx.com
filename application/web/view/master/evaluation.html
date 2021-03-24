@@ -1,0 +1,328 @@
+{extend name="web@base/main"/}
+{block name="body"}
+    <link href="__STATIC__css/order.css" rel="stylesheet">
+    <script src="__STATIC__js/echarts.min.js" type="text/javascript"></script>
+    <script src="__STATIC__js/simulate.js" type="text/javascript"></script>
+    <link href="__STATIC__css/page.css" rel="stylesheet">
+    <style type="text/css">
+        body{background: #f3f3f3;}
+        .o_main{margin: 48px auto 0 auto;}
+        .vip_head .header_inner{width:1300px;}
+        .vip_footer{min-width:1300px!important;}
+        .transition_blank{width:100%;height:500px;position: absolute;top:0;left:0;background:url(__STATIC__image/transition_blank.jpg) no-repeat center;background-size: contain;}
+    .detail_login{cursor:pointer;width:169px;height:66px;text-align:center;line-height: 57px;background:url(__STATIC__image/detail_login.png) no-repeat center;font-size:18px;color:#333333;position: absolute;top:50%;left:50%;margin-top:-33px;margin-left:-85px;}
+    </style>
+<div class="o_main">
+    <div class="o_main_left">
+        <div style="position:relative;width:155px;height:155px;margin:36px auto 20px;">
+            <img src="__STATIC__image/modelimg.jpg" class="or_person__img">
+        </div>
+        <p class="or_person_name" style="padding:4px 0 15px;">{$tName}</p>
+        <a href="{:url('master/index')}"><button class="or_btn">返 回</button></a>
+ <ul class="or_per_info">
+            <li>
+                <span class="or_per_l" title="利润÷初始入金×100%  (当检测到交易者出入金时，则记录当前利润率并重新统计取合计值)">利润率:</span>
+                <span class="or_per_r">
+                <?php
+                $profit = $arrTrade['gross_profit']+$arrTrade['gross_loss']+$arrTrade['commission']+$arrTrade['swap'];
+                echo $accountInfo['money']>=0?sprintf('%s%s', number_format($profit/$accountInfo['money'],4)*100, '%'):'0%';
+                ?>
+                </span>
+            </li>
+            <li>
+                <span class="or_per_l" title="交易者首次入金及出入金的记录">初始入金:</span>
+                <span class="or_per_r">{$accountInfo.money} USD</span>
+            </li>
+            <li class="profit" >
+                <span class="or_per_l" style="border-bottom: 1px dotted #808081;">利润:</span>
+                <span class="or_per_r" style="border-bottom: 1px dotted #808081;">{$profit} USD</span>
+                <div class="profitContent">
+                    <img src="__STATIC__image/profittip.png" class="profittip">
+                    <ul class="profitBox">
+                        <li>
+                            <span>交易获利：</span> 
+                            <span>{$arrTrade['gross_profit']+$arrTrade['gross_loss']} USD</span>
+                        </li>
+                        <li>
+                            <span>手 续 费：</span>
+                            <span>{$arrTrade['commission']} USD</span>
+                        </li>
+                        <li>
+                            <span>库 存 费：</span>
+                            <span>{$arrTrade['swap']} USD</span>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <span class="or_per_l" title="Drawdown=Max（Di-Dj）/Di (D为某一订单对应的净值，i为某一订单，j为i后的某一订单，Di为第i订单的净值，Dj则是Di后面某一订单的净值，该值最大程度的反应了利润回吐率)">最大回撤:</span>
+                <span class="or_per_r">
+                <?php echo number_format($accountInfo['trade_drawdown']*100/$aNum, 2); ?>%
+                </span>
+            </li>
+            <li>
+                <span class="or_per_l">周:</span>
+                <span class="or_per_r">{$accountInfo.trade_week}</span>
+            </li>
+            <li>
+                <span class="or_per_l">最近交易:</span>
+                <span class="or_per_r"><?php 
+                if ($arrTrade['max_time']){
+                echo date('y/m/d H:i', $arrTrade['max_time']);}else{echo '--';}?></span>
+            </li>
+            <li>
+                <span class="or_per_l">每周交易:</span>
+                <span class="or_per_r"><?php echo $accountInfo['trade_week']?floor(@$arrTrade['trade_total']/$accountInfo['trade_week'])."次":'--';?></span>
+            </li>
+            <li>
+                <span class="or_per_l">平均持有时间:</span>
+                <span class="or_per_r"><?php echo number_format($arrTrade['holding_time']/(3600*$aNum),2)?> 小时</span>
+            </li>
+        </ul>
+        <div class="or_tips" style="padding-top: 40px;">
+            <img src="__STATIC__image/or_tip_icon.jpg" class="or_tip_icon">
+            <p class="or_tip_span">组合测试无法反应真实情况。</p>
+        </div>
+        <div class="or_tips">
+            <img src="__STATIC__image/or_tip_icon.jpg" class="or_tip_icon">
+            <p class="or_tip_span">显示结果不代表未来走势。</p>
+        </div>
+        <div class="or_tips">
+            <img src="__STATIC__image/or_tip_icon.jpg" class="or_tip_icon">
+            <p class="or_tip_span">数据统计需要更专业的分析。</p>
+        </div>
+    </div>
+    <div class="o_main_right">
+        <div class="or_head">
+            <ul class="orhead">
+                <li class="orh_normal orh_active" id="jy">
+                    <img src="__STATIC__image/jiaoyi1.png" class="or_bg1">
+                    <img src="__STATIC__image/jiaoyi2.png" class="or_bg2">
+                    <p class="orh_normal_p orh_active_p">交易</p>
+                </li>
+                <li class="orh_normal" id="ls">
+                    <img src="__STATIC__image/lishi1.png" class="or_bg1">
+                    <img src="__STATIC__image/lishi2.png" class="or_bg2">
+                    <p class="orh_normal_p">历史</p>
+                </li>
+            </ul>
+        </div>
+        <!-- 交易-->
+        <div class="or_body transaction">
+            <div>
+                <div class="chart_tips">
+                    <div style="width:10px;height:10px;background: #ff8d31;float: left;margin-top:2px;"></div>
+                    <p style="font-size:12px;float: left;line-height: 14px;margin-left:6px;">利润</p>
+                </div>
+                <div class="chartload">
+                        <img src="__STATIC__image/chartloading.gif" class="chartloading">
+                </div>
+                <div class="or_chart" id="chart"></div>
+            </div>
+            <!-- 月份-->
+            <div class="chart_table">
+                <ul class="table_head">
+                    <li></li>
+                    <li>1月</li>
+                    <li>2月</li>
+                    <li>3月</li>
+                    <li>4月</li>
+                    <li>5月</li>
+                    <li>6月</li>
+                    <li>7月</li>
+                    <li>8月</li>
+                    <li>9月</li>
+                    <li>10月</li>
+                    <li>11月</li>
+                    <li>12月</li>
+                    <li>YTD</li>
+                </ul>
+                <?php
+
+                if (!empty($mdata)){
+                    $html = '';$total = 0;
+                    $total_money = $accountInfo['money'];
+                    foreach ($mdata as $year => $ydata) {
+                        $html .= sprintf('<ul class="table_body"><li>%s</li>', $year);    
+                        $mtotal = 0;    
+                        for ($i=1; $i<13; $i++) {
+                            if(isset($ydata[$i])){                
+                                $avg_profit = number_format((@array_sum($ydata[$i])/$total_money)*100,2);
+                                $total += $avg_profit;
+                                $mtotal += $avg_profit;
+                                if ($avg_profit >= 0){
+                                    $html .= sprintf('<li>%s<span class="pers">%s</span></li>', $avg_profit, '%');
+                                }else{
+                                    $html .= sprintf('<li style="color:#e60000" >%s<span class="pers">%s</span></li>', $avg_profit, '%');
+                                }
+                                
+
+                                $total_money += array_sum($ydata[$i]);
+                            }else{
+                                $html .= '<li>--</li>';
+                            }
+                        }
+                        $html .= sprintf('<li>%s<span class="pers">%s</span></li></ul>', $mtotal, '%');
+                    }
+
+                    $profit = $arrTrade['gross_profit']+$arrTrade['gross_loss']+$arrTrade['commission']+$arrTrade['swap'];
+                    $total = $accountInfo['money']>0? number_format($profit/$accountInfo['money'],4)*100 : '0%';
+
+
+                    $html .= sprintf('</ul><ul class="table_total"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li>历史总计</li><li>%s<span class="pers">%s</span></li></ul>', $total, '%');
+                    echo $html;
+                }
+                ?>
+            </div>
+            <!-- 统计数据 - 总体-->
+            <div class="or_head2" style="margin-top:38px;margin-bottom:10px;">
+                <ul class="orhead2">
+                    <li class="orh_active2" style="left:0;">
+                        <img src="__STATIC__image/zongti.png">
+                        <p class="orh_active_p2">统计数据</p>
+                    </li>
+                </ul>
+            </div>
+            <div style="position:relative;">
+                <?php if($uid === 0) {?>
+                <div class="transition_blank">
+                    <div class="detail_login">登录查看</div>
+                </div>
+                <?php } else {?>
+                <ul class="alldatazt">
+                    <li>
+                        <p class="allzt_title" title="历史交易订单数量 (不含当前持仓数量)">总交易</p>
+                        <p class="allzt_info">{$arrTrade.trade_total}</p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="历史交易盈利交易÷总交易 (该值是交易胜率的直接体现)">盈利交易</p>
+                        <p class="allzt_info">
+                        <?php 
+                        $result = 0;
+                        if (isset($arrTrade['trade_total'])){
+                            $result = number_format(($arrTrade['trade_profit']/$arrTrade['trade_total']), 4);
+                            $result = strval($result*100).'%';
+                        }
+                        echo sprintf('%s(%s)', $arrTrade['trade_profit'], $result);
+                        ?>                        
+                        </p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="历史交易亏损交易÷总交易 (该值是交易失误率的直接体现)">亏损交易</p>
+                        <p class="allzt_info">
+                        <?php 
+                        $result = 0;
+                        if (isset($arrTrade['trade_total'])){
+                            $result = number_format(($arrTrade['trade_loss']/$arrTrade['trade_total']), 4);
+                            $result = strval($result*100).'%';
+                        }
+                        echo sprintf('%s(%s)', $arrTrade['trade_loss'], $result);
+                        ?> 
+                        </p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="毛利÷毛利亏损 (该值意味着交易者盈利能力与覆盖亏损的能力)">利润因子</p>
+                        <p class="allzt_info"><?php echo number_format($arrTrade['profit_factor']/$aNum, 2)?></p>
+                    </li>
+                </ul>
+                <ul class="alldatazt">
+                    <li>
+                        <p class="allzt_title" title="历史交易获利最大的订单金额 ">最好交易</p>
+                        <p class="allzt_info allzt_t_blue">{$arrTrade.trade_best}</p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="历史交易亏损最大的订单金额">最差交易</p>
+                        <p class="allzt_info allzt_t_red">{$arrTrade.trade_worst}</p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="总利润÷总交易 (该值是每笔交易净获利平均值)">预期回报</p>
+                        <p class="allzt_info allzt_t_blue">
+                        <?php 
+                        $result = ($arrTrade['trade_total']==0)?'--':number_format($profit/$arrTrade['trade_total'],2);
+                        echo $result;
+                        ?>                        
+                        </p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="在盈利能力和风险之间最重要的比率之一。Sharp Ratio显示了算术平均值超过从股票波动的标准偏差的次数。例如，Sharp=0.6意味着存在每获得6美元利润就有损失10美元的平均风险。值越大，交易风险越低。然而，在个别交易中大的利润值可以产生标准偏差值越大，因此导致Sharp Ratio不合理的减少。">夏普比率</p>
+                        <p class="allzt_info"><?php echo number_format($arrTrade['sharpe_ratio']/$aNum, 2);?></p>
+                    </li>
+                </ul>
+                <ul class="alldatazt">
+                    <li>
+                        <p class="allzt_title" title="连续盈利交易相加金额最大值">最大连续赢利</p>
+                        <p class="allzt_info allzt_t_blue">{$arrTrade['sprofit_max']} USD ({$arrTrade.sprofit_max_num})</p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="连续盈利交易相加订单数量最大值">最大连续盈利</p>
+                        <p class="allzt_info allzt_t_blue">{$arrTrade.sprofit_more_num} ({$arrTrade.sprofit_more} USD)</p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="连续亏损交易相加金额最大值">最大连续亏损</p>
+                        <p class="allzt_info allzt_t_red">{$arrTrade.sloss_max} USD ({$arrTrade.sloss_max_num})</p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="连续亏损交易相加订单数量最大值">最大连续失误</p>
+                        <p class="allzt_info allzt_t_red">{$arrTrade.sloss_more_num} ({$arrTrade.sloss_more} USD)</p>
+                    </li>
+                </ul>
+                <ul class="alldatazt">
+                    <li>
+                        <p class="allzt_title" title="历史交易盈利的总和">毛利</p>
+                        <p class="allzt_info2"><span class="allzt_t_blue">{$arrTrade.gross_profit}</span>USD</p>
+                        <p class="allzt_info2">(<span class="allzt_t_blue">{$arrTrade.gross_profit_num}</span>点数)</p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="历史交易亏损的总和">毛利亏损</p>
+                        <p class="allzt_info2"><span class="allzt_t_red">{$arrTrade.gross_loss}</span> USD</p>
+                        <p class="allzt_info2">(<span class="allzt_t_red">{$arrTrade.gross_loss_num}</span>点数)</p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="毛利÷盈利交易 (每一笔盈利订单的平均值)">平均利润</p>
+                        <p class="allzt_info2"><span class="allzt_t_blue"><?php echo number_format($arrTrade['avg_profit']/$aNum);?></span> USD</p>
+                        <p class="allzt_info2">(<span class="allzt_t_blue"><?php echo number_format($arrTrade['avg_profit_num']/$aNum, 2);?></span>点数)</p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="毛损÷亏损交易 (每一笔亏损订单的平均值)">平均损失</p>
+                        <p class="allzt_info2"><span class="allzt_t_red"><?php echo number_format($arrTrade['avg_loss']/$aNum, 2);?></span> USD</p>
+                        <p class="allzt_info2">(<span class="allzt_t_red"><?php echo number_format($arrTrade['avg_loss_num']/$aNum, 2);?></span>点数)</p>
+                    </li>
+                </ul>
+                <ul class="alldatazt">
+                    <li>
+                        <p class="allzt_title" title="交易利润÷月份 (该值是每月利润率的平均值)">每月增长</p>
+                        <p class="allzt_info allzt_t_blue">
+                            <?php
+                            if (!empty($accountInfo['trade_month'])){
+                                $avg_mproft = @number_format(($total/$accountInfo['trade_month']*$aNum),2);
+                            }else{
+                                $avg_mproft = 0; 
+                            }
+                            echo $avg_mproft.'%';
+                            ?>
+                        </p>
+                    </li>
+                    <li>
+                        <p class="allzt_title" title="每月增长×12 (该值通过每月平均收益率对全年收益率的预测)">年度预测</p>
+                        <p class="allzt_info allzt_t_blue">{$avg_mproft*12}%</p>
+                    </li>
+                    <li></li>
+                    <li></li>
+                </ul>
+                <?php }?>
+            </div>
+        </div>
+        <!-- 历史-->
+        <div class="or_body historycontent">
+        <iframe name="mainframe" name="right" id="mainframe" src="{:url('master/evaluation_history', array('account' => $srcAccount))}" frameborder="false" scrolling="no" style="border:none" width="100%" height="100%" allowtransparency="true"></iframe>
+        </div>
+    </div>
+</div>
+<input type="hidden" name="account" value="{$account}">
+<script>
+    // 登录查看
+        $(".detail_login").click(function () {
+            $("#vip_login").fadeIn();
+        });
+</script>
+{/block}

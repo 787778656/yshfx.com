@@ -1,0 +1,118 @@
+{extend name="admin@base/main"/}
+{block name="body"}
+<div class="col-sm-12 widget-container-span">
+	<div class="widget-box transparent">
+		<div class="no-border">
+			<ul class="nav nav-tabs">
+                <li class="mynavTab"><a href="{:url('index')}&{$strQuery}">用户列表</a></li>
+                <li class="action active"><a href="javascript:;">Mt4账号</a></li>
+			</ul>
+		</div>
+		<div class="col-sm-12 widget-container-span">
+		<div class="widget-box transparent">
+		<div class="widget-body">
+			<div class="widget-main padding-12 no-padding-left no-padding-right">
+				<div class="tab-content padding-4">
+					<div id="home1" class="tab-pane in active">
+						<div class="row">
+						{if empty($uid)}
+							<form style="margin-bottom:10px" method="post" action="">
+							<input type="text" class="inp_date inp_w90" name="keyword" id="keyword" value="{$keyword}" placeholder="用户uid/mt4账号">
+								<button style="padding: 0px 12px; margin-top:-3px" type="submit" class="btn btn-info mybtn2"> <i class="icon-ok bigger-110"></i> 搜索</button>
+							</form>
+						{/if}
+								<div class="table-responsive">
+									<table id="sample-table-1"
+										class="table table-striped table-bordered table-hover">
+										<thead>
+											<tr>
+												<th class="center">序号</th>
+												<th class="center">uid</th>
+												<th class="center">mt4id</th>												
+												<th class="center">mt4密码</th>
+												<th class="center">mt4服务器</th>
+												<th class="center">后缀</th>
+												<th class="center">状态</th>
+												<th class="center">备注</th>													
+												<th class="center">修改时间</th>
+												<th class="center">操作者</th>
+												<th class="center">操作</th>
+											</tr>
+										</thead>
+										<tbody>
+										{volist name="arrMt4" id="mt4"}
+											<tr>												
+												<td>{$mt4.id}</td>
+												<td class="center">{$mt4.uid}</td>
+												<td>
+												{$mt4.mt4id}
+												{if $mt4['is_default']==1}<font color="green"> (默认)</font>{/if}
+												<?php
+												$fromKey = sprintf('%s-%s-%s-%s', 'zhtEA', 'from', 'mamMaster', $mt4['mt4id']);
+												if ($redis->has($fromKey)){
+													echo '&nbsp;<img src="http://res.v.yshfx.com/image/mam_followi_ing.png">';
+												}
+												?>												
+												</td>
+												<td>{$mt4.mt4pwd}</td>
+												<td>{$mt4.mt4server}</td>
+												<td class="center">{$mt4.sblfix}</td>												
+												<td style="text-align: center;">
+												<?php
+												$key = sprintf('%s-%s', 'zhtEA', 'hash_online_time');
+												$online_time = $redis->hget($key, $mt4['mt4id']);
+												?>
+												{if $online_time >= time()-360}
+												<font color="#3EB53E"><?php echo $mt4['status']==1?'<font color="#3EB53E">(已启动)</font>':'(<font color="#FF0000">未启动</font>)';?>(在线)</font>
+												{else/}
+												<font color="red"><?php echo $mt4['status']==1?'<font color="#3EB53E">(已启动)</font>':'(<font color="#FF0000">未启动</font>)';?>(离线)</font>
+												{/if}
+												</td>
+												<td>{$mt4.remark|default='----'}</td>												
+												<td>{$mt4.modify_time|date='Y-m-d H:i:s',###}</td>
+												<td>{$mt4.operator}</td>
+												<td class="center">
+												<a class="btn btn-white btn-sm" href="{:url('edit_server', ['id'=>$mt4['id']])}&{$strQuery}" >修改</a>
+												<a class="btn btn-white btn-sm" href="{:url('order', ['account'=>$mt4['mt4id']])}&{$strQuery}" >持仓</a>
+												<a class="btn btn-white btn-sm" href="{:url('order_history', ['account'=>$mt4['mt4id']])}&{$strQuery}" >历史</a>
+												</td>
+											</tr>
+										{/volist}
+										</tbody>
+									</table>
+									<div class="pagination" style="margin:0px;">
+									    {$arrMt4->render()}
+									</div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$('.sh-status').change(function(){
+		var status = $(this).val();
+		if (status == 0){
+			return false;
+		}
+		var id = $(this).attr('data');
+		if (confirm("此操作将发送通知给用户，请确认审核信息是否正确？")){
+	        $.ajax({
+	            type: "post",
+	            dataType: "text",
+	            url: "{:url('sysuser')}",
+	            data: {'id':id,'status':status},
+	            success:function(data){
+					//alert(data);
+					window.location.reload();
+	            }
+	        })
+       }else{
+       		$(this).find('option').eq(0).prop("selected", 'selected');
+       }
+	});
+</script>
+{/block}

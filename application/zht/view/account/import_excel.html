@@ -1,0 +1,112 @@
+{extend name="admin@base/main"/}
+{block name="body"}
+<script>
+KindEditor.ready(function (K) {
+	var editor = K.create('#detail', config);
+
+	var uploadbuttona = K.uploadbutton({
+			button : K('#himga')[0],
+			fieldName : 'imgFile',
+			url : '{:url("admin/index/uploadFile")}',
+			afterUpload : function (data) {
+				if (data.error === 0) {
+					var url = K.formatUrl(data.url, 'relative');
+					K('#himg').val(url);
+				} else {
+					//console.log(data.message);
+					alert(data.message);
+				}
+			},
+			afterError : function (str) {
+				alert('自定义错误信息: ' + str);
+			}
+		});
+	uploadbuttona.fileBox.change(function (e) {
+		uploadbuttona.submit();
+	});
+
+});
+</script>
+<div class="col-sm-12 widget-container-span">
+	<div class="widget-box transparent">
+		<div class="no-border">
+			<ul class="nav nav-tabs">
+                <li class="mynavTab"><a href="{:url('zht/account/index')}">账号列表</a></li>				
+				<li class="action"><a href="{:url('order')}?{$strQuery}">持仓记录</a></li>
+				<li class="mynavTab"><a href="{:url('order_history')}?{$strQuery}">历史交易</a></li>
+				<li class="action active"><a href="javascript:;">导入历史数据</a></li>
+			</ul>
+		</div>
+		<div class="widget-body">
+			<div class="widget-main padding-12 no-padding-left no-padding-right">
+				<div class="tab-content padding-4">
+					<div class="row">
+						<div class="col-xs-12 no-padding-right">
+							<form class="form-horizontal" role="form" action="{:url('account/import_excel')}" method="post" id="addform">
+								<div class="form-group">
+									<label class="col-sm-2 control-label no-padding-right"
+										for="form-field-1"> MT4ID： </label>
+									<div class="col-sm-9">
+										<input type="text" id="form-field-1" value="{$arrAccount.mt4id}" name="mt4id" class="col-xs-10 col-sm-5" readonly="true">
+									</div>
+								</div>								
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right" for="form-field-1" id="img"> excel文件： </label>
+                                    <div class="col-sm-9">
+                                    <input name="thumb" type="text"  class="input-text" size="50" readonly="readonly" id="himg">
+            						<input type="button" id="himga" value="上传文件">
+            						</div>
+                                </div>
+                                <div class="form-group">
+									<label class="col-sm-2 control-label no-padding-right"
+										for="form-field-1"> 覆盖原数据： </label>
+									<div class="col-sm-9">
+										<input type="checkbox" name="is_covered" value="1" checked="true" />
+									</div>
+								</div>	
+                                <input type="hidden" name="id" value="{$arrAccount.id}">
+								<div class="clearfix form-actions">
+									<div class="col-md-offset-3 col-md-9">
+										<button class="btn btn-info mybtn" type="button" onclick="checkform();">
+											<i class="icon-ok bigger-110"></i> 提交
+										</button>
+										&nbsp; &nbsp;
+										<button class="btn mybtn" type="reset">
+											<i class="icon-undo bigger-110"></i> 重置
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	function checkform(){
+		var bn = $('input[name="bn"]').val();
+		if (bn==''){
+			alert('账号编号不能为空!');
+			return false;
+		}
+		var name = $('input[name="name"]').val();
+		if (name==''){
+			alert('账号名称不能为空!');
+			return false;
+		}
+		var mt4id = $('input[name="mt4id"]').val();
+		if (mt4id==''){
+			alert('mt4账号不能为空!');
+			return false;
+		}
+		var mt4pwd = $('input[name="mt4pwd"]').val();
+		if (mt4pwd==''){
+			alert('mt4密码不能为空!');
+			return false;
+		}
+		$('#addform').submit();
+	}
+</script>
+{/block}

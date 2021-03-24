@@ -1,0 +1,36 @@
+{extend name="web@base/main"/}
+{block name="body"}
+<link rel="shortcut icon" href="__STATIC__image/favicon.ico" />
+<link href="__STATIC__css/index.css" rel="stylesheet">
+<style>
+    body{background: #f3f3f3;color:#666666;}
+</style>
+<div class="rules_body">
+    <div style="width:800px;margin:0 auto;">
+        <img src="__STATIC__image/rules_banner.jpg" class="rules_banner">
+        <p class="rules_head">一.  加入方式</p>
+        <p class="rules_text">
+                通过亿思汇使用组合跟单功能，启动跟单，则<span class="rules_em">自动进入排名</span>；<br>
+                每个赛季为一个季度（三个月），中途可以加入；<br>
+                排名仅展示前10位交易者账户，进入排名即可获得<span class="rules_em">赛季奖励</span>；<br>
+                赛季结束，按照<span class="rules_em">当前排名结算奖励</span>。<br>
+        </p>
+        <p class="rules_head">二.  排名规则</p>
+        <p class="rules_text">
+                排名将按照评分由高到低进行排序，评分按照各项数据评分累加计算，评分规则：<br>
+                1.  收 益 率：交易账户收益率越高，正数评分越高；<br>
+                2.  交易时长：交易账户交易时长越长，正数评分越高；<br>
+                3.  跟单人数：付费订阅的用户越多，正数评分越高；<br>
+                4.  最大回撤：交易账户回撤越大，负数评分越高；<br>
+                5.  交易胜率：交易账户胜率越高，正数抛物线评分；<br>
+                6.  预期收益：交易账户预期收益越高，正数评分越高；<br>
+                7.  登榜天数：交易账户在排行榜时间越长，正数评分越高。<br>
+        </p>
+        <p class="rules_head">三.  赛季继承规则</p>
+        <p class="rules_text">
+                当进入新赛季，继承上一个赛季部分段位（评分）。
+        </p>
+        <a href="{:url('master/combination')}"><div class="rules_btn">查看排名</div></a>
+    </div>
+</div>
+{/block}

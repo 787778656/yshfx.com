@@ -1,0 +1,80 @@
+{extend name="web@base/main"/}
+{block name="body"}
+<link href="__STATIC__css/mamdetail.css" rel="stylesheet">
+<div class="drulebox">
+    <div class="drule">
+        <p class="druletitle">保障交易担保人规则</p>
+        <p class="drule_text">在发起人（MAM经理/盘手/交易者）管理保障交易（MAM项目）的同时，可引用担保人（风险投资人）进行担保（具体形式以实际出资为主），
+            引用担保人的同时需按照一定净获利比例分配至担保人，作为担保人风险投资收益，具体比例分配见下表：</p>
+        <table class="drule_table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>劣后金比例（发起人：担保人）</th>
+                    <th>分成比例（发起人：担保人）</th>
+                    <th>要求</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>级别1</td>
+                    <td>5 : 5</td>
+                    <td>6 : 4</td>
+                    <td>历史项目成功率60%以上</td>
+                </tr>
+                <tr>
+                    <td>级别2</td>
+                    <td>4 : 6</td>
+                    <td>5 : 5</td>
+                    <td>历史项目成功率60%-69%</td>
+                </tr>
+                <tr>
+                    <td>级别3</td>
+                    <td>3 : 7</td>
+                    <td>4 : 6</td>
+                    <td>历史项目成功率70%-79%</td>
+                </tr>
+                <tr>
+                    <td>级别4</td>
+                    <td>2 : 8</td>
+                    <td>3 : 7</td>
+                    <td>历史项目成功率80%-89%</td>
+                </tr>
+                <tr>
+                    <td>级别5</td>
+                    <td>1 : 9</td>
+                    <td>2 : 8</td>
+                    <td>历史项目成功率90%以上</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="drule_text">说明：<br/>
+        1. 成功率是指结算后投资人最终收益率为正向收益；<br/>
+        2. 发起人与担保人分成比例是不影响投资人分成比例（除开投资人比例后的比例分成）；<br/>
+        3. 发起人至少需要发布5期产品，并且总管理规模不能低于5万美元，才可获得担保资格。
+        </p>
+        <p class="drule_text" style="margin-top: 20px;">示例：<br/>
+            发起人A，发起一个10万美元保本资管产品，设置了劣后10%的赔付计划，需优先支付1万美元的劣后资金，此时引入了一个级别1的担保人B，则实际发起人A和担保人B各出资5000美元作为共同进行保障。<br/>
+            结算获利：若该项目最终结算获利为10%（即净获利为：1万美元），除开投资人和平台服务费外，最终获利8000美元，则发起人A最终分得资金4800美元，担保人B最终分得3200美元；<br/>
+            结算亏损：若该项目最终结算亏损，则按照出资比例来承担亏损。<br/>
+        </p>
+        <div class="drule_btnbox">
+            <a href="{:url('mam/publish')}" style="margin-right: 40px;" target="_blank">
+                <img src="__STATIC__image/ygfeiji.png" alt=""/>
+                <span>成为发起人</span>
+            </a>
+            <a href="javascript:void(0);" id="drule_bomb">
+                <img src="__STATIC__image/ygsafebai.png" alt=""/>
+                <span>成为担保人</span>
+            </a>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $("#drule_bomb").click(function(){
+            win.alert("",'请至"个人中心"→"我的担保"'+'<br/>'+'中操作');
+        })
+    })
+</script>
+{/block}

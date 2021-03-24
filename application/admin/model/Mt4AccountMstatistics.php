@@ -1,0 +1,10 @@
+<?php
+namespace app\admin\model;
+use think\Model;
+
+class Mt4AccountMstatistics extends Model
+{
+	protected $autoWriteTimestamp = true;
+	protected $createTime = 'add_time';
+	protected $updateTime = 'modify_time';
+}

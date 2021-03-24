@@ -1,0 +1,949 @@
+{extend name="web@base/main"/}
+{block name="body"}
+<style>
+	.header{background: transparent;box-shadow: none;}
+</style>
+	<div class="banner-back">
+		<div class="banner">
+			<div class="flexslider flexslider1" id="flexslider1">
+				<ul class="slides">
+					<li>
+						<img class="banner-sj" src="__STATIC__image/banner-sj.jpg"/>
+						<img class="banner-pc" src="__STATIC__image/banner-1.jpg"/>
+						<div class="banner1-text">
+							<div class="container">
+								<h2>全球领先的外汇跟投网络</h2>
+								<p>亿思汇致力于为全球外汇交易者提供复制跟单服务。通过亿思汇创新性的社会交易服务网络，您可以一键复制来自于世界各地的交易高手策略，让您的交易变的更简单！</p>
+								<?php	
+									$user = \think\Session::get('zhtweb');
+									if(!$user || !isset($user['uid']) || !$user['uid']){
+										echo '<a href="javascript:;" class="vip_register_btn">立即注册</a>';
+									}
+								?>
+							</div>
+						</div>
+					</li>
+					<li>
+						<img class="banner-sj" src="__STATIC__image/banner-sj.jpg"/>
+						<img class="banner-pc" src="__STATIC__image/banner-2.jpg"/>
+						<div class="banner1-text">
+							<div class="container">
+								<h2>全球领先的外汇跟投网络</h2>
+								<p>亿思汇致力于为全球外汇交易者提供复制跟单服务。通过亿思汇创新性的社会交易服务网络，您可以一键复制来自于世界各地的交易高手策略，让您的交易变的更简单！</p>
+								<?php	
+									$user = \think\Session::get('zhtweb');
+									if(!$user || !isset($user['uid']) || !$user['uid']){
+										echo '<a href="javascript:;" class="vip_register_btn">立即注册</a>';
+									}
+								?>
+							</div>
+						</div>
+					</li>
+					<li>
+						<img class="banner-sj" src="__STATIC__image/banner-sj.jpg"/>
+						<img class="banner-pc" src="__STATIC__image/banner-3.jpg"/>
+						<div class="banner1-text">
+							<div class="container">
+								<h2>全球领先的外汇跟投网络</h2>
+								<p>亿思汇致力于为全球外汇交易者提供复制跟单服务。通过亿思汇创新性的社会交易服务网络，您可以一键复制来自于世界各地的交易高手策略，让您的交易变的更简单！</p>
+								<?php	
+									$user = \think\Session::get('zhtweb');
+									if(!$user || !isset($user['uid']) || !$user['uid']){
+										echo '<a href="javascript:;" class="vip_register_btn">立即注册</a>';
+									}
+								?>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<main class="main">
+		<!-- <section class="ct">
+			<div class="container">
+				<div class="row">
+					<div class="title">
+						<h1>专注于为交易者服务的社交网络</h1>
+						<h4>yshfx亿思汇，注重于微交易者服务，无任何利益冲突</h4>
+					</div>
+				</div>
+				<div class="row ct-row-con">
+					<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+						<div class="ct-content">
+							<div class="ct-head">
+								<h2>学习</h2>
+							</div>
+							<div class="ct-main">
+								<h5><i class="fa fa-check"></i>1,000,000美元虚拟资金免费模拟账户</h5>
+								<h5><i class="fa fa-check"></i>分步骤教程和文章</h5>
+								<h5><i class="fa fa-check"></i>在线讲座和本地研讨会</h5>
+								<h5><i class="fa fa-check"></i>16种语言一对一的支持</h5>
+								<h5><i class="fa fa-check"></i>您自己的账户经理</h5>
+							</div>
+							<div class="ct-footer">
+								<a href="">开设模拟账户</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+						<div class="ct-content ct-content2">
+							<div class="ct-head">
+								<h2>复制</h2>
+							</div>
+							<div class="ct-main">
+								<h5><i class="fa fa-check"></i>直接复制高手策略，高手赚钱您也赚</h5>
+								<h5><i class="fa fa-check"></i>分步骤教程和文章</h5>
+								<h5><i class="fa fa-check"></i>在线讲座和本地研讨会</h5>
+								<h5><i class="fa fa-check"></i>16种语言一对一的支持</h5>
+								<h5><i class="fa fa-check"></i>您自己的账户经理</h5>
+							</div>
+							<div class="ct-footer">
+								<a href="">开设模拟账户</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+						<div class="ct-content ct-content3">
+							<div class="ct-head">
+								<h2>展示</h2>
+							</div>
+							<div class="ct-main">
+								<h5><i class="fa fa-check"></i>全面的账号分析，展示您的交易策略</h5>
+								<h5><i class="fa fa-check"></i>分步骤教程和文章</h5>
+								<h5><i class="fa fa-check"></i>在线讲座和本地研讨会</h5>
+								<h5><i class="fa fa-check"></i>16种语言一对一的支持</h5>
+								<h5><i class="fa fa-check"></i>您自己的账户经理</h5>
+							</div>
+							<div class="ct-footer">
+								<a href="">开设模拟账户</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section> -->
+		
+		<section class="ts">
+			<div class="container">
+				<div class="row">
+					<div class="title">
+						<h1>跨平台跟单服务</h1>
+						<h4>让科技颠覆交易,让智能负责收益。</h4>
+					</div>
+				</div>
+				<div class="row ts-content">
+					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+						<div class="ts-content-tab">
+							<ul>
+								{volist name="arrAccount" id="row" length="3"}
+								<li>
+									<div class="ts-profit">
+										<a href="{:url('master/detail', ['account' => $row['mt4id']])}" target="_blank">
+											<h4>{$row.name}</h4>
+											<h5><?php
+												$row['money'] = floatval($row['money']);
+                            echo !is_numeric($row['trade_profit']) || $row['money']*$row['trade_profit']<=0 ? 0.00 : round($row['trade_profit']/$row['money']*100,2);
+                            ?>%</h5>
+											<h6>利润率</h6>
+										</a>
+									</div>
+									<div class="ts-cost">
+										<a href="{:url('master/detail', ['account' => $row['mt4id']])}" target="_blank">
+											<?php $drawdown = max($row['trade_drawdown'], $row['trade_minbalance'], $row['trade_minprofit']);?>
+											<h5 style="margin: 17% 0;">{$drawdown*100}%</h5>
+											<h6>回撤</h6>
+										</a>
+									</div>
+									<div class="ts-form">
+										<a href="{:url('master/detail', ['account' => $row['mt4id']])}" target="_blank">
+											<div class="ts-form-cen" style="text-align: center;padding-top: 5%;">
+													<img src="<?php echo '__STATIC__upload/image/webchart/'.$row['mt4id'].'.png?v='.time();?>" class="data_img" style="width: 60%"/>
+											</div>
+										</a>
+									</div>
+									<div class="ts-select">
+										<a href="{:url('master/index')}">选择</a>
+									</div>
+								</li>
+								{/volist}
+							</ul>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+						<div class="ts-content-text">
+							<h3>加入亿思汇社交交易网络！</h3>
+							<p>使用亿思汇领先的自动跟单系统，直接复制高手交易。</p>
+							<p>如果您有成熟的交易技巧，也可以加入我们，赢取您成功交易的额外收益！</p>
+							<a href="{:url('master/index')}">查看所有策略 <i class="fa fa-long-arrow-right "></i></a>
+							
+							<div class="datum">
+								<div class="datum-yb">
+									<div class="bg_cont">
+										<div class="circle">
+											<div class="mask"></div>
+											<div class="body"></div>
+										</div>
+										<div class="mask_outside"></div>
+									</div>
+									<div class="indicator">
+										<div class="line"></div>
+										<div class="c1"></div>
+										<div class="c2"></div>
+									</div>
+									
+								</div>
+								<div class="datum-text">
+									<h4><span class="timer">83.8</span>%</h4>
+									<h5>
+										1.37亿笔被跟单交易中<br />
+										有83.8%赢利 <br />
+										（截至<span id="timer_now">2017年2月7日</span>） <br />
+									</h5>
+									<script>
+										$(function(){
+											var d = new Date();                                     //转换时间
+												var hour;
+												var minute;
+												var month;
+												var day;
+												var year;
+												hour = d.getHours();
+												minute = d.getMinutes();
+												month = d.getMonth() + 1;    // Note: January is 0, February is 1, and so on.
+												day = d.getDate();
+												year = d.getFullYear();
+												if (month.toString().length < 2) {
+													month = "0" + month.toString();
+												}
+												if (day.toString().length < 2) {
+													day = "0" + day.toString();
+												}
+												if (hour.toString().length < 2) {
+													hour = "0" + hour.toString();
+												}
+												if (minute.toString().length < 2) {
+													minute = "0" + minute.toString();
+												}
+												// var modify_time = year + "/" + month + "/" + day +" "+ hour + ":" + minute;
+												var modify_time = year + "年" + month + "月" + day +"日";
+												// console.log(modify_time);
+												$("#timer_now").html(modify_time);
+
+												/*财经资讯以及动态*/
+												var  picList_time = day+"/"+month+" "+hour+":"+minute;
+												$(".picList_time").html(picList_time);
+										});
+									</script>
+								</div>
+								<div style="clear: both;"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+		<section class="rp">
+			<div class="container">
+				<div class="row">
+					<div class="title">
+						<h1>合作经济商</h1>
+						<p>亿思汇选择合作的经纪商均经过严格的筛选和审核，具有从事相关行业牌照，且受相关机构或部门监管的合法、正规平台。 亿思汇不接触客户资金，所有交易均通过购买VIP跟单服务和开户经纪商完成。亿思汇不保证用户盈利，且不承担任何责任。用户须知从事外汇和差价合约等金融产品的杠杆交易具有高风险，损失有可能超过本金，请量力而行，入市前需充分了解潜在的风险。交易杠杆化产品并不适合所有投资者，在交易前请考虑您的经验水平，经济能力和投资目标，如有必要请寻求独立财务建议。</p>
+					</div>
+					<script>
+							$(function () {
+								$(".open_account_title").click(function () {
+									$(this).parent().parent().find("li").find("a").removeClass("active");
+									$(this).addClass("active");
+								});
+								$(".open_account_title1").click(function () {
+									$(this).parent().parent().parent().find(".open_account_content").hide();
+									$(this).parent().parent().parent().find(".open_account1").show();
+								});
+								$(".open_account_title2").click(function () {
+									$(this).parent().parent().parent().find(".open_account_content").hide();
+									$(this).parent().parent().parent().find(".open_account2").show();
+								});
+								$(".open_account_title3").click(function () {
+									$(this).parent().parent().parent().find(".open_account_content").hide();
+									$(this).parent().parent().parent().find(".open_account3").show();
+								});
+							});
+					</script>
+					<style>
+						.open_account_bot {float: left;width: 100%;margin: 50px 0;}
+						.open_account_bot_div{width: 100%;height: 180px;border: 1px solid #dedede;margin-bottom: 30px;}
+						.open_account_bot_l{width: 25%;height: 180px;float: left;background: #26326e;text-align: center;}
+						li:nth-child(1) .open_account_bot_div:nth-child(2) .open_account_bot_l{background: #d97e2e;}
+						li:nth-child(1) .open_account_bot_div:nth-child(3) .open_account_bot_l{background: #c5482f;}
+						li:nth-child(2) .open_account_bot_div:nth-child(1) .open_account_bot_l{background: #468fcd;}
+						li:nth-child(2) .open_account_bot_div:nth-child(2) .open_account_bot_l{background: #4457cb;}
+						li:nth-child(2) .open_account_bot_div:nth-child(3) .open_account_bot_l{background: #5c2ab8;}
+						.open_account_bot_l img{display: block;margin: 35px auto;}
+						.open_account_bot_l p{display: inline-block;width: 86px;height: 30px;line-height: 30px;font-size: 16px;color: #fff;vertical-align: middle;margin-right: 10px;}
+						.open_account_bot_l button{vertical-align: middle;width: 86px;height: 30px;background: #fff;border-radius: 2px;color: #333;}
+						.open_account_bot_r{width: 75%;height: 180px;float: left;padding: 0 18px;}
+						.open_account_bot_r ul:nth-child(1){display: block;width: 100%;height: 50px;line-height: 50px;border-bottom: 1px solid #dedede;}
+						.open_account_bot_r ul:nth-child(1) li{display: inline-block;width: 100px;height: 50px;}
+						.open_account_bot_r ul:nth-child(1) li a{display: inline-block;width: auto;height: 50px;border-bottom: 1px solid transparent;font-size: 16px;}
+						.open_account_bot_r ul:nth-child(1) li a.active{color: #3d7fba;border-bottom: 1px solid #3d7fba;}
+						.open_account_bot_r ul:nth-child(2){display: block;margin: 20px 0;}
+						.open_account_bot_r ul:nth-child(2) li{display: inline-block;float: left;width: 32%;}
+						.open_account_bot_r ul:nth-child(2) li:nth-child(3n){width: 36%;}
+						.open_account_bot_r ul:nth-child(2) li p{line-height: 40px;white-space: nowrap;color: #585756;font-size: 14px;}
+						.open_account_bot_r ul:nth-child(2) li p span{color: #000;}
+						.open_account2,.open_account3{display: none;margin: 20px 0;}
+						.open_account2 p,.open_account3 p{font-size: 12px;color: #333;margin-top: 20px;line-height: 150%;}
+						.open_account_bot .flexslider .slides img {width: 120px;margin: 35px auto 20px auto;}
+						.open_account_bot .flex-control-nav {bottom: -50px;}
+						.open_account_bot .flex-direction-nav a{border-radius: 50%;}
+						.open_account_bot .flex-direction-nav .flex-prev {left: -85px;}
+						.open_account_bot .flex-direction-nav .flex-next {right: -85px;}
+						.open_account_bot .flex-control-paging li a {border-color: #d0d0d0;}
+						.open_account_bot .flex-control-paging li a.flex-active {background-color: #d0d0d0;}
+						.open_account_bot_r ul:first-child li{float: left;line-height: 50px;}
+					</style>
+					<div class="open_account_bot">
+						<div class="flexslider flexslider1" id="flexslider2">
+							<ul class="slides">
+								<li>
+									<div class="open_account_bot_div">
+										<div class="open_account_bot_l"><img src="__STATIC__image/account1.png"><p>XM</p><a href="https://clicks.pipaffiliates.com/c?c=557850&l=zh-hans&p=1" target="_blank"><button type="button">立即开户</button></a></div>
+										<div class="open_account_bot_r">
+											<ul>
+												<li><a href="javascript:void(0)" class="open_account_title open_account_title1 active">交易情况</a></li>
+												<li><a href="javascript:void(0)" class="open_account_title open_account_title2">监管资质</a></li>
+												<li><a href="javascript:void(0)" class="open_account_title open_account_title3">出入金说明</a></li>
+											</ul>
+											<ul class="open_account_content open_account1">
+												<li><p>美元出入金：<span>支持</span></p></li>
+												<li><p>交易杠杆：<span>最高888：1</span></p></li>
+												<li><p>入金方式：<span>银联，信用卡，电汇等多种</span></p></li>
+												<li><p>人民币出入金：<span>支持</span></p></li>
+												<li><p>最低入金金额：<span>$20.00</span></p></li>
+												<li><p>免费跟单资金量：<span>$5000.00</span></p></li>
+											</ul>
+											<div class="open_account_content open_account2">
+												<p style="margin-top: -10px;">英国金融行为监管局 FCA牌照（监管号码：705428）<br>
+												澳大利亚证券及投资委员会 ASIC（监管号码：443670）<br>
+												塞浦路斯证券和交易委员会 CySEC（监管号码：120/10）<br>
+												伯利兹国际金融服务委员会 IFSC （监管号码：IFSC60/354/TS/18）<br>
+												</p>
+											</div>
+											<div class="open_account_content open_account3">
+												<p>当天到账，出入金免费，手续费XM承担<br>
+												出入金链接：https://clicks.pipaffiliates.com/c?c=350339&l=zh-hans&p=12<br>
+												出入金时间：当天工作日时间 9:00-18:00 均可到账<br>
+													</p>
+											</div>
+										</div>
+									</div>
+									<div class="open_account_bot_div">
+										<div class="open_account_bot_l"><img src="__STATIC__image/account6.png"><p>Trademax</p><a href="https://portal.tmgm.com/register?node=Mjk2MDE=&language=zh" target="_blank"><button type="button">立即开户</button></a></div>
+										<div class="open_account_bot_r">
+											<ul>
+												<li><a href="javascript:void(0)" class="open_account_title open_account_title1 active">交易情况</a></li>
+												<li><a href="javascript:void(0)" class="open_account_title open_account_title2">监管资质</a></li>
+												<li><a href="javascript:void(0)" class="open_account_title open_account_title3">出入金说明</a></li>
+											</ul>
+											<ul class="open_account_content open_account1">
+												<li><p>美元出入金：<span>支持</span></p></li>
+												<li><p>交易杠杆：<span>最高1：400</span></p></li>
+												<li><p>入金方式：<span>银联，信用卡，电汇等多种</span></p></li>
+												<li><p>人民币出入金：<span>支持</span></p></li>
+												<li><p>最低入金金额：<span>$500.00</span></p></li>
+												<li><p>免费跟单资金量：<span>$5000.00</span></p></li>
+											</ul>
+											<div class="open_account_content open_account2">
+												<p style="margin-top: -10px;">
+													澳大利亚证券及投资委员会ASIC牌照<br>
+													 监管号码：436416<br>
+													瓦努阿图金融服务委员会VFSC牌照					
+														<br>
+												</p>
+											</div>
+											<div class="open_account_content open_account3">
+												<p>
+													出金方式及出金方式：银联入金即时到账，银联出金两个工作日到账，电汇出入金5个工作日左右到账。<br>
+													出金链接：在官网直接办理即可。<br>
+													出入金时间：工作日均可办理。<br>
+														</p>
+											</div>
+										</div>
+									</div>
+									<div class="open_account_bot_div">
+										<div class="open_account_bot_l"><img src="__STATIC__image/account3.png"><p>澳汇</p><a href="https://www.ausforex.asia/zh-cn/account/registering-a-live-account-e30.shtml?key=7bYS%2fnKgaR0%3d" target="_blank"><button type="button">立即开户</button></a></div>
+										<div class="open_account_bot_r">
+											<ul>
+												<li><a href="javascript:void(0)" class="open_account_title open_account_title1 active">交易情况</a></li>
+												<li><a href="javascript:void(0)" class="open_account_title open_account_title2">监管资质</a></li>
+												<li><a href="javascript:void(0)" class="open_account_title open_account_title3">出入金说明</a></li>
+											</ul>
+											<ul class="open_account_content open_account1">
+												<li><p>美元出入金：<span>支持</span></p></li>
+												<li><p>交易杠杆：<span>外汇最高1:400</span></p></li>
+												<li><p>入金方式：<span>银联、电汇等</span></p></li>
+												<li><p>人民币出入金：<span>支持</span></p></li>
+												<li><p>最低入金金额：<span>银联$50.00,电汇无要求</span></p></li>
+												<li><p>免费跟单资金量：<span>$5000.00</span></p></li>
+											</ul>
+											<div class="open_account_content open_account2">
+												<p>英国金融行为监管局（FCA） EEA 授权，<br>
+													监管编号：803268；<br>
+													香港证监会（SFC）第三类牌照监管，<br>
+												</p>
+											</div>
+											<div class="open_account_content open_account3">
+												<p>
+													银联入金即时到账；银联出金两个工作日左右到账；均不收取手续费。<br>
+													电汇方式出入金5个工作日左右到账；银行会收取部分手续费	<br>					
+												</p>
+											</div>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="open_account_bot_div">
+										<div class="open_account_bot_l"><img src="__STATIC__image/account4.png"><p>AVA</p><a href="https://www.avatrade.cn/?tag=140789" target="_blank"><button type="button">立即开户</button></a></div>
+										<div class="open_account_bot_r">
+											<ul>
+												<li><a href="javascript:void(0)" class="open_account_title open_account_title1 active">交易情况</a></li>
+												<li><a href="javascript:void(0)" class="open_account_title open_account_title2">监管资质</a></li>
+												<li><a href="javascript:void(0)" class="open_account_title open_account_title3">出入金说明</a></li>
+											</ul>
+											<ul class="open_account_content open_account1">
+												<li><p>美元出入金：<span>支持</span></p></li>
+												<li><p>交易杠杆：<span>400:1</span></p></li>
+												<li><p>入金方式：<span>电汇、银联</span></p></li>
+												<li><p>人民币出入金：<span>支持</span></p></li>
+												<li><p>最低入金金额：<span>$100.00</span></p></li>
+												<li><p>免费跟单资金量：<span>无限制</span></p></li>
+											</ul>
+											<div class="open_account_content open_account2">
+												<p>
+													爱尔兰央行监管：(Reference No.: C53877)<br>
+													日本Financial Services Agency监管： (License.: 1662)<br>
+													日本金融期货协会监管：(License No.: 1574)<br>
+													澳大利亚证券投资委员会监管： (License No.:406684)<br>
+												</p>
+											</div>
+											<div class="open_account_content open_account3">
+												<p>
+													支持银联入金，入金时间大部分情况可以实时到帐，出金在3到5个工作日以内，大于100人民币可出金。平台不收取其他费用<br>
+													说明：<br>
+													1. 具体到账时间取决于各银行、中间机构的办理情况<br>
+													2. 具体限额可能因客户银行、发卡行规定而各有不同 <br>
+													3. AvaTrade不担保入金到账时间，请客户提早入金确保账户保证金充足，AvaTrade不对入金无法及时到账产生的损失负责。<br>
+												</p>
+											</div>
+										</div>
+									</div>
+									<div class="open_account_bot_div">
+										<div class="open_account_bot_l"><img src="__STATIC__image/account2.png"><p>FXTM富拓</p><a href="https://www.forextimechina.com.cn/zh?partner_id=4932273" target="_blank"><button type="button">立即开户</button></a></div>
+										<div class="open_account_bot_r">
+											<ul>
+												<li><a href="javascript:void(0)" class="open_account_title open_account_title1 active">交易情况</a></li>
+												<li><a href="javascript:void(0)" class="open_account_title open_account_title2">监管资质</a></li>
+												<li><a href="javascript:void(0)" class="open_account_title open_account_title3">出入金说明</a></li>
+											</ul>
+											<ul class="open_account_content open_account1">
+												<li><p>美元出入金：<span>支持</span></p></li>
+												<li><p>交易杠杆：<span>最高1000：1</span></p></li>
+												<li><p>入金方式：<span>第三方银联或银行电汇</span></p></li>
+												<li><p>人民币出入金：<span>支持</span></p></li>
+												<li><p>最低入金金额：<span>$5/€5/£5</span></p></li>
+												<li><p>免费跟单资金量：<span>$50000.00</span></p></li>
+											</ul>
+											<div class="open_account_content open_account2">
+												<p>英国金融行为监管局 FCA牌照（监管号码：777911）<br>
+												英国金融行为监管局 FCA EEA牌照（EEA：600475）<br>
+												塞浦路斯证券和交易委员会 CySEC（监管号码：185/12）<br>
+												南非金融部门行为监管局 FSCA（监管号码：FSP46614）<br>
+												伯利兹国际金融服务委员会 IFSC （监管号码：IFSC/60/345/APM/18）<br>
+												</p>
+											</div>
+											<div class="open_account_content open_account3">
+												<p>出金优惠：银联、电汇、信用卡<br>
+												出金连接：在官网直接办理即可<br>
+												出入金时间：工作日均可办理
+													</p>
+											</div>
+										</div>
+									</div>
+									<div class="open_account_bot_div">
+										<div class="open_account_bot_l"><img src="__STATIC__image/account5.png"><p>CXM 希盟</p><a href="https://broker.cxmtrading.com/introduce?iid=S&uid=5578" target="_blank"><button type="button">立即开户</button></a></div>
+										<div class="open_account_bot_r">
+											<ul>
+												<li><a href="javascript:void(0)" class="open_account_title open_account_title1 active">交易情况</a></li>
+												<li><a href="javascript:void(0)" class="open_account_title open_account_title2">监管资质</a></li>
+												<li><a href="javascript:void(0)" class="open_account_title open_account_title3">出入金说明</a></li>
+											</ul>
+											<ul class="open_account_content open_account1">
+												<li><p>美元出入金：<span>支持</span></p></li>
+												<li><p>交易杠杆：<span>500：1</span></p></li>
+												<li><p>入金方式：<span>银联，信用卡，电汇，数字货币等</span></p></li>
+												<li><p>人民币出入金：<span>支持</span></p></li>
+												<li><p>最低入金金额：<span>$500.00</span></p></li>
+												<li><p>免费跟单资金量：<span>$5000.00</span></p></li>
+											</ul>
+											<div class="open_account_content open_account2">
+												<p style="margin-top: -10px;">
+													英国金融行为监管局FCA牌照<监管号：612233><br>
+												</p>
+											</div>
+											<div class="open_account_content open_account3">
+												<p>
+												出金方式：银联，电汇，信用卡，数字货币<br>
+												出入金时间：工作日时间段均可办理<br>
+												出金政策：每笔大于1000美金的出金免任何手续费，低于1000美金的出金，每月有一次可以免通道费，其它情况每笔出金收取10美金的通道费。<br>
+												</p>
+											</div>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="row rp-row-con">
+					<div class="rp-text" style="display: block;">
+						<a href="javascript:;">
+							<i class="fa fa-quote-left"></i>
+							<p>MYFX Markets,公司总部设立在澳大利亚。业务遍及澳大利亚、英国、中国、日本、新加坡、印尼、韩国、马来西亚等多个国家和地区，并不断面向全球开疆扩土。MYFX Markets受英国金融行为监管局FCA授权及监管。客户所有资金均存放于由律师监管的独立信托账户中，并依照相关法律法规进行严格管理，为您的资金保驾护航。MYFX Markets与多家世界知名银行及金融机构有紧密合作，这使得我们可以得到更急优质的流通量进而可以让我们的客户享受到更低的点差。 并通过oneZero流动性中心直接流入交易平台，更好的为交易者提供最好的流动价格。极速的执行力Myfx Markets的服务器位于纽约，更贴近我们的报价端，为您带来极速的交易体验。</p>
+							<i class="fa fa-quote-right"></i>
+						</a>
+					</div>
+					<div class="rp-text">
+						<a href="javascript:;">
+							<i class="fa fa-quote-left"></i>
+							<p>AUSFOREX  2003年注册于澳大利亚墨尔本，为了更好的服务全球客户，澳汇2015年将总部迁移到伦敦。目前澳汇在中国上海、中国香港、马来西亚、迪拜、毛里求斯、塞浦路斯、波兰、伦敦均设有办事处。为了保障客户的资金安全，澳汇目前持有FCA、塞浦路斯、香港证监会牌照。为了提供更好的交易环境，澳汇对接了全球最顶级的流动性提供商：法国巴黎银行，荷兰银行，摩根大通，盛宝银行，花旗银行，瑞银集团和德意志银行。澳汇致力于为客户提供更优质的交易环境！</p>
+							<i class="fa fa-quote-right"></i>
+						</a>
+					</div>
+					<div class="rp-pic">
+						<ul class="rp-ul">
+							<li class="on">
+								<div class="rp-pic1" style="border-radius: inherit;">
+									<a href="https://www.myfxmarkets.com/zh/" target="_blank"><img class="img-responsive" src="__STATIC__image/partner-pic11.jpg"/></a>
+								</div>
+								<h5><span>MYFX Markets</span></h5>
+							</li>
+							<li>
+								<div class="rp-pic1">
+									<a href="http://www.gcffx.com/" target="_blank"><img class="img-responsive" src="__STATIC__image/partner-pic12.png"/></a>
+								</div>
+								<h5><span>AUSFOREX</span></h5>
+							</li>
+							<div style="clear: both;"></div>
+						</ul>
+					</div>
+				</div> -->
+			</div>
+		</section>
+		
+		<section class="pf">
+			<div class="container">
+				<div class="row">
+					<div class="title">
+						<h1>亿思汇,值得信赖的社交智能化交易平台</h1>
+						<h4>采用AdminLte框架，全新后台架构，尊崇“删繁就简”的理念，将一切操作回归简单，大幅度提升用户后台操作体验。</h4>
+					</div>
+				</div>
+				<div class="row pf-row-con">
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+						<div class="pf-content">
+							<div class="pf-icon">
+								<img class="img-responsive" src="__STATIC__image/pf-icon1.png"/>
+							</div>
+							<h3>全面监管</h3>
+							<h4>我们选取的合作经纪商均为世界最严监管及最佳口碑</h4>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+						<div class="pf-content">
+							<div class="pf-icon">
+								<img class="img-responsive" src="__STATIC__image/pf-icon2.png"/>
+							</div>
+							<h3>安全可靠</h3>
+							<h4>各种风控规则，保障账户资金安全。</h4>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+						<div class="pf-content">
+							<div class="pf-icon">
+								<img class="img-responsive" src="__STATIC__image/pf-icon3.png"/>
+							</div>
+							<h3>隐私保密</h3>
+							<h4>我们绝不泄漏您的私人资料</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+		<section class="new">
+			<div class="container">
+				<div class="row">
+					<div class="title">
+						<h1>交易动态及营销推广</h1>
+						<h4>稳定收益的同时,海量佣金拿不停。</h4>
+					</div>
+				</div>
+				<div class="row news-content">
+					<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+						<div class="news-content-new">
+							<div class="bd">
+								<style>
+									.bd{box-shadow: 0 0 5px rgba(0,0,0,0.3);}
+									.bd_title{width: 100%;height: 40px;line-height: 40px;background: #f9f9f9;border-bottom: 1px solid #eee;padding: 0 5%;}
+									.bd_title span{display: inline-block;width: 25%;}
+									.bd_title span:first-child{width: 50%;}
+									.bd_title span:last-child{text-align: right;}
+									.bd ul li{display: block;width: 100%;height: 84px;line-height: 84px;background: #ffffff;padding: 0 5%;}
+									.bd ul li div{display: inline-block;width: 25%;}
+									.bd ul li div:first-child{width: 50%;}
+									.bd ul li div:first-child img{width: 50px;height: 50px;border-radius: 50%;margin-right: 5px;border: 1px solid #eee;}
+									.bd ul li div:last-child{text-align: right;}
+								</style>
+								<div class="bd_title"><span>用户</span><span>下级人数</span><span>返佣金额</span></div>
+								<ul>
+									<li><div><img src="__STATIC__image/touxiang_1.png"><span>Woodlouse</span></div><div><span>156人</span></div><div><span>68955.85元</span></div></li>
+									<li><div><img src="__STATIC__image/touxiang_2.png"><span>Dragon King</span></div><div><span>125人</span></div><div><span>50842.50元</span></div></li>
+									<li><div><img src="__STATIC__image/touxiang_3.png"><span>Thieves</span></div><div><span>98人</span></div><div><span>40589.11元</span></div></li>
+									<li><div><img src="__STATIC__image/touxiang_4.png"><span>Development</span></div><div><span>88人</span></div><div><span>37512.00元</span></div></li>
+									<li><div><img src="__STATIC__image/touxiang_5.png"><span>Animal World</span></div><div><span>65人</span></div><div><span>19364.18元</span></div></li>
+								</ul>
+								<!-- <ul class="picList">
+									<li>
+										<div class="news-new-con">
+											<a href="javascript:;">
+												<div class="news-new-pic">
+													<img class="img-responsive" src="__STATIC__image/news-new-pic.jpg"/>
+												</div>
+												<div class="news-new-text">
+													<h3>DSS系统家校互联小更新</h3>
+													<p>U know！咱们的【软件软件】功能很强大，机构对学员要做很多售前及售后的跟单工作，都可以在......<span>【详情】</span></p>
+													<h6>201-07-08</h6>
+												</div>
+												<div style="clear: both;"></div>
+											</a>
+										</div>
+										
+									</li>
+									<li>
+										<div class="news-new-con">
+											<a href="javascript:;">
+												<div class="news-new-pic">
+													<img class="img-responsive" src="__STATIC__image/news-new-pic_2.jpg"/>
+												</div>
+												<div class="news-new-text">
+													<h3>为何正确率90%也赚不到钱？</h3>
+													<p>在交易过程中，我们常常听说某交易员正确率超过90%，但这种交易模式一定是好的交易方式吗？其实，对于一个投资者，最重要的是......<span>【详情】</span></p>
+													<h6>201-07-08</h6>
+												</div>
+												<div style="clear: both;"></div>
+											</a>
+										</div>
+									</li>
+									<li>
+										<div class="news-new-con">
+											<a href="javascript:;">
+												<div class="news-new-pic">
+													<img class="img-responsive" src="__STATIC__image/news-new-pic_3.jpg"/>
+												</div>
+												<div class="news-new-text">
+													<h3>市场老兵表示这样操作获利几率高达75%</h3>
+													<p>最近美元走软终于让跌跌不休的黄金喘了口气，有分析认为从基本面看，所有因素都在为黄金反弹蓄力，而一名投资黄金的老兵称其已逢低买入......<span>【详情】</span></p>
+													<h6>2018-08-08</h6>
+												</div>
+												<div style="clear: both;"></div>
+											</a>
+										</div>
+									</li>
+								</ul> -->
+							</div>
+							<!--<a class="news-skip" href="javascript:;">点击查看更多资讯&gt;&gt;</a>-->
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+						<div class="news-content-dynamic">
+							<div class="bd1">
+								<ul class="picList" id="lists1">
+									<li>
+										<div class="news-dynamic-con">
+											<a href="javascript:;">
+												<div class="news-dynamic-pic">
+													<img class="img-responsive" src="__STATIC__image/news-dynamic-pic.jpg"/>
+												</div>
+												<div class="news-dynamic-text">
+													<h3>Pioneer strategy</h3>
+													<p><b>USD/JPY</b>buy   <b>0.03</b>手 110.427 → 110.911<span>$13.09</span></p>
+												</div>
+												<h6 class="picList_time"></h6>
+												<div style="clear: both;"></div>
+											</a>
+										</div>
+									</li>
+									<li>
+										<div class="news-dynamic-con">
+											<a href="javascript:;">
+												<div class="news-dynamic-pic">
+													<img class="img-responsive" src="__STATIC__image/news-dynamic-pic_2.jpg"/>
+												</div>
+												<div class="news-dynamic-text">
+													<h3>Trading is so simple</h3>
+													<p><b>EUR/USD</b>sell   <b>0.07</b>手 1.17783 → 1.15889<span>$132.58</span></p>
+												</div>
+												<h6 class="picList_time"></h6>
+												<div style="clear: both;"></div>
+											</a>
+										</div>
+									</li>
+									<li>
+										<div class="news-dynamic-con">
+											<a href="javascript:;">
+												<div class="news-dynamic-pic">
+													<img class="img-responsive" src="__STATIC__image/news-dynamic-pic_3.jpg"/>
+												</div>
+												<div class="news-dynamic-text">
+													<h3>Come with me</h3>
+													<p><b>AUD/NZD</b>buy   <b>1.56</b>手 1.09242 → 1.09584<span>$354.78</span></p>
+												</div>
+												<h6 class="picList_time"></h6>
+												<div style="clear: both;"></div>
+											</a>
+										</div>
+									</li>
+									<li>
+										<div class="news-dynamic-con">
+											<a href="javascript:;">
+												<div class="news-dynamic-pic">
+													<img class="img-responsive" src="__STATIC__image/news-dynamic-pic_4.jpg"/>
+												</div>
+												<div class="news-dynamic-text">
+													<h3>The Red Cockatoo</h3>
+													<p><b>NZD/CAD</b>sell   <b>1.62</b>手 0.86741 → 0.86399<span>$423.83</span></p>
+												</div>
+												<h6 class="picList_time"></h6>
+												<div style="clear: both;"></div>
+											</a>
+										</div>
+									</li>
+									<li>
+										<div class="news-dynamic-con">
+											<a href="javascript:;">
+												<div class="news-dynamic-pic">
+													<img class="img-responsive" src="__STATIC__image/news-dynamic-pic_5.jpg"/>
+												</div>
+												<div class="news-dynamic-text">
+													<h3>A Fortune Cat</h3>
+													<p><b>GBP/USD</b>buy   <b>0.13</b>手 1.30900 → 1.31061<span>$18.00</span></p>
+												</div>
+												<h6 class="picList_time"></h6>
+												<div style="clear: both;"></div>
+											</a>
+										</div>
+									</li>
+									<li>
+										<div class="news-dynamic-con">
+											<a href="javascript:;">
+												<div class="news-dynamic-pic">
+													<img class="img-responsive" src="__STATIC__image/news-dynamic-pic_6.jpg"/>
+												</div>
+												<div class="news-dynamic-text">
+													<h3>Financial Center</h3>
+													<p><b>USD/CAD</b>sell   <b>0.13</b>手 1.31782 → 1.31485<span>$25.08</span></p>
+												</div>
+												<h6 class="picList_time"></h6>
+												<div style="clear: both;"></div>
+											</a>
+										</div>
+									</li>
+									<li>
+										<div class="news-dynamic-con">
+											<a href="javascript:;">
+												<div class="news-dynamic-pic">
+													<img class="img-responsive" src="__STATIC__image/news-dynamic-pic_7.jpg"/>
+												</div>
+												<div class="news-dynamic-text">
+													<h3>Wealth management</h3>
+													<p><b>EUR/JPY</b>buy   <b>1.81</b>手 126.927 → 127.534<span>$997.22</span></p>
+												</div>
+												<h6 class="picList_time"></h6>
+												<div style="clear: both;"></div>
+											</a>
+										</div>
+									</li>
+								</ul>
+
+								<!--/*财经资讯右侧，生成买入卖出动态*/-->
+								<script src="__STATIC__js/Gd.js" type="text/javascript" charset="utf-8"></script>
+
+							</div>
+							<!--<a class="news-skip" href="javascript:;">点击查看更多动态&gt;&gt;</a>-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!--<section class="sign">
+				<div class="container">
+					<div class="row">
+						<div class="title">
+							<h1>立即注册</h1>
+							<h4>在全球最大的社交投资网络上与超过600万投资者取得联系</h4>
+						</div>
+					</div>
+					<div class="row sign-conter">
+						<form role="form">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="设置用户名">
+							</div>
+							  <div class="form-group">
+								<input type="password" class="form-control" placeholder="设置密码">
+							</div>
+							<div class="form-group">
+								<input type="password" class="form-control" placeholder="确认密码">
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="电子邮件地址">
+							</div>
+							<div class="form-group sign-form-group">
+								<div class="sign-form-xl">
+									<select id="usertype1" name="usertype1" class="selectpicker show-tick form-control" data-live-search="false" title="+86">
+										<option value="0">+861</option>
+										<option value="1">+862</option>
+									</select>
+								</div>
+								<div class="sign-form-input">
+									<input type="text" class="form-control" placeholder="电话号码">
+								</div>
+								<div style="clear: both;"></div>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox"><i class="fa fa-circle-thin"></i>  我接受 <a href="">条款</a>和<a href="">条件</a>，<a href="">隐私</a>和<a href="">风险纰漏</a>
+								</label>
+							</div>
+							<button type="submit" class="btn sign-btn">提交</button>
+						</form>
+					</div>
+				</div>
+		</section>-->
+	
+	</main>
+
+	<!--区域二的信号图表-->
+	<script src="__STATIC__js/highcharts.js"></script>
+	<script language="JavaScript">
+		$(document).ready(function() {
+			var chart = {
+				type: 'area',
+			};
+			var title = {
+				text: ''
+			};
+			var subtitle = {
+				text: ''
+			};
+			var xAxis = {
+				allowDecimals: false,
+				labels: {
+					formatter: function () {
+						return this.value; // clean, unformatted number for year
+					}
+				}
+			};
+			var yAxis = {
+				title: {
+					text: ''
+				},
+				labels: {
+					formatter: function () {
+						return this.value / 1000;
+					}
+				}
+			};
+			var tooltip = {
+				pointFormat: '{series.name} produced <b>{point.y:,.0f}</b><br/>warheads in {point.x}'
+			};
+			var plotOptions = {
+				area: {
+					pointStart: 1940,
+					marker: {
+						enabled: false,
+						symbol: 'circle',
+						radius: 2,
+						states: {
+							hover: {
+								enabled: true
+							}
+						}
+					}
+				}
+			};
+			var series= [{
+				name: '',
+				data: [null, null, null, null, null, 6, 11, 32, 110, 235, 369, 640,
+					1005, 1436, 2063, 3057, 4618, 6444, 9822, 15468, 20434, 24126,
+					27387, 29459, 31056, 31982, 32040, 31233, 29224, 27342, 26662,
+					26956, 27912, 28999, 28965, 27826, 25579, 25722, 24826, 24605,
+					24304, 23464, 23708, 24099, 24357, 24237, 24401, 24344, 23586,
+					22380, 21004, 17287, 14747, 13076, 12555, 12144, 11009, 10950,
+					10871, 10824, 10577, 10527, 10475, 10421, 10358, 10295, 10104]
+			}];
+
+			var json = {};
+			json.chart = chart;
+			json.title = title;
+			json.subtitle = subtitle;
+			json.tooltip = tooltip;
+			json.xAxis = xAxis;
+			json.yAxis = yAxis;
+			json.series = series;
+			json.plotOptions = plotOptions;
+			$('#container1').highcharts(json);
+			$('#container2').highcharts(json);
+			$('#container3').highcharts(json);
+
+		});
+	</script>
+
+	<!-- 轮播 -->
+	<script type="text/javascript" charset="utf-8" src="__STATIC__js/jquery.flexslider-min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+	        $("#flexslider1").flexslider({
+	            slideshowSpeed: 3000, //展示时间间隔ms
+	            animationSpeed: 100, //滚动时间ms
+	            touch: true //是否支持触屏滑动
+	        });
+			$("#flexslider2").flexslider({
+				slideshow: false,       //载入页面时，是否自动播放
+	            slideshowSpeed: 3000, //展示时间间隔ms
+	            animationSpeed: 100, //滚动时间ms
+	            touch: true //是否支持触屏滑动
+	        });
+	    });
+	</script>
+	
+    <script type="text/javascript">
+        $('.rp-ul li').mouseover(function(){
+            var el_index=$(this).parent().find('li').index(this);
+            $(this).parent().find('li').removeClass('on');
+            $(this).addClass('on');
+            $(this).parent().parent().parent().find(".rp-text").hide();
+            $(this).parent().parent().parent().find(".rp-text").eq(el_index).show();
+        });
+
+    </script>
+
+	<!--/*请求信号图片生成接口*/-->
+	<iframe src="__HTTP__other/webchart.html" style="display: none;"></iframe>
+	<iframe src="__HTTP__other/wxchart.html" style="display: none;"></iframe>
+
+{/block}
+

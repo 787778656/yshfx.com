@@ -1,0 +1,88 @@
+{extend name="admin@base/main"/}
+{block name="body"}
+<div class="col-sm-12 widget-container-span">
+	<div class="widget-box transparent">
+		<div class="no-border">
+			<ul class="nav nav-tabs">
+                <!-- <li class="mynavTab"><a href="{:url('index')}">管理员列表</a></li> -->
+				<li class="action active"><a href="javascript:;">修改个人资料</a></li>
+			</ul>
+		</div>
+		<div class="widget-body">
+			<div class="widget-main padding-12 no-padding-left no-padding-right">
+				<div class="tab-content padding-4">
+<div class="row">
+							<div class="col-xs-12 no-padding-right">
+								<form class="form-horizontal" role="form" action="" method="post" id="addform">
+								<input type="hidden" name="id" value="{$arrUser.id}">
+									<div class="form-group">
+										<label class="col-sm-2 control-label no-padding-right"
+											for="form-field-1"> 用户名： </label>
+										<div class="col-sm-9">
+											<input type="text" id="form-field-1" value="{$arrUser.username}" name="username" class="col-xs-10 col-sm-5" readonly="true">
+										</div>
+									</div>
+									<div class="space-4"></div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label no-padding-right"
+											for="form-field-2"> 密码： </label>
+										<div class="col-sm-9">
+											<input type="password" id="form-field-2" name="password" class="col-xs-10 col-sm-5" value=""  placeholder="不修改密码请留空">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label no-padding-right"
+											for="form-field-1"> 昵称： </label>
+										<div class="col-sm-9">
+											<input type="text" id="form-field-1" value="{$arrUser.nickname}" name="nickname" class="col-xs-10 col-sm-5">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label no-padding-right"
+											for="form-field-1"> 真实姓名： </label>
+										<div class="col-sm-9">
+											<input type="text" id="form-field-1" value="{$arrUser.true_name}" name="truename" class="col-xs-10 col-sm-5">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label no-padding-right"
+											for="form-field-1"> 备注： </label>
+										<div class="col-sm-9">
+											<textarea class="col-xs-10 col-sm-5" name="remark">{$arrUser.remark}</textarea>
+										</div>
+									</div>
+									<div class="clearfix form-actions">
+										<div class="col-md-offset-3 col-md-9">
+											<button class="btn btn-info mybtn" type="button" onclick="checkform();">
+												<i class="icon-ok bigger-110"></i> 提交
+											</button>
+											&nbsp; &nbsp;
+											<button class="btn mybtn" type="reset">
+												<i class="icon-undo bigger-110"></i> 重置
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	function checkform(){
+		var username = $('input[name="username"]').val();
+		if (username==''){
+			alert('用户名不能为空!');
+			return false;
+		}
+		var nickname = $('input[name="nickname"]').val();
+		if (nickname==''){
+			alert('账号昵称不能为空!');
+			return false;
+		}
+		$('#addform').submit();
+	}
+</script>
+{/block}

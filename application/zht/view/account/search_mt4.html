@@ -1,0 +1,29 @@
+{extend name="admin@base/main"/}
+{block name="body"}
+<div class="col-sm-12 widget-container-span">
+	<div class="widget-box transparent">
+		<div class="no-border">
+			<ul class="nav nav-tabs">
+                <li class="action active mynavTab"><a href="javascript:;">MT4查找</a></li>
+			</ul>
+		</div>
+		<div class="widget-body">
+			<div class="widget-main padding-12 no-padding-left no-padding-right">
+				<div class="tab-content padding-4">
+					<div class="row">
+						<div class="col-xs-12 no-padding-right">
+							<form style="margin-bottom:10px" method="post" action="">
+							   <input type="text" class="inp_date inp_w90" name="keyword" id="keyword" value="{$keyword}" placeholder="mt4账号">
+							   <button style="padding: 0px 12px; margin-top:-3px" type="submit" class="btn btn-info mybtn2"> <i class="icon-ok bigger-110"></i> 搜索</button>
+							</form>
+							<div class="table-responsive">
+								{$msg}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{/block}

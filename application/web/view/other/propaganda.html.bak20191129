@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
+<title>亿思汇|外汇跟单|跟随交易|复制跟单|外汇程序化交易</title>
+<meta name="keywords" content="亿思汇跟单社区，智能交易社区，外汇跟单，自动交易，信号跟单，牛人交易，高手交易，原油期货交易，股指期货交易">
+<meta name="description" content="最具人气的智能交易共享社区，最稳定的跨平台跟单系统，最佳跟随交易平台，亿思汇交易者必备工具。">
+<link rel="shortcut icon" href="http://static.v.yshfx.com/image/favicon.ico" />
+<link href="/adv/propaganda/css/common.css" rel="stylesheet" type="text/css" />
+<link href="/adv/propaganda/css/mobile.css" rel="stylesheet" type="text/css" />
+<script src="/adv/propaganda/js/jquery.js"></script>  
+<script src="/adv/propaganda/js/clipboard.min.js"></script> 
+</head>
+
+<body>
+<div class="warp">
+  <img src="/adv/propaganda/images/index_01.jpg" width="100%">
+  <img src="/adv/propaganda/images/index_02.jpg" width="100%">
+  <img src="/adv/propaganda/images/index_03.jpg" width="100%">
+  <img src="/adv/propaganda/images/index_04.jpg" width="100%">
+  <img src="/adv/propaganda/images/index_05.jpg" width="100%">
+  <img src="/adv/propaganda/images/index_06.jpg" width="100%">
+  <img src="/adv/propaganda/images/index_07.jpg" width="100%">
+</div>
+<div class="contact">
+  <dl>
+     <dt><a data-clipboard-action="copy" data-clipboard-target="#target" id="copy_btn"><img src="/adv/propaganda/images/index_08.jpg" width="100%"></a></dt>
+     <dd>微信号: <span id="target">cslj999</span></dd>
+     <script>    
+    $(document).ready(function(){       
+        var clipboard = new Clipboard('#copy_btn');    
+        clipboard.on('success', function(e) {    
+            alert("微信号已复制成功，去打开微信中粘贴并加好友",1500); 
+            window.location.href='weixin://';
+            e.clearSelection();    
+            console.log(e.clearSelection);    
+        });    
+    });    
+</script>   
+  </dl>
+  <dl>
+     <dt><a href="mqqwpa://im/chat?chat_type=wpa&uin=632131300&version=1&src_type=web&web_src=oicqzone.com"><img src="/adv/propaganda/images/index_09.jpg" width="100%"></a></dt>
+     <dd>QQ: 632131300</dd>
+  </dl>
+  <dl>
+     <dt><a href="tel://4000603-758"><img src="/adv/propaganda/images/index_10.jpg" width="100%"></a></dt>
+     <dd>电话: 400-0603-758</dd>
+  </dl>
+</div>
+<div class="warp">
+  <a data-clipboard-action="copy" data-clipboard-target="#target02" id="copy_btn02"><img src="/adv/propaganda/images/index_11.jpg" width="100%"></a>
+  <span class="gch" id="target02">YSHFX888</span>
+  <script>    
+    $(document).ready(function(){       
+        var clipboard = new Clipboard('#copy_btn02');    
+        clipboard.on('success', function(e) {    
+            alert("公众号已复制成功，去打开微信中粘贴搜索并关注公众号",1500); 
+            window.location.href='weixin://';
+            e.clearSelection();    
+            console.log(e.clearSelection);    
+        });    
+    });    
+</script>   
+</div>  
+<div class="footer">温馨提示：交易有风险，投资需谨慎</div>
+
+
+<!-- 百度统计 -->
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1278241402'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/z_stat.php%3Fid%3D1278241402%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- 商桥 -->
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?62dc36782e62e49096d1bafd9f7e6792";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+</body>
+</html>

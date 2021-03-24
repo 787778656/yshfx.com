@@ -1,0 +1,200 @@
+{extend name="web@base/main"/}
+{block name="body"}
+<style>
+    .main_inner {margin: 48px auto 0 auto;width: 1200px;min-height: 600px;clear: both;background: #fff;padding: 0;}
+    .main_inner .banner{height: 160px;background: url("__STATIC__image/credit07.png")no-repeat;background-size: cover;padding: 20px 32px;}
+    .main_inner .banner h3 img{width: 22px;height: 22px;vertical-align: middle;margin-right: 12px;}
+    .main_inner .banner h3 span{font-size: 18px;color: #ffffff;vertical-align: middle;}
+    .main_inner .banner p{font-size: 16px;color: #ffffff;text-align: center;line-height: 20px;padding-top: 10px;position: relative;}
+    .main_inner .banner p strong{display: block;font-size: 42px;line-height: 80px;}
+    .main_inner .banner p span{display: inline-block;vertical-align: middle;margin-top: -2px;}
+    .main_inner .banner p a{position: absolute;right: 0;top: 10px;}
+    .main_inner .banner p a img{width: 14px;height: 14px;vertical-align: middle;margin-right: 8px;}
+    .main_inner .banner p a span{vertical-align: middle;font-size: 14px;color: #ffffff;margin-top: 1px;}
+    .source{padding: 0 25px;}
+    .source .source_t{font-size: 14px;color: #666666;line-height: 86px;}
+    .source ul li{width: 280px;height: 200px;float: left;margin-right: 10px;background: #f7f7f9;text-align: center;}
+    .source ul li:last-child{margin-right: 0;}
+    .source ul li img{width: 34px;height: 34px;margin: 20px auto;}
+    .source ul li p{font-size: 16px;color: #333333;line-height: 20px;}
+    .source ul li p span{display: block;font-size: 14px;color: #888888;line-height: 46px;}
+    .source ul li p span span{display: inline-block;color: #611987;}
+    .source ul li a{display: block;width: 160px;height: 30px;margin: 0 auto;text-align: center;line-height: 30px;font-size: 16px;color: #611987;border: 1px solid #611987;border-radius: 4px;}
+</style>
+<script>
+    $(function () {
+        $(".credit_btn00").click(function () {
+            $(".credit_detail").fadeIn();
+            var credit_page=1;
+            $(".credit_detail_btn").html("加载更多明细").css({"color":"#611987","border":"1px solid #611987"});
+            var html = '';
+            $.ajax({
+                url : '{:url("api.user/credit")}',
+                type : 'get',
+                dateType : 'jsonp',
+                success : function (data) {
+//                console.log(data);
+                    var json = JSON.parse(data);
+//                console.log(json.code)
+                    console.log(json);
+                    if(json.code == 200){
+                        if(json.data.length == 0){
+                            $(".credit_detail .detailBox").html("<img src='__STATIC__image/news_none.png' class='no_detail'>");
+                        }else {
+                            for (var i=0;i<json.data.length;i++) {
+                                var add_time=json.data[i].add_time;
+//                        console.log(add_time);
+                                var d = new Date();                                     //转换时间
+                                d.setTime(parseInt(add_time) * 1000);
+                                var hour;
+                                var minute;
+                                var month;
+                                var day;
+                                var year;
+                                hour = d.getHours();
+                                minute = d.getMinutes();
+                                month = d.getMonth() + 1;    // Note: January is 0, February is 1, and so on.
+                                day = d.getDate();
+                                year = d.getFullYear();
+                                if (month.toString().length < 2) {month = "0" + month.toString();}
+                                if (day.toString().length < 2) {day = "0" + day.toString();}
+                                if (hour.toString().length < 2) {hour = "0" + hour.toString();}
+                                if (minute.toString().length < 2) {minute = "0" + minute.toString();}
+                                var time1 = hour + ":" + minute;
+                                var time2 = year + "/" + month + "/" + day;        //转换后的时间1
+//                console.log(time1+"/"+time2);
+                                var type=json.data[i].class;
+                                var img;
+                                if(type=='detail_type1'){
+                                    img="__STATIC__image/credit_window01.png";
+                                }else if(type=='studio-reproduce-account'){
+                                    img="__STATIC__image/credit_window02.png";
+                                }else if(type=='show_contact'){
+                                    img="__STATIC__image/credit_window03.png";
+                                }else if(type=='charge'){
+                                    img="__STATIC__image/credit_window04.png";
+                                }else if(type=='recharge'){
+                                    img="__STATIC__image/credit_window05.png";
+                                }else {
+                                    img="__STATIC__image/detail_type6.png";
+                                }
+                                var amount=json.data[i].amount;
+                                var Amount=parseInt(amount);
+                                var amount_color;
+                                if(Amount<0){
+                                    amount_color = "#ff0000";
+                                }else {
+                                    amount_color = "#0580f9";
+                                }
+                                var descripthion=json.data[i].remark;   //描述
+                                html += '<ul><li><p>'+time1+'</p><p>'+time2+'</p></li><li><img src="'+img+'"></li><li><span class="detail_uname" style="color: '+amount_color+';">'+amount+'</span> 元</li><li title="'+descripthion+'">'+descripthion+'</li></ul>';
+                                $(".credit_detail .detailBox").html(html);
+                            }
+                        }
+                    }
+                }
+            });
+
+            /*账户明细div向下滚动加载更多明细*/
+            $(".credit_detail_btn").on("click",function () {
+                credit_page = credit_page+1;
+//        console.log(credit_page);
+                $.ajax({
+                    url : '{:url("api.user/credit")}',
+                    type : 'post',
+                    dateType : 'jsonp',
+                    data : {
+                        page: credit_page
+                    },
+                    success : function (data) {
+//                console.log(data);
+                        var json = JSON.parse(data);
+                        if(json.code == 200){
+                            if(json.data.length == 0){
+                                $(".credit_detail_btn").html("暂无更多明细").css({"color":"#d6d6d6","border":"1px solid #d6d6d6"});
+                            }else {
+                                for (var i=0;i<json.data.length;i++) {
+                                    var add_time=json.data[i].add_time;
+                                    var d = new Date();                                     //转换时间
+                                    d.setTime(parseInt(add_time) * 1000);
+                                    var hour;
+                                    var minute;
+                                    var month;
+                                    var day;
+                                    var year;
+                                    hour = d.getHours();
+                                    minute = d.getMinutes();
+                                    month = d.getMonth() + 1;    // Note: January is 0, February is 1, and so on.
+                                    day = d.getDate();
+                                    year = d.getFullYear();
+                                    if (month.toString().length < 2) {month = "0" + month.toString();}
+                                    if (day.toString().length < 2) {day = "0" + day.toString();}
+                                    if (hour.toString().length < 2) {hour = "0" + hour.toString();}
+                                    if (minute.toString().length < 2) {minute = "0" + minute.toString();}
+                                    var time1 = hour + ":" + minute;
+                                    var time2 = year + "/" + month + "/" + day;        //转换后的时间1
+                                    //                console.log(time1+"/"+time2);
+                                    var type=json.data[i].class;
+                                    var img;
+                                    if(type=='detail_type1'){
+                                        img="__STATIC__image/credit_window01.png";
+                                    }else if(type=='studio-reproduce-account'){
+                                        img="__STATIC__image/credit_window02.png";
+                                    }else if(type=='show_contact'){
+                                        img="__STATIC__image/credit_window03.png";
+                                    }else if(type=='charge'){
+                                        img="__STATIC__image/credit_window04.png";
+                                    }else if(type=='recharge'){
+                                        img="__STATIC__image/credit_window05.png";
+                                    }else {
+                                        img="__STATIC__image/detail_type6.png";
+                                    }
+                                    var amount=json.data[i].amount;
+                                    var Amount=parseInt(amount);
+                                    var amount_color;
+                                    if(Amount<0){
+                                        amount_color = "#ff0000";
+                                    }else {
+                                        amount_color = "#0580f9";
+                                    }
+                                    var descripthion=json.data[i].remark;   //描述
+                                    $(".credit_detail .detailBox").append('<ul><li><p>'+time1+'</p><p>'+time2+'</p></li><li><img src="'+img+'"></li><li><span class="detail_uname" style="color: '+amount_color+';">'+amount+'</span> 元</li><li title="'+descripthion+'">'+descripthion+'</li></ul>');
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        });
+        $(".credit_btn01").click(function(){
+            $(".organization").fadeIn();
+        });
+        $(".credit_btn02").click(function () {
+            $(".register_mam").fadeIn();
+        });
+        $(".credit_btn03").click(function(){
+            $(".strategy").fadeIn();
+        });
+        $(".credit_btn04").click(function () {
+            $(".my_invitationCode").fadeIn();
+        });
+    });
+</script>
+<div class="main">
+    <div class="main_inner">
+        <div class="banner">
+            <h3><img src="__STATIC__image/credit01.png"><span>信用金</span></h3>
+            <p>当前可用信用金(元)<strong>{$info['credit']|number_format=###,2}</strong>信用金总额(元) : <span>{$info['credit_limit']|number_format=###,2}</span><a href="javascript:void(0)" class="credit_btn00"><img src="__STATIC__image/credit02.png"><span>明细</span></a></p>
+        </div>
+        <div class="source">
+            <p class="source_t">信用金 : 可用于抵扣保证金或预缴费，不可提现，发起或参与保障交易优先使用信用金，当保证金或预缴费退回时，优先退回至信用金，当信用金低于授权金额时需补足信用金。</p>
+            <ul>
+                <li><img src="__STATIC__image/credit03.png"><p>机构认证<span>最高可获得 <span>10万</span> 元信用金</span></p><a href="javascript:void(0)" class="credit_btn01">立即认证</a></li>
+                <li><img src="__STATIC__image/credit04.png"><p>到期奖励<span>项目到期奖励项目规模的 <span>1%</span></span></p><a href="javascript:void(0)" class="credit_btn02">发布项目</a></li>
+                <li><img src="__STATIC__image/credit05.png"><p>优质策略<span>最高可获得 <span>10万</span> 元信用金</span></p><a href="javascript:void(0)" class="credit_btn03">人工审核</a></li>
+                <li><img src="__STATIC__image/credit06.png"><p>邀请好友<span>可获得 <span>20元/人（无上限）</span></span></p><a href="javascript:void(0)" class="credit_btn04">立即邀请</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{/block}

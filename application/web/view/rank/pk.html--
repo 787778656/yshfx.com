@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="http://res.v.znforex.com/">
+    <meta charset="UTF-8">
+    <title>亿思汇|智能交易共享社区|跟单交易|镜像交易|复制跟单|亿思汇官网</title>
+    <link rel="shortcut icon" href="image/favicon.ico" />
+    <link href="css/base.css" rel="stylesheet">
+    <link href="css/rank.css" rel="stylesheet">
+    <script src="js/jquery-2.2.0.min.js" type="text/javascript"></script>
+    <script src="js/jqueryscroll.js" type="text/javascript"></script>
+    <script src="js/echarts.min.js" type="text/javascript"></script>
+    <script src="js/jquery.qrcode.min.js" type="text/javascript"></script>
+    <script src="js/clipboard.min.js" type="text/javascript"></script>
+    <style>
+        .main_t_l,.main_t_r{position: relative;}
+        .test{position: absolute;left: 20px;top: 40px;}
+        .test2{position: absolute;left: 245px;top: 120px;}
+        .matching_btn{position: relative;}
+        .pk_bottom_test{display: block;width: 80px;height: 32px;background: url("../image/pk_bottom.png")no-repeat;background-size: cover;position: absolute;top: -30px;right: -50px;}
+        .pk_win{display: block;width: 100%;height: 100%;position: absolute;left: 0;top: 0;background: url("../image/pk_win.png")no-repeat;background-size: cover;z-index: 98;}
+        .pk_lose{display: block;width: 100%;height: 100%;position: absolute;left: 0;top: 0;background: url("../image/pk_lose.png")no-repeat;background-size: cover;z-index: 98;}
+    </style>
+    <script>
+        $(function () {
+            /*实时Top10栏滚动效果*/
+            $(".main_t_r_box").cxScroll({direction:"bottom",speed:700,time:1500,plus:false,minus:false});
+            $(".main_b_inner li").each(function () {
+                /*随机攻击帧动画*/
+                var shillClass = ["skill01","skill02","skill03","skill04","skill05","skill06","skill07"];
+                var zindex = Math.floor(Math.random()*shillClass.length);
+                $(this).find(".skill").addClass(shillClass[zindex]);
+            });
+
+            /*获取每个玩家信息的实时盈利情况*/
+            $(".main_b_inner li").each(function () {
+                var This = $(this);
+                var session = $(this).attr("data");
+                var mt4id_l = $(this).find(".li_l").find(".state_mt4id").html();
+                var mt4id_r = $(this).find(".li_r").find(".state_mt4id").html();
+                var balance_l;
+                var equity_l;
+                var balance_r;
+                var equity_r;
+                var balance_l_new;
+                var equity_l_new;
+                var balance_r_new;
+                var equity_r_new;
+                $.ajax({
+                    url: '__HTTP__api.rank/detail/account/'+mt4id_l+'/session/'+session,
+                    type: 'get',
+                    async : false,
+                    success: function (body) {
+                        var json = JSON.parse(body);
+                        if (json.code == 200) {
+                            var balance = json.data.balance;
+                            var equity = json.data.equity;
+                            var balance_now = json.data.balance_now;
+                            var equity_now = json.data.equity_now;
+                            balance_l = (json.data.balance/10000).toFixed(2);     //左侧玩家，结余变化的百分比
+                            equity_l = (json.data.equity/10000).toFixed(2);      //左侧玩家，净值变化的百分比
+                            This.find(".li_l").find(".balance").html(balance_l);
+                            This.find(".li_l").find(".equity").html(equity_l);
+                            This.find(".li_l").find(".unfold_info_top_1").html(parseInt(balance_now));
+                            This.find(".li_l").find(".unfold_info_top_2").html(parseInt(equity_now));
+                            var surplus_width = parseInt(balance_l*100)+"%";
+                            var surplus_place = 270-20-balance_l*270+"px";
+                            var net_value_width = parseInt(equity_l*100)+"%";
+                            var net_value_place = 270-20-equity_l*270+"px";
+                            This.find(".li_l .state_num .moduluscontainBox").css("left",surplus_place).find(".target").html(surplus_width);
+                            This.find(".li_l .state_num .moduluscontain").css("width",surplus_width);
+                            This.find(".li_l .state_num .moduluscontainBox2").css("left",net_value_place).find(".target2").html(net_value_width);
+                            This.find(".li_l .state_num .moduluscontain2").css("width",net_value_width);
+
+                        }
+                    }
+                });
+                $.ajax({
+                    url: '__HTTP__api.rank/detail/account/'+mt4id_r+'/session/'+session,
+                    type: 'get',
+                    async : false,
+                    success: function (body) {
+                        var json = JSON.parse(body);
+                        if (json.code == 200) {
+                            var balance = json.data.balance;
+                            var equity = json.data.equity;
+                            var balance_now = json.data.balance_now;
+                            var equity_now = json.data.equity_now;
+                            balance_r = (json.data.balance/10000).toFixed(2);     //左侧玩家，结余变化的百分比
+                            equity_r = (json.data.equity/10000).toFixed(2);      //左侧玩家，净值变化的百分比
+                            This.find(".li_r").find(".balance").html(balance_r);
+                            This.find(".li_r").find(".equity").html(equity_r);
+                            This.find(".li_r").find(".unfold_info_top_1").html(parseInt(balance_now));
+                            This.find(".li_r").find(".unfold_info_top_2").html(parseInt(equity_now));
+                            var surplus_width = parseInt(balance_r*100)+"%";
+                            var surplus_place = balance_r*270-20+"px";
+                            var net_value_width = parseInt(equity_r*100)+"%";
+                            var net_value_place = equity_r*270-20+"px";
+                            This.find(".li_r .state_num .moduluscontainBox").css("left",surplus_place).find(".target").html(surplus_width);
+                            This.find(".li_r .state_num .moduluscontain").css("width",surplus_width);
+                            This.find(".li_r .state_num .moduluscontainBox2").css("left",net_value_place).find(".target2").html(net_value_width);
+                            This.find(".li_r .state_num .moduluscontain2").css("width",net_value_width);
+
+                        }
+                    }
+                });
+                setInterval(function () {
+                    $.ajax({
+                        url: '__HTTP__api.rank/detail/account/'+mt4id_l+'/session/'+session,
+                        type: 'get',
+                        async : false,
+                        success: function (body) {
+                            var json = JSON.parse(body);
+                            if (json.code == 200) {
+                                var balance = json.data.balance;
+                                var equity = json.data.equity;
+                                var balance_now = json.data.balance_now;
+                                var equity_now = json.data.equity_now;
+                                balance_l_new = (json.data.balance/10000).toFixed(2);     //左侧玩家，结余变化的百分比
+                                equity_l_new = (json.data.equity/10000).toFixed(2);      //左侧玩家，净值变化的百分比
+                                setTimeout(function () {
+                                    This.find(".li_l").find(".balance").html(balance_l_new);
+                                    This.find(".li_l").find(".equity").html(equity_l_new);
+                                    This.find(".li_l").find(".unfold_info_top_1").html(parseInt(balance_now));
+                                    This.find(".li_l").find(".unfold_info_top_2").html(parseInt(equity_now));
+                                    var surplus_width = parseInt(balance_l_new*100)+"%";
+                                    var surplus_place = 270-20-balance_l_new*270+"px";
+                                    var net_value_width = parseInt(equity_l_new*100)+"%";
+                                    var net_value_place = 270-20-equity_l_new*270+"px";
+                                    This.find(".li_l .state_num .moduluscontainBox").css("left",surplus_place).find(".target").html(surplus_width);
+                                    This.find(".li_l .state_num .moduluscontain").css("width",surplus_width);
+                                    This.find(".li_l .state_num .moduluscontainBox2").css("left",net_value_place).find(".target2").html(net_value_width);
+                                    This.find(".li_l .state_num .moduluscontain2").css("width",net_value_width);
+                                },1100);
+                            }
+                        }
+                    });
+                    $.ajax({
+                        url: '__HTTP__api.rank/detail/account/'+mt4id_r+'/session/'+session,
+                        type: 'get',
+                        async : false,
+                        success: function (body) {
+                            var json = JSON.parse(body);
+                            if (json.code == 200) {
+                                var balance = json.data.balance;
+                                var equity = json.data.equity;
+                                var balance_now = json.data.balance_now;
+                                var equity_now = json.data.equity_now;
+                                balance_r_new = (json.data.balance/10000).toFixed(2);     //左侧玩家，结余变化的百分比
+                                equity_r_new = (json.data.equity/10000).toFixed(2);      //左侧玩家，净值变化的百分比
+                                setTimeout(function () {
+                                    This.find(".li_r").find(".balance").html(balance_r_new);
+                                    This.find(".li_r").find(".equity").html(equity_r_new);
+                                    This.find(".li_r").find(".unfold_info_top_1").html(parseInt(balance_now));
+                                    This.find(".li_r").find(".unfold_info_top_2").html(parseInt(equity_now));
+                                    var surplus_width = parseInt(balance_r_new*100)+"%";
+                                    var surplus_place = balance_r_new*270-20+"px";
+                                    var net_value_width = parseInt(equity_r_new*100)+"%";
+                                    var net_value_place = equity_r_new*270-20+"px";
+                                    This.find(".li_r .state_num .moduluscontainBox").css("left",surplus_place).find(".target").html(surplus_width);
+                                    This.find(".li_r .state_num .moduluscontain").css("width",surplus_width);
+                                    This.find(".li_r .state_num .moduluscontainBox2").css("left",net_value_place).find(".target2").html(net_value_width);
+                                    This.find(".li_r .state_num .moduluscontain2").css("width",net_value_width);
+                                },1100);
+                            }
+                        }
+                    });
+                    if(balance_l_new <= 0 || equity_l_new <= 0){
+                        //当pk结束的时候，请求接口，传递session；
+                        setTimeout(function () {
+                            This.find(".li_l").append("<i class='pk_lose'></i>");
+                            This.find(".li_r").append("<i class='pk_win'></i>");
+                        },1100);
+                        setTimeout(function () {
+                            $.ajax({
+                                url: '__HTTP__api.rank/finish',
+                                type: 'post',
+                                data:{
+                                    session: session
+                                },
+                                success: function (body) {
+                                    var json = JSON.parse(body);
+                                    if(json.code = 200){
+//                                    console.log("pk结束");
+                                        This.fadeOut(1000);
+                                    }
+                                }
+                            })
+                        },3000);
+                    }else if(balance_r_new <= 0 || equity_r_new <= 0){
+                        setTimeout(function () {
+                            This.find(".li_l").append("<i class='pk_win'></i>");
+                            This.find(".li_r").append("<i class='pk_lose'></i>");
+                        },1100);
+                        setTimeout(function () {
+                            $.ajax({
+                                url: '__HTTP__api.rank/finish',
+                                type: 'post',
+                                data:{
+                                    session: session
+                                },
+                                success: function (body) {
+                                    var json = JSON.parse(body);
+                                    if(json.code = 200){
+//                                    console.log("pk结束");
+                                        This.fadeOut();
+                                    }
+                                }
+                            })
+                        },3000);
+                    }
+                    var balance_l_old = This.find(".li_l").find(".balance").html();
+                    var balance_r_old = This.find(".li_r").find(".balance").html();
+                    var deduction;     //伤害值
+                    if(balance_l_new > balance_r_new){            //左边的结余变化值，大于右边的结余变化值
+                        deduction = ((balance_l_new - balance_r_new) - (balance_l_old - balance_r_old)).toFixed(2)*10000;
+                        if(deduction > 0){
+                            This.find(".li_l").find(".state").css("z-index","1");
+                            This.find(".li_r").find(".state").css("z-index","0");
+                            This.find(".li_l").find(".skill").css("display","block");
+                            This.find(".li_r").find(".skill").css("display","none");
+                            setTimeout(function(){
+                                This.find(".li_l").find(".skill").css("display","none");
+                                This.find(".li_r .deduction").css("display","block").html("-"+deduction);
+                                setTimeout(function () {
+                                    This.find(".li_r .deduction").css("display","none");
+                                },900);
+                            },1100);
+                        }else {
+                            Random();
+                        }
+                    }else {
+                        deduction = ((balance_r_new - balance_l_new) - (balance_r_old - balance_l_old)).toFixed(2)*10000;
+                        if(deduction > 0){
+                            This.find(".li_l").find(".state").css("z-index","0");
+                            This.find(".li_r").find(".state").css("z-index","1");
+                            This.find(".li_l").find(".skill").css("display","none");
+                            This.find(".li_r").find(".skill").css("display","block");
+                            setTimeout(function(){
+                                This.find(".li_r").find(".skill").css("display","none");
+                                This.find(".li_l .deduction").css("display","block").html("-"+deduction);
+                                setTimeout(function () {
+                                    This.find(".li_l .deduction").css("display","none");
+                                },900);
+                            },1100);
+                        }else {
+                            Random();
+                        }
+                    }
+                    function Random(){      /*10秒内数据无变化的pk组，随机进行miss动画；*/
+                        /*10秒钟随机攻击miss动画效果*/
+                        var random = Math.floor(Math.random()*10);
+                        This.find(".random").html(random);
+                        if(This.find(".random").html()==0 || This.find(".random").html()==2){
+                            This.find(".li_l").find(".state").css("z-index","1");
+                            This.find(".li_r").find(".state").css("z-index","0");
+                            This.find(".li_l").find(".skill").css("display","block");
+                            This.find(".li_r").find(".skill").css("display","none");
+                            setTimeout(function(){
+                                This.find(".li_l").find(".skill").css("display","none");
+                                This.find(".li_r .deduction").css("display","block").html("Miss");
+                                setTimeout(function () {
+                                    This.find(".li_r .deduction").css("display","none");
+                                },900);
+                            },1100);
+                        }else if(This.find(".random").html()==1 || This.find(".random").html()==3){
+                            This.find(".li_l").find(".state").css("z-index","0");
+                            This.find(".li_r").find(".state").css("z-index","1");
+                            This.find(".li_l").find(".skill").css("display","none");
+                            This.find(".li_r").find(".skill").css("display","block");
+                            setTimeout(function(){
+                                This.find(".li_r").find(".skill").css("display","none");
+                                This.find(".li_l .deduction").css("display","block").html("Miss");
+                                setTimeout(function () {
+                                    This.find(".li_l .deduction").css("display","none");
+                                },900);
+                            },1100);
+                        }
+                    }
+                },10000);
+            });
+
+            /*交易者“展开”*/
+            $(".unfold").on("click", function () {
+                if($(this).parent().parent().parent().find(".unfold_info").css("display") == "none"){       //展开部分隐藏的时候
+                    $(this).parent().parent().parent().find(".unfold_info").css("display","block");
+                    $(this).find("span").html("收起");
+                    $(this).find("i").css("transform","rotate(180deg)");
+                    var this_width = $(this).parent().parent().parent().find(".unfold_info");
+                    var state_mt4id = $(this).parent().parent().find(".state_head").find(".state_mt4id").html();        //获取mt4id
+                    /*展开详情*/
+                    $.ajax({
+                        url: '__HTTP__api.rank/account_score?account='+state_mt4id,
+                        type: 'get',
+                        dataType: 'jsonp',
+                        jsonp: 'callback',
+                        success: function (body) {
+                            if(body.code==200){
+                                var data=body.data;
+                                var reg = new RegExp(",","g");
+
+                                var balance_drawdown= (data.balance_drawdown.toString()).replace(reg,"");//结余跌幅
+                                var equity_drawdown= (data.equity_drawdown.toString()).replace(reg,"");//净值跌幅
+                                var equity_increase= (data.equity_increase.toString()).replace(reg,"");
+                                var loss_day_max= (data.loss_day_max.toString()).replace(reg,"");//日亏损
+                                var loss_max= (data.loss_max.toString()).replace(reg,"");//亏损偏移
+                                var loss_score= (data.loss_score.toString()).replace(reg,"");
+                                var max_money= (data.max_money.toString()).replace(reg,"");//最大入金
+                                var profit_factor= (data.profit_factor.toString()).replace(reg,"");
+                                var profit_offset= (data.profit_offset.toString()).replace(reg,"");
+                                var profit_score= (data.profit_score.toString()).replace(reg,"");
+                                var trade_win= (data.trade_win.toString()).replace(reg,"");
+                                var year_proft= (data.year_proft.toString()).replace(reg,"");
+
+                                balance_drawdown= parseFloat(balance_drawdown).toFixed(2);//结余跌幅
+                                equity_drawdown= parseFloat(equity_drawdown).toFixed(2);//净值跌幅
+                                equity_increase= parseFloat(equity_increase).toFixed(2);//净值涨幅
+                                loss_day_max= parseFloat(loss_day_max).toFixed(2);//最大单日亏损
+                                loss_max= parseFloat(loss_max).toFixed(2);//亏损偏移
+                                loss_score= parseFloat(loss_score).toFixed(2);//亏损偏移占比
+                                max_money= parseFloat(max_money).toFixed(2);//最大入金
+                                profit_factor= parseFloat(profit_factor).toFixed(2);//利润因子
+                                profit_offset= parseFloat(profit_offset).toFixed(2);
+                                profit_score= parseFloat(profit_score).toFixed(2);
+                                trade_win= parseFloat(trade_win).toFixed(2);    //交易胜率
+                                year_proft= parseFloat(year_proft).toFixed(2);  //年度预测
+                                if(year_proft > 100){year_proft = 100;}
+                                if(trade_win > 100){trade_win = 100;}
+                                if(equity_increase > 100){equity_increase = 100;}
+                                if(loss_max > 100){loss_max = 100;}
+                                if(profit_factor > 100){profit_factor = 100;}
+                                if(equity_drawdown > 100){equity_drawdown = 100;}
+                                if(max_money > 100){max_money = 100;}
+                                if(loss_score > 100){loss_score = 100;}
+                                if(loss_day_max > 100){loss_day_max = 100;}
+
+                                this_width.find(".unfold_info_li").find(".year_proft").css("width",year_proft+"%");
+                                this_width.find(".unfold_info_li").find(".trade_win").css("width",trade_win+"%");
+                                this_width.find(".unfold_info_li").find(".equity_increase").css("width",equity_increase+"%");
+                                this_width.find(".unfold_info_li").find(".loss_max").css("width",loss_max+"%");
+                                this_width.find(".unfold_info_li").find(".profit_factor").css("width",profit_factor+"%");
+                                this_width.find(".unfold_info_li").find(".equity_drawdown").css("width",equity_drawdown+"%");
+                                this_width.find(".unfold_info_li").find(".max_money").css("width",max_money+"%");
+                                this_width.find(".unfold_info_li").find(".loss_score").css("width",loss_score+"%");
+                                this_width.find(".unfold_info_li").find(".loss_day_max").css("width",loss_day_max+"%");
+
+                            }
+                        }
+                    });
+
+                }else {
+                    $(this).parent().parent().parent().find(".unfold_info").css("display","none");
+                    $(this).find("span").html("展开");
+                    $(this).find("i").css("transform","rotate(0deg)");
+                }
+            });
+
+            /*交易规则弹窗*/
+            $(".matching_a").on("click", function () {
+                $(".pk_rule").fadeIn();
+                $(".pk_rule_close").on("click", function () {
+                    $(".pk_rule").hide();
+                });
+                $(".pk_rule_bottom").on("click", function () {
+                    var t = $(".pk_rule_inner p").scrollTop();
+                    $(".pk_rule_inner p").animate({scrollTop: t+100},300);
+                });
+            });
+            /*匹配弹窗*/
+            var s = 0;
+            var m = 0;
+            function settime(obj) {
+                obj = $(obj);
+                if(s < 10){ s = '0'+s; }
+                if(s == 60){
+                    s = '0'+0;
+                    m = m+1;
+                }
+                if(m<10){
+                    M = '0'+m;
+                }else if(m>59){
+                    M = '0'+0;
+                }else {
+                    M = m;
+                }
+                obj.find("span:nth-child(2)").html(s);
+                obj.find("span:nth-child(1)").html(M);
+                /*if($(".pk_matching_inner").css("opacity") == "1"){
+                 $(".matching_btn span").html("匹配中...");
+                 }else if($(".pk_matching_inner").css("opacity") == "0"){
+                 $(".matching_btn span").html($(".pk_matching_time").find("p:nth-child(2)").html());
+                 }*/
+                s++;
+                setTimeout(function() {settime(obj) },1000);
+            }
+
+            var count = 0;
+            $(".matching_btn").on("click", function () {
+                $(".matching_btn").addClass("disabled");
+                var uid={$uid};
+                if(uid == 0 || uid == ''){
+                    $(".pk_hint p").html("您还未登录！");
+                    $(".pk_hint").fadeIn();
+                    return false;
+                }
+                /*匹配接口数据*/
+                $.ajax({
+                    url: '__HTTP__api.rank/matching.html',
+                    type: 'get',
+                    success: function (body) {
+                        var json = JSON.parse(body);
+                        if(json.code==200){
+//                            $(".matching_btn").addClass("disabled");
+                            $(".pk_matching").fadeIn(500);
+                            $(".matching_btn span").html("匹配中...");
+                            $(".pk_matching_inner").animate({"left":0,"top":0,"right":"0","bottom":"0","margin":"auto",width:"465px",height:"276px"},500).css("opacity","1");
+                            count ++;
+                            if (count == 1){            //只在第一次点击的时候执行一次；
+                                var setTime = settime(".matching_time");
+                                /*随机头像,名称*/
+                                var send = setInterval(randomIMG,100);         //setinterval执行函数要去掉函数后面的括号；
+                                function randomIMG(){
+                                    var IMG = ["http://static.v.znforex.com/image/vphoto/51.jpg","http://static.v.znforex.com/image/vphoto/1.jpg","http://static.v.znforex.com/image/vphoto/10.jpg","http://static.v.znforex.com/image/vphoto/12.jpg","http://static.v.znforex.com/image/vphoto/15.jpg",
+                                    "http://static.v.znforex.com/image/vphoto/29.jpg","http://static.v.znforex.com/image/vphoto/34.jpg","http://static.v.znforex.com/image/vphoto/37.jpg","http://static.v.znforex.com/image/vphoto/73.jpg","http://static.v.znforex.com/image/vphoto/74.jpg"];
+                                    var NAME = ["投资天才","汇不会","对冲交易","滑梯先生","诸司马迹","取之有道","简单","金山财富","金钱的游戏","万年老牛"];
+                                    var zindex = Math.floor(Math.random()*IMG.length);
+                                    $(".pk_matching_r .pk_head img").attr("src",IMG[zindex]);
+                                    $(".pk_matching_r p").html(NAME[zindex]);
+                                }
+                                /*匹配成功，停止随机*/
+                                setTimeout(function () {
+//                                    console.log("匹配成功");
+                                    count = 0;
+                                    window.clearInterval(setTime);
+                                    window.clearInterval(send);
+                                    var vphoto = json.data.vphoto;
+                                    var nickname = json.data.nickname;
+                                    console.log(vphoto);
+                                    $(".pk_matching_r").find(".pk_head").find("img").attr("src",vphoto);
+                                    $(".pk_matching_r").find("p").html(nickname);
+
+                                    $(".pk_matching_time").hide();
+                                    $(".matching_succeed").show();
+                                    willBegin(".success_time");
+                                    $(".matching_succeed_img").fadeIn().css("animation","1s matching_succeed");
+                                    $(".matching_succeed_hint").fadeIn();
+                                },10000);
+                            }
+
+                            $(".pk_matching_close").on("click", function () {
+                                $(".matching_btn").removeClass("disabled");
+                                $(".pk_matching_inner").animate({"left": "800px","top":"800px",width:"162px",height:"40px","opacity":"0"},500);
+                                setTimeout(function () {
+                                    $(".pk_matching").hide();
+                                },500);
+                                setInterval(function() {
+                                    if($(".pk_matching").css("display") == "none"){
+                                        $(".matching_btn span").html($(".pk_matching_time").find("p:nth-child(2)").html());    //每秒更新同步显示到下面按钮
+                                    }else if($(".pk_matching_time").css("display") == "none"){
+                                        $(".matching_btn span").html("匹配成功");
+                                    }
+                                },1000);
+                            });
+                        }else {
+                            $(".pk_hint p").html(json.msg);
+                            $(".pk_hint").fadeIn();
+                        }
+                    }
+                });
+            });
+
+            var success_time = 10;
+            function willBegin(obj){
+                if(success_time>0){
+                    success_time--;
+                    $(".success_time").html(success_time);
+                }else if(success_time == 0){
+                    success_time = 0;
+                    $(".success_time").html(success_time);
+                    $(".pk_matching_inner").animate({"left": "800px","top":"800px",width:"162px",height:"40px","opacity":"0"},500);
+                    setTimeout(function () {
+                        $(".pk_matching").hide();
+                    },500);
+                    $(".matching_btn").addClass("disabled");
+                    $(".matching_btn span").html("匹配成功");
+                    window.location.reload();
+                }
+                setTimeout(function() {willBegin(obj) },1000);
+            }
+
+            /*右侧悬浮按钮*/
+            $("#pk_history").on("click", function () {
+                var uid={$uid};
+                if(uid == 0 || uid == ''){
+                    $(".pk_hint p").html("您还未登录！");
+                    $(".pk_hint").fadeIn();
+                    return false;
+                }
+                $(".pk_history").fadeIn();
+                $(".pk_history_close").on("click", function () {
+                    $(".pk_history").hide();
+                });
+                $(".pk_history_bottom").on("click", function () {
+                    var t = $(".pk_history_inner ul").scrollTop();
+                    $(".pk_history_inner ul").animate({scrollTop: t+100},300);
+                });
+            });
+            $("#pk_friend").on("click", function () {
+                var uid={$uid};
+                if(uid == 0 || uid == ''){
+                    $(".pk_hint p").html("您还未登录！");
+                    $(".pk_hint").fadeIn();
+                    return false;
+                }
+                $(".pk_friend").fadeIn();
+                $(".pk_friend_close").on("click", function () {
+                    $(".pk_friend").hide();
+                });
+            });
+            /*邀请好友未注册*/
+            $(".pk_no_register_close").on("click", function () {
+                $(".pk_no_register").hide();
+            });
+            /*提示弹窗*/
+            $(".pk_hint_close").on("click", function () {
+                $(".matching_btn").removeClass("disabled");
+                $(".pk_hint").hide();
+            });
+        });
+    </script>
+</head>
+<body>
+{if !empty($uid)}
+<?php $NAME = empty($info['nickname']) ? $info['login']: $info['nickname']; ?>
+{else/}
+<?php $NAME = ''; ?>
+{/if}
+<div class="main">
+    <div class="main_t">
+        <div class="main_t_l">
+            <h4>赛 季 奖 励</h4>
+            <p><span>第 1 名</span><span>¥ 50000</span></p>
+            <p><span>第 2 名</span><span>¥ 10000</span></p>
+            <p><span>第 3 名</span><span>¥ 5000</span></p>
+            <p><span>前10名</span><span>¥ 1000</span></p>
+            <p><span>前50名</span><span>VIP2 30天</span></p>
+            <img src='image/pk_main_t.png' class="test">
+            <img src="image/pk_main_t2.png" class="test2">
+        </div>
+        <div class="main_t_r">
+            <h4>实时 TOP 10</h4>
+            <div class="main_t_r_box">
+                <div class="box">
+                    <ul class="list">
+                        <li><span>TOP 1</span><span><i>?</i>暂无</span></li>
+                        <li><span>TOP 2</span><span><i>?</i>暂无</span></li>
+                        <li><span>TOP 3</span><span><i>?</i>暂无 (大师进入排行 TOP3)</span></li>
+                        <li><span>TOP 4</span><span><i>?</i>暂无</span></li>
+                        <li><span>TOP 5</span><span><i>?</i>暂无</span></li>
+                        <li><span>TOP 6</span><span><i>?</i>暂无</span></li>
+                        <li><span>TOP 7</span><span><i>?</i>暂无</span></li>
+                        <li><span>TOP 8</span><span><i>?</i>暂无</span></li>
+                        <li><span>TOP 9</span><span><i>?</i>暂无</span></li>
+                        <li><span>TOP 10</span><span><i>?</i>暂无 (黄金进入排行 TOP10)</span></li>
+                    </ul>
+                </div>
+            </div>
+            <img src='image/pk_main_t.png' class="test">
+        </div>
+    </div>
+    <div class="main_b">
+        <div class="main_b_title"></div>
+        <ul class="main_b_inner">        
+        {volist name="arrPk" id="pk"}
+        <?php 
+            $pkinfo = @unserialize($pk['remark']);
+            $pkdw = 'pk16.png';
+            $star = $pk['level']-25;
+            if ($pk['level']<6){
+                $pkdw = 'pk11.png';
+                $star = $pk['level'];
+            }elseif ($pk['level']<11){
+                $pkdw = 'pk12.png';
+                $star = $pk['level']-5;
+            }elseif ($pk['level']<16){
+                $pkdw = 'pk13.png';
+                $star = $pk['level']-10;
+            }elseif ($pk['level']<21){
+                $pkdw = 'pk14.png';
+                $star = $pk['level']-15;
+            }elseif ($pk['level']<26){
+                $pkdw = 'pk15.png';
+                $star = $pk['level']-20;
+            }
+            $starDel = intval(5-$star);
+        ?>
+        {if $key%2 eq 0}
+            <li data = "{$pk['session']}">
+                <span class="random" style="display: none;"></span>
+                <div class="li_l">
+                    <span class="balance" style="display: none;"></span>
+                    <span class="equity" style="display: none;"></span>
+                    <div class="grade">
+                        <img src="image/{$pkdw}" class="grade_img">
+                        <p class="score" style='display: none;'>{$starDel}</p>
+                        <div class="star-vote"><?php echo str_repeat('<i class="add-star"></i>', $star).str_repeat('<i class="del-star"></i>', $starDel); ?></div>
+                    </div>
+                    <div class="state">
+                        <div class="state_head">                        
+                        {if isset($pkinfo['u_img'])}
+                            {if stristr($pkinfo['u_img'], 'http')}
+                            <img src="{$pkinfo['u_img']}">
+                            {else/}
+                                {if !empty($pkinfo['u_img'])}
+                                <img src="__BASIC__upload/image/{$pkinfo['u_img']}">
+                                {else/}
+                                <img src="__BASIC__image/combinationHead4.png">
+                                {/if}
+                            {/if}
+                        {else/}
+                            {if ($pkinfo['vphoto']<=95)}
+                            <img src="__BASIC__image/vphoto/{$pkinfo['vphoto']}.jpg" >
+                            {else/}
+                            <img src="__BASIC__image/combinationHead4.png">
+                            {/if}
+                        {/if}
+
+                            <i class="skill"></i>
+                            <i class="deduction">-50</i>
+                            <span class="state_mt4id" style="display: none;">{$pk.mt4id}</span>
+                        </div>
+                        <div class="state_num">
+                            <div class="modulusContent">
+                                <div class="moduluscontain" style="width: 100%;"></div>
+                                <div class="moduluscontainBox" style="left: -20px;">
+                                    <p class="target">100%</p>
+                                    <img src="image/modulus_text_tip3.png" class="modulus_text_tip">
+                                </div>
+                            </div>
+                            <div class="modulusContent2">
+                                <div class="moduluscontain2" style="width: 100%;"></div>
+                                <div class="moduluscontainBox2" style="left: -20px;">
+                                    <p class="target2">100%</p>
+                                    <img src="image/modulus_text_tip4.png" class="modulus_text_tip">
+                                </div>
+                            </div>
+                        </div>
+                        <p class="state_p"><a href="javascript:void(0)" class="unfold"><span>展开</span><i></i></a><span>排名 : <span>暂无</span></span><span class="name">{$pkinfo['nickname']}</span></p>
+                    </div>
+                    <div class="unfold_info">
+                        <div class="unfold_info_top"><p>历史战斗力 : <span class="unfold_info_top_1">{$pk['balance']}</span></p></div>
+                        <div class="unfold_info_top"><p>持仓战斗力 : <span class="unfold_info_top_2">{$pk['equity']}</span></p></div>
+                        <div class="unfold_info_li"><p>年度预测</p><div class="modulusContent"><div class="moduluscontain year_proft" style="width: 0%;"></div></div></div>
+                        <div class="unfold_info_li"><p>交易胜率</p><div class="modulusContent"><div class="moduluscontain trade_win" style="width: 0%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大净值涨幅</p><div class="modulusContent"><div class="moduluscontain equity_increase" style="width: 0%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大偏移占比</p><div class="modulusContent"><div class="moduluscontain loss_max" style="width: 0%;"></div></div></div>
+                        <div class="unfold_info_li"><p>利润因子</p><div class="modulusContent"><div class="moduluscontain profit_factor" style="width: 0%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大净值跌幅</p><div class="modulusContent"><div class="moduluscontain equity_drawdown" style="width: 0%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大入金加载</p><div class="modulusContent"><div class="moduluscontain max_money" style="width: 0%;"></div></div></div>
+                        <div class="unfold_info_li"><p>亏损偏移占比</p><div class="modulusContent"><div class="moduluscontain loss_score" style="width: 0%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大单日亏损</p><div class="modulusContent"><div class="moduluscontain loss_day_max" style="width: 0%;"></div></div></div>
+                    </div>
+                </div>
+            {else/}
+                <div class="li_r">
+                    <span class="balance" style="display: none;"></span>
+                    <span class="equity" style="display: none;"></span>
+                    <div class="grade">
+                        <img src="image/{$pkdw}" class="grade_img">
+                        <p class="score" style='display: none;'>30</p>
+                        <div class="star-vote"><?php echo str_repeat('<i class="add-star"></i>', $star).str_repeat('<i class="del-star"></i>', $starDel); ?></div>
+                    </div>
+                    <div class="state">
+                        <div class="state_head">
+                        {if isset($pkinfo['u_img'])}
+                            {if stristr($pkinfo['u_img'], 'http')}
+                            <img src="{$pkinfo['u_img']}">
+                            {else/}
+                                {if !empty($pkinfo['u_img'])}
+                                <img src="__BASIC__upload/image/{$pkinfo['u_img']}">
+                                {else/}
+                                <img src="__BASIC__image/combinationHead4.png">
+                                {/if}
+                            {/if}
+                        {else/}
+                            {if ($pkinfo['vphoto']<=95)}
+                            <img src="__BASIC__image/vphoto/{$pkinfo['vphoto']}.jpg" >
+                            {else/}
+                            <img src="__BASIC__image/combinationHead4.png">
+                            {/if}
+                        {/if}
+
+                            <i class="skill"></i>
+                            <i class="deduction">-50</i>
+                            <span class="state_mt4id" style="display: none;">{$pk.mt4id}</span>
+                        </div>
+                        <div class="state_num">
+                            <div class="modulusContent">
+                                <div class="moduluscontain" style="width: 100%;"></div>
+                                <div class="moduluscontainBox" style="left: 250px;">
+                                    <p class="target">100%</p>
+                                    <img src="image/modulus_text_tip3.png" class="modulus_text_tip">
+                                </div>
+                            </div>
+                            <div class="modulusContent2">
+                                <div class="moduluscontain2" style="width: 100%;"></div>
+                                <div class="moduluscontainBox2" style="left: 250px;">
+                                    <p class="target2">100%</p>
+                                    <img src="image/modulus_text_tip4.png" class="modulus_text_tip">
+                                </div>
+                            </div>
+                        </div>
+                        <p class="state_p"><span class="name">{$pkinfo['nickname']}</span><span>排名 : <span>暂无</span></span><a href="javascript:void(0)" class="unfold"><span>展开</span><i></i></a></p>
+                    </div>
+                    <div class="unfold_info">
+                        <div class="unfold_info_top"><p>历史战斗力 : <span class="unfold_info_top_1">{$pk['balance']}</span></p></div>
+                        <div class="unfold_info_top"><p>持仓战斗力 : <span class="unfold_info_top_2">{$pk['equity']}</span></p></div>
+                        <div class="unfold_info_li"><p>年度预测</p><div class="modulusContent"><div class="moduluscontain year_proft" style="width: 0%;"></div></div></div>
+                        <div class="unfold_info_li"><p>交易胜率</p><div class="modulusContent"><div class="moduluscontain trade_win" style="width: 0%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大净值涨幅</p><div class="modulusContent"><div class="moduluscontain equity_increase" style="width: 0%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大偏移占比</p><div class="modulusContent"><div class="moduluscontain loss_max" style="width: 0%;"></div></div></div>
+                        <div class="unfold_info_li"><p>利润因子</p><div class="modulusContent"><div class="moduluscontain profit_factor" style="width: 0%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大净值跌幅</p><div class="modulusContent"><div class="moduluscontain equity_drawdown" style="width: 0%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大入金加载</p><div class="modulusContent"><div class="moduluscontain max_money" style="width: 0%;"></div></div></div>
+                        <div class="unfold_info_li"><p>亏损偏移占比</p><div class="modulusContent"><div class="moduluscontain loss_score" style="width: 0%;"></div></div></div>
+                        <div class="unfold_info_li"><p>最大单日亏损</p><div class="modulusContent"><div class="moduluscontain loss_day_max" style="width: 0%;"></div></div></div>
+                    </div>
+                </div>
+            </li>
+            {/if}
+            {/volist}
+        </ul>
+    </div>
+</div>
+<!--右侧悬浮按钮-->
+<a href="javascript:void(0)" id="pk_friend"></a>
+<a href="javascript:void(0)" id="pk_history"></a>
+<!--底部开始匹配按钮-->
+<div class="matching">
+    <img src="image/pk06.png"><a href="javascript:void(0)" class="matching_a">查看规则</a><a href="javascript:void(0)"  class="matching_btn"><span>开始匹配</span><i class="pk_bottom_test"></i></a>
+</div>
+
+<!--弹窗-->
+<div class="pk_rule">
+    <div class="pk_rule_inner">
+        <div class="pk_rule_close"></div>
+        <h4>王者交易赛规则</h4>
+        <p>
+            <i>1.</i>  <span>PK规则：当您参与排位时，系统会自动匹配一个相同段位的“对手”进行PK，系统会在双方账
+            户发生变化的时候开始比拼（数据比拼），“红条”为结余变化（盈利/亏损），“蓝条”为净值
+            变化（浮盈/浮亏），按照百分比进行比拼，当某一方高于另外一方时，则较低的一方“红条/蓝
+            条”将按比例降低，直至有一方“红条”或“蓝条”都变为0则为PK结束。</span><br><br>
+            <i>2.</i>  <span>数据比拼：数据为结余和净值的百分比除以仓位比（考虑杠杆转化为1:100 杠杠为1:500的需要除
+            以5），同仓位转化机制，这个数字每变化约10%进行pk一次。</span><br><br>
+            <i>3.</i>  <span>胜出规则：当PK结束，“红条”或“蓝条”为0的用户则为失败，另一方为胜出。</span><br><br>
+            <i>4.</i>  <span>晋级规则：每胜出一次，段位等级上升一颗星，满星后晋升一个段位，但失败一次则段位等级下
+            降一个星，等级为0时则下降一个段位。</span><br><br>
+            <i>5.</i>  <span>段位规则：段位一共分为：青铜，白银，黄金，钻石，荣耀大师，最强王者 一共6个段位，每个段位为5级（5颗星）。</span><br><br>
+            <i>6.</i>  <span>赛季规则：每个赛季为1个月。</span><br><br>
+            <i>7.</i>  <span>参与规则：本站所有实盘用户均可参与比赛，不限金额（比赛并不统计金额大小）。</span><br><br>
+        </p>
+        <img src="image/pk18_2.png" class="pk_rule_bottom">
+    </div>
+</div>
+<div class="pk_matching">
+    <div class="pk_matching_inner">
+        <div class="pk_matching_close"></div>
+        <div class="pk_matching_time">
+            <p>预计匹配时间 <span>01:59</span></p>
+            <p class="matching_time"><span>00</span> : <span>00</span></p>
+            <p>匹配中...</p>
+        </div>
+        <div class="matching_succeed">
+            <p>匹配成功</p>
+            <p>比赛将在<span> <span class="success_time">10</span> S</span>后开始</p>
+        </div>
+        {if !empty($userInfo)}
+        <div class="pk_matching_l"><div class="pk_head">
+        {if strstr($userInfo['u_img'], 'http')}
+             <img src="<?php echo !empty($userInfo['u_img']) ? $userInfo['u_img'] : 'image/vip_nav15.png'?>">
+        {else/}
+             <img src="<?php echo !empty($userInfo['u_img']) ? '__BASIC__upload/image/'.$userInfo['u_img'] : 'image/vip_nav15.png'?>" >
+        {/if}
+        </div><p>{$userInfo['nickname']?$userInfo['nickname']:$userInfo['login']}</p>
+        </div>
+
+        <div class="pk_matching_r"><div class="pk_head"><img src="image/vip02.png"></div><p>???</p></div>
+
+        <img src="image/pk04.png" class="matching_succeed_img">
+        <p class="matching_succeed_hint"><i></i><span>您只需要进行MT4交易即可，系统会自动PK</span></p>
+        {/if}
+    </div>
+</div>
+<div class="pk_history">
+    <div class="pk_history_inner">
+        <div class="pk_history_close"></div>
+        <h4>历史战绩</h4>
+        <ul>
+        {volist name="arrHPK" id="hpk"}
+        <?php $pkinfo = unserialize(@$hpk['remark']);?>
+            <li>
+                <span class="history_num">{$i}.</span>
+                <span class="history_player">
+                <i>
+                {if isset($pkinfo['u_img'])}
+                    {if stristr($pkinfo['u_img'], 'http')}
+                    <img src="{$pkinfo['u_img']}">
+                    {else/}
+                        {if !empty($pkinfo['u_img'])}
+                        <img src="__BASIC__upload/image/{$pkinfo['u_img']}">
+                        {else/}
+                        <img src="__BASIC__image/combinationHead4.png">
+                        {/if}
+                    {/if}
+                {else/}
+                    {if ($pkinfo['vphoto']<=95)}
+                    <img src="__BASIC__image/vphoto/{$pkinfo['vphoto']}.jpg" >
+                    {else/}
+                    <img src="__BASIC__image/combinationHead4.png">
+                    {/if}
+                {/if}
+                </i>
+                <i>
+                <?php $pkinfo = unserialize(@$hpk['pk']); ?>
+                {if isset($pkinfo['u_img'])}
+                    {if stristr($pkinfo['u_img'], 'http')}
+                    <img src="{$pkinfo['u_img']}">
+                    {else/}
+                        {if !empty($pkinfo['u_img'])}
+                        <img src="__BASIC__upload/image/{$pkinfo['u_img']}">
+                        {else/}
+                        <img src="__BASIC__image/combinationHead4.png">
+                        {/if}
+                    {/if}
+                {else/}
+                    {if ($pkinfo['vphoto']<=95)}
+                    <img src="__BASIC__image/vphoto/{$pkinfo['vphoto']}.jpg" >
+                    {else/}
+                    <img src="__BASIC__image/combinationHead4.png">
+                    {/if}
+                {/if}
+                </i>
+                </span>
+                <span class="history_time">{$hpk.add_time|date='Y-m-d H:i',###}</span>
+                <span class="history_result win">
+                    <?php
+                    if ($hpk['equity'] <= 0 || $hpk['balance'] <= 0){
+                        echo '失败';
+                    }else{
+                        echo '胜利';
+                    }
+                    ?>
+                </span>
+            </li>
+        {/volist}
+        </ul>
+        <img src="image/pk18_2.png" class="pk_history_bottom">
+    </div>
+</div>
+<div class="pk_friend">
+    <div class="pk_friend_inner">
+        <div class="pk_friend_close"></div>
+        <h4>与好友PK一下</h4>
+        <ul>
+            <li><a href="javascript:void(0)" class="qq_share"><img src="image/shareicon_qq.png"><span>QQ好友</span></a></li>
+            <li><a href="javascript:void(0)" class="qqzone_share"><img src="image/shareicon_kj.png"><span>QQ空间</span></a></li>
+            <li><a href="javascript:void(0)" id="wechat_share"><img src="image/shareicon_wechat.png"><span>微信</span>
+                <div class="scan_wechat">
+                    <img src="image/scan_wechat.png">
+                    <div id="output"></div>
+                </div></a></li>
+            <li><a href="javascript:void(0)" id="copy_btn"><img src="image/shareicon_link.png"><span>复制链接</span></a></li>
+        </ul>
+    </div>
+</div>
+<script>
+    $(function () {
+        var uid={$uid};
+        var share_trade="{:url('rank/pk')}?uid="+uid;
+        $('#output').qrcode({
+            width: 80,
+            height: 80,
+            text:share_trade
+        });
+
+        $("body").click(function () {
+            $(".scan_wechat").hide();
+        });
+        $("#wechat_share").click(function(event){
+            event.stopPropagation();
+            $(this).parent().find(".scan_wechat").show();
+        });
+        // qq分享
+        var name = '{$NAME}';
+        (function () {
+            var p = {
+                url: share_trade, /*获取URL，可加上来自分享到QQ标识，方便统计*/
+                desc: '', /*分享理由(风格应模拟用户对话),支持多分享语随机展现（使用|分隔）*/
+                title: '外汇交易中的“王者荣耀”，你敢来挑战？', /*分享标题(可选)*/
+                summary: '您的好友'+name+'找你双排开黑，老司机快上车吧！', /*分享摘要(可选)*/
+                pics: 'image/share_logo.png', /*分享图片(可选)*/
+                flash: '', /*视频地址(可选)*/
+                site: '', /*分享来源(可选) 如：QQ分享*/
+                style: '201',
+                width: 32,
+                height: 32
+            };
+            var s = [];
+            for (var i1 in p) {
+                s.push(i1 + '=' + encodeURIComponent(p[i1] || ''));
+            }
+            $(".qq_share").append(['<a class="qcShareQQDiv" href="http://connect.qq.com/widget/shareqq/index.html?', s.join('&'), '" target="_blank">分享到QQ</a>'].join(''));
+        })();
+        // qq空间
+        (function () {
+            var pp = {
+                url: share_trade,
+                showcount: '0',/*是否显示分享总数,显示：'1'，不显示：'0' */
+                desc: '',/*默认分享理由(可选)*/
+                title: '外汇交易中的“王者荣耀”，你敢来挑战？',/*分享摘要(可选)*/
+                summary: '您的好友'+name+'找你双排开黑，老司机快上车吧！',/*分享标题(可选)*/
+                site: '',/*分享来源 如：腾讯网(可选)*/
+                pics: 'image/share_logo.png', /*分享图片的路径(可选)*/
+                style: '201',
+                width: 39,
+                height: 39
+            };
+            var ss = [];
+            for (var ii1 in pp) {
+                ss.push(ii1 + '=' + encodeURIComponent(pp[ii1] || ''));
+            }
+            $(".qqzone_share").append(['<a version="1.0" class="qzOpenerDiv" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?', ss.join('&'), '" target="_blank">分享</a>'].join(''));
+        })();
+        // 复制链接
+        var link_share = new Clipboard('#copy_btn');
+        $("#copy_btn").attr("data-clipboard-text", share_trade);
+        link_share.on('success', function (e) {
+            alert("复制成功！");
+        });
+        link_share.on('error', function (e) {
+            alert("复制失败！");
+        });
+    });
+</script>
+<div class="pk_no_register">
+    <div class="pk_no_register_inner">
+        <div class="pk_no_register_close"></div>
+        <h4>您还未注册</h4>
+        <div class="no_register_player">
+            <div><i><img src="http://static.v.znforex.com/image/combinationHead4.png"></i><span>boi prodoljboi prodolj</span></div>
+            <div><i><img src="http://static.v.znforex.com/image/combinationHead4.png"></i><span>boi prodolj...</span></div>
+        </div>
+        <p><i></i><span>注册后将可匹配与好友PK</span></p>
+        <a href="javascript:void(0)" class="no_register_btn"><span>立即注册</span></a>
+    </div>
+</div>
+<div class="pk_hint">
+    <div class="pk_hint_inner">
+        <div class="pk_hint_close"></div>
+        <img src="image/pk_hint.png">
+        <p>您还未登录！</p>
+    </div>
+</div>
+</body>
+</html>

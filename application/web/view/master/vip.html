@@ -1,0 +1,391 @@
+{extend name="web@base/main"/}
+{block name="body"}
+<div class="vip">
+    <div class="vip_inner">
+        <img src="__STATIC__image/mainbanner02.jpg" style="display: block;width:800px;margin: 0 auto;">
+        <div class="vip_title">
+            <img src="__STATIC__image/vip_title.png" class="viptitle_img">
+            <p class="viptitle_p">会员服务</p>
+        </div>
+        <div style="width:1125px;border:1px solid #dadada;margin:0 auto;" class="vipbox">
+            <ul class="vipshow2" style="background: #efefef">
+                <li>功能</li>
+                <li>
+                    <img src="__STATIC__image/vip_normal.png">
+                </li>
+                <li>
+                    <img src="__STATIC__image/vip_1.png">
+                </li>
+                <li>
+                    <img src="__STATIC__image/vip_2.png">
+                </li>
+                <li>
+                    <img src="__STATIC__image/vip_3.png">
+                </li>
+            </ul>
+            <ul class="vipshow">
+                    <li>跨平台MT4账户</li>
+                    <li>
+                        <img src="__STATIC__image/vip_is.png">
+                    </li>
+                    <li>
+                        <img src="__STATIC__image/vip_is.png">
+                    </li>
+                    <li>
+                        <img src="__STATIC__image/vip_is.png">
+                    </li>
+                    <li>
+                        <img src="__STATIC__image/vip_is.png">
+                    </li>
+            </ul>
+            <ul class="vipshow">
+                    <li>模拟(Demo)账户</li>
+                    <li>
+                        <img src="__STATIC__image/vip_is.png">
+                    </li>
+                    <li>
+                        <img src="__STATIC__image/vip_is.png">
+                    </li>
+                    <li>
+                        <img src="__STATIC__image/vip_is.png">
+                    </li>
+                    <li>
+                        <img src="__STATIC__image/vip_is.png">
+                    </li>
+            </ul>
+            <ul class="vipshow">
+                <li title="点击免费跟单或者跟随，即可跟随单个交易者进行跟单。">复制跟单(单一信号)</li>
+                <li>
+                    <img src="__STATIC__image/vip_is.png">
+                </li>
+                <li>
+                    <img src="__STATIC__image/vip_is.png">
+                </li>
+                <li>
+                    <img src="__STATIC__image/vip_is.png">
+                </li>
+                <li>
+                    <img src="__STATIC__image/vip_is.png">
+                </li>
+            </ul>
+            <ul class="vipshow">
+                <li title="同时跟随多个交易者进行跟随交易。">组合跟单(多信号)</li>
+                <li></li>
+                <li>
+                    <img src="__STATIC__image/vip_is.png">
+                </li>
+                <li>
+                    <img src="__STATIC__image/vip_is.png">
+                </li>
+                <li>
+                    <img src="__STATIC__image/vip_is.png">
+                </li>
+            </ul>
+            <ul class="vipshow">
+                <li title="选定信号后，可以对每一个信号进行一些风险项限制的设置。">风控工具</li>
+                <li>
+                    <img src="__STATIC__image/vip_is.png">
+                </li>
+                <li>
+                    <img src="__STATIC__image/vip_is.png">
+                </li>
+                <li>
+                    <img src="__STATIC__image/vip_is.png">
+                </li>
+                <li>
+                    <img src="__STATIC__image/vip_is.png">
+                </li>
+            </ul>
+            <ul class="vipshow">
+                <li title="当信号开仓交易时，系统会根据用户设置的方向进行同向/反向开仓，例如：当信号创建一个buy订单，反向则会创建一个sell订单。">反向跟单</li>
+                <li></li>
+                <li></li>
+                <li>
+                    <img src="__STATIC__image/vip_is.png">
+                </li>
+                <li>
+                    <img src="__STATIC__image/vip_is.png">
+                </li>
+            </ul>
+            <ul class="vipshow">
+                <li title="用户可以使用一个注册账号关联多个MT4账号进行跟单操作。">绑定多mt4账户</li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li>
+                    <img src="__STATIC__image/vip_is.png">
+                </li>
+            </ul>
+            <ul class="vipshow">
+                <li></li>
+                <li>
+                    <a href="{:url('master/index')}"><button>免费使用</button></a>
+                </li>
+                <li>
+                    <button id="tovip1">立即开通</button>
+                </li>
+                <li>
+                    <button id="tovip2">立即开通</button>
+                </li>
+                <li>
+                    <button id="tovip3">立即开通</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--弹框-->
+<div class="vip_window">
+    <!-- vip1-->
+    <div class="vipwindow1" id="vipcontent1">
+        <img src="__STATIC__image/window_close.png" class="window_close">
+        <img src="__STATIC__image/vipwindow_title.png" class="vipwindow_title">
+        <div class="vipwin_t">
+            <img src="__STATIC__image/vip_title.png" class="vip_title2">
+            <p class="vipwin_title2">会员服务 VIP 1</p>
+        </div>
+        <ul class="vip_price">
+            <li class="vip_price_li vip_price_active">
+                <p class="vip_price1">
+                    <span>199</span>元
+                </p>
+                <p class="vipprice_month">月</p>
+                <img src="__STATIC__image/vipwindow_tip.png" class="vipwindow_tip vipwindow_tip2" >
+            </li>
+            <li class="vip_price_li">
+                <p class="vip_price1">
+                    <span>560</span>元
+                </p>
+                <p class="vipprice_month">3月</p>
+                <img src="__STATIC__image/vipwindow_tip.png" class="vipwindow_tip">
+            </li>
+            <li class="vip_price_li ">
+                <p class="vip_price1">
+                    <span>1980</span>元
+                </p>
+                <p class="vipprice_month">年</p>
+                <img src="__STATIC__image/vipwindow_tip.png" class="vipwindow_tip">
+            </li>
+        </ul>
+        <p class="vip_money">应付金额：<span class="vip_money1">199</span>元</p>
+        <ul class="paymoney">
+            <li>
+                <div>
+                    <img src="" class="paymoney_style" id="wechatvip1">
+                </div>
+                <div style="width:114px;margin:10px auto;height:36px;">
+                    <img src="__STATIC__image/wei_icon.jpg" style="width:20px;float: left;margin-top:8px;margin-left:10px;">
+                    <p style="line-height: 36px;font-size:16px;color:#27323f;float:left;margin-left:10px;">微信支付</p>
+                </div>
+            </li>
+            <li>
+                <img src="__STATIC__image/apay.jpg" class="paymoney_style">
+                <div style="width:114px;margin:10px auto;height:36px;">
+                    <button class="apay_btn" id="apay_btn_1">支付宝支付</button>
+                </div>
+            </li>
+        </ul>
+        <div class="vip1_login">登录购买</div>
+    </div>
+    <!-- vip2-->
+    <div class="vipwindow1" id="vipcontent2-1">
+        <img src="__STATIC__image/window_close.png" class="window_close">
+        <img src="__STATIC__image/vipwindow_title.png" class="vipwindow_title">
+        <div class="vipwin_t">
+            <img src="__STATIC__image/vip_title.png" class="vip_title2">
+            <p class="vipwin_title2">会员服务 VIP 2</p>
+        </div>
+        <ul class="vip_price">
+            <li class="vip_price_li2 vip_price_active">
+                <p class="vip_price2">
+                    <span>245</span>元
+                </p>
+                <p class="vipprice_month">月</p>
+                <img src="__STATIC__image/vipwindow_tip.png" class="vipwindow_tip22 vipwindow_tip2" >
+            </li>
+            <li class="vip_price_li2">
+                <p class="vip_price2">
+                    <span>660</span>元
+                </p>
+                <p class="vipprice_month">3月</p>
+                <img src="__STATIC__image/vipwindow_tip.png" class="vipwindow_tip22">
+            </li>
+            <li class="vip_price_li2">
+                <p class="vip_price2">
+                    <span>2200</span>元
+                </p>
+                <p class="vipprice_month">年</p>
+                <img src="__STATIC__image/vipwindow_tip.png" class="vipwindow_tip22">
+            </li>
+        </ul>
+        <p class="vip_money">应付金额：<span class="vip_money2">245</span>元</p>
+        <ul class="paymoney" style="width:90%;margin:0 auto;">
+            <li style="width:50%">
+                <div>
+                    <img src="" class="paymoney_style" id="wechatvip2">
+                </div>
+                <div style="width:114px;margin:10px auto;height:36px;">
+                    <img src="__STATIC__image/wei_icon.jpg" style="width:20px;float: left;margin-top:8px;margin-left:10px;">
+                    <p style="line-height: 36px;font-size:16px;color:#27323f;float:left;margin-left:10px;">微信支付</p>
+                </div>
+            </li>
+            <li style="width:50%">
+                <img src="__STATIC__image/apay.jpg" class="paymoney_style">
+                <div style="width:114px;margin:10px auto;height:36px;">
+                    <button class="apay_btn" id="apay_btn_2">支付宝支付</button>
+                </div>
+            </li>
+            <li style="width:33.3%" style="display:none;">
+                <img src="__STATIC__image/freePay.jpg" class="paymoney_style">
+                <div style="width:114px;margin:10px auto;height:36px;">
+                    <button class="apay_btn" style="background: #fea032;" id="freepay">免费领取</button>
+                </div>
+            </li>
+        </ul>
+        <div class="vip1_login">登录购买</div>
+    </div>
+    <div class="vipwindow1" id="vipcontent2">
+        <img src="__STATIC__image/window_close.png" class="window_close">
+        <img src="__STATIC__image/vipwindow_title.png" class="vipwindow_title">
+        <div class="vipwin_t">
+            <img src="__STATIC__image/vip_title.png" class="vip_title2">
+            <p class="vipwin_title2">会员服务 VIP 2</p>
+        </div>
+        <img src="__STATIC__image/vip_v1.png" class="vip_v1" style="display:block;">
+        <p class="vip_buy_not">在购买VIP1 服务的基础上，<span style="color:#007eff;border-bottom:1px solid #007eff;cursor: pointer;" id="notbuy">还未购买？</span></p>
+        <ul class="vip_buy_condition">
+            <li>
+                <img src="__STATIC__image/vip_p5.png" style="float:right;margin-right:40px;">
+            </li>
+            <li>
+                <img src="__STATIC__image/vip_mt4.png" style="float:left;margin-left:40px;">
+            </li>
+        </ul>
+        <p style="text-align: center;font-size:18px;color:#333333;">邀请<span style="color:#007eff;">5名</span>注册用户和<span style="color:#007eff;">1名</span>MT4认证用户</p>
+        <p style="text-align: center;font-size:18px;color:#999999;padding:5px 0;">永久获得VIP2(VIP1基础上)</p>
+        <div style="width:70%;margin:0 auto;">
+            <button class="check_invite2" id="tobuyvip2">直接购买</button>
+            <button class="check_invite">查看我的邀请</button>
+        </div>
+    </div>
+    <!-- vip3-->
+    <div class="vipwindow1" id="vipcontent3">
+        <img src="__STATIC__image/window_close.png" class="window_close">
+        <img src="__STATIC__image/vipwindow_title.png" class="vipwindow_title">
+        <div class="vipwin_t">
+            <img src="__STATIC__image/vip_title.png" class="vip_title2">
+            <p class="vipwin_title2">会员服务 VIP 3</p>
+        </div>
+        <ul class="vip_price">
+            <li class="vip_price_li3 vip_price_active">
+                <p class="vip_price3">
+                    <span>500</span>元
+                </p>
+                <p class="vipprice_month">月</p>
+                <img src="__STATIC__image/vipwindow_tip.png" class="vipwindow_tip33 vipwindow_tip2" >
+            </li>
+            <li class="vip_price_li3">
+                <p class="vip_price3">
+                    <span>1360</span>元
+                </p>
+                <p class="vipprice_month">3月</p>
+                <img src="__STATIC__image/vipwindow_tip.png" class="vipwindow_tip33">
+            </li>
+            <li class="vip_price_li3">
+                <p class="vip_price3">
+                    <span>5000</span>元
+                </p>
+                <p class="vipprice_month">年</p>
+                <img src="__STATIC__image/vipwindow_tip.png" class="vipwindow_tip33">
+            </li>
+        </ul>
+        <p class="vip_money">应付金额：<span class="vip_money3">500</span>元</p>
+        <ul class="paymoney">
+            <li>
+                <div>
+                    <img src="" class="paymoney_style" id="wechatvip3">
+                </div>
+                <div style="width:114px;margin:10px auto;height:36px;">
+                    <img src="__STATIC__image/wei_icon.jpg" style="width:20px;float: left;margin-top:8px;margin-left:10px;">
+                    <p style="line-height: 36px;font-size:16px;color:#27323f;float:left;margin-left:10px;">微信支付</p>
+                </div>
+            </li>
+            <li>
+                <img src="__STATIC__image/apay.jpg" class="paymoney_style">
+                <div style="width:114px;margin:10px auto;height:36px;">
+                    <button class="apay_btn" id="apay_btn_3">支付宝支付</button>
+                </div>
+            </li>
+        </ul>
+        <div class="vip1_login">登录购买</div>
+    </div>
+</div>
+<input type="hidden" name="uid" id="uid" data-uid="{$uid}" />
+<script src="__STATIC__js/vip.js" type="text/javascript"></script>
+<link href="__STATIC__image/order.css" rel="stylesheet">
+
+
+<script>
+    var uid = {$uid};
+    $(function () {
+        /*判定用户vip等级，已开通的显示“续费”按钮*/
+        var vip = '{$info.server}';
+        if(vip=='vip1'){
+            $("#tovip1").html("续费").css({"background":"#ff934c","color":"#ffffff"});
+        }else if(vip=='vip2'){
+            $("#tovip2").html("续费").css({"background":"#ff7f01","color":"#ffffff"});
+        }else if(vip=='vip3'){
+            $("#tovip3").html("续费").css({"background":"#ff6000","color":"#ffffff"});
+        }
+
+        /*购买服务*/
+        $('.apay_btn').on('click',function(){
+            var uid =$("#uid").attr("data-uid");
+            var amount;
+            var server;
+            if($(this).attr('id')=='apay_btn_1'){
+                amount = parseInt($('.vip_money1').html());
+                server = 'vip1';
+            }else if($(this).attr('id')=='apay_btn_2'){
+                amount = parseInt($('.vip_money2').html());
+                server = 'vip2';
+            }else if($(this).attr('id')=='apay_btn_3'){
+                amount = parseInt($('.vip_money3').html());
+                server = 'vip3';
+            }
+            /* var alipay_create = function (postData) {
+             var url = 'api.znforex.com/pay.alipay/create_order.html';
+             $.post(url, postData, function (respbody) {
+             console.log(respbody);
+             if (typeof respbody === 'string') {
+             respbody = JSON.parse(respbody);
+             }
+             if (respbody.success) {
+             $('input[name=uid]').val(respbody.data.uid);
+             $('input[name=server]').val(respbody.data.server);
+             $('input[name=amount]').val(respbody.data.amount);
+             $('#alipay_form').submit();
+             }
+             });
+             };
+             var postData = { "uid": uid,"server": server,  "amount": amount };
+             alipay_create(postData);*/
+            $('input[name=uid]').val(uid);
+            $('input[name=server]').val(server);
+            $('input[name=amount]').val(amount);
+            $('#alipay_form').submit();
+        });
+    });
+</script>
+
+<!-- alipay form -->
+<form id="alipay_form" method="post" action="__API__pay.alipay/create_order.html">
+    <input type="hidden" name="WIDbody" value="yshfx用户充值" />
+    <input type="hidden" name="uid" value="" />
+    <input type="hidden" name="server" value="" />
+    <input type="hidden" name="WIDsubject" value="订单系统" />
+    <input type="hidden" name="amount" value="" />
+    <input type="hidden" name="from" value="yshfx">
+</form>
+{/block}
+

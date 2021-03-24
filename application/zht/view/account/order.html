@@ -1,0 +1,62 @@
+{extend name="admin@base/main"/}
+{block name="body"}
+<div class="col-sm-12 widget-container-span">
+	<div class="widget-box transparent">
+		<div class="no-border">
+			<ul class="nav nav-tabs">
+                <li class="mynavTab"><a href="{:url('index')}?{$strQuery}">信号列表</a></li>                
+				<li class="action active"><a href="javascript:;">持仓记录</a></li>
+				<li class="mynavTab"><a href="{:url('order_history', ['account'=>$account])}?{$strQuery}">历史交易</a></li>
+				<li class="action"><a href="{:url('import_excel')}?{$strQuery}">导入历史数据</a></li>
+			</ul>
+		</div>
+		<div class="col-sm-12 widget-container-span">
+		<div class="widget-box transparent">
+		<div class="widget-body">
+			<div class="widget-main padding-12 no-padding-left no-padding-right">
+				<div class="tab-content padding-4">
+					<div id="home1" class="tab-pane in active">
+						<div class="row">
+								<div class="table-responsive">
+									<table id="sample-table-1"
+										class="table table-striped table-bordered table-hover">
+										<thead>
+											<tr>
+												<th>序号</th>
+												<th>交易单号</th>												
+												<th>品种</th>
+												<th>类型</th>
+												<th>手数</th>												
+												<th>下单时间</th>
+												<th>mt4id</th>
+												<th>备注</th>												
+											</tr>
+										</thead>
+										<tbody>
+										{volist name="arrOrder" id="result"}
+											<tr>
+												<td>{$result.id}</td>
+												<td>{$result.ticket|default='----'}</td>												
+												<td>{$result.symbol}</td>
+												<td>{$result['op']==1?'sell':'buy'}</td>
+                                                <td>{$result.lots}</td>                                                
+												<td><?php echo date('Y-m-d H:i:s', $result['open_time']-8*3600);?></td>
+												<td>{$result.account}</td>
+                                                <td>{$result.comment|default='手动交易'}</td>
+											</tr>
+										{/volist}
+										</tbody>
+									</table>
+									<div class="pagination" style="margin:0px;">
+									    {$arrOrder->render()}
+									</div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		</div>
+	</div>
+</div>
+{/block}

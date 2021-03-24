@@ -1,0 +1,88 @@
+{extend name="web@base/main"/}
+{block name="body"}
+<style>
+    .header{background: #ffffff;box-shadow: 0 1px 1px rgba(0,0,0,0.1);}
+    .banner{margin: 48px auto 0 auto;width: 100%;height: 500px;background: url("__STATIC__image/contactUs_pic001.png")no-repeat;background-size: cover;}
+    .banner p{width: 1200px;margin: 0 auto;font-size: 20px;color: #fff;padding-top: 150px;line-height: 40px;}
+    .banner p span{font-size: 50px;line-height: 80px;}
+    .main{width: 100%;background: #f3f3f3;}
+    .main_inner{margin: 0 auto;width: 1200px;height: 1100px;clear: both;background: #fff;position: relative;}
+    .contact_left{width: 500px;height: 400px;float: left;background: #f3f3f3;}
+    .contact_right{width: 700px;height: 400px;float: left;background: #f3f3f3;}
+    .contact_address{width: 100%;height: 700px;float: left;}
+    .contact_address .address{width: 100%;height: 350px;}
+    .contact_address .address img{display: block;width: 50%;height: 100%;float: left;}
+    .contact_address .address div{width: 50%;height: 100%;float: left;}
+</style>
+<div class="banner">
+    <p><span>联系我们</span><br>我们为客户提供多语种客户服务, 每周一到周五 24 小时全天候不间断. 如果您有任何疑问<br>或者想要了解更多信息, 您可以随时和我们联系.</p>
+</div>
+<div class="main">
+    <div class="main_inner" style="padding: 0!important;">
+        <div class="contact_left">
+            <p style="margin-top: 50px;"><i style="vertical-align: middle;display: inline-block;width: 44px;height: 39px;background: url('__STATIC__image/contactUs_pic006.png')no-repeat;background-size: cover;margin-right: 20px;"></i><span style="vertical-align: middle;font-size: 24px;font-weight: bold;">联系方式</span></p>
+            <p style="margin-top: 20px;"><i style="vertical-align: middle;display: inline-block;width: 23px;height: 23px;background: url('__STATIC__image/contactUs_pic008.png')no-repeat;background-size: cover;margin-left: 11px;margin-right: 30px;"></i><span style="vertical-align: middle;font-size: 22px;color: #333333;">免费电话:400-016-0508</span></p>
+            <p style="margin-top: 20px;"><i style="vertical-align: middle;display: inline-block;width: 23px;height: 23px;background: url('__STATIC__image/contactUs_pic007.png')no-repeat;background-size: cover;margin-left: 11px;margin-right: 30px;"></i><span style="vertical-align: middle;font-size: 22px;color: #333333;">电子邮箱:service@srefx.com</span></p>
+            <!--<p style="margin-top: 20px;"><i style="vertical-align: middle;display: inline-block;width: 23px;height: 23px;background: url('image/contactUs_pic009.png')no-repeat;background-size: cover;margin-left: 11px;margin-right: 30px;"></i><span style="vertical-align: middle;font-size: 22px;color: #333333;">在线 QQ 咨询</span></p>
+            <a href="http://im.qq.com/pcqq/" target="_blank" style="display: block;width: 200px;height: 40px;background: #ff8a00;border-radius: 5px;line-height: 40px;color: #fff;text-align: center;font-size: 18px;margin: 20px 0 20px 62px;">下载最新版QQ软件</a>
+            <a href="http://wpa.qq.com/msgrd?v=3&uin=303869104&site=qq&menu=yes" target="_blank" style="display: inline-block;width: 30px;height: 36px;float: left;background: url('image/contactUs_pic010.png')no-repeat;background-size: cover;margin-left: 62px;margin-right: 25px;"></a>
+            <a href="http://wpa.qq.com/msgrd?v=3&uin=2397645037&site=qq&menu=yes" target="_blank" style="display: inline-block;width: 30px;height: 36px;float: left;background: url('image/contactUs_pic010.png')no-repeat;background-size: cover;margin-right: 25px;"></a>
+            <a href="http://wpa.qq.com/msgrd?v=3&uin=303869104&site=qq&menu=yes" target="_blank" style="display: inline-block;width: 30px;height: 36px;float: left;background: url('image/contactUs_pic010.png')no-repeat;background-size: cover;margin-right: 25px;"></a>
+            <a href="http://wpa.qq.com/msgrd?v=3&uin=2397645037&site=qq&menu=yes" target="_blank" style="display: inline-block;width: 30px;height: 36px;float: left;background: url('image/contactUs_pic010.png')no-repeat;background-size: cover;margin-right: 25px;"></a>-->
+        </div>
+        <div class="contact_right">
+            <p style="margin-top: 50px;font-size: 22px;color: #333333;">或者留下您的信息, 我们收到后会马上与您联系!</p>
+            <input type="text" placeholder="您的姓名" name="et_pb_contact_name_1" style="width: 300px;height: 48px;line-height: 48px;font-size: 18px;padding-left: 25px;border: 1px solid #e7e7e7;float: left;margin-right: 40px;margin-top: 20px;">
+            <input type="text" placeholder="您的电邮地址" name="et_pb_contact_email_1" style="width: 300px;height: 48px;line-height: 48px;font-size: 18px;padding-left: 25px;border: 1px solid #e7e7e7;float: left;margin-top: 20px;">
+            <textarea placeholder="详细内容" name="et_pb_contact_message_1" style="width: 665px;height: 100px;line-height: 48px;font-size: 18px;padding-left: 25px;border: 1px solid #e7e7e7;float: left;margin-top: 20px;"></textarea>
+            <div class="tips" style="float: left;width: 665px;padding-left: 25px;height: 30px;font-size: 16px;line-height: 30px;color: #ff3939;"></div>
+            <a id="submit_btn" style="display: block;float: right;width: 200px;height: 40px;background: #611987;border-radius: 5px;line-height: 40px;color: #fff;text-align: center;font-size: 18px;margin: 0 8px 20px 62px;cursor: pointer;">提交</a>
+            <script>
+                $('#submit_btn').click(function () {
+                    var name = $("input[name=et_pb_contact_name_1]").val();
+                    var email = $("input[name=et_pb_contact_email_1]").val();
+                    var message = $("textarea[name=et_pb_contact_message_1]").val();
+                    var postData = {
+                        name:name,
+                        email:email,
+                        message:message
+                    };
+                    $.ajax({
+                        type : 'post',
+                        dataType : 'json',
+                        url : "{:url('other/user_content')}",
+                        data : postData,
+                        success : function (data) {
+                            var json = JSON.parse(data);
+                            win.alert('系统提示',json.msg);
+                        }
+                    });
+                })
+            </script>
+        </div>
+        <div class="contact_address">
+            <!--<div class="address">
+                <div>
+                    <p style="font-size: 36px;text-align: center;padding-bottom: 20px;padding-top: 100px;line-height: 50px;"><i style="display: inline-block;vertical-align: middle;width: 28px;height: 34px;background: url('image/contactUs_pic002.png')no-repeat;background-size: cover;margin-right: 10px;"></i><span style="vertical-align: middle;">公司地址-上海</span></p>
+                    <p style="font-size: 24px;text-align: center;">
+                        地址：<strong>上海源深路1088号平安财富大厦</strong><br>
+                        电子邮箱：<strong>service@srefx.com</strong><br>
+                    </p>
+                </div>
+                <img src="image/contactUs_pic003.png">
+            </div>-->
+            <div class="address">
+                <img src="__STATIC__image/contactUs_pic004.png">
+                <div>
+                    <p style="font-size: 36px;text-align: center;padding-bottom: 20px;padding-top: 100px;line-height: 50px;"><i style="display: inline-block;vertical-align: middle;width: 28px;height: 34px;background: url('__STATIC__image/contactUs_pic002.png')no-repeat;background-size: cover;margin-right: 10px;"></i><span style="vertical-align: middle;">公司地址-武汉</span></p>
+                    <p style="font-size: 24px;text-align: center;">
+                        地址：<strong>武汉市武昌区汉街总部国际A座19楼</strong><br>
+                        电子邮箱：<strong>cn.service@srefx.com</strong><br>
+                        <!--官方网站：<a href="http://www.znforex.com" style="color: #333;border-bottom: 1px solid #333;"><strong>www.znforex.com</strong></a>-->
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

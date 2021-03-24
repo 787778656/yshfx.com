@@ -1,0 +1,26 @@
+.guarantee{width: 100%;height: 100%;background-color: rgba(0,0,0,0.4);position: fixed;top: 0;z-index: 1000;display: none;}
+.guarantee_top{margin: 0px auto 10px;width: 370px;height: 38px;color: #666666;font-size: 14px;}
+.guarantee_top .guarantee_title{float: left;line-height: 38px;}
+.guarantee_top .guarantee_edit{float: right;width: 260px;height: 38px;}
+.guarantee_top .guarantee_intel{float: right;width: 230px;height: 36px;border: 1px solid #D8D8D8;border-radius: 6px;padding: 0px 15px 0px 12px;color: #999999;
+    line-height: 35px;}
+.guarantee_top .guarantee_edit input{width: 208px;height: 36px;float: left;border-left: 1px solid #D8D8D8;border-top: 1px solid #D8D8D8;border-bottom: 1px solid #D8D8D8;
+    border-top-left-radius:6px;border-bottom-left-radius:6px;text-indent: 1em;color: #999999;}
+.guarantee_top .guarantee_edit button{width: 50px;height: 38px;background-color: #fe8905;color: white;border: none;border-top-right-radius:6px;border-bottom-right-radius:6px;}
+.guarantee_top .guarantee_intel img{width: 14px;height: 9px;float: right;margin-top: 14px;cursor: pointer;transition: all 0.5s;}
+.guarantee_top .guarantee_switch{float: right;width: 260px;height: 38px;}
+.graswitch{display: inline-block;line-height: 38px;}
+.graswitch span:last-child{color: #ff7200;}
+.graswitch a{vertical-align: middle;margin: 0 5px;}
+.graswitch span{vertical-align: middle;}
+.guarantee_object{margin: 0px auto 10px;width: 370px;height: 170px;color: #555555;font-size: 14px;border: 1px solid #D8D8D8;border-radius: 6px;}
+.guarantee_object .guarantee_mine{width: 100%;height: 30px;border-bottom: 1px solid #D8D8D8;line-height: 30px;text-align: center;}
+.guarantee_object .guarantee_no{width: 100%;height: 140px;text-align: center;color: #999999;line-height: 140px;}
+.guarantee_look{margin: 0px auto 10px;width: 370px;height: 16px;margin-top: 13px;color: #999999;}
+.guarantee_look img{width: 16px;height: 16px;float: left;margin-right: 15px;}
+.guarantee_look div{float: left;line-height: 16px;}
+.guarantee_look div a{color: #fe8905;}
+.guarantee_select{position: relative;}
+.guarantlist{width: 257px;border: 1px solid #D8D8D8;background-color: white;position: absolute;right: 0px;top: 35px;z-index: 100;color: #666666;
+    display: none;border-bottom-left-radius:6px;border-bottom-right-radius:6px;}
+.guarantlist>li{width: 257px;height: 30px;line-height: 30px;text-indent: 1em;}

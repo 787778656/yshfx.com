@@ -1,0 +1,215 @@
+{extend name="web@base/main"/}
+{block name="body"}
+<style>
+    .financemain{width:100%;background: #f3f3f3;min-height:1000px;padding-bottom:20px;}
+    .financebox{width:1200px;margin:0 auto;margin-top:48px;}
+    .finance>li{width:169px;float:left;border-right:1px solid #cccccc;height:20px;margin-top:13px;padding:0 15px;}
+    .finance>li>p{line-height: 20px;}
+    .finance>li:last-child{border-right:none;}
+    .finance{height:46px;background: #fff;}
+    .finance>li>p:nth-child(1){float:left;color:#333333}
+    .finance>li>p:nth-child(2){float:right;font-weight:bold}
+    .financedata_up{color:#14bc67;}
+    .financedata_down{color:#ff0000;}
+    .financemainbox{margin-top:20px;}
+    .marketnews{width:780px;}
+    .marketnews_title{width:125px;height:45px;background: #fff;font-size:16px;color:#611987;border-top:2px solid #611987;text-align: center;line-height: 45px;font-weight:bold;}
+    .marketnews_ul{padding:20px;background: #fff;width:740px;}
+    .marketnews_ul>li{border-left:1px solid #f0f0f0;position: relative;padding:15px 0;}
+    .mnews_li_icon{width:35px;position: absolute;left:-17.5px;top:50%;margin-top:-17.5px;background: #fff;}
+    .mnews_li_text{margin-left:125px;}
+    .mnews_li_time{font-size:16px;color:#888888;position: absolute;height:20px;line-height: 20px;top:50%;margin-top:-10px;left:33px;}
+    .mnews_li_text{font-size:16px;color:#444444;line-height: 28px;border-bottom:1px solid #f5f5f5;padding-bottom:6px;}
+    .mdate .mnews_li_time{font-size:18px;color:#611987;font-weight:bold;}
+    .marketnews_more{width:100%;height:30px;background-color: #fff7ee;text-align: center;line-height: 30px;background-image: url("__STATIC__image/select_icon_03.png");background-repeat: no-repeat;background-position: 425px -7px;cursor: pointer;}
+    .marketcalendar{width:380px;float:right;border-top:2px solid #dddddd;}
+    .marketcalendar_title{height:45px;line-height: 45px;width:93px;border-top:2px solid #611987;margin-top:-2px;text-indent:15px;}
+    .mcalendar_ul>li{padding:15px;width:350px;height:100px;background: #fff;margin-bottom:10px;}
+    .mcalendar_time{font-size:14px;color:#888888;padding-bottom:8px;}
+    .mcalendar_country{float:left;height:24px;margin-top:4px;}
+    .mcalendar_c_name{float:left;line-height:32px;margin-left:10px;color:#333333;width:74px;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;font-size:14px;}
+    .mcalendar_c_title{float:left;line-height:32px;margin-left:10px;color:#333333;width:203px;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;font-size:14px;}
+    .mcalendar_c_data{padding-top:15px;clear:both;}
+    .mcalendar_c_data>li{width:33.3%;float:left;color:#777777;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;font-size:14px;}
+</style>
+<div class="financemain">
+    <div class="financebox">
+        <a href="{:url('/market')}">
+            <ul class="finance">
+                <li>
+                    <p>美元指数</p>
+                    <p class="financedata_up">91.87</p>
+                </li>
+                <li>
+                    <p>黄金/美元</p>
+                    <p class="financedata_down">91.87</p>
+                </li>
+                <li>
+                    <p>欧元/美元</p>
+                    <p class="financedata_up">91.87</p>
+                </li>
+                <li>
+                    <p>日元/美元</p>
+                    <p class="financedata_up">91.87</p>
+                </li>
+                <li>
+                    <p>欧元/美元</p>
+                    <p class="financedata_down">91.87</p>
+                </li>
+                <li>
+                    <p>英镑/美元</p>
+                    <p class="financedata_up">91.87</p>
+                </li>
+            </ul>
+        </a>
+        <div class="financemainbox">
+            <div class="marketcalendar">
+                <p class="marketcalendar_title">财经日历</p>
+                <ul class="mcalendar_ul">
+                    <li>
+                        <p class="mcalendar_time">08:30</p>
+                        <img src="__STATIC__image/countryflag/1.png" class="mcalendar_country">
+                        <p class="mcalendar_c_name">中国</p>
+                        <p class="mcalendar_c_title">澳大利亚AIG制造业表现指数</p>
+                        <ul class="mcalendar_c_data">
+                            <li>实际值:56.2</li>
+                            <li>预测值:60.5</li>
+                            <li>以前:57.3</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p class="mcalendar_time">08:30</p>
+                        <img src="__STATIC__image/countryflag/1.png" class="mcalendar_country">
+                        <p class="mcalendar_c_name">中国</p>
+                        <p class="mcalendar_c_title">澳大利亚AIG制造业表现指数</p>
+                        <ul class="mcalendar_c_data">
+                            <li>实际值:56.2</li>
+                            <li>预测值:60.5</li>
+                            <li>以前:57.3</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p class="mcalendar_time">08:30</p>
+                        <img src="__STATIC__image/countryflag/1.png" class="mcalendar_country">
+                        <p class="mcalendar_c_name">中国</p>
+                        <p class="mcalendar_c_title">澳大利亚AIG制造业表现指数</p>
+                        <ul class="mcalendar_c_data">
+                            <li>实际值:56.2</li>
+                            <li>预测值:60.5</li>
+                            <li>以前:57.3</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p class="mcalendar_time">08:30</p>
+                        <img src="__STATIC__image/countryflag/1.png" class="mcalendar_country">
+                        <p class="mcalendar_c_name">中国</p>
+                        <p class="mcalendar_c_title">澳大利亚AIG制造业表现指数</p>
+                        <ul class="mcalendar_c_data">
+                            <li>实际值:56.2</li>
+                            <li>预测值:60.5</li>
+                            <li>以前:57.3</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p class="mcalendar_time">08:30</p>
+                        <img src="__STATIC__image/countryflag/1.png" class="mcalendar_country">
+                        <p class="mcalendar_c_name">中国</p>
+                        <p class="mcalendar_c_title">澳大利亚AIG制造业表现指数</p>
+                        <ul class="mcalendar_c_data">
+                            <li>实际值:56.2</li>
+                            <li>预测值:60.5</li>
+                            <li>以前:57.3</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="marketnews">
+                <p class="marketnews_title">市场快讯</p>
+                <ul class="marketnews_ul">
+                    <li class="mdate">
+                        <img src="__STATIC__image/marketnews/date.png" class="mnews_li_icon">
+                        <p class="mnews_li_time">01月02日</p>
+                    </li>
+                    <li>
+                        <img src="__STATIC__image/marketnews/1.png" class="mnews_li_icon">
+                        <p class="mnews_li_time">11:32:00</p>
+                        <p class="mnews_li_text">台湾地区股市周二收盘上涨0.6%，报10710.73点</p>
+                    </li>
+                    <li>
+                        <img src="__STATIC__image/marketnews/2.png" class="mnews_li_icon">
+                        <p class="mnews_li_time">11:32:00</p>
+                        <p class="mnews_li_text">原料严重缺货，钒系产品价格上涨】据百川资讯，钒铁价格今日上涨1万元/吨，涨幅3.46%；五氧化二钒价格今日上涨0.4万元/吨，涨幅2.58%。钒原料市场紧张状态仍在持续，下游企业很难采购到足量现货，钒企惜售心态强烈。</p>
+                    </li>
+                    <li>
+                        <img src="__STATIC__image/marketnews/3.png" class="mnews_li_icon">
+                        <p class="mnews_li_time">11:32:00</p>
+                        <p class="mnews_li_text">韩国统一部部长：韩国提议1月9日与朝鲜进行对话
+                            对话将于高层间展开</p>
+                    </li>
+                    <li>
+                        <img src="__STATIC__image/marketnews/4.png" class="mnews_li_icon">
+                        <p class="mnews_li_time">11:32:00</p>
+                        <p class="mnews_li_text">台湾地区股市周二收盘上涨0.6%，报10710.73点</p>
+                    </li>
+                    <li>
+                        <img src="__STATIC__image/marketnews/2.png" class="mnews_li_icon">
+                        <p class="mnews_li_time">11:32:00</p>
+                        <p class="mnews_li_text">原料严重缺货，钒系产品价格上涨】据百川资讯，钒铁价格今日上涨1万元/吨，涨幅3.46%；五氧化二钒价格今日上涨0.4万元/吨，涨幅2.58%。钒原料市场紧张状态仍在持续，下游企业很难采购到足量现货，钒企惜售心态强烈。</p>
+                    </li>
+                    <li>
+                        <img src="__STATIC__image/marketnews/3.png" class="mnews_li_icon">
+                        <p class="mnews_li_time">11:32:00</p>
+                        <p class="mnews_li_text">韩国统一部部长：韩国提议1月9日与朝鲜进行对话
+                            对话将于高层间展开</p>
+                    </li>
+                    <li>
+                        <img src="__STATIC__image/marketnews/3.png" class="mnews_li_icon">
+                        <p class="mnews_li_time">11:32:00</p>
+                        <p class="mnews_li_text">韩国统一部部长：韩国提议1月9日与朝鲜进行对话
+                            对话将于高层间展开</p>
+                    </li>
+                    <li>
+                        <img src="__STATIC__image/marketnews/4.png" class="mnews_li_icon">
+                        <p class="mnews_li_time">11:32:00</p>
+                        <p class="mnews_li_text">台湾地区股市周二收盘上涨0.6%，报10710.73点</p>
+                    </li>
+                    <li>
+                        <img src="__STATIC__image/marketnews/2.png" class="mnews_li_icon">
+                        <p class="mnews_li_time">11:32:00</p>
+                        <p class="mnews_li_text">原料严重缺货，钒系产品价格上涨】据百川资讯，钒铁价格今日上涨1万元/吨，涨幅3.46%；五氧化二钒价格今日上涨0.4万元/吨，涨幅2.58%。钒原料市场紧张状态仍在持续，下游企业很难采购到足量现货，钒企惜售心态强烈。</p>
+                    </li>
+                    <li>
+                        <img src="__STATIC__image/marketnews/3.png" class="mnews_li_icon">
+                        <p class="mnews_li_time">11:32:00</p>
+                        <p class="mnews_li_text">韩国统一部部长：韩国提议1月9日与朝鲜进行对话
+                            对话将于高层间展开</p>
+                    </li>
+                    <li>
+                        <img src="__STATIC__image/marketnews/3.png" class="mnews_li_icon">
+                        <p class="mnews_li_time">11:32:00</p>
+                        <p class="mnews_li_text">韩国统一部部长：韩国提议1月9日与朝鲜进行对话
+                            对话将于高层间展开</p>
+                    </li>
+                    <li>
+                        <img src="__STATIC__image/marketnews/4.png" class="mnews_li_icon">
+                        <p class="mnews_li_time">11:32:00</p>
+                        <p class="mnews_li_text">台湾地区股市周二收盘上涨0.6%，报10710.73点</p>
+                    </li>
+                    <li>
+                        <img src="__STATIC__image/marketnews/2.png" class="mnews_li_icon">
+                        <p class="mnews_li_time">11:32:00</p>
+                        <p class="mnews_li_text">原料严重缺货，钒系产品价格上涨】据百川资讯，钒铁价格今日上涨1万元/吨，涨幅3.46%；五氧化二钒价格今日上涨0.4万元/吨，涨幅2.58%。钒原料市场紧张状态仍在持续，下游企业很难采购到足量现货，钒企惜售心态强烈。</p>
+                    </li>
+                    <li>
+                        <img src="__STATIC__image/marketnews/3.png" class="mnews_li_icon">
+                        <p class="mnews_li_time">11:32:00</p>
+                        <p class="mnews_li_text">韩国统一部部长：韩国提议1月9日与朝鲜进行对话
+                            对话将于高层间展开</p>
+                    </li>
+                </ul>
+                <div class="marketnews_more">点击加载更多</div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

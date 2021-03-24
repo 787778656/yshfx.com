@@ -1,0 +1,137 @@
+{extend name="admin@base/main"/}
+{block name="body"}
+<div class="col-sm-12 widget-container-span">
+	<div class="widget-box transparent">
+		<div class="no-border">
+			<ul class="nav nav-tabs">
+                <li class="mynavTab"><a href="{:url('index')}">组合列表</a></li>
+				<li class="action active"><a href="javascript:;">新建组合</a></li>
+			</ul>
+		</div>
+		<div class="widget-body">
+			<div class="widget-main padding-12 no-padding-left no-padding-right">
+				<div class="tab-content padding-4">
+					<div class="row">
+							<div class="col-xs-12 no-padding-right">
+								<form class="form-horizontal" role="form" action="{:U('add')}" method="post" id="addform">
+									<div class="form-group">
+										<label class="col-sm-2 control-label no-padding-right"
+											for="form-field-1"> 组合编号： </label>
+										<div class="col-sm-9">
+											<input type="text" id="form-field-1" value="" name="bn" class="col-xs-10 col-sm-4">
+										</div>
+									</div>
+									<div class="space-4"></div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label no-padding-right"
+											for="form-field-2"> 组合名称： </label>
+										<div class="col-sm-9">
+											<input type="text" id="form-field-2" value="" name="name" class="col-xs-10 col-sm-4">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label no-padding-right"
+											for="form-field-1"> 组合账号： </label>
+										<div class="col-sm-9">
+										<select multiple="multiple" name="mt4id[]" id="select1" class="col-xs-10 col-sm-2" size="8">
+										<option value="0" disabled="true">已选账号</option>
+										</select>
+										<select multiple="multiple" id="select2" class="col-xs-10 col-sm-2" size="8">
+											<option value="0" disabled="true">备选账号</option>
+v											{volist name="arrAccount" id="account"}
+												<option value ="{$account['id']}" index="{$account['id']}">{$account['bn']} [{$account['name']}]</option>
+											{/volist}
+										</select>
+
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label class="col-sm-2 control-label no-padding-right"
+											for="form-field-1"> 备注说明： </label>
+										<div class="col-sm-9">
+										<textarea class="col-xs-10 col-sm-4" name="remark"></textarea>
+										</div>
+									</div>
+									<input type="hidden" name="arrmt4id">
+									<div class="clearfix form-actions">
+										<div class="col-md-offset-3 col-md-9">
+											<button class="btn btn-info mybtn" type="button" onclick="checkform();">
+												<i class="icon-ok bigger-110"></i> 提交
+											</button>
+											&nbsp; &nbsp;
+											<button class="btn mybtn" type="reset">
+												<i class="icon-undo bigger-110"></i> 重置
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>						
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	function checkform(){
+		var bn = $('input[name="bn"]').val();
+		if (bn==''){
+			alert('组合编号不能为空!');
+			return false;
+		}
+		var name = $('input[name="name"]').val();
+		if (name==''){
+			alert('组合名称不能为空!');
+			return false;
+		}
+		var mt4id = $('#select1 option');
+		if (mt4id.length < 2){
+			alert('请至少选择一个mt4账号!');
+			return false;
+		}
+
+		$('#select1 option').attr("selected","selected");
+		var strMt4id = $('input[name="arrmt4id"]').val();
+		for(var i=0; i<mt4id.length; i++){
+			if(mt4id[i].value!=0){
+				if (strMt4id == ''){
+					strMt4id = mt4id[i].value;
+				}else{
+					strMt4id = strMt4id+'|'+mt4id[i].value;
+				}
+			}
+		}
+		$('input[name="arrmt4id"]').val(strMt4id);
+		$('#addform').submit();
+	}
+
+	$('.selectGroup').change(function(){
+		var id = $(this).val();
+		// 初始化所有选项
+		$("#select1 option[value!=0]").appendTo("#select2");
+		if (id!=0){
+			var jsonGroup = $('input[name="jsonGroup"]').val();
+			jsonGroup = JSON.parse(jsonGroup);
+			$('input[name="bn"]').val(jsonGroup[id]['bn']);
+			$('input[name="name"]').val(jsonGroup[id]['name']);
+			$('textarea[name="remark"]').val(jsonGroup[id]['remark']);
+			var mt4id = jsonGroup[id]['mt4id'].split('|');		
+			
+			for (var i = 0; i < mt4id.length; i++){
+				$("#select2 option[value="+mt4id[i]+"]").appendTo("#select1");
+			}			
+		}
+
+	});
+
+	// 账号选择
+	$("#select1").bind("dblclick",function(){
+		$("#select1 option:selected").appendTo("#select2");
+	})
+
+	$("#select2").bind("dblclick",function(){
+		$("#select2 option:selected").appendTo("#select1");
+	})
+</script>
+{/block}

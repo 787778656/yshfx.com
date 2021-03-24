@@ -1,0 +1,106 @@
+{extend name="admin@base/main"/}
+{block name="body"}
+<div class="col-sm-12 widget-container-span">
+	<div class="widget-box transparent">
+		<div class="no-border">
+			<ul class="nav nav-tabs">
+                <li class="mynavTab"><a href="{:url('index')}">信用金日志</a></li>
+				<li class="action active"><a href="javascript:;">修改额度</a></li>
+			</ul>
+		</div>
+		<div class="widget-body">
+			<div class="widget-main padding-12 no-padding-left no-padding-right">
+				<div class="tab-content padding-4">
+					<div class="row">
+							<div class="col-xs-12 no-padding-right">
+								<form class="form-horizontal" role="form" action="{:U('add')}" method="post" id="addform">
+									<div class="form-group">
+										<label class="col-sm-2 control-label no-padding-right"
+											for="form-field-1">用户ID：</label>
+										<div class="col-sm-9"><input type="text" name="uid" value="" class="col-xs-10 col-sm-2"></div>
+									</div>
+
+									<div class="space-4"></div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label no-padding-right"
+											for="form-field-1">占用额度：</label>
+										<div class="col-sm-9">
+											<input type="text" name="credited" value="" class="col-xs-10 col-sm-2" readonly="true">
+										</div>
+									</div>
+
+									<div class="space-4"></div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label no-padding-right"
+											for="form-field-2">信用额度：</label>
+										<div class="col-sm-9">
+											<input type="text" name="credit_limit" value="" class="col-xs-10 col-sm-2" readonly="true">
+										</div>
+									</div>
+
+									<div class="space-4"></div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label no-padding-right"
+											for="form-field-2">新 额 度：</label>
+										<div class="col-sm-9">
+											<input type="text" name="credit_limit_new" value="" class="col-xs-10 col-sm-2">
+										</div>
+									</div>
+
+									<div class="clearfix form-actions">
+										<div class="col-md-offset-3 col-md-9">
+											<button class="btn btn-info mybtn" type="button" onclick="checkform();">
+												<i class="icon-ok bigger-110"></i> 提交
+											</button>
+											&nbsp; &nbsp;
+											<button class="btn mybtn" type="reset">
+												<i class="icon-undo bigger-110"></i> 重置
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>						
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	function checkform(){
+		var telephone = $('input[name="uid"]').val();
+		if (telephone==''){
+			alert('用户ID不能为空!');
+			return false;
+		}
+
+		var msg = $('textarea[name="credit_limit_new"]').val();
+		if (msg==''){
+			alert('新额度不能为空!');
+			return false;
+		}
+		$('#addform').submit();
+	};
+
+	$('.msgtpl').change(function(){
+		var data = $(this).find("option:selected").attr('data')
+		$('.msg-content').val(data);
+	});
+
+	$('input[name="uid"]').blur(function(){
+		var uid = $(this).val();
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            url: "{:url('getInfo')}",
+            data: {'uid':uid},
+            success:function(data){
+            	var data = JSON.parse(data);
+            	$('input[name="credited"]').val(data.credited);
+            	$('input[name="credit_limit"]').val(data.credit_limit);
+            }
+        })
+	});
+
+</script>
+{/block}

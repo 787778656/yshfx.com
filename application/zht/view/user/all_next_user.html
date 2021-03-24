@@ -1,0 +1,255 @@
+{extend name="admin@base/main"/}
+{block name="body"}
+<div class="col-sm-12 widget-container-span">
+	<div class="widget-box transparent">
+		<div class="no-border">
+			<ul class="nav nav-tabs">
+				<li class="mynavTab"><a href="{:url('index',['keyword'=>$uid])}">用户列表</a></li>
+                <li class="action active mynavTab"><a href="javascript:;">用户{$uid}的所有下级（三级）</a></li>
+				<li class="mynavTab"><a href="{:url('mt4_list')}">Mt4账号</a></li>
+			</ul>
+		</div>
+		<div class="widget-body">
+			<div class="widget-main padding-12 no-padding-left no-padding-right">
+				<div class="tab-content padding-4">
+						<div class="row">
+							<div class="col-xs-12 no-padding-right">
+							    <form id="search" style="margin-bottom:10px" method="post" action="{:url('all_next_user',['uid'=>$uid])}">
+                                   <input type="text" class="inp_date inp_w90" name="keyword" id="uid" value="{$keyword}" placeholder="id|手机号|mt4id|备注">
+								   <select name="status">
+										{volist name="userstatus" id="status"}
+										<option value="{$key}" <?php if(@$userStatusId==$key) echo 'selected';?> >{$status}</option>
+										{/volist}									   
+                                   </select>
+
+                                   	<select name="mt4server">
+	                                   	{volist name="mt4server" id="server"}
+									       <option value="{$key}" <?php if(@$serverId==$key) echo 'selected';?> >{$server}</option>
+									    {/volist}						          
+                                   </select>
+                                   	<!-- <select name="zhttype">
+	                                   	{volist name="zhttype" id="type"}
+									       <option value="{$key}" <?php if(@$typeId==$key) echo 'selected';?> >{$type}</option>
+									    {/volist}							          
+                                   </select> -->
+<!--                                     <select name="mt4status">
+	                                   	{volist name="mt4status" id="status"}
+									       <option value="{$key}" <?php if(@$statusId==$key) echo 'selected';?> >{$status}</option>
+									    {/volist}							          
+                                   </select> -->
+
+                                   	<select name="sorder">
+									       <option value="id" <?php if($sorder == 'id') echo 'selected';?>>排序规则</option>
+									       <option value="time" <?php if($sorder == 'time') echo 'selected';?> >加入时间</option>
+									       <option value="modify_time" <?php if($sorder == 'modify_time') echo 'selected';?> >修改时间</option>
+                                   </select>
+                                   <button style="padding: 0px 12px; margin-top:-3px" type="button" class="btn btn-info mybtn2 dosubmit"
+                                   data="{:url('all_next_user',['uid'=>$uid])}"> <i class="icon-ok bigger-110"></i> 搜索</button>
+
+                                   <!-- <button style="padding: 0px 12px; margin-top:-3px" type="button" class="btn btn-info mybtn2 testAccount"> <i class="icon-undo bigger-110"></i> 测试服务器</button> -->
+
+                                   <!-- <button style="padding: 0px 12px; margin-top:-3px" type="button" class="btn btn-info mybtn2 resetAccount"> <i class="icon-remove bigger-110"></i> 解绑(mt4账号)</button> -->
+								   <!-- <button style="padding: 0px 12px; margin-top:-3px" type="button" class="btn btn-info" onclick="binduser2()"> <i class="icon-remove bigger-110"></i> 封禁用户(手机号码)</button> -->
+									<button  style="padding: 0px 12px; margin-top:-3px" type="button" class="btn btn-info mybtn2 dosubmit" data="{:url('exp_excel_all_next', ['uid'=>$uid])}&{$strQuery}" > <i class="bigger-110"></i> 导出Excel</button>									
+
+									<?php if(@$userStatusId==5) {?>
+										<button style="padding: 0px 12px; margin-top:-3px" type="button" class="btn btn-info mybtn2 addCollect" data="remove"> <i class="icon-remove bigger-110"></i>取消收藏</button>
+									<?php }else{?>
+										<button style="padding: 0px 12px; margin-top:-3px" type="button" class="btn btn-info mybtn2 addCollect" data="add"> <i class="icon-ok bigger-110"></i>收藏</button>
+									<?php } ?>
+
+								</form>
+								<div class="table-responsive">
+									<table id="sample-table-1"
+										class="table table-striped table-bordered table-hover">
+										<thead>
+											<tr>
+												<th class="center"><label> 
+												<input type="checkbox" class="ace"> <span class="lbl"></span>
+												</label></th>
+												<th class="center">下级级别</th>
+												<th class="center">ID</th>
+												<th class="center">手机号</th>											
+												<th class="center">等级</th>
+												<th class="center">余额 / 保证金 / 可用信用金(额度)</th>
+												<th class="center">上级</th>
+												<th class="center">mt4id</th>
+												<th class="center">mt4密码</th>
+												<th class="center">mt4服务器</th>
+												<th class="center">后缀</th>
+												<th class="center">审核</th>												
+												<th class="center">备注</th>												
+												<th class="center">加入时间</th>
+                                                <th class="center">操作</th>
+											</tr>
+										</thead>
+										<tbody>
+										{volist name="arrUser" id="result"}
+											<tr>
+												<td class="center">
+												<label> <input type="checkbox" class="ace" value="{$result.id}" name="accountItem"> <span class="lbl"></span></label>
+												</td>
+												<td><?php if($result['child_level']){echo str_repeat('----',$result['child_level']-1).$result['child_level'].'级';}else{echo '---';}?></td>
+												<td>{$result.id}</td>
+												<td><a href="{:url('zht/user/index',['level'=>$level,'level_id'=>$result['uid']])}" style="text-decoration: none;color: rgb(57, 57, 57);">
+												<?php
+												if (!empty($result['login'])){
+													echo $result['login'];
+												}elseif(!empty($result['wechat'])){
+													echo $result['nickname'].'[微信]';
+												}elseif(!empty($result['weibo'])){
+													echo $result['nickname'].'[微博]';
+												}elseif(!empty($result['qq'])){
+													echo $result['nickname'].'[QQ]';
+												}else{
+													echo $result['nickname'].'[小程序]';										
+												}
+                                                if($result['isbuy']==1){
+												  echo " (已审核)";
+                                                }else{
+												  echo " <font color='red'>(未审核)</font>";
+												}
+
+												if (in_array($result['id'], $arrCollect)){
+													echo '&nbsp;&nbsp;<img src="/assets/image/star-icon.png" width="20px" height="20px" title="已收藏">';
+												}
+												?>
+												</a>
+												</td>
+												<td title='过期时间{$result.server_expire|date="Y-m-d H:i:s",###}' {if $result.server_expire < time()} style="color:red;"{/if}>{$result.server|default='--'}</td>
+												<td>{$result.imoney|floatval|number_format=###,2} / {$result.smoney|floatval|number_format=###,2} / {$result.credit_limit-$result.credited|floatval|number_format=###,2} ({$result.credit_limit|floatval|number_format=###,2})</td>
+												<td class="level" data-id={$result['id']} data-level={$result['parent_id']}>{$result['parent_id']?$result['parent_id']:'--'}</td>
+												<td>{$result.zhmt4uid}</td>
+												<td>{$result.zhmt4pwd}</td>
+												<td>{$result.zhmt4server}</td>
+												<td>{$result.sblfix}</td>
+												<td style="text-align: center;">
+												<select class="sh-status" data="{$result['id']}">
+												<?php if(@$result['isbuy']==0){ ?>
+												<option value="0" 'selected'>审核</option>
+												<?php } ?>
+												<option value="1" <?php if(@$result['isbuy']==1) echo 'selected';?>>通过</option>
+												<option value="2">失败</option>
+												</select>
+												</td>												
+												<td>{$result.aliyun}</td>												
+												<td>{$result.time}</br>{$result.sign_ip}</td>
+                                                <td style="width: 250px; text-align: center;">
+												<!--a class="btn btn-white btn-sm" href="/index.php?g=Admin&m=User&a=member_info&id={$result.id}" target="_blank">下级</a-->
+												<a class="btn btn-white btn-sm" href="{:url('mt4_list', ['uid'=>$result['uid']])}&{$strQuery}" >Mt4账号</a>
+												<!-- <a class="btn btn-white btn-sm" href="{:url('order', ['account'=>$result['zhmt4uid']])}&{$strQuery}">交易数据</a> -->
+												<a class="btn btn-white btn-sm" href="{:url('money_log', ['id'=>$result['uid']])}&{$strQuery}">账户流水</a>
+												<a class="btn btn-white btn-sm" href="{:url('money', ['id'=>$result['uid']])}&{$strQuery}">充值记录</a>
+												</td>   
+											</tr>
+										{/volist}
+										</tbody>
+									</table>
+									<div>
+									</div>
+								</div>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$('.addCollect').click(function(){		
+			var chkValue = new Array();
+			$('input[name="accountItem"]:checked').each(function(){ 
+				chkValue.push($(this).val()); 
+			});
+
+			if (chkValue.length==0){
+				alert("请至少选择一个账号!");
+			}else{
+				var action = $(this).attr('data');
+		        $.ajax({
+		            type: "post",
+		            dataType: "text",
+		            url: "{:url('add_collect')}",
+		            data: {'aid':chkValue,'class':'user', 'action':action},
+		            success:function(data){
+						window.location.reload();
+		            }
+		        })
+			}
+		return false;
+	});
+
+	$('.resetAccount').click(function(){		
+			var chkValue = new Array();
+			$('input[name="accountItem"]:checked').each(function(){ 
+				chkValue.push($(this).val()); 
+			});
+
+			if (chkValue.length==0){
+				alert("请至少选择一个账号!");
+			}else{
+				if (confirm("此操作不可恢复，您确定要清除选中账户吗？")){
+			        $.ajax({
+			            type: "post",
+			            dataType: "text",
+			            url: "{:url('reset')}",
+			            data: {'aid':chkValue},
+			            success:function(data){
+							window.location.reload();
+			            }
+			        })
+		       }
+			}
+		return false;
+	});
+
+	$('.sh-status').change(function(){
+		var status = $(this).val();
+		if (status == 0){
+			return false;
+		}
+		var id = $(this).attr('data');
+		if (confirm("此操作将发送通知给用户，请确认审核信息是否正确？")){
+	        $.ajax({
+	            type: "post",
+	            dataType: "text",
+	            url: "{:url('sysuser')}",
+	            data: {'id':id,'status':status},
+	            success:function(data){
+					//alert(data);
+					window.location.reload();
+	            }
+	        })
+       }else{
+       		$(this).find('option').eq(0).prop("selected", 'selected');
+       }
+	});
+
+
+	$('.dosubmit').click(function(){
+		var strAction = $(this).attr('data');
+		$('#search').attr('action', strAction);
+		$('#search').submit();
+	});
+
+	// 修改上级
+	$('.level').click(function(){
+		var id = $(this).attr('data-id');
+		var mylevel = $(this).attr('data-level');
+		mylevel=prompt("设置上级ID?", mylevel);
+		var __this = $(this);
+		if (mylevel && mylevel!==""){
+	        $.ajax({
+	            type: "post",
+	            dataType: "text",
+	            url: "{:url('setlevel')}",
+	            data: {'id':id,'level':mylevel},
+	            success:function(data){
+			        __this.text(mylevel);
+			        __this.attr('data-level', mylevel);					
+	            }
+	        })
+		}
+	});
+</script>
+{/block}

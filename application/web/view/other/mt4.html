@@ -1,0 +1,69 @@
+{extend name="web@base/main"/}
+{block name="body"}
+<style>
+    .vip_footer{display: none;}
+    .vip_head .header_inner{width:98%;}
+    .mt4Btn{position:absolute;right:200px;top:8px;}
+    .mt4BtnText{font-size:16px;color:#cccccc;float:left;line-height: 34px;}
+    .mt4TextActive{color:#611987;}
+    .changeBtn{float:left;width:60px;height:34px;border-radius: 20px;background: #611987;margin:0 10px;position: relative;cursor: pointer;}
+    .changeRadio{width:30px;height:30px;position: absolute;top:2px;left:2px;background: #fff;border-radius: 30px;box-shadow: 0 0 10px #c77c0d;}
+    .mt4_t{font-size:16px;color:#fff;border-bottom:1px solid #fff;cursor: pointer;}
+    .vip_head .nav_2{right:36px;}
+    .user_info{margin-right:36px;}
+    .mt4_tip{padding-top:32px;font-size:20px;color:#333333;text-align: center;}
+</style>
+<iframe class="mt4" style="width:100%;height:1000px;margin-top:45px;" src="https://trade.mql5.com/trade?servers=Tickmill-DemoUK,ICMarkets-Demo01,Alpari-Demo,XMGlobal-demo%204,GKFX,AUSForex-Demo,FXCM-AUDDemo01,USGFX-Demo,InfinoxCapitalLimited-Demo,FXOpen-Demo%20STP,FormaxCapital-Demo,Pepperstone-Demo01&startup_version=4&demo_type=EUR-XM,USD-XM,GBP-XM,CHF-XM,JPY-XM,AUD-XM,RUB-XM,PLN-XM,HUF-XM,ZAR-XM,SGD-XM&demo_leverage=100&lang=zh"></iframe>
+<div class="blank" style="width:136px;height:30px;position: absolute;top:80px;right:8px;background: #f9f9f9;"></div>
+<div class="change_password" id="mt4Tips">
+        <div class="confirmBox" style="width: 460px;height:270px;margin-top:-135px;margin-left:-230px;">
+            <div class="change_password_close"></div>
+            <img src="__STATIC__image/confirm_head.png" class="confirm_head">
+            <p class="confirmTitle">提  示</p>
+            <p class="mt4_tip">请告知客服您所在的“经纪商-服务器”，<br>我们会尽快收录您的经纪商及服务器！</p>
+            <div style="width:86%;margin:0 auto;">
+                <a id="qqkefu" target="_blank" style="float:left;width:190px;"><button class="confirm_btn" style="clear:initial;width:190px;margin-top:40px;float:left;">联系客服</button></a>
+                <button class="confirm_btn upwd" style="clear:none;width:190px;margin-top:40px;float:right;background:#fff;border:1px solid #007eff;color:#007eff">知道了</button>
+            </div>
+            
+        </div>
+    </div>
+<script>
+    $(function(){
+         // qq客服
+        var m=Math.random();
+        if(m<0.5){
+            $("#qqkefu").attr("href","http://wpa.qq.com/msgrd?v=3&uin=303869104&site=qq&menu=yes");
+        }else{
+            $("#qqkefu").attr("href","http://wpa.qq.com/msgrd?v=3&uin=2397645037&site=qq&menu=yes");
+        }
+    });
+
+    var html='<div class="mt4Btn"><span class="mt4BtnText mt4TextActive" id="demo">Demo</span><div class="changeBtn" type="demo"><div class="changeRadio"></div></div><span class="mt4BtnText" id="live">Live</span></div>';
+    $(".nav").after(html);
+    var html2='<span class="mt4_t">找不到服务器？</span>';
+    $(".nav_2").html(html2);
+    $(".user_info").html(html2);
+    $(".mt4_t").click(function(){
+        $("#mt4Tips").fadeIn();
+    });
+    $(".upwd").click(function(){
+        $("#mt4Tips").fadeOut();
+    });
+    $(".changeBtn").click(function(){
+        if($(this).attr("type")=='demo'){
+           $(".changeRadio").animate({"left":"28px"},200); 
+           $(this).attr("type","live");
+           $(".mt4BtnText").removeClass("mt4TextActive");
+           $("#live").addClass("mt4TextActive");
+           $(".mt4").attr("src","https://trade.mql5.com/trade?servers=FOREX.comGlobalCN-Live%2020,Formax-Live,FXOpenAU-ECN%20Live%20Server,GKFX-Live-1,ICMarkets-Live01,Pepperstone-Edge02,Tickmill-Live,XM.COM-AU-Real%2010,Alpari-ECN1,AETOS-LIVE%20F,AUSForex-Live,FXCM-AUDReal01,ForexTimeFXTM-ECN,KVBKunlun-Production%20Server%201,USGFX-Live,ACYFX-Live,Eightcap-Real,Windsor-REAL,InfinoxCapitalLimited-InfinoxUK&startup_version=4&demo_leverage=100&lang=zh");
+        }else{
+           $(".changeRadio").animate({"left":"2px"},200); 
+           $(this).attr("type","demo");
+           $(".mt4BtnText").removeClass("mt4TextActive");
+           $("#demo").addClass("mt4TextActive"); 
+           $(".mt4").attr("src","https://trade.mql5.com/trade?servers=Tickmill-DemoUK,ICMarkets-Demo01,Alpari-Demo,XMGlobal-demo%204,GKFX,AUSForex-Demo,FXCM-AUDDemo01,USGFX-Demo,InfinoxCapitalLimited-Demo,FXOpen-Demo%20STP,FormaxCapital-Demo,Pepperstone-Demo01&startup_version=4&demo_type=EUR-XM,USD-XM,GBP-XM,CHF-XM,JPY-XM,AUD-XM,RUB-XM,PLN-XM,HUF-XM,ZAR-XM,SGD-XM&demo_leverage=100&lang=zh");
+        }
+    });
+</script>
+{/block}

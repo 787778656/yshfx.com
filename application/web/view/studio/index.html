@@ -1,0 +1,2179 @@
+{extend name="web@base/studio"/}
+{block name="body"}
+<script src="__STATIC__js/jqueryscroll.js" type="text/javascript"></script>
+<link href="__STATIC__css/studio.css" rel="stylesheet"/>
+<script src="__STATIC__js/echarts.min.js"></script>
+<script src="__STATIC__js/brokers.js" rel="stylesheet"></script>
+<script src="__STATIC__js/clipboard.min.js" type="text/javascript"></script>
+<script src="__STATIC__js/jquery.qrcode.min.js" type="text/javascript"></script>
+<style>
+    .edit_info{font-size:14px;color:#611987;border:1px solid #611987;height:22px;line-height:22px;width:90px;border-radius: 4px;text-align: center;cursor:pointer;display: block;margin-top: 4px;}
+</style>
+<div class="live_main">
+<input type="hidden" name="studioId" value="{$arrStudio.id}">
+    <div class="live_box">
+        <div class="live_about">
+            <ul class="live_about_head">
+                <li class="live_about_head1 live_about_head1_active" id="jyxh">跟单信号</li>
+                <!-- <li class="live_about_head1" id="ly">留  言</li> -->
+                <li class="live_about_head1" style="border-right:none;width:184px;" id="zgfw">资管服务</li>
+            </ul>
+            <!-- 交易信号 -->
+            <div class="liveabout live_about_signal_box">
+
+                <ul class="live_about_signal">
+                {if isset($arrStudioAccount)}
+                {volist name="arrStudioAccount" id="studioAccount"}
+                    <li>
+                        <p class="live_about_signal_head">信号：{$studioAccount.studio_account_name}</p>
+                        {if $showManage}
+                        <div class="deleteicon_mul">
+                            <img src="__STATIC__image/deleteicon.png" class="deleteicon_mul_img">
+                            <ul class="deleteicon_mul_btn">
+                                <li class="modifybtn" account="{$studioAccount.account}" name="{$studioAccount.studio_account_name}" studio_id="{$studioAccount.aid}" type="{$studioAccount.type}" param="{$studioAccount.param}">修改</li>
+                                <li class="deletebtn" id="{$studioAccount.aid}">删除</li>
+                            </ul>
+                        </div>
+                        {/if}
+                        {switch name="studioAccount['type']"}                        
+                        {case value="1"}
+                        <!-- 免费 -->
+                        <div class="live_about_signal_free">免  费</div>
+                        {/case}
+                        {case value="2"}
+                        <!-- 付费 -->
+                        <div class="live_about_signal_pay">￥{$studioAccount.param}/月</div>
+                        {/case}
+                        {case value="3"}
+                        <!-- 指定经纪商 -->
+                        <div class="live_about_signal_free2">免  费</div>
+                        <?php $img = isset($mt4service[$studioAccount['mt4server']])?$mt4service[$studioAccount['mt4server']]:$mt4service['forex'];?>
+                        <!-- 利汇 -->
+                        <img src="__STATIC__image/broker/{$img}.png" class="free_Brokers_icon">
+                        {/case}
+                        {case value="4"}
+                        <!-- 指定开户链接 -->
+                        <div class="live_about_signal_free3">免  费</div>
+                        <a class="signal_open_link" href="{$studioAccount.param}" target="_blank">开户链接</a>
+                        {/case}
+                        {/switch}
+                        <div class="live_about_chart_box">
+                            {switch name="studioAccount['type']"}
+                            {case value="1"}
+                            <img src="__STATIC__image/signal_share.png" class="signal_share_icon">
+                            {/case}
+                            {/switch}
+                            <a class="free_blank" href="__HTTP__studio/detail/{$arrStudio.id}/{$studioAccount.account}.html" target="_blank">
+                            <div class="copy_signal_btn">复制跟单</div>
+                        </a>
+                            <div class="live_about_chart" data-chart='{$studioAccount.rand_profit}'></div>
+                        </div>
+                        <ul class="live_signal_info">
+                            <li>
+                                <p>利润率</p>
+                                <p style="color:#611987">
+                            <?php
+                            echo $studioAccount['money']*$studioAccount['trade_profit']<=0 ? 0.00 : round($studioAccount['trade_profit']/$studioAccount['money']*100,2);
+                            ?>%</p>
+                            </li>
+                            <li>
+                                <p>交易胜率</p>
+                                <p>{$studioAccount.trade_win*100}%</p>
+                            </li>
+                            <li>
+                                <p>交易时长</p>
+                                <p>{$studioAccount.trade_week}周</p>
+                            </li>
+                            <li>
+                                <p>跟随人数</p>
+                                <p>{$studioAccount.follow}</p>
+                            </li>
+                            <li>
+                            <?php $drawdown = max($studioAccount['trade_drawdown'], $studioAccount['trade_minbalance'], $studioAccount['trade_minprofit']);?>
+                                <p>最大回撤</p>
+                                <p>{$drawdown*100}%</p>
+                            </li>
+                        </ul>
+                    </li>
+                {/volist}
+                {/if}
+                </ul>
+                {if $showManage}
+                <div class="load_signal">上传更多信号</div>
+                <a class="pay_rule" href="__HTTP__studio/postage/{$arrStudio.uid}.html" target="_blank">资费规则</a>
+                {/if}
+
+            </div>
+            <!-- 资管服务 -->
+            <div class="liveabout live_about_service"  style="display:none;">
+                {if $showManage}
+                <!-- 工作室 -->
+                <p class="live_about_service_detail" id="live_about_service_detail2">跨平台 PAMM 服务<br>即将到来 敬请关注</p>
+                {else/}
+                <!-- 用户 -->
+                <p class="live_about_service_detail" id="live_about_service_detail1">本工作室暂不提供资管服务</p>
+                {/if}
+            </div>
+        </div>
+        <!-- 直播间 -->
+        <div class="live_room">
+            <div style="padding:16px 0;height:30px;">
+                <!-- <img src="image/liveroom_image.jpg" style="height:40px;float:left;margin:-5px 0 0 20px">
+                <img src="image/live_room_logo.jpg" class="live_room_logo"> -->
+                <p class="live_room_name">欢迎来到{$arrStudio.name}的工作室</p>
+                <div class="live_room_star" title="等级:{$arrStudio['level']}">
+                <?php
+                // 输出星级
+                $top = floor($arrStudio['level']/125);
+                $sun = floor(($arrStudio['level']-$top*125)/25);
+                $moon = floor(($arrStudio['level']-$sun*25-$top*125)/5);
+                $star = $arrStudio['level']%5;
+
+                echo str_repeat('<img src="image/star4.png">', $top);
+                echo str_repeat('<img src="__STATIC__image/star3.png">', $sun);
+                echo str_repeat('<img src="__STATIC__image/star2.png">', $moon);
+                echo str_repeat('<img src="__STATIC__image/star1.png">', $star);
+                ?>
+                </div>
+                {if $showManage}
+                {if $arrStudio['status'] == 1}
+                <p class="live_room_level">升  级</p>
+                {else/}
+                <p class="to_open">立即激活</p>
+                <p class="not_open">未开放</p>
+                {/if}
+                {/if}
+            </div>
+            {if empty($arrStudio['live_url'])}
+            <div class="live_room_intro" style="display: block">
+                <div style="width:100%;height:40px;background:#000;"></div>
+
+                {if $showManage}
+                <div style="width:100%;height:470px;background:#f6f7f9;">
+                    <p style="font-size:20px;color:#555555;text-align:center;padding:130px 0 14px;">提交你的斗鱼直播间flash地址</p>
+                    <input type="text" placeholder="请输入您的斗鱼直播间flash地址" class="live_room_link">
+                    <div class="live_link_submit">提  交</div>
+                    <p class="how_toget_code">获取斗鱼直播间flash地址？</p>
+                </div>
+                <div style="width:100%;height:40px;background:#000;">
+                    <img src="__STATIC__image/video_icon1.png" style="height:26px;float:left;margin:7px;">
+                    <img src="__STATIC__image/video_icon2.png" style="height:26px;float:right;margin:7px;">
+                </div>
+                {else/}
+                <div style="width:100%;height:470px;background:#f6f7f9;">
+                    <div class="stopliveroom"></div>
+                </div>
+                {/if}
+            </div>
+            {else/}
+            <div class="live_room_detail" style="display: block">
+                <embed class="live_room_flash" width="776" height="360" allownetworking="all" allowscriptaccess="always" src="{$arrStudio.live_url}" quality="high" bgcolor="#000" wmode="window" allowfullscreen="true" allowFullScreenInteractive="true" type="application/x-shockwave-flash">
+            </div>
+            {/if}
+            <div class="live_room_visit">
+            {volist name="arrVisitor" id="visitor" length='5'}
+                {if isset($visitor['photo'])}
+                    {if stristr($visitor['photo'], 'http')}
+                    <img src="{$visitor['photo']}">
+                    {else/}
+                        {if !empty($visitor['photo'])}
+                        <img src="__STATIC__upload/image/{$visitor['photo']}">
+                        {else/}
+                        <img src="__STATIC__image/combinationHead4.png">
+                        {/if}
+                    {/if}
+                {else/}
+                    {if ($visitor['vphoto']<=95)}
+                    <img src="__STATIC__image/vphoto/{$visitor['vphoto']}.jpg">
+                    {else/}
+                    <img src="__STATIC__image/combinationHead4.png">
+                    {/if}
+                {/if}
+            {/volist}             
+                <div id="pic_list_3" class="scroll_vertical">
+                    <div class="box">
+                        <ul class="list">
+                        {volist name="arrVisitor" id="visitor" length='5'}
+                            <li class="indexordernum_text">{$visitor.nick}进入工作室</li>
+                        {/volist}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 留言 -->
+        <div class="live_message_box" style="float:right;">
+                <div style="width:349px;margin:0 auto;border-bottom:1px solid #dadada;color:#611987;padding:10px 0 0;"><div style="border-bottom:2px solid #611987;display:inline-block;padding-bottom:10px;">留   言</div></div>
+                <ul class="live_message">
+                    {if $showManage}
+                    {volist name="arrMsg" id="msg"}
+                    <li>
+                        <img src="__STATIC__image/deleteicon.png" class="deleteicon" onclick="showdeletemsg(this,event)">
+                        <p class="delete_btn" onclick="deletemsg(this)" msgId="{$msg.id}">删除</p>
+                        <p class="live_message_time">{$msg.add_time|date='H:i:s',###}</p>
+                        {if $msg.nick}
+                        <p class="live_message_name">{$msg.nick}</p>
+                        {else/}
+                        <p class="live_message_name">游客</p>
+                        {/if}
+                        <p class="live_message_text">{$msg.msg}</p>
+                    </li>
+                    {/volist}
+                    {else/}
+                    {volist name="arrMsg" id="msg"}
+                    <li>
+                        <p class="live_message_time">{$msg.add_time|date='H:i:s',###}</p>
+                        {if $msg.nick}
+                        <p class="live_message_name">{$msg.nick}</p>
+                        {else/}
+                        <p class="live_message_name">游客</p>
+                        {/if}
+                        <p class="live_message_text">{$msg.msg}</p>
+                    </li>
+                    {/volist}
+                    {/if}
+                </ul>
+                <div style="width:344px;height:40px;background:#fff;position:absolute;left:10px;bottom:2px;">
+                    <div class="live_message_submit">留言</div>
+                    <input class="live_message_send" placeholder="请输入留言" maxlength="100">
+                </div>
+            </div>
+        <!-- 工作室 -->
+        <div class="live_info">
+            <ul class="live_info_head">
+               <li class="live_info_head_li live_info_head_active" id="gzs">工 作 室</li> 
+               <li class="live_info_head_li" id="gzsjs">工作室介绍</li>
+               <li class="live_info_head_li" id="zbyg">直播预告</li>
+               {if $showManage}
+               <li class="live_info_head_li" id="gdsq">跟单申请</li>
+               {/if}
+            </ul>
+            {if !empty($arrStudio)}
+            <!-- 工 作 室 -->
+            <div class="liveinfo live_info_studio">
+                {if strstr($arrStudio['u_img'], 'http')}
+                <img src="{$arrStudio['u_img']}" class="live_person">
+                {else/}
+                <img src="<?php echo !empty($arrStudio['u_img']) ? '__STATIC__upload/image/'.$arrStudio['u_img'] : '__STATIC__image/vip_nav15.png'?>" class="live_person">
+                {/if}
+                <div style="float:left;margin-left:10px;width:700px;">
+                    {if $showManage}
+                    <div style="float:right;">
+                        <p class="show_telephone" style="float: initial;margin-top: 8px;">展现联系方式</p>
+                        <a class="edit_info" href="__HTTP__studio/edit.html" target="_blank">编辑</a>
+                    </div>
+                    {/if}
+                    <p class="live_studio_name">{$arrStudio.name}</p>
+                    <p class="live_studio_intro">{$arrStudio.sign}</p>
+
+                </div>
+                <ul class="live_studio_information">
+                {if $arrStudio['show_contact_time']<time()}
+                    <li>
+                        <p>电话：{$arrStudio.tel|substr_replace='***',4,3}</p>
+                        <p>微信：{$arrStudio.wechat|substr_replace='***',1,3}</p>
+                    </li>
+                    <li>
+                        <p>邮    箱：{$arrStudio.email|substr_replace='***',1,3}</p>
+                        <p>经纪商：{$arrStudio.mt4server|default='----'}</p>
+                    </li>
+                    <li>
+                        <p>QQ：{$arrStudio.qq|substr_replace='***',2,3}</p>
+                        <p style="float:left;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space: nowrap;">开户链接：{$arrStudio.link}</p>
+                        <a class="toopen_account" href="{$arrStudio.link}" target="_blank">立即开户</a>
+                    </li>
+                {else/}
+                    <li>
+                        <p>电话：{$arrStudio.tel|default='--'}</p>
+                        <p>微信：{$arrStudio.wechat|default='--'}</p>
+                    </li>
+                    <li>
+                        <p>邮    箱：{$arrStudio.email|default='--'}</p>
+                        <p>经纪商：{$arrStudio.mt4server|default='--'}</p>
+                    </li>
+                    <li>
+                        <p>QQ：{$arrStudio.qq|default='--'}</p>
+                        <p style="float:left;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space: nowrap;">开户链接：{$arrStudio.link}</p>
+                        <a class="toopen_account" href="http://{$arrStudio.link}" target="_blank">立即开户</a>
+                    </li>
+                {/if}
+                </ul>
+            </div>
+            <!-- 工作室介绍 -->
+            <div class="liveinfo live_info_introduce" style="display:none;">                
+                <div style="float:left;">
+                    <p style="font-size:18px;color:#333333;float:left;">{$arrStudio.name}</p>
+                    {if $showManage}
+                    <p class="liveinfo_myroominfo_edit">编辑</p>
+                    {/if}
+                    <p class="liveinfo_myroominfo">{$arrStudio.introduction}</p>
+                    <div class="liveinfo_roominfo_textarea_box" style="display:none;">
+                        <textarea placeholder="请编辑工作室介绍" class="liveinfo_roominfo_textarea"></textarea>
+                        {if $showManage}
+                        <div class="liveinfo_roominfo_textarea_btn" style="bottom:3px;right:57px;" id="liveinfo_roominfo_delete">取消</div>
+                        <div class="liveinfo_roominfo_textarea_btn" style="background:#611987;color:#fff;bottom:3px;right:8px;" id="liveinfo_roominfo_submit">确定</div>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+            <!-- 直播预告 -->
+            <ul class="liveinfo live_video_trailer" style="display:none;">
+                {if $showManage}
+                <div id="live_video_trailer_edit">编辑</div>
+                <div id="live_video_trailer_edit_success">完成</div>
+                {volist name="arrStudio.live" id="live"}
+                <li>
+                    <img src="__STATIC__image/live_studio_video_icon.png" class="live_studio_video_icon">
+                    <p class="live_trailer_p1">
+                    <?php
+                    if (empty($live['start_time'])) $live['start_time'] = time();
+                    if (empty($live['end_time'])) $live['end_time'] = time();
+                    ?>
+                        <input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no starttimehour" value="{$live.start_time|date='H',###}" disabled>
+                        :<input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no starttimeminute" value="{$live.start_time|date='m',###}" disabled>
+                        -<input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no endtimehour" value="{$live.end_time|date='H',###}" disabled>
+                        :<input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no endtimeminute" value="{$live.end_time|date='m',###}" disabled>
+                    </p>
+                    <select class="live_trailer_p2 live_trailer_p2_no trailertype" disabled>
+                        <option value="" selected>请选择</option>
+                        <option value="1" {if $live.type == 1}selected{/if}>录播</option>
+                        <option value="2" {if $live.type == 2}selected{/if}>直播</option>
+                    </select>
+                    <input class="live_trailer_p3 live_trailer_p3_no trailertext" placeholder="请填写内容" value="{$live.title}" disabled>
+                    <input type="hidden" name="live_id" value="{$live.id}">
+                    <img src="__STATIC__image/liveclose.png" class="liveclose">
+                </li>
+                {/volist}
+                {else/}
+                {volist name="arrStudio.live" id="live"}
+                <li>
+                    <img src="__STATIC__image/live_studio_video_icon.png" class="live_studio_video_icon">
+                    <p class="live_trailer_p1">
+                    <?php
+                    if (empty($live['start_time'])) $live['start_time'] = time();
+                    if (empty($live['end_time'])) $live['end_time'] = time();
+                    ?>
+                        <input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no" value="{$live.start_time|date='H',###}" disabled>:<input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no" value="{$live.start_time|date='m',###}" disabled>
+                        -<input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no" value="{$live.end_time|date='H',###}" disabled>:<input type="num" maxlength="2" class="live_studio_video_time live_trailer_p1_no" value="{$live.end_time|date='m',###}" disabled>
+                    </p>
+                    <select class="live_trailer_p2 live_trailer_p2_no" disabled>
+                        <option selected></option>
+                        <option {if $live.type == 1}selected{/if}>录播</option>
+                        <option {if $live.type == 2}selected{/if}>直播</option>
+                    </select>
+                    <input class="live_trailer_p3 live_trailer_p3_no" placeholder="" value="{$live.title}" disabled>
+                    <input type="hidden" name="live_id" value="{$live.id}">
+                </li>
+                {/volist}
+                {/if}
+            </ul>
+            {if $showManage}
+            <!--跟单申请 -->
+            <div class="liveinfo signal_application">
+                <p style="font-size:14px;color:#333333;padding:10px 0 4px;">本功能仅限于对<span style="color:#611987">开户链接</span>进行审核，通过审核即可免费跟随您发布的指定链接信号。</p>
+                <div class="signal_application_ul">
+                    <ul>
+                        <li>ID</li>
+                        <li>MT4 账号</li>
+                        <li>操作</li>
+                    </ul>
+                    <div style="overflow-y:scroll;height:115px;" class="signal_application_ul_detail">
+                    {volist name="arrFollow" id="follow"}
+                        <ul>
+                            <li class="followid" followid="{$follow.id}">{$follow.uid}</li>
+                            <li>{$follow.slave_mt4id}</li>
+                            <li>
+                                <p class="signal_application_agree">同意</p>
+                                <p class="signal_application_refuse">拒绝</p>
+                            </li>
+                        </ul>
+                    {/volist}
+                    </div>
+                </div>
+            </div>
+            {/if}
+            {/if}
+        </div>        
+        <!-- 访客 -->
+        <div class="live_visitor">
+            <p style="font-size:16px;color:#333333;padding-bottom:10px;">访客</p>
+            <ul class="live_visitor_box">
+                {volist name="arrVisitor" id="visitor"}
+                <li title="[{$visitor.nick}] IP:{$visitor.ip}">
+                {if isset($visitor['photo'])}
+                    {if stristr($visitor['photo'], 'http')}
+                    <img src="{$visitor['photo']}" class="live_visitor_head">
+
+                    {else/}
+                        {if !empty($visitor['photo'])}
+                        <img src="__STATIC__upload/image/{$visitor['photo']}" class="live_visitor_head">
+                        {else/}
+                        <img src="__STATIC__image/combinationHead4.png" class="live_visitor_head">
+                        {/if}
+                    {/if}
+                {else/}
+                    {if ($visitor['vphoto']<=95)}
+                    <img src="__STATIC__image/vphoto/{$visitor['vphoto']}.jpg" class="live_visitor_head">
+                    {else/}
+                    <img src="__STATIC__image/combinationHead4.png" class="live_visitor_head">
+                    {/if}
+                {/if}
+                    <p class="live_visitor_name">{$visitor.nick}</p>
+                    <p class="live_visitor_ip">{$visitor.ip}</p>
+                    <p class="live_visitor_time">{$visitor.time|date='H:i:s',###}</p>
+                </li>
+                {/volist}
+            </ul>
+        </div>
+        {if $showManage}
+        <div class="tocreate">
+            <div style="width:1200px;margin:0 auto;">
+                <p style="font-size:17px;line-height:52px;color:#999999;float:left;margin-left:446px;">立即展现我的工作室吧</p>
+                <div class="createbtn" id="sharemylivebtn">立即分享</div>
+            </div>
+        </div>
+        {else/}
+        <div class="tocreate">
+            <div style="width:1200px;margin:0 auto;">
+                <p style="font-size:17px;line-height:52px;color:#999999;float:left;margin-left:424px;">本工作室由亿思汇提供技术服务</p>
+                <a class="createbtn" id="createbtn" href="__HTTP__studio/create/{$arrStudio.uid}.html" target="_blank" style="color:#999999;border-color:#999999;">免费创建</a>
+            </div>
+        </div>
+        {/if}
+    </div>
+</div>
+{if $showManage}
+<div class="bomb_sharemylive">
+    <div class="sharemylive">
+        <div class="sharemylive_close"></div>
+        <p style="font-size:20px;color:#333333;text-align: center;padding:10px 0;">分  享</p>
+        <ul class="sharemylivebox">
+            <li class="qq_share1">
+                <img src="__STATIC__image/shareicon_qq.png">
+                <p>QQ好友</p>
+            </li>
+            <li class="qqzone_share1">
+                <img src="__STATIC__image/shareicon_kj.png">
+                <p>QQ空间</p>
+            </li>
+            <li style="position:relative;">
+                <img src="__STATIC__image/shareicon_wechat.png" id="wechat_share11" style="cursor:pointer;">
+                <p>微信</p>
+                <div class="scan_wechat">
+                    <img src="__STATIC__image/scan_wechat.png" style="margin-left:0;margin-right:0;">
+                    <div id="output4" style="width:90px;position:absolute;top:10px;left:13px;"></div>
+                </div>
+            </li>
+            <li>
+                <img src="__STATIC__image/shareicon_link.png">
+                <p>复制链接</p>
+            </li>
+            <button class="copy_btn" data-clipboard-action="copy" id="copy_btn4" style="background:#000;position:absolute;top:86px;left:50%;width: 38px;height: 38px;margin-left: 82px;z-index: 9;opacity:0;cursor: pointer;"></button>
+        </ul>
+    </div>
+</div>
+{/if}
+<div class="douyu">
+    <div class="douyu_step">
+        <div class="douyustep_close"></div>
+        <p style="font-size:20px;color:#333333;text-align:center;padding:0 0 20px;">如何获取斗鱼直播间flash地址</p>
+        <div style="float:left;">
+            <img src="__STATIC__image/douyu_step_icon.png" style="float:left;">
+            <ul class="douyustep">
+                <a href="https://www.douyu.com/" target="_blank"><li style="margin-top:0;color:#611987;"><span style="border-bottom:1px solid #611987;cursor:pointer;">注册斗鱼账号</span></li></a>
+                <li>认证个人信息</li>
+                <a href="https://www.douyu.com/client?platform=1" target="_blank"><li style="color:#611987;"><span style="border-bottom:1px solid #611987;cursor:pointer;">下载客户端开直播间</span></li></a>
+                <li>获取直播间flash地址</li>
+            </ul>
+            <div class="douyustep_img">
+                <img src="__STATIC__image/douyustep_img1.png" style="margin-top:0;">
+                <img src="__STATIC__image/douyustep_img2.png">
+                <img src="__STATIC__image/douyustep_img3.png">
+                <img src="__STATIC__image/douyustep_img4.png">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 展开联系方式 -->
+<div class="bomb_contact">
+    <div class="contact_information">
+         <div class="contact_close"></div>
+        <div class="contact_info1">
+            <p style="font-size:18px;color:#333333;text-align:center;padding:10px 0;">展现我的联系方式</p>
+            <p style="float:left;font-size:16px;color:#333333;margin-left: 83px;">工作室等级到达：</p>
+            <img src="__STATIC__image/star3.png" style="float:left;margin-left:10px;padding:3px 0;">
+            <img src="__STATIC__image/star3.png" style="float:left;margin-left:10px;padding:3px 0;">
+            <img src="__STATIC__image/star3.png" style="float:left;margin-left:10px;padding:3px 0;">
+            <p style="font-size:16px;color:#333333;text-align:center;padding:10px 0;clear:both;width:90%;margin:0 auto;border-bottom:1px dotted #ccc;">自动免费显示</p>
+            <div style="font-size:18px;color:#611987;text-align:center;margin-top:10px;"><span class="tobuy_button">直接购买</span></div>
+            <img src="__STATIC__image/tobuy_icon1.jpg" class="tobuy_icon">
+        </div>
+        <div class="contact_info2">
+            <ul class="grade_buy_box">
+                <li class="grade_buy_box_li grade_buy_box_li_active" data-price="588">
+                    <p class="grademoney1"><span class="grademoney">588</span>元</p>
+                    <p class="grademoney2">月</p>
+                </li>
+                <li class="grade_buy_box_li" data-price="1280">
+                    <p class="grademoney1"><span class="grademoney">1280</span>元</p>
+                    <p class="grademoney2">3月</p>
+                </li>
+                <li class="grade_buy_box_li" data-price="3880">
+                    <p class="grademoney1"><span class="grademoney">3880</span>元</p>
+                    <p class="grademoney2">年</p>
+                </li>
+            </ul>
+            <div style="width:80%;margin:0 auto;height:30px;">
+                <p style="font-size:16px;color:#666666;padding:10px 0;float:left;">应付金额：<span class="deserve_money">588</span>元</p>
+                <p style="font-size:16px;color:#666666;padding:10px 0;float:right;">账户余额：{$info['imoney']}元</p>
+            </div>
+            <div class="account_insufficient" style="clear:both;">
+                <p style="font-size:16px;color:#611987;float:left;line-height: 25px;">您的账户余额不足</p>
+                <p class="rechargebtn">充 值</p>
+            </div>
+            <div class="account_enough">
+                <p style="font-size:16px;color:#611987;text-align:center;line-height: 28px;">支付金额将从您的余额中扣除</p>
+            </div>
+            <input class="grademoneybuy" type="button" value="购   买">
+        </div>
+    </div>
+</div>
+<!-- 升级方式 -->
+<div class="bomb_upgrade">
+    <div class="upgrade_information">
+        <div class="upgrade_close"></div>
+        <p class="bomb_head">升级方式</p>
+        <div>
+            <p class="upgrade_p1">自然增长：</p>
+            <p class="upgrade_p2">每月自然增加1星</p>
+        </div>
+        <div>
+            <p class="upgrade_btn" id="upgrade_upload">立即上传</p>
+            <p class="upgrade_p1">创建信号：</p>
+            <p class="upgrade_p2">每上传一个信号增加1星（上限为5星）</p>
+        </div>
+        <div>            
+            <p class="upgrade_btn">暂未开放</p>
+            <p class="upgrade_p1">添加服务：</p>
+            <p class="upgrade_p2">每添加一个资管产品增长2星（上限为4星）</p>
+        </div>
+        <div>
+            <a href="{:url('share/reg')}?uid={$arrStudio.uid}" target="_blank"><p class="upgrade_btn">立即邀请</p></a>
+            <p class="upgrade_p1">邀请好友：</p>
+            <p class="upgrade_p2">每邀请一个用户注册（MT4认证后）增加1星</p>
+        </div>
+        <div style="position: relative;">
+            <p class="upgrade_btn3" id="uploadluntanexample">示例</p>
+            <p class="upgrade_btn2" id="uploadluntan">上传截图</p>
+            <p class="upgrade_p1">流量贡献：</p>
+            <p class="upgrade_p2">在论坛或贴吧发布一个关于“亿思汇”正面文章，即可获得提升工作室登记1星</p>
+        </div>
+        <div class="upgrade_known">知道了</div>
+    </div>
+</div>
+<!-- 邀请5个好友注册 -->
+<div class="bomb_invite5" id="bomb_invite5">
+    <div class="invite5_information">
+        <div class="invite5_close"></div>
+        <img src="__STATIC__image/not_login_icon.png" class="alert_tip_img">
+        <p style="font-size:18px;color:#333333;text-align:center;">立即向用户开放工作室</p>
+        <p style="font-size:16px;text-align:center;">邀请<span style="color:#611987">5个</span>用户注册即可激活</p>
+        <a href="{:url('share/reg')}?uid={$arrStudio.uid}" target="_blank"><div class="invite5_togo" id="invite5_togo">立即邀请</div></a>
+    </div>
+</div>
+<!-- 上传方式 -->
+<div class="bomb_upload">
+    <div class="uploadmode">
+        <div class="uploadmode_close"></div>
+        <p class="bomb_head">请选择上传信号的方式</p>
+        <ul class="uploadmode_ul">
+            <li id="upload_mysignal">
+                <img src="__STATIC__image/uploadmode_icon1.jpg">
+                <p>上传自有信号</p>
+            </li>
+            <li style="float:right;border:1px solid #dc551b;" id="upload_platformsignal">
+                <img src="__STATIC__image/uploadmode_icon2.jpg">
+                <p style="background:#dc551b;">转载平台信号</p>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- 上传信号-->
+<div class="bomb_upload_all">
+    <div class="upload_all">
+        <div class="uploadall_close"></div>
+        <a href="{:url('master/create')}" target="_blank" class="uploadallrules_btn"><span class="uploadallrules">规则</span></a>
+        <p class="bomb_head">上传信号</p>
+        <ul class="uploadall_head">
+            <li class="uploadall_head_li uploadall_head_li_active" id="share_head">
+                <p class="uploadall_head_p">共 享</p>
+                <img src="__STATIC__image/uploadall_head_icon2.png" class="uploadall_head_icon" title="可在亿思汇首页展示并提供给任意用户跟随（首页信号固定获得收益）">
+            </li>
+            <li class="uploadall_head_li" id="pay_head">
+                <p class="uploadall_head_p">付 费</p>
+                <img src="__STATIC__image/uploadall_head_icon1.png" class="uploadall_head_icon" title="设置一个跟随价格按月收费（信号不显示在亿思汇首页）">
+            </li>
+            <li class="uploadall_head_li" id="broker_head">
+                <p class="uploadall_head_p" style="margin-left:4px;">指定经纪商</p>
+                <img src="__STATIC__image/uploadall_head_icon1.png" class="uploadall_head_icon" style="margin-right:2px;" title="与在工作室在同一个经纪商可完全免费使用（信号不显示在亿思汇首页）">
+            </li>
+            <li class="uploadall_head_li" id="brokerlink_head">
+                <p class="uploadall_head_p" style="line-height:17px;margin-left:10px;">指定<br>链接开户</p>
+                <img src="__STATIC__image/uploadall_head_icon1.png" class="uploadall_head_icon" style="margin-right:4px;" title="使用工作室开户链接开户可免费使用（通过工作室链接开户，首次启动跟单时会通知工作室核实mt4账户归属，核实通过可免费跟随）">
+            </li>
+        </ul>
+        <ul class="uploadall_input">
+            <li>
+                <img src="__STATIC__image/uploadall_icon1.jpg">
+                <input type="text" class="uploadallinput" placeholder="请选择经纪商" id="uploadbroker" style="background:url(__STATIC__image/select_icon_03.png) no-repeat 290px -1px;" disabled>
+                <div class="broker_click" show="false"></div>
+                <ul class="allbroker">
+                    <!-- <div class="search" style="height: 30px; margin: 10px 18px 10px 44px; border: 1px solid rgb(204, 204, 204); border-radius: 12px; overflow: hidden; display: block;">
+                        <i style="display: inline-block;float: left;width: 20px;height: 20px;margin-top: 4px;margin-left: 10px;background: url('__STATIC__image/search.png')no-repeat center;background-size: cover;"></i>
+                        <input type="text" id="search_broker" placeholder="搜索您的经纪商" onfocus="this.placeholder=''" onblur="this.placeholder='搜索您的经纪商'" style="float: left;width: 210px;height: 30px;line-height: 30px;font-size: 16px;">
+                    </div> -->
+                    <div class="allbrokerli">
+
+                    </div>
+                </ul>
+            </li>
+            <li>
+                <img src="__STATIC__image/uploadall_icon2.jpg">
+                <input type="text" class="uploadallinput" placeholder="请选择服务器" id="uploadbrokerserver" style="background:url(__STATIC__image/select_icon_03.png) no-repeat 290px -1px" disabled>
+                <div class="brokerserver_click" show="false"></div>
+                <ul class="allbrokerserver">
+                </ul>
+            </li>
+            <li>
+                <img src="__STATIC__image/uploadall_icon3.jpg">
+                <input type="text" class="uploadallinput" placeholder="请输入信号名称" id="uploadbrokername">
+            </li>
+            <li>
+                <img src="__STATIC__image/uploadall_icon4.jpg">
+                <input type="text" class="uploadallinput" placeholder="请输入MT4账号" id="uploadmt4id">
+            </li>
+            <li>
+                <img src="__STATIC__image/uploadall_icon5.jpg">
+                <input type="password" class="uploadallinput" placeholder="请输入MT4观摩密码" id="uploadmt4password">
+            </li>
+            <div class="uploadallli_add" id="uploadallli_add_ff">
+                <p style="float:right;line-height:40px;">元/月</p>
+                <li style="width:330px;">
+                    <img src="__STATIC__image/uploadall_icon6.jpg">
+                    <input type="number" class="uploadallinput" placeholder="请输入跟单价格" style="width:275px;" id="uploadprice">
+                </li>
+            </div>
+            <li class="uploadallli_add" id="uploadallli_add_jjs">
+                <img src="__STATIC__image/uploadall_icon1.jpg">
+                <input type="text" class="uploadallinput" placeholder="请选择指定的经纪商" id="uploadthisbroker" style="background:url(__STATIC__image/select_icon_03.png) no-repeat 290px -1px;" disabled>
+                <div class="thisbroker_click" show="false"></div>
+                <ul class="thisallbroker">
+                    <!-- <div class="search" style="height: 30px; margin: 10px 18px 10px 44px; border: 1px solid rgb(204, 204, 204); border-radius: 12px; overflow: hidden; display: block;">
+                        <i style="display: inline-block;float: left;width: 20px;height: 20px;margin-top: 4px;margin-left: 10px;background: url('__STATIC__image/search.png')no-repeat center;background-size: cover;"></i>
+                        <input type="text" id="search_thisbroker" placeholder="搜索您的经纪商" onfocus="this.placeholder=''" onblur="this.placeholder='搜索您的经纪商'" style="float: left;width: 210px;height: 30px;line-height: 30px;font-size: 16px;">
+                    </div> -->
+                    <div class="thisallbrokerli">
+
+                    </div>
+                </ul>
+            </li>
+            <li class="uploadallli_add" id="uploadallli_add_lj">
+                <img src="__STATIC__image/uploadall_icon7.jpg">
+                <input type="text" class="uploadallinput" placeholder="请输入指定的开户链接" id="uploadthislink">
+            </li>
+        </ul>
+        <p id="uploadall_tip" style="text-align: center;color:red;padding:5px 0;display:none;"></p>
+        <input type="button" value="提  交" class="uploadall_submit" id="uploadall_submit" signal="1">
+    </div>
+</div>
+<!-- 转载信号 -->
+<div class="bomb_reprint">
+    <div class="reprint">
+        <div class="reprint_close"></div>
+        <p class="bomb_head">转载信号</p>
+        <ul class="reprint_input">
+            <li>
+                <img src="__STATIC__image/uploadall_icon1.jpg">
+                <input type="text" class="reprintinput" id="choose_reprint_signal" account_id="" placeholder="请选择转载的信号" style="text-align:left;cursor:pointer;color: #696969;background:url(__STATIC__image/select_icon_03.png) no-repeat 290px -1px" disabled>
+                <div class="reprintsignalbroker_click" show="false"></div>
+                <div class="reprint_signal">
+                {if isset($arrAccout)}
+                {volist name="arrAccout" id="account"}
+                    <div>
+                        {if strstr($account['img'], 'http')}
+                        <img src="{$account['img']}">
+                        {elseif empty($account['img'])}
+                        <img src="__STATIC__image/index4info_img.png">
+                        {else/}
+                        <img src="__STATIC__upload/image/{$account['img']}">
+                        {/if}
+                        <p>{$account.name}</p>
+                        <input type="hidden" name="account" value="{$account.mt4id}">
+                    </div>
+                {/volist}
+                {/if}
+                </div>
+            </li>
+            <li>
+                <img src="__STATIC__image/uploadall_icon4.jpg">
+                <input type="text" class="reprintinput" placeholder="请设置信号名称" id="reprintname">
+            </li>
+            <li>
+                <img src="__STATIC__image/uploadall_icon8.jpg">
+                <input type="text" class="reprintinput" placeholder="请选择信号类型" id="reprint_selecttype"  style="cursor:pointer;color:#676565;text-align:left;background:url(__STATIC__image/select_icon_03.png) no-repeat 290px -1px" disabled>
+                <div class="selectdetail_click" show="false"></div>
+                <div class="selectdetail">
+                    <div signal="1">共 享</div>
+                    <div signal="2">付 费</div>
+                    <div signal="3">指定经纪商</div>
+                    <div signal="4">指定链接开户</div>
+                </div>
+            </li>
+            <div class="reprint_add" id="reprint_add_ff">
+                <p style="float:right;line-height:40px;">元/月</p>
+                <li style="width:330px;">
+                    <img src="__STATIC__image/uploadall_icon6.jpg">
+                    <input type="number" class="uploadallinput" placeholder="请输入跟单价格" style="width:275px;" id="reprintprice">
+                </li>
+            </div>
+            <li class="reprint_add" id="reprint_add_jjs">
+                <img src="__STATIC__image/uploadall_icon1.jpg">
+                <input type="text" class="uploadallinput" placeholder="请选择指定的经纪商" id="reprint_broker" style="background: url(__STATIC__image/select_icon_03.png) no-repeat 290px -1px;">
+                <div class="reprintbroker_click" show="false"></div>
+                <ul class="reprintallbroker">
+                    <!-- <div class="search" style="height: 30px; margin: 10px 18px 10px 44px; border: 1px solid rgb(204, 204, 204); border-radius: 12px; overflow: hidden; display: block;">
+                        <i style="display: inline-block;float: left;width: 20px;height: 20px;margin-top: 4px;margin-left: 10px;background: url('__STATIC__image/search.png')no-repeat center;background-size: cover;"></i>
+                        <input type="text" id="search_reprintbroker" placeholder="搜索您的经纪商" onfocus="this.placeholder=''" onblur="this.placeholder='搜索您的经纪商'" style="float: left;width: 210px;height: 30px;line-height: 30px;font-size: 16px;">
+                    </div> -->
+                    <div class="reprintallbrokerli">
+                    </div>
+                </ul>
+            </li>
+            <li class="reprint_add" id="reprint_add_lj">
+                <img src="__STATIC__image/uploadall_icon7.jpg">
+                <input type="text" class="uploadallinput" placeholder="请输入指定的开户链接" id="reprintlink">
+            </li>
+            <p id="uploadreprint_tip" style="text-align: center;color:red;padding:5px 0;display:none;"></p>
+        </ul>
+        <input type="button" value="提  交" class="uploadall_submit" id="reprint_submit" signal="">
+    </div>
+</div>
+<!-- 付费转载 -->
+<div class="bomb_payreprint">
+    <div class="payreprint">
+        <div class="payreprint_close"></div>
+        <p class="bomb_head">付费转载</p>
+        <div class="payreprint_contact_info2" style="display:block;">
+            <ul class="payreprint_grade_buy_box">
+                <li class="payreprint_grade_buy_box_li payreprint_grade_buy_box_li_active" data-price="500">
+                    <p class="payreprint_grademoney1"><span class="payreprint_grademoney">500</span>元</p>
+                    <p class="payreprint_grademoney2">月</p>
+                </li>
+                <li class="payreprint_grade_buy_box_li" data-price="1000">
+                    <p class="payreprint_grademoney1"><span class="payreprint_grademoney">1000</span>元</p>
+                    <p class="payreprint_grademoney2">3月</p>
+                </li>
+                <li class="payreprint_grade_buy_box_li" data-price="1800">
+                    <p class="payreprint_grademoney1"><span class="payreprint_grademoney">1800</span>元</p>
+                    <p class="payreprint_grademoney2">年</p>
+                </li>
+            </ul>
+            <div style="width:80%;margin:0 auto;height:30px;">
+                <p style="font-size:16px;color:#666666;padding:10px 0;float:left;">应付金额：<span class="payreprint_deserve_money">500</span>元</p>
+                <p style="font-size:16px;color:#666666;padding:10px 0;float:right;">账户余额：{$info['imoney']}元</p>
+            </div>
+            <div class="account_insufficient2">
+                <p style="font-size:16px;color:#611987;float:left;line-height: 25px;">您的账户余额不足</p>
+                <p class="rechargebtn">充 值</p>
+            </div>
+            <div class="account_enough2">
+                <p style="font-size:16px;color:#611987;text-align:center;line-height: 28px;">支付金额将从您的余额中扣除</p>
+            </div>
+            <input class="grademoneybuy2" type="button" value="购   买" data-price="500">
+        </div>
+    </div>
+</div>
+<!--修改-->
+<div class="bomb_modify_signal">
+    <div class="modify_signal">
+        <div class="modify_signal_close"></div>
+        <p class="modify_signal_head">修改信号</p>
+        <ul class="reprint_input">
+            <li>
+                <img src="__STATIC__image/uploadall_icon4.jpg">
+                <input type="text" class="reprintinput" placeholder="请设置信号名称" id="modify_signal_tname">
+            </li>
+            <li>
+                <img src="__STATIC__image/uploadall_icon8.jpg">
+                <input type="text" class="reprintinput" placeholder="请选择信号类型" id="modify_signal_selecttype"  style="cursor:pointer;color:#676565;text-align:left;background:url(__STATIC__image/select_icon_03.png) no-repeat 290px -1px" disabled>
+                <div class="modify_signal_click" show="false"></div>
+                <div class="modify_signal_detail">
+                    <div signal="1">共 享</div>
+                    <div signal="2">付 费</div>
+                    <div signal="3">指定经纪商</div>
+                    <div signal="4">指定链接开户</div>
+                </div>
+            </li>
+            <div class="reprint_add" id="modify_signal_add_ff">
+                <p style="float:right;line-height:40px;">元/月</p>
+                <li style="width:330px;">
+                    <img src="__STATIC__image/uploadall_icon6.jpg">
+                    <input type="number" class="uploadallinput" placeholder="请输入跟单价格" style="width:275px;" id="modify_signalprice">
+                </li>
+            </div>
+            <li class="reprint_add" id="modify_signal_add_jjs">
+                <img src="__STATIC__image/uploadall_icon1.jpg">
+                <input type="text" class="uploadallinput" placeholder="请选择指定的经纪商" id="modify_signal_broker" style="background: url(__STATIC__image/select_icon_03.png) no-repeat 290px -1px;">
+                <div class="modify_signalbroker_click" show="false"></div>
+                <ul class="modify_signalallbroker">
+                    <!-- <div class="search" style="height: 30px; margin: 10px 18px 10px 44px; border: 1px solid rgb(204, 204, 204); border-radius: 12px; overflow: hidden; display: block;">
+                        <i style="display: inline-block;float: left;width: 20px;height: 20px;margin-top: 4px;margin-left: 10px;background: url('__STATIC__image/search.png')no-repeat center;background-size: cover;"></i>
+                        <input type="text" id="search_modify_signalbroker" placeholder="搜索您的经纪商" onfocus="this.placeholder=''" onblur="this.placeholder='搜索您的经纪商'" style="float: left;width: 210px;height: 30px;line-height: 30px;font-size: 16px;">
+                    </div> -->
+                    <div class="modify_signalallbrokerli">
+                    </div>
+                </ul>
+            </li>
+            <li class="reprint_add" id="modify_signal_add_lj">
+                <img src="__STATIC__image/uploadall_icon7.jpg">
+                <input type="text" class="uploadallinput" placeholder="请输入指定的开户链接" id="modify_signallink">
+            </li>
+            <p id="modify_signal_tip" style="text-align: center;color:red;padding:5px 0;display:none;"></p>
+        </ul>
+        <input type="button" value="提  交" class="uploadall_submit" id="modify_signal_submit" signal="">
+    </div>
+</div>
+<script>
+    $(function(){
+        setChart();
+        if("{$showManage}"){
+
+        }else{
+            $(".live_about_signal").height("574");
+        }
+    });
+    $("#jyxh").click(function(){
+        $(".live_about_head1").removeClass("live_about_head1_active");
+        $(this).addClass("live_about_head1_active");
+        $(".liveabout").hide();
+        $(".live_about_signal_box").show();
+    });
+    $("#zgfw").click(function(){
+        $(".live_about_head1").removeClass("live_about_head1_active");
+        $(this).addClass("live_about_head1_active");
+        $(".liveabout").hide();
+        $(".live_about_service").show();
+    });
+    $("#gzs").click(function(){
+        $(".live_info_head_li").removeClass("live_info_head_active");
+        $(this).addClass("live_info_head_active");
+        $(".liveinfo").hide();
+        $(".live_info_studio").show();
+    });
+    $("#gzsjs").click(function(){
+        $(".live_info_head_li").removeClass("live_info_head_active");
+        $(this).addClass("live_info_head_active");
+        $(".liveinfo").hide();
+        $(".live_info_introduce").show();
+    });
+    $("#zbyg").click(function(){
+        $(".live_info_head_li").removeClass("live_info_head_active");
+        $(this).addClass("live_info_head_active");
+        $(".liveinfo").hide();
+        $(".live_video_trailer").show();
+    });
+    $("#gdsq").click(function(){
+        $(".live_info_head_li").removeClass("live_info_head_active");
+        $(this).addClass("live_info_head_active");
+        $(".liveinfo").hide();
+        $(".signal_application").show();
+    });
+    $(".how_toget_code").click(function(){
+         $(".douyu").fadeIn();
+    });
+    $(".douyustep_close").click(function(){
+        $(".douyu").fadeOut();
+    });
+    //申请
+    $(".signal_application_agree").click(function(){
+        var agreeid=$(this).parent().parent().find(".followid").attr("followid");
+        var obj=$(this).parent().parent();
+        var status="1";
+        var followinfo={
+            "id":agreeid,
+            "status":status
+        };
+        $.ajax({
+            url:"{:url('/api.studio/studio_follow_sh')}",
+            type:"post",
+            dataType:"json",
+            data:followinfo,
+            success:function(body){
+                console.log(body);
+                if(body.code==200){
+                    $(obj).remove();
+                   win.alert("",body.msg);
+                }else{
+                    win.alert("",body.msg);
+                }
+            },
+            error:function(){
+                win.alert("","错误，请重试！");
+            }
+        });
+    });
+    $(".signal_application_refuse").click(function(){
+        var refuseid=$(this).parent().parent().find(".followid").attr("followid");
+        var obj=$(this).parent().parent();
+        var status="2";
+        var followinfo={
+            "id":refuseid,
+            "status":status
+        };
+        $.ajax({
+            url:"{:url('/api.studio/studio_follow_sh')}",
+            type:"post",
+            dataType:"json",
+            data:followinfo,
+            success:function(body){
+                console.log(body);
+                if(body.code==200){
+                    win.alert("",body.msg);
+                    $(obj).remove();
+                }else{
+                    win.alert("",body.msg);
+                }
+            },
+            error:function(){
+                win.alert("","错误，请重试！");
+            }
+        });
+    });
+    //充值购买
+    var imoney="{$info['imoney']}";
+    if(parseFloat(imoney)>=parseFloat($(".grade_buy_box li:nth-child(1)").data("price"))){
+        $(".account_enough").show();
+        $(".account_insufficient").hide();
+        $(".grademoneybuy").removeClass("grademoneybuy_cannot").removeAttr("disabled");
+    }else{
+        $(".account_enough").hide();
+        $(".account_insufficient").show();
+        $(".grademoneybuy").addClass("grademoneybuy_cannot").attr("disabled","true");
+    }
+    if(parseFloat(imoney)>=parseFloat($(".payreprint_grade_buy_box li:nth-child(1)").data("price"))){
+        $(".account_enough2").show();
+        $(".account_insufficient2").hide();
+        $(".grademoneybuy2").removeClass("grademoneybuy_cannot").removeAttr("disabled");
+    }else{
+        $(".account_enough2").hide();
+        $(".account_insufficient2").show();
+        $(".grademoneybuy2").addClass("grademoneybuy_cannot").attr("disabled","true")
+    }
+    //立即激活
+    $(".to_open").click(function(){
+        $("#bomb_invite5").fadeIn();
+    });
+    //展示游客
+    var visitors=$(".live_visitor_box>li");
+    if(visitors.length>14){
+        for(var i=0;i<14;i++){
+            $(visitors[i]).css("display","inline-block");
+        }
+        var vistormore='<li style="cursor:pointer;" id="load_more_btn">'+
+                        '<img src="__STATIC__image/load_more.jpg" class="live_visitor_head">'+
+                        '<p class="live_visitor_name">&nbsp;</p>'+
+                        '<p class="live_visitor_ip">&nbsp;</p>'+
+                        '<p class="live_visitor_time">&nbsp;</p>'+
+                        '</li>';
+        $(visitors[13]).after(vistormore);
+        $("#load_more_btn").css("display","inline-block");
+        $("#load_more_btn").click(function(){
+            var visitors=$(".live_visitor_box>li");
+            for(var i=0;i<visitors.length;i++){
+                $(visitors[i]).css("display","inline-block");
+            }
+            $(this).remove();
+        });
+    }else{
+        for(var i=0;i<visitors.length;i++){
+            $(visitors[i]).css("display","inline-block");
+        }
+    }
+    //直播预告
+    $("#live_video_trailer_edit").click(function(){
+        $(this).hide();
+        $("#live_video_trailer_edit_success").show();
+        $(".live_studio_video_time").removeClass("live_trailer_p1_no").removeAttr("disabled");
+        $(".live_trailer_p2").removeClass("live_trailer_p2_no").removeAttr("disabled");
+        $(".live_trailer_p3").removeClass("live_trailer_p3_no").removeAttr("disabled");
+        $(".liveclose").show();
+    });
+    $("#live_video_trailer_edit_success").click(function(){
+        $(".liveclose").hide();
+        $(this).hide();
+        $("#live_video_trailer_edit").show();
+        $(".live_studio_video_time").addClass("live_trailer_p1_no").attr("disabled","true");
+        $(".live_trailer_p2").addClass("live_trailer_p2_no").attr("disabled","true");
+        $(".live_trailer_p3").addClass("live_trailer_p3_no").attr("disabled","true");
+        var trailerli=$(".live_video_trailer li");
+        var today=new Date();
+        var year=today.getFullYear();
+        if(today.getMonth()==12){
+            var month=1;
+        }else {
+            var month = parseInt(today.getMonth())+1;
+        }
+        var day=today.getDate();
+        var jsonData=[];
+        for(var i=0;i<trailerli.length;i++){
+            var starttimehour=$(trailerli[i]).find(".starttimehour").val();
+            var starttimeminute=$(trailerli[i]).find(".starttimeminute").val();
+            var endtimehour=$(trailerli[i]).find(".endtimehour").val();
+            var endtimeminute=$(trailerli[i]).find(".endtimeminute").val();
+            if(starttimehour==''||starttimeminute==''||endtimehour==''||endtimeminute==''){
+                var start_time='';
+                var end_time='';
+            }else {
+                var start_time = Date.parse(year + '/' + month + '/' + day + ' ' + starttimehour + ':' + starttimeminute).toString().substr(0, 10);
+                var end_time = Date.parse(year + '/' + month + '/' + day + ' ' + endtimehour + ':' + endtimeminute).toString().substr(0, 10);
+            }
+            var sid=$(trailerli[i]).find("input[name='live_id']").val();
+            var type=$(trailerli[i]).find(".trailertype").val();
+            var title=$(trailerli[i]).find(".trailertext").val();
+            jsonData.push({
+                "id":sid,
+                "type":type,
+                "start_time":start_time,
+                "end_time":end_time,
+                "title":title
+            });
+        }
+        jsonData=JSON.stringify(jsonData);
+        console.log(jsonData);
+        $.ajax({
+            url:"{:url('/api.studio/edit_live')}",
+            type:"post",
+            dataType:"json",
+            data:{"jsonData":jsonData},
+            success:function(body){
+                if(body.code==200){
+                    win.alert('',body.msg);
+
+                }else{
+                    win.alert('',body.msg);
+                }
+            },
+            error:function(){
+                win.alert('','错误，请重试！');
+            }
+        });
+    });
+    $(".liveclose").click(function(){
+        $(this).parent().find(".starttimehour").val('');
+        $(this).parent().find(".starttimeminute").val('');
+        $(this).parent().find(".endtimehour").val('');
+        $(this).parent().find(".endtimeminute").val('');
+        $(this).parent().find(".trailertype").val('');
+        $(this).parent().find(".trailertype").find("option[text='请选择']").attr("selected",true);
+        $(this).parent().find(".trailertext").val('');
+    });
+
+    //发送留言
+    $(".live_message_submit").click(function(){
+        var studioId=$("input[name='studioId']").val();
+        var msg=$(".live_message_send").val();
+        var msg_info={
+            "studioId":studioId,
+            "msg":msg
+        };
+        $.ajax({
+            url:"{:url('/api.studio/add_msg')}",
+            type:"post",
+            dataType:"json",
+            data:msg_info,
+            success:function(body){
+                if(body.code==200){
+                    if("{$info.nickname}"){
+                        var nickname="{$info.nickname}";
+                    }else{
+                        var nickname="游客";
+                    }
+                    var today=new Date();
+                    if(parseInt(today.getHours())<10){
+                        var hour='0'+today.getHours();
+                    }else {
+                        var hour = today.getHours();
+                    }
+                    if(parseInt(today.getMinutes())<10){
+                        var minute='0'+today.getMinutes();
+                    }else {
+                        var minute = today.getMinutes();
+                    }
+                    if(parseInt(today.getSeconds())<10){
+                        var second='0'+today.getSeconds();
+                    }else {
+                        var second = today.getSeconds();
+                    }
+                    if("{$showManage}") {
+                        var html = '<li>' +
+                                '<img src="__STATIC__image/deleteicon.png" class="deleteicon" onclick="showdeletemsg(this,event)">' +
+                                '<p class="delete_btn" onclick="deletemsg(this)" msgId="' + body.msgId + '">删除</p>' +
+                                '<p class="live_message_time">' + hour + ':' + minute + ':' + second + '</p>' +
+                                '<p class="live_message_name">' + nickname + '</p>' +
+                                '<p class="live_message_text">' + msg + '</p>' +
+                                '</li>';
+                    }else{
+                        var html = '<li>' +
+                                '<p class="live_message_time">' + hour + ':' + minute + ':' + second + '</p>' +
+                                '<p class="live_message_name">' + nickname + '</p>' +
+                                '<p class="live_message_text">' + msg + '</p>' +
+                                '</li>';
+                    }
+                    $(".live_message").prepend(html);
+                    $(".live_message_send").val('');
+                    win.alert('',body.msg);
+                }else{
+                    win.alert('',body.msg);
+                }
+            },
+            error:function(){
+                win.alert('','错误，请重试！');
+            }
+        });
+    });
+    //留言删除
+    function showdeletemsg(obj,event){
+        event.stopPropagation();
+        $(obj).addClass("deleteicon_active").next().show();
+    }
+    function deletemsg(obj){
+        var msgId=$(obj).attr("msgId");
+        $.ajax({
+            url:"{:url('api.studio/del_msg')}",
+            type:'post',
+            dataType:'json',
+            data:{"msgId":msgId},
+            success:function(body){
+                if(body.code==200){
+                    $(obj).parent().remove();
+                    win.alert('',body.msg);
+                }else{
+                    win.alert('',body.msg);
+                }
+            },
+            error:function(){
+                win.alert('','错误，请重试！');
+            }
+        });
+    }
+    $("body").click(function(){
+        $(".deleteicon").removeClass("deleteicon_active");
+        $(".delete_btn").hide();
+    });
+    //游客
+    $("#pic_list_3").cxScroll({direction:"bottom",speed:700,time:1500,plus:false,minus:false});
+    //工作室介绍
+    $(".liveinfo_myroominfo_edit").click(function(){
+        $(".liveinfo_myroominfo").hide();
+        $(".liveinfo_roominfo_textarea_box").show();
+    });
+    $("#liveinfo_roominfo_submit").click(function(){
+        var sid=$("input[name='studioId']").val();
+        var introduction=$(".liveinfo_roominfo_textarea").val();
+        var roominfo={
+            "sid":sid,
+            "introduction":introduction
+        };
+        $.ajax({
+            url:"{:url('/api.studio/edit')}",
+            type:"post",
+            dataType:"json",
+            data:roominfo,
+            success:function(body){
+                if(body.code==200){
+                    win.alert('',body.msg);
+                    $(".liveinfo_roominfo_textarea").val('');
+                    $(".liveinfo_roominfo_textarea_box").hide();
+                    $(".liveinfo_myroominfo").show().html(introduction);
+                }else{
+                    win.alert('',body.msg);
+                }
+            },
+            error:function(){
+                win.alert('','错误，请重试!');
+            }
+        });
+    });
+    $("#liveinfo_roominfo_delete").click(function(){
+        $(".liveinfo_roominfo_textarea").val('');
+        $(".liveinfo_roominfo_textarea_box").hide();
+        $(".liveinfo_myroominfo").show();
+    });
+    // 展示联系方式
+    $(".show_telephone").click(function(){
+        $(".bomb_contact").fadeIn();
+    });
+    $(".tobuy_button").click(function(){
+        $(".contact_info2").fadeIn();
+        $(".tobuy_icon").attr("src","__STATIC__image/tobuy_icon2.jpg");
+    });
+    $(".contact_close").click(function(){
+        $(".bomb_contact").hide();
+        $(".contact_info1").show();
+        $(".contact_info2").hide();
+        $(".tobuy_icon").attr("src","__STATIC__image/tobuy_icon1.jpg");
+    });
+    $(".grade_buy_box_li").click(function(){
+        $(".grade_buy_box_li").removeClass("grade_buy_box_li_active");
+        $(this).addClass("grade_buy_box_li_active");
+        $(".deserve_money").html($(this).data("price"));
+        if(parseFloat(imoney)>=parseFloat($(this).data("price"))){
+            $(".account_enough").show();
+            $(".account_insufficient").hide();
+            $(".grademoneybuy").removeClass("grademoneybuy_cannot").removeAttr("disabled");
+        }else{
+            $(".account_enough").hide();
+            $(".account_insufficient").show();
+            $(".grademoneybuy").addClass("grademoneybuy_cannot").attr("disable","true");
+        }
+        //$("#studio_show_contact").attr("src","http://api.znforex.com/pay.wxpay/qrcode.html?uid={$arrStudio.uid}&server=studio_show_contact&amount="+$(this).data("price")+"&type=3");
+        //$("#alipay_form").find("input[name='amount']").val($(this).data("price"));
+    });
+    //联系方式购买
+    $(".grademoneybuy").click(function(){
+        var amount=$(".deserve_money").html();
+        $.ajax({
+            url:"{:url('/api.studio/show_contact')}",
+            type:"post",
+            dataType:"json",
+            data:{"amount":amount},
+            success:function(body){
+                if(body.code==200){
+                    $(".bomb_contact").hide();
+                    win.alert("",body.msg,function(){
+                        location.reload();
+                    });
+                }else {
+                    win.alert("", body.msg);
+                }
+            },
+            error:function(){
+                win.alert("", "错误，请重试！");
+            }
+        });
+    });
+    $(".rechargebtn").click(function(){
+        $(".bomb_contact,.bomb_payreprint").hide();
+        $(".recharge").fadeIn();
+    });
+    //升级方式
+    $(".live_room_level").click(function(){
+        $(".bomb_upgrade").fadeIn();
+    });
+    $(".upgrade_close,.upgrade_known").click(function(){
+        $(".bomb_upgrade").hide();
+    });
+    //立即邀请,创建至少一个”共享信号”
+    $(".invite5_close").click(function(){
+        $(".bomb_invite5").hide();
+    });
+    // 提交
+    $(".live_link_submit").click(function(){
+        var liveroomurl=$(".live_room_link").val();
+        var correcturl="https://staticlive.douyucdn.cn/common/share/play.swf?room_id=";
+        //https://staticlive.douyucdn.cn/common/share/play.swf?room_id=58260
+        if(liveroomurl.indexOf(correcturl) !=-1) {
+            var sid=$("input[name='studioId']").val();
+            var live=$(".live_room_link").val();
+            var roominfo={
+                "sid":sid,
+                "live_url":live
+            };
+            $.ajax({
+                url:"{:url('/api.studio/edit')}",
+                type:"post",
+                dataType:"json",
+                data:roominfo,
+                success:function(body){
+                    if(body.code==200){
+                        $(".live_room_flash").attr("src", $(".live_room_link").val());
+                        $(".live_room_intro").hide();
+                        $(".live_room_detail").show();
+                    }else{
+                        win.alert('',body.msg);
+                    }
+                },
+                error:function(){
+                    win.alert('','错误，请重试!');
+                }
+            });
+        }else{
+            win.alert("","请提交正确的地址");
+        }
+    });
+    //上传方式
+    $(".uploadmode_close").click(function(){
+        $(".bomb_upload").hide();
+    });
+    //上传信号
+    $(".load_signal").click(function(){
+        $(".bomb_upload").fadeIn();
+    });
+    $("#upgrade_upload").click(function(){
+        $(".bomb_upgrade").hide();
+        $(".bomb_upload").fadeIn();
+    });
+    $("#upload_mysignal").click(function(){
+        $(".bomb_upload").hide();
+        $(".bomb_upload_all").fadeIn();
+    });
+    $("#upload_platformsignal").click(function(){
+        $(".bomb_upload").hide();
+        $(".bomb_reprint").fadeIn();
+    });
+    $("#share_head").click(function(){
+        $(".uploadall_head_li").removeClass("uploadall_head_li_active").find(".uploadall_head_icon").attr("src","__STATIC__image/uploadall_head_icon1.png");
+        $(this).addClass("uploadall_head_li_active").find(".uploadall_head_icon").attr("src","__STATIC__image/uploadall_head_icon2.png");
+        $(".uploadallli_add").hide();
+        $(".uploadallrules_btn").show();
+        $("#uploadall_submit").attr("signal","1");
+    });
+    $("#pay_head").click(function(){
+        $(".uploadall_head_li").removeClass("uploadall_head_li_active").find(".uploadall_head_icon").attr("src","__STATIC__image/uploadall_head_icon1.png");
+        $(this).addClass("uploadall_head_li_active").find(".uploadall_head_icon").attr("src","__STATIC__image/uploadall_head_icon2.png");
+        $(".uploadallli_add").hide();
+        $("#uploadallli_add_ff").show();
+        $(".uploadallrules_btn").hide();
+        $("#uploadall_submit").attr("signal","2");
+    });
+    $("#broker_head").click(function(){
+        $(".uploadall_head_li").removeClass("uploadall_head_li_active").find(".uploadall_head_icon").attr("src","__STATIC__image/uploadall_head_icon1.png");
+        $(this).addClass("uploadall_head_li_active").find(".uploadall_head_icon").attr("src","__STATIC__image/uploadall_head_icon2.png");
+        $(".uploadallli_add").hide();
+        $("#uploadallli_add_jjs").show();
+        $(".uploadallrules_btn").hide();
+        $("#uploadall_submit").attr("signal","3");
+    });
+    $("#brokerlink_head").click(function(){
+        $(".uploadall_head_li").removeClass("uploadall_head_li_active").find(".uploadall_head_icon").attr("src","__STATIC__image/uploadall_head_icon1.png");
+        $(this).addClass("uploadall_head_li_active").find(".uploadall_head_icon").attr("src","__STATIC__image/uploadall_head_icon2.png");
+        $(".uploadallli_add").hide();
+        $("#uploadallli_add_lj").show();
+        $(".uploadallrules_btn").hide();
+        $("#uploadall_submit").attr("signal","4");
+    });
+    $(".uploadall_close").click(function(){
+        $(".bomb_upload_all").hide();
+    });
+    var html='';
+    var thishtml='';
+    var reprinthtml='';
+    var modifyhtml='';
+    for(var i=0;i<brokers.length;i++){
+        html+='<li id="'+brokers[i].ID+'" onclick="showbrokers(this)">'+brokers[i].SHOWNAME+'</li>';
+        thishtml+='<li id="'+brokers[i].ID+'" onclick="thisshowbrokers(this)">'+brokers[i].SHOWNAME+'</li>';
+        reprinthtml+='<li id="'+brokers[i].ID+'" onclick="reprintshowbrokers(this)">'+brokers[i].SHOWNAME+'</li>';
+        modifyhtml+='<li id="'+brokers[i].ID+'" onclick="modifyshowbrokers(this)">'+brokers[i].SHOWNAME+'</li>';
+    }
+    $(".broker_click").click(function(event){
+        event.stopPropagation();
+        if($(this).attr("show")=="false"){
+            $(".allbrokerli").html(html);
+            $(".allbroker").show();
+            $(this).attr("show","true");
+        }else{
+            $(".allbroker").hide();
+            $(this).attr("show","false");
+        }
+        $("#uploadbrokerserver").val('');
+        $(".allbrokerserver").hide();
+        $(".brokerserver_click").attr("show","false");
+    });
+    function showbrokers(obj){
+        $("#uploadbroker").val($(obj).html());
+        $(".allbroker").hide();
+        $(".broker_click").attr("show","false");
+        var brokerid='bk'+$(obj).attr("id");
+        var html2='';
+        var jsonstr = brokerserverlive[brokerid];
+        var jsonobj = eval ('(' + jsonstr + ')');
+        $(jsonobj).each (function (i, dom){
+            for ( var p in dom){
+                if(p=='SERVERNAME') {
+                    html2+='<li onclick="showbrokerserver(this)">'+dom[p]+'</li>';
+                }
+            }
+        });
+        var jsonstr2 = brokerserverdemo[brokerid];
+        var jsonobj2 = eval ('(' + jsonstr2 + ')');
+        $(jsonobj2).each (function (i, dom){
+            for ( var p in dom){
+                if(p=='SERVERNAME') {
+                    html2+='<li onclick="showbrokerserver(this)">'+dom[p]+'</li>';
+                }
+            }
+        });
+        $(".allbrokerserver").html(html2);
+    }
+    function showbrokerserver(obj){
+        $("#uploadbrokerserver").val($(obj).html());
+        $(".allbrokerserver").hide();
+        $(".brokerserver_click").attr("show","false");
+    }
+    function thisshowbrokers(obj){
+        $("#uploadthisbroker").val($(obj).html());
+        $(".thisallbroker").hide();
+        $(".thisbroker_click").attr("show","false");
+    }
+    $(".search").click(function(event){
+        event.stopPropagation();
+    });
+    $("#search_broker").keyup(function(){
+        $(".allbroker").show();
+        $(".allbrokerli").html('');
+        $(".broker_click").attr("show","true");
+        var text=$(this).val();
+        var html3='';
+        for(var j=0;j<brokers.length;j++){
+            if((brokers[j].SHOWNAME.toLowerCase()).indexOf(text.toLowerCase()) !=-1 ){
+                html3+='<li id="'+brokers[j].ID+'" onclick="showbrokers(this)">'+brokers[j].SHOWNAME+'</li>';
+            }
+        }
+        $(".allbrokerli").html(html3);
+        $("#uploadbrokerserver").val('');
+    });
+    $(".brokerserver_click").click(function(event){
+        event.stopPropagation();
+        if($(this).attr("show")=="false") {
+            $(".allbrokerserver").show();
+            $(this).attr("show","true");
+        }else{
+            $(".allbrokerserver").hide();
+            $(this).attr("show","false");
+        }
+    });
+    $(".thisbroker_click").click(function(){
+        event.stopPropagation();
+        if($(this).attr("show")=="false"){
+            $(".thisallbrokerli").html(thishtml);
+            $(".thisallbroker").show();
+            $(this).attr("show","true");
+        }else{
+            $(".thisallbroker").hide();
+            $(this).attr("show","false");
+        }
+    });
+    $("#search_thisbroker").keyup(function(){
+        $(".thisallbrokerli").html('');
+        $(".thisbroker_click").attr("show","true");
+        var text=$(this).val();
+        var html4='';
+        for(var j=0;j<brokers.length;j++){
+            if((brokers[j].SHOWNAME.toLowerCase()).indexOf(text.toLowerCase()) !=-1){
+                html4+='<li id="'+brokers[j].ID+'" onclick="thisshowbrokers(this)">'+brokers[j].SHOWNAME+'</li>';
+            }
+        }
+        $(".thisallbrokerli").html(html4);
+    });
+    //点击上传
+    $("#uploadall_submit").click(function(){
+        var signal=$(this).attr("signal");
+        var uploadbroker=$("#uploadbroker").val();
+        var uploadbrokerserver=$("#uploadbrokerserver").val();
+        var uploadbrokername=$("#uploadbrokername").val();
+        var uploadmt4id=$("#uploadmt4id").val();
+        var uploadmt4password=$("#uploadmt4password").val();
+        var uploadprice=$("#uploadprice").val();
+        var uploadthisbroker=$("#uploadthisbroker").val();
+        var uploadthislink=$("#uploadthislink").val();
+        if(uploadbroker==''){
+            $("#uploadall_tip").html("请选择经纪商").show();
+            return false;
+        }
+        if(uploadbrokerserver==''){
+            $("#uploadall_tip").html("请选择服务器").show();
+            return false;
+        }
+        if(uploadbrokername==''){
+            $("#uploadall_tip").html("请输入信号名称").show();
+            return false;
+        }
+        if(uploadmt4id==''){
+            $("#uploadall_tip").html("请输入MT4账号").show();
+            return false;
+        }
+        if(uploadmt4password==''){
+            $("#uploadall_tip").html("请输入MT4观摩密码").show();
+            return false;
+        }
+        if(signal=="1"){
+            var uploadinfo={
+                "mt4server":uploadbrokerserver,
+                "name":uploadbrokername,
+                "mt4id":uploadmt4id,
+                "mt4pwd":uploadmt4password,
+                "type":1
+            };
+        }else if(signal=="2"){
+            if(uploadprice==''){
+                $("#uploadall_tip").html("请输入跟单价格").show();
+                return false;
+            }else{
+                var uploadinfo={
+                    "mt4server":uploadbrokerserver,
+                    "name":uploadbrokername,
+                    "mt4id":uploadmt4id,
+                    "mt4pwd":uploadmt4password,
+                    "param":uploadprice,
+                    "type":2
+                };
+            }
+        }else if(signal=="3"){
+            if(uploadthisbroker==''){
+                $("#uploadall_tip").html("请选择指定的经纪商").show();
+                return false;
+            }else{
+                var uploadinfo={
+                    "mt4server":uploadbrokerserver,
+                    "name":uploadbrokername,
+                    "mt4id":uploadmt4id,
+                    "mt4pwd":uploadmt4password,
+                    "param":uploadthisbroker,
+                    "type":3
+                };
+            }
+        }else if(signal=="4"){
+            if(uploadthislink==''){
+                $("#uploadall_tip").html("请输入指定的开户链接").show();
+                return false;
+            }else{
+                var uploadinfo={
+                    "mt4server":uploadbrokerserver,
+                    "name":uploadbrokername,
+                    "mt4id":uploadmt4id,
+                    "mt4pwd":uploadmt4password,
+                    "param":uploadthislink,
+                    "type":4
+                };
+            }
+        }
+        $.ajax({
+            url:"{:url('api.studio/add_account')}",
+            type:"post",
+            dataType:"json",
+            data:uploadinfo,
+            success:function(body){
+                if(body.code==200){
+                    $(".bomb_upload_all").hide();
+                    $("#uploadbroker").val('');
+                    $("#uploadbrokerserver").val('');
+                    $("#uploadbrokername").val('');
+                    $("#uploadmt4id").val('');
+                    $("#uploadmt4password").val('');
+                    $("#uploadprice").val('');
+                    $("#uploadthisbroker").val('');
+                    $("#uploadthislink").val('');
+                    setTimeout(function(){
+                        location.reload();
+                    },1500);
+                }
+                win.alert('',body.msg);
+            },
+            error:function(){
+                win.alert('','错误，请重试！');
+            }
+        });
+    });
+    //转载信号
+    $(".reprintbroker_click").click(function(event){
+        event.stopPropagation();
+        if($(this).attr("show")=="false"){
+            $(".reprintallbroker").show();
+            $(".reprintallbrokerli").html(reprinthtml);
+            $(this).attr("show","true");
+        }else{
+            $(".reprintallbroker").hide();
+            $(this).attr("show","false");
+        }
+    });
+    $("#search_reprintbroker").keyup(function(){
+        $(".reprintallbrokerli").html('');
+        var text=$(this).val();
+        var reprinbrokerli='';
+        for(var j=0;j<brokers.length;j++){
+            if((brokers[j].SHOWNAME.toLowerCase()).indexOf(text.toLowerCase()) !=-1){
+                reprinbrokerli+='<li id="'+brokers[j].ID+'" onclick="reprintshowbrokers(this)">'+brokers[j].SHOWNAME+'</li>';
+            }
+        }
+        $(".reprintallbrokerli").html(reprinbrokerli);
+    });
+    function reprintshowbrokers(obj){
+        $("#reprint_broker").val($(obj).html());
+        $(".reprintallbroker").hide();
+        $(".reprintbroker_click").attr("show","false");
+    }
+    $(".reprint_signal>div").click(function(){
+        $(".reprint_signal").hide();
+        $("#choose_reprint_signal").val($(this).find("p").html()).attr("account_id",$(this).find("input").val());
+        $(".reprintsignalbroker_click").attr("show","false");
+    });
+    $(".selectdetail_click").click(function(event){
+        event.stopPropagation();
+        if($(this).attr("show")=="false"){
+            $(".selectdetail").fadeIn();
+            $(this).attr("show","true")
+        }else{
+            $(".selectdetail").hide();
+            $(this).attr("show","false")
+        }
+    });
+    $(".selectdetail div").click(function(){
+        var signal=$(this).attr("signal");
+        $("#reprint_selecttype").val($(this).text());
+        $("#reprint_submit").attr("signal",signal);
+        $(".selectdetail_click").attr("show","false");
+        if(signal=="1"){
+            $(".reprint_add").hide();
+        }else if(signal=="2"){
+            $(".reprint_add").hide();
+            $("#reprint_add_ff").show();
+        }else if(signal=="3"){
+            $(".reprint_add").hide();
+            $("#reprint_add_jjs").show();
+        }else if(signal=="4"){
+            $(".reprint_add").hide();
+            $("#reprint_add_lj").show();
+        }
+    });
+    var reprint_info;
+    $("#reprint_submit").click(function(){
+        var signal=$("#reprint_submit").attr("signal");
+        var choose_reprint_signal=$("#choose_reprint_signal").attr("account_id");
+        var reprintname=$("#reprintname").val();
+        var reprint_selecttype=$("#reprint_selecttype").val();
+        var reprintprice=$("#reprintprice").val();
+        var reprint_broker=$("#reprint_broker").val();
+        var reprintlink=$("#reprintlink").val();
+        if(choose_reprint_signal==''){
+            $("#uploadreprint_tip").html("请选择转载的信号").show();
+            return false;
+        }
+        if(reprintname==''){
+            $("#uploadreprint_tip").html("请设置信号名称").show();
+            return false;
+        }
+        if(reprint_selecttype==''){
+            $("#uploadreprint_tip").html("请选择信号类型").show();
+            return false;
+        }
+        if(signal=="1"){
+            reprint_info={
+                "mt4id":choose_reprint_signal,
+                "name":reprintname,
+                "type":signal
+            };
+            reprint_info.amount=$(".grademoneybuy2").data("price");
+        }else if(signal=="2"){
+            if(reprintprice==''){
+                $("#uploadreprint_tip").html("请输入跟单价格").show();
+                return false;
+            }else{
+                reprint_info={
+                    "mt4id":choose_reprint_signal,
+                    "name":reprintname,
+                    "type":signal,
+                    "param":reprintprice
+                };
+                reprint_info.amount=$(".grademoneybuy2").data("price");
+            }
+        }else if(signal=="3"){
+            if(reprint_broker==''){
+                $("#uploadreprint_tip").html("请选择指定的经纪商").show();
+                return false;
+            }else{
+                reprint_info={
+                    "mt4id":choose_reprint_signal,
+                    "name":reprintname,
+                    "type":signal,
+                    "param":reprint_broker
+                };
+                reprint_info.amount=$(".grademoneybuy2").data("price");
+            }
+        }else if(signal=="4"){
+            if(reprintlink==''){
+                $("#uploadreprint_tip").html("请输入指定的开户链接").show();
+                return false;
+            }else{
+                reprint_info={
+                    "mt4id":choose_reprint_signal,
+                    "name":reprintname,
+                    "type":signal,
+                    "param":reprintlink
+                };
+                reprint_info.amount=$(".grademoneybuy2").data("price");
+            }
+        }
+        $(".bomb_reprint").hide();
+        $(".bomb_payreprint").fadeIn();
+    });
+    $("body").click(function(){
+        $(".selectdetail").hide();
+        $(".reprint_signal").hide();
+        $(".selectdetail_click").attr("show","false");
+        $(".reprintsignalbroker_click").attr("show","false");
+        $(".allbroker").hide();
+        $(".broker_click").attr("show","false");
+        $(".allbrokerserver").hide();
+        $(".brokerserver_click").attr("show","false");
+        $(".thisallbroker").hide();
+        $(".thisbroker_click").attr("show","false");
+        $(".reprintallbroker").hide();
+        $(".reprintbroker_click").attr("show","false");
+        $(".deleteicon_mul_btn").hide();
+        $(".deleteicon_mul_img").removeClass("deleteicon_active");
+        $(".modify_signal_detail").hide();
+        $(".modify_signal_click").attr("show","false");
+        $(".modify_signalallbroker").hide();
+        $(".modify_signalbroker_click").attr("show","false");
+        $(".scan_wechat").hide();
+    });
+    $(".reprintsignalbroker_click").click(function(event){
+         event.stopPropagation();
+        if($(this).attr("show")=="false"){
+             $(".reprint_signal").show();
+             $(this).attr("show","true")
+        }else{
+             $(".reprint_signal").hide();
+            $(this).attr("show","false")
+        }
+    });
+    $(".reprint_close").click(function(){
+        $(".bomb_reprint").hide();
+    });
+    //付费转载
+    $(".payreprint_grade_buy_box_li").click(function(){
+        $(".payreprint_grade_buy_box_li").removeClass("payreprint_grade_buy_box_li_active");
+        $(this).addClass("payreprint_grade_buy_box_li_active");
+        $(".payreprint_deserve_money").html($(this).data("price"));
+        $(".grademoneybuy2").data("price",$(this).data("price"));
+        if(parseFloat(imoney)>=parseFloat($(this).data("price"))){
+            reprint_info.amount=$(".grademoneybuy2").data("price");
+            $(".account_enough2").show();
+            $(".account_insufficient2").hide();
+            $(".grademoneybuy2").removeClass("grademoneybuy_cannot").removeAttr("disabled");
+        }else{
+            $(".account_enough2").hide();
+            $(".account_insufficient2").show();
+            $(".grademoneybuy2").addClass("grademoneybuy_cannot").attr("disabled","true");
+        }
+//        $("#studio_reproduce_account").attr("src"," http://api.znforex.com/pay.wxpay/qrcode.html?uid={$arrStudio.uid}&server=studio_reproduce_account&amount="+$(this).data("price")+"&type=2");
+//        $("#alipay_form2").find("input[name='amount']").val($(this).data("price"));
+    });
+    $(".grademoneybuy2").click(function(){
+        $.ajax({
+            url:"{:url('api.studio/add_account')}",
+            type:"post",
+            dataType:"json",
+            data:reprint_info,
+            success:function(body){
+                if(body.code==200){
+                    $(".bomb_reprint").hide();
+                    $(".bomb_payreprint").fadeIn();
+                    $("#choose_reprint_signal").val('').attr("account_id","");
+                    $("#reprintname").val('');
+                    $("#reprint_selecttype").val('');
+                    $("#reprintprice").val('');
+                    $("#reprint_broker").val('');
+                    $("#reprintlink").val('');
+                    $(".bomb_payreprint").fadeIn();
+                    setTimeout(function(){
+                        location.reload();
+                    },1500)
+                }
+                win.alert('',body.msg);
+            },
+            error:function(){
+                win.alert('','错误，请重试！');
+            }
+        });
+    });
+    $(".payreprint_close").click(function(){
+        $(".bomb_payreprint").hide();
+    });
+    //修改
+    $(".modifybtn").click(function(){
+        $(".bomb_modify_signal").fadeIn();
+        $("#modify_signal_submit").attr("studioid",$(this).attr("studio_id")).attr("signal",$(this).attr("type"));
+        $("#modify_signal_tname").val($(this).attr("name"));
+        if($(this).attr("type")=="1"){
+            $("#modify_signal_selecttype").val("共 享");
+            $("#modify_signal_submit").attr("signal","1");
+            $("#modify_signal_broker").val('');
+            $("#modify_signalprice").val('');
+            $("#modify_signallink").val('');
+            $("#modify_signal_add_ff").hide();
+            $("#modify_signal_add_jjs").hide();
+            $("#modify_signal_add_lj").hide();
+        }else if($(this).attr("type")=="2"){
+            $("#modify_signal_selecttype").val("付 费");
+            $("#modify_signalprice").val($(this).attr("param"));
+            $(".reprint_add").hide();
+            $("#modify_signal_add_ff").show();
+            $("#modify_signal_submit").attr("signal","2");
+            $("#modify_signal_broker").val('');
+            $("#modify_signallink").val('');
+        }else if($(this).attr("type")=="3"){
+            $("#modify_signal_selecttype").val("指定经纪商");
+            $("#modify_signal_broker").val($(this).attr("param"));
+            $(".reprint_add").hide();
+            $("#modify_signal_add_jjs").show();
+            $("#modify_signal_submit").attr("signal","3");
+            $("#modify_signalprice").val('');
+            $("#modify_signallink").val('');
+        }else if($(this).attr("type")=="4"){
+            $("#modify_signal_selecttype").val("指定链接开户");
+            $("#modify_signallink").val($(this).attr("param"));
+            $(".reprint_add").hide();
+            $("#modify_signal_add_lj").show();
+            $("#modify_signal_submit").attr("signal","4");
+            $("#modify_signal_broker").val('');
+            $("#modify_signalprice").val('');
+        }
+    });
+    $("#modify_signal_submit").click(function(){
+        var type=$(this).attr("signal");
+        var id=$(this).attr("studioid");
+        var name=$("#modify_signal_tname").val();
+        if(type=="1"){
+            var param='';
+        }else if(type=="2"){
+            var param=$("#modify_signalprice").val();
+        }else if(type=="3"){
+            var param=$("#modify_signal_broker").val();
+        }else if(type=="4"){
+            var param=$("#modify_signallink").val();
+        }
+        if(type!="1" && param==''){
+            win.alert("","请填写信息");
+            return false;
+        }else{
+            var edit_account_info={
+                "id":id,
+                "type":type,
+                "name":name,
+                "param":param
+            };
+        }
+        $.ajax({
+            url:"{:url('/api.studio/edit_account')}",
+            type:"post",
+            dataType:"json",
+            data:edit_account_info,
+            success:function(body){
+                if(body.code==200){
+                    $(".bomb_modify_signal").hide();
+                    win.alert("",body.msg,function(){
+                        location.reload();
+                    });
+                }else{
+                    win.alert("",body.msg);
+                }
+            },
+            error:function(){
+                win.alert("","错误，请重试！");
+            }
+        });
+    });
+    $(".deleteicon_mul_img").click(function(event){
+        event.stopPropagation();
+        $(".deleteicon_mul_btn").hide();
+        $(this).parent().find(".deleteicon_mul_btn").show();
+        $(".deleteicon_mul_img").removeClass("deleteicon_active");
+        $(this).addClass("deleteicon_active");
+    });
+    $(".modify_signal_click").click(function(event){
+        event.stopPropagation();
+        if($(this).attr("show")=="false"){
+            $(".modify_signal_detail").fadeIn();
+            $(this).attr("show","true")
+        }else{
+            $(".modify_signal_detail").hide();
+            $(this).attr("show","false")
+        }
+    });
+    $(".modify_signal_close").click(function(){
+        $(".bomb_modify_signal").hide();
+    });
+    $(".modify_signal_detail div").click(function(){
+        var signal=$(this).attr("signal");
+        $("#modify_signal_selecttype").val($(this).text());
+        $("#modify_signal_submit").attr("signal",signal);
+        $(".modify_signal_click").attr("show","false");
+        $(".modify_signal_detail").hide();
+        if(signal=="1"){
+            $(".reprint_add").hide();
+        }else if(signal=="2"){
+            $(".reprint_add").hide();
+            $("#modify_signal_add_ff").show();
+        }else if(signal=="3"){
+            $(".reprint_add").hide();
+            $("#modify_signal_add_jjs").show();
+        }else if(signal=="4"){
+            $(".reprint_add").hide();
+            $("#modify_signal_add_lj").show();
+        }
+    });
+    $(".modify_signalbroker_click").click(function(){
+        event.stopPropagation();
+        if($(this).attr("show")=="false"){
+            $(".modify_signalallbroker").show();
+            $(".modify_signalallbrokerli").html(modifyhtml);
+            $(this).attr("show","true");
+        }else{
+            $(".modify_signalallbroker").hide();
+            $(this).attr("show","false");
+        }
+    });
+    $("#search_modify_signalbroker").keyup(function(){
+        $(".modify_signalallbrokerli").html('');
+        var text=$(this).val();
+        var reprinbrokerli='';
+        for(var j=0;j<brokers.length;j++){
+            if((brokers[j].SHOWNAME.toLowerCase()).indexOf(text.toLowerCase()) !=-1){
+                reprinbrokerli+='<li id="'+brokers[j].ID+'" onclick="modifyshowbrokers(this)">'+brokers[j].SHOWNAME+'</li>';
+            }
+        }
+        $(".modify_signalallbrokerli").html(reprinbrokerli);
+    });
+    function modifyshowbrokers(obj){
+        $("#modify_signal_broker").val($(obj).html());
+        $(".modify_signalallbroker").hide();
+        $(".modify_signalbroker_click").attr("show","false");
+    }
+    $(".deletebtn").click(function(){
+        var deleteid=$(this).attr("id");
+        var obj=$(this);
+        $.ajax({
+            url:"{:url('/api.studio/del_account')}",
+            type:"post",
+            dataType:"json",
+            data:{"id":deleteid},
+            success:function(body){
+                if(body.code==200){
+                    $(obj).parent().parent().parent().remove();
+                    win.alert("",body.msg);
+                }else{
+                    win.alert("",body.msg);
+                }
+            },
+            error:function(){
+                win.alert("","错误，请重试！");
+            }
+        });
+    });
+    //贴吧上传
+    $("#uploadluntan").click(function(){
+        $(".bomb_upgrade").hide();
+        $(".pic_upload").fadeIn();
+    });
+    $("#uploadluntanexample").click(function(){
+        $(".bomb_upgrade").hide();
+        $(".pic_upload_example").fadeIn();
+    });
+    //分享
+    $("#sharemylivebtn").click(function(){
+        $(".bomb_sharemylive").show();
+    });
+    $(".sharemylive_close").click(function(){
+        $(".bomb_sharemylive").hide();
+    });
+    var share_live='__HTTP__studio/{$uid}';
+    (function () {
+        var p = {
+            url: share_live, /*获取URL，可加上来自分享到QQ标识，方便统计*/
+            desc: '', /*分享理由(风格应模拟用户对话),支持多分享语随机展现（使用|分隔）*/
+            title: '分享我的工作室', /*分享标题(可选)*/
+            summary: '分享我的工作室', /*分享摘要(可选)*/
+            pics: '__STATIC__image/share_logo.png', /*分享图片(可选)*/
+            flash: '', /*视频地址(可选)*/
+            site: '', /*分享来源(可选) 如：QQ分享*/
+            style: '201',
+            width: 32,
+            height: 32
+        };
+        var s = [];
+        for (var i1 in p) {
+            s.push(i1 + '=' + encodeURIComponent(p[i1] || ''));
+        }
+        $(".qq_share1").append(['<a class="qcShareQQDiv" href="http://connect.qq.com/widget/shareqq/index.html?', s.join('&'), '" target="_blank">分享到QQ</a>'].join(''));
+    })();
+    // qq空间
+    (function () {
+        var pp = {
+            url: share_live,
+            showcount: '0',/*是否显示分享总数,显示：'1'，不显示：'0' */
+            desc: '',/*默认分享理由(可选)*/
+            title: '分享我的工作室',/*分享摘要(可选)*/
+            summary: '分享我的工作室',/*分享标题(可选)*/
+            site: '',/*分享来源 如：腾讯网(可选)*/
+            pics: '__STATIC__image/share_logo.png', /*分享图片的路径(可选)*/
+            style: '201',
+            width: 39,
+            height: 39
+        };
+        var ss = [];
+        for (var ii1 in pp) {
+            ss.push(ii1 + '=' + encodeURIComponent(pp[ii1] || ''));
+        }
+        $(".qqzone_share1").append(['<a version="1.0" class="qzOpenerDiv" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?', ss.join('&'), '" target="_blank">分享</a>'].join(''));
+    })();
+    $('#output4').qrcode({
+        width: 80,
+        height: 80,
+        text:share_live
+    });
+    var link_share1 = new Clipboard('#copy_btn4');
+    $("#copy_btn4").attr("data-clipboard-text", share_live);
+    link_share1.on('success', function (e) {
+        alert("复制成功！");
+    });
+    link_share1.on('error', function (e) {
+        alert("复制失败！");
+    });
+    $("#wechat_share11").click(function(event){
+        event.stopPropagation();
+        $(".scan_wechat").show();
+    });
+    // 图表
+    function setChart(){
+        var chartbox=document.getElementsByClassName("live_about_chart");
+        for(var n=0;n<chartbox.length;n++){
+            if(chartbox[n].getAttribute("data-chart")) {
+                chart(chartbox[n].getAttribute("data-chart"), chartbox[n]);
+            }else{
+                chart('0,0', chartbox[n]);
+            }
+        }
+    }
+    function chart(chart,obj){
+        var d=chart.split(",");
+        var xy=[];
+        for(var i=0;i<d.length;i++){
+            xy[i]=[i,d[i]];
+        }
+        var dom = obj;
+        var myChart = echarts.init(dom);
+        var option = {
+            tooltip: {
+                trigger: 'axis',
+                triggerOn: 'mousemove',
+                formatter: function (params) {
+                },
+                axisPointer:{
+                    type:'line',
+                    lineStyle:{
+                        width:0
+                    }
+                },
+                backgroundColor: '#fff',
+                borderColor: '#611987',
+                borderWidth: '1',
+                textStyle: {
+                    fontSize: 12,
+                    color: '#000'
+                }
+            },
+            grid: {
+                show:false,
+                left:0,
+                right:-9,
+                top:2,
+                bottom:2,
+                borderColor:'#f5f2f2'
+            },
+            xAxis: {
+                type: "category",
+                //show:false,
+                //scale: true,
+                axisLine: {
+                    show:false
+                },
+                axisTick:{
+                    show:false
+                },
+                data: xy.map(function (item) {
+                    return item[0]
+                }),
+                splitLine: {
+                    show: false,
+                    interval:1,
+                    lineStyle: {
+                        color: "#f5f2f2",
+                        type: "solid"
+                    }
+                }
+            },
+            yAxis: [
+                {
+                    type: 'value',
+                    //show:false,
+                    axisLabel: {
+                        formatter: '{value} '
+                    },
+                    axisLine: {
+                        show:false
+                    },
+                    splitLine: {
+                        show: false,
+                        interval:1,
+                        lineStyle: {
+                            color: "#f5f2f2",
+                            type: "solid"
+                        }
+                    }
+                }
+            ],
+            series: [
+                {
+                    animation: true,
+                    animationDuration: 300,
+                    name: '交易',
+                    type: 'line',
+                    smooth: true,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 2
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#611987'
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(255,144,0,0.3)'
+                            },
+                                {
+                                    offset: 1,
+                                    color: 'rgba(255, 255, 255,0.3)'
+                                }
+                            ])
+                        }
+                    },
+                    data: xy.map(function (item) {
+                        return item;
+                    })
+                }
+            ]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+
+        }
+    }
+</script>
+{/block}

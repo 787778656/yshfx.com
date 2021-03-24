@@ -1,0 +1,7 @@
+.pagingBox{margin:20px 0;}
+.pagingBox ul li,.pagingBox li{height:30px;float:left;border:1px solid #e9e9e9; color: #bfbfbf;line-height: 30px;text-align: center;margin-right:4px;}
+.pagingBox ul li a,.pagingBox ul li{color: #611987;padding:0 10px;}
+.pagingBox ul li span,.pagingBox  span{padding:0 10px;}
+.pagingBox .active a{color:#333333;}
+.pagingBox .disabled a{color:#bfbfbf;}
+.pagination .active{background: #eeeeee;color:#333333;}

@@ -1,0 +1,1370 @@
+{extend name="web@base/main"/}
+{block name="tdk"}
+<title>保障交易_外汇交易跟单平台_外汇交易跟单系统_外汇交易平台定制-亿思汇</title>
+<meta name="keywords" content="保障交易,外汇交易跟单平台,外汇交易跟单系统,外汇交易平台定制,亿思汇"/>
+<meta name="description" content="上海种客网络，专业的智能交易共享平台。主要包括：外汇交易跟单平台、外汇交易跟单系统、外汇交易平台定制等交易服务，同时还为用户提供保障交易服务，欢迎首选。"/>
+{/block}
+{block name="body"}
+<link href="__STATIC__css/mam.css?v=2018060710" rel="stylesheet">
+<link href="__STATIC__css/page.css" rel="stylesheet">
+<script>
+    $(function () {
+        /*点击“我的投资”*/
+        $(".my_order").on("click", function () {
+            if($(".isFollow").val() == 'true'){
+                $(".step_1").hide();
+                $(".step_2").show();
+                $(".order_step_2").css("display","inline-block");
+                $(".order_step_3").css("display","inline-block").addClass("active").siblings().removeClass("active");
+            }else {
+                win.alert("","您还未投资保障交易！");
+            }
+        });
+        /*第一步里面的筛选，交互*/
+        $(".filtrate li span a").on("click", function () {
+            $(this).parent().parent().find("span").find("a").addClass("no_active").removeClass("active");
+            $(this).addClass("active").removeClass("no_active");
+            /*筛选功能*/
+            var num1 = $(".filtrate li:nth-child(1) .active").attr("data");
+            var num2 = $(".filtrate li:nth-child(2) .active").attr("data");
+            var num3 = $(".filtrate li:nth-child(3) .active").attr("data");
+            var num4 = $(".filtrate li:nth-child(4) .active").attr("data");
+            $("#iframe_imam_list").attr("src","{:url('mam/imam_list/"+num1+"-"+num2+"-"+num3+"-"+num4+"')}");
+        });
+
+        /*mam经理li的交互动态*/
+        $(".step_1_signal_a").hover(function () {
+            $(this).parent().find(".peel").animate({"height":"44px","width":"40px"},300);
+            $(this).parent().find(".back").animate({"height":"40px","width":"40px"},300);
+//            $(this).find(".signal_btn1").css({"background":"#611987","color":"#fff"});
+        }, function () {
+            $(this).parent().find(".peel").animate({"height":"23px","width":"20px"},300);
+            $(this).parent().find(".back").animate({"height":"20px","width":"20px"},300);
+//            $(this).find(".signal_btn1").css({"background":"#fff","color":"#611987"});
+        });
+        $(".signal_btn1").hover(function () {
+            $(this).css({"background":"#ffa200","color":"#fff"});
+        }, function () {
+            $(this).css({"background":"#fff","color":"#ffa200"});
+        });
+    });
+</script>
+<div class="main">
+    <div class="main_inner">
+        <div class="order_step">
+            <p><img src="__STATIC__image/order_step_img.png"><span><a href="{:url('index/index')}">首页</a></span>
+                <span class="order_step_1 active"> / <a href="javascript:void(0)">保障交易</a></span>
+                <span class="order_step_2"> / <a href="javascript:void(0)">预缴服务费</a></span>
+                <span class="order_step_3"> / <a href="javascript:void(0)" class="order_step_active" style="border-bottom: 1px dotted #b4b4b4;">盈利分润/亏损赔付</a><i class="running2" style="display: none;"></i></span>
+                <span class="new_inform"><span>新项目通知</span><span>关</span><a href="javascript:void(0);" class="toggle toggle-on"></a><span>开</span></span>
+                <span id="register_mam" style="border: 1px solid #611987;"><img src="__STATIC__image/register_mam2.png"><span style="color: #611987;font-weight: bold;">发起项目</span></span>
+                <span class="my_order"><img src="__STATIC__image/my_order.png"><span>我的投资</span>{if $isFollow}<strong class="my_order_i">1</strong>{/if}</span>
+                <span class="mam_search"><input type="text" placeholder="搜索"><i></i></span>
+                <style>
+
+                </style>
+                <script>
+                    $(".mam_search input").focus(function(){
+                        $(this).animate({width:"150px"});
+                        $(this).attr('placeholder','通过名称进行搜索')
+                    }).blur(function(){
+                        $(this).animate({width:"70px"});
+                        $(this).attr('placeholder','搜索')
+                    });
+                    $(".mam_search i").on("click", function () {
+                        var keyword = $(".mam_search").find("input").val();
+                        keyword = keyword.replace(/<.*?>/ig,"");
+                        var num1 = $(".filtrate li:nth-child(1) .active").attr("data");
+                        var num2 = $(".filtrate li:nth-child(2) .active").attr("data");
+                        var num3 = $(".filtrate li:nth-child(3) .active").attr("data");
+                        var num4 = $(".filtrate li:nth-child(4) .active").attr("data");
+                        $("#iframe_imam_list").attr("src","{:url('mam/imam_list/"+num1+"-"+num2+"-"+num3+"-"+num4+"')}?keyword="+keyword);
+                        $(".mam_search input").val("");
+                    });
+                    function Enter(){
+                        if (event.keyCode == 13) {
+                            var keyword = $(".mam_search").find("input").val();
+                            keyword = keyword.replace(/<.*?>/ig,"");
+                            var num1 = $(".filtrate li:nth-child(1) .active").attr("data");
+                            var num2 = $(".filtrate li:nth-child(2) .active").attr("data");
+                            var num3 = $(".filtrate li:nth-child(3) .active").attr("data");
+                            var num4 = $(".filtrate li:nth-child(4) .active").attr("data");
+                            $("#iframe_imam_list").attr("src","{:url('mam/imam_list/"+num1+"-"+num2+"-"+num3+"-"+num4+"')}?keyword="+keyword);
+                            $(".mam_search input").val("");
+                        }
+                    }
+                    $(".mam_search input").focus(function () {       //登录弹窗显示的时候，enter键登录
+                        document.onkeydown =Enter;
+                    });
+                    $(".new_inform .toggle").on("click", function () {
+                        if($(this).hasClass("toggle-on")==true){
+                            $(this).removeClass("toggle-on").addClass("toggle-off");
+                            $(".new_inform span:nth-child(2)").css("color","#333333");
+                            $(".new_inform span:nth-child(4)").css("color","#611987");
+                            $(".new_inform_window").fadeIn();
+                            $(".new_inform_window_close").on("click", function () {
+                                $(".new_inform_window").hide();
+                            });
+                        }else {
+                            $(this).removeClass("toggle-off").addClass("toggle-on");
+                            $(".new_inform span:nth-child(2)").css("color","#611987");
+                            $(".new_inform span:nth-child(4)").css("color","#333333");
+                        }
+                    });
+                </script>
+            </p>
+        </div>
+        <div class="step_box">
+            {if $isFollow}
+            <input type="hidden" value="true" class="isFollow">
+            {else/}
+            <input type="hidden" value="false" class="isFollow">
+            {/if}
+            <div class="step_1">
+            <ul class="filtrate">
+                <li><span>资金额度 : </span>
+                    <span><a href="javascript:void(0);" class="active" data="0">全部</a></span>
+                    <span><a href="javascript:void(0);" class="no_active" data="1">0-10000</a></span>
+                    <span><a href="javascript:void(0);" class="no_active" data="2">10000-100000</a></span>
+                    <span><a href="javascript:void(0);" class="no_active" data="3">100000-500000</a></span>
+                    <span><a href="javascript:void(0);" class="no_active" data="4">500000-1000000</a></span>
+                    <span><a href="javascript:void(0);" class="no_active" data="5">1000000-5000000</a></span>
+                </li>
+                <li><span>操盘周期 : </span>
+                    <span><a href="javascript:void(0);" class="active" data="0">全部</a></span>
+                    <span><a href="javascript:void(0);" class="no_active" data="1">30天以内</a></span>
+                    <span><a href="javascript:void(0);" class="no_active" data="2">30天-90天</a></span>
+                    <span><a href="javascript:void(0);" class="no_active" data="3">90天-180天</a></span>
+                    <span><a href="javascript:void(0);" class="no_active" data="4">180天以上</a></span>
+                </li>
+                <li><span>收益要求 : </span>
+                    <span><a href="javascript:void(0);" class="active" data="0">全部</a></span>
+                    <span><a href="javascript:void(0);" class="no_active" data="1">保本</a></span>
+                    <span><a href="javascript:void(0);" class="no_active" data="2">保障池</a></span>
+                    <span><a href="javascript:void(0);" class="no_active" data="3">最大亏损</a></span>
+                    <span><a href="javascript:void(0);" class="no_active" data="4">无</a></span>
+                </li>
+                <li><span>项目进度 : </span>
+                    <span><a href="javascript:void(0);" class="active" data="0">全部</a></span>
+                    <span><a href="javascript:void(0);" class="no_active" data="1">可参与</a></span>
+                    <span><a href="javascript:void(0);" class="no_active" data="2">交易中</a></span>
+                    <span><a href="javascript:void(0);" class="no_active" data="3">已结束</a></span>
+                </li>
+            </ul>
+            <iframe name="mainframe" name="right" id="iframe_imam_list" src="{:url('mam/imam_list')}" frameborder="false" scrolling="no" style="border:none" width="100%" height="850" allowtransparency="true"></iframe>
+            </div>
+            <div class="step_2" style="display: none;">
+                <div class="add_signal">
+                    <div class="add_signal_inner">
+                        <div class="checked_info">
+                            <p>预存服务费<span>预存入保证金/服务费</span></p><i></i>
+                            <p>冻结双方资金<span>冻结双方预存的保证金/服务费</span></p><i></i>
+                            <p>结算服务费<span class="checked_info_span3">对交易结果进行结算<br>(盈利分润/亏损补偿)</span></p><i></i>
+                            <p>解冻资金<span>解冻双方资金(可取出)</span></p>
+                        </div>
+                        <a href="javascript:void(0);" class="step_2_btn">授权操盘</a>
+                        <style>
+                            .add_signal{height: 48px;}
+                            .checked_info{width: 906px;}
+                            .checked_signal, .checked_info{padding: 2px 20px;}
+                            .checked_info p:nth-child(5){margin-top: -2px;}
+                            .checked_info i{margin: 15px 10px;}
+                            .step_1_btn, .step_2_btn, .step_3_btn1, .step_3_btn2{width: 150px;height: 48px;line-height: 48px;font-size: 16px;}
+                            .step_3_btn1 {display: none;border-bottom-right-radius: 0;border-top-right-radius: 0;background: #fecf3b;}
+                        </style>
+                        <a href="javascript:void(0);" class="step_3_btn1">追加保证金</a>
+                        <a href="javascript:void(0);" class="step_3_btn2">停止授权</a>
+                    </div>
+                </div>
+                {if !empty($mam.mt4id)}
+                <ul class="signal">
+                    <li>
+                        <a href="__HTTP__mam/detail/{$mam.id}.html" class="step_1_signal_a" target="_blank" id="mamtarget">
+                            <div class="signal_div">
+                                <div class="signal_head">
+                                {if isset($mam['u_img']) && !empty($mam['u_img'])}
+                                    {if strstr($mam['u_img'], 'http')}
+                                        <img src="{$mam['u_img']}" class="signal_head_pic01" >
+                                    {else/}
+                                        <img src="__STATIC__upload/image/{$mam['u_img']}" class="signal_head_pic01">
+                                    {/if}
+                                {else/}
+                                    <img src="__STATIC__image/touxiang.png" class="signal_head_pic01">
+                                {/if}
+                                    <!-- <img src="" class="signal_head_pic01" id="mamheadimg"> -->
+                                </div>
+                                <p class="signal_info">
+                                    <span class="signal_name">MAM 名称: </span>
+                                    <span class="signal_num" id="mam_name">{$mam.name}</span>
+                                    <span class="signal_mt4id" style="display: none;"></span>
+                                </p>
+                            </div>
+                        </a>
+                        <!--<div class="signal_div signal_chart" data-chart="0,0,0,0,0,0,0,0,0,0" id="mam_rand_profit"></div>-->
+                        <div class="signal_div">                        
+                        <img src="__STATIC__upload/image/webchart/{$mam.mt4id}.png?v={:date('Ymd')}" style="display: block;width: 80%;height: 100%;margin: 0 auto">
+                        </div>
+                        <div class="signal_div">
+                            <div class="signal_data">
+                                历史业绩<span class="profit_margin"><span><span id="mamhistory_profit">
+                                <?php
+                                if ($mam['money'] != 0){
+                                    echo number_format($mam['history_profit']/$mam['money']*100,2);
+                                }else{
+                                    echo '0';
+                                }?>
+                                </span>%</span></span>
+                            </div>
+                            <div class="signal_data">
+                                当前业绩 <span id="mamprofit_margin">
+                                <?php
+                                $key = sprintf('%s-%s-%s', 'zhtEA', 'mt4_account_detail', $mam['mt4id']);
+                                if ($redis->has($key)){ // 持仓
+                                    $account = unserialize($redis->get($key));
+                                    $mam['tHistory']['profit'] += $account['profit'];
+                                }
+                                if ($mam['money'] != 0){ // 历史
+                                    echo number_format($mam['tHistory']['profit']/$mam['money']*100,2);
+                                }else{
+                                    echo '0';
+                                }?>%
+                                </span>
+                            </div>
+                            <div class="signal_data">
+                                保障模式 <span id="mamgtype">
+                                {switch mam.gtype}
+                                {case 1}保本{/case}
+                                {case 2}保障池{/case}
+                                {default /}无
+                                {/switch}
+                                </span>
+                            </div>
+                            <div class="signal_data">
+                                经理酬劳 <span id="mamctype">
+                                {switch mam.gtype}
+                                {case 1}分成{/case}
+                                {default /}加佣
+                                {/switch}
+                                </span>
+                            </div>
+                            <div class="signal_data">
+                                已缴保证金 <span id="mampay_money">{$mam.bail|number_format=###,2} 元</span>
+                            </div>
+                        </div>
+                        <div class="signal_div">
+                            <!--<div class="signal_div_score">
+                                <div class="star-vote" data-score="90" id="mamscore">&lt;!&ndash;<span class="add-star"></span><span class="del-star"></span>&ndash;&gt;</div>
+                            </div>-->
+                            {if $mam.gtype==1 && $mam.status==1}
+                            <!-- 剩余天数 -->
+                            <span class="signal_div_status">剩余时间 : <?php echo round($mam['balance']-(time()-$mam['start_time'])/3600/24);?>天</span>
+                            {else/}
+                            <span class="signal_div_status">结算周期 : 
+                            {switch mam.balance}
+                            {case 7}每周{/case}
+                            {case 30}每月{/case}
+                            {case 90}每三月{/case}
+                            {default /}每日
+                            {/switch}
+                            </span>
+                            {/if}
+                            <span class="id" style="display: none;">{$mam['id']}</span>
+                            <a href="javascript:void(0)" class="signal_btn4"><span>正在投资</span></a>
+                        </div>
+                    </li>
+                </ul>
+                {/if}
+                {if isset($mam['id'])}
+                <iframe name="mainframe" data='isnew' name="right" class="iframe_imam" id="iframe_imam" src="{:url('mam/imam', array('id' => $mam['id']))}" frameborder="false" scrolling="no" style="border:none" width="100%" height="600px" allowtransparency="true"></iframe>
+                {else/}
+                <iframe name="mainframe" data='isnew' name="right" class="iframe_imam" id="iframe_imam" src="{:url('mam/imam', array('id' => 0))}" frameborder="false" scrolling="no" style="border:none" width="100%" height="600px" allowtransparency="true"></iframe>
+                {/if}
+                <span class="step_3_remind"><i></i><span>押金状态：已解冻  请至余额中查看</span><span style="display: none;">押金状态：冻结中</span><br>
+                        <span style="margin-left: 25px;"><span>上一期投资：利润：</span><span class="step_3_remind_span01">7955.09</span> <span>RMB</span>  &nbsp;&nbsp; <span>应缴服务费：</span><span class="step_3_remind_span02">-120</span> <span>RMB</span></span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<!--主信号页面运行逻辑。。。。。-->
+<script>
+    $(function () {
+        /*获取正在投资的mam经理信号信息*/
+        is_going();
+        function is_going(){
+            $.ajax({
+                url:"__HTTP__api.mam/my_mam/status/1",
+                type:'get',
+                dataType:'json',
+                async:false,
+                success:function(body){
+//                    console.log(body)
+                    if(body.code==200){
+                        if(body.data.length>0){
+//                            $(".running2").show();
+
+                            $(".step_2").find(".nodata").hide();
+                            $(".step_2 .signal").show();
+                            $(".step_2 #iframe_imam").show();
+                            $(".step_2_btn").hide();
+                            $(".step_3_btn2").show();
+                            $(".step_3_btn1").show();
+                            $(".checked_info").css("width","756px");
+                            /*追加赋值*/
+                            var mam_id = body.data[0].mam_id;
+                            var free_margin = body.data[0].free_margin;
+                            var name = body.data[0].name;
+                            $(".mam_zhuijia_ul").attr("data",mam_id);
+                            $(".mam_zhuijia_name").html(name);
+                            $(".mam_zhuijia_span01").html(free_margin);
+                        }else{
+                            $(".step_2").find(".signal").css("display","none");
+//                            $(".step_2").find("#iframe_imam").css("display","none");
+                            $(".step_2").find(".step_3_remind").css("display","none");
+                        }
+                    }else{
+                        win.alert("",body.msg)
+                    }
+                }
+            });
+        }
+
+        /*获取接口mam经理信号*/
+        /*$.ajax({
+            url: '{:url("api.mam/mam_list")}',
+            type: 'get',
+            dataType: 'json',
+            async:false,
+            success: function (data) {
+                if(data.code == 200){
+                    $("#loadgif").hide();
+                    var html;
+                    for(var i = 0;i<data.data.length;i++){
+                        var id = data.data[i].id;
+                        var mt4id = data.data[i].mt4id;
+                        var id_src = "{:url('mam/detail/"+id+"')}";
+                        var name = data.data[i].name;
+                        var name2 = data.data[i].nickname;
+                        var login = data.data[i].login;
+                        if(name2 == ''||name2==undefined){
+                            name2 = login.substring(0,4)+"***"+login.substring(7,11);
+                        }
+                        var u_img = data.data[i].u_img;
+                        if(u_img==''||u_img==undefined){
+                            u_img='touxiang.png';
+                        }
+                        if(u_img.indexOf('http://thirdqq.qlogo.cn/')==-1){
+                            u_img='__BASIC__upload/image/'+u_img;
+                        }else{
+                            u_img=u_img;
+                        }
+                        var gtype = data.data[i].gtype;     //保障模式
+                        var ctype = data.data[i].ctype;     //经理酬劳
+                        var gtypeSrc,gtype_show;
+                        if(gtype == 1){     //保本
+                            gtypeSrc = "image/signal_data_i01.png";
+                            gtype_show = '保本';
+                        }else if(gtype == 2){   //保障池
+                            gtypeSrc = "image/signal_data_i07.png";
+                            gtype_show = '保障池';
+                        }else if(gtype == 3){
+                            gtypeSrc = "";
+                            gtype_show = '无';
+                        }
+                        var ctypeSrc,ctypeSrc_show,ctypeSrc_show2;
+                        if(ctype == 0.5){
+                            ctypeSrc = "image/signal_data_i04.png";
+                            ctypeSrc_show = '分成';
+                            ctypeSrc_show2 = '分成 : <span><span>50</span> %</span>';
+                        }else if(ctype == 0.6){
+                            ctypeSrc = "image/signal_data_i04.png";
+                            ctypeSrc_show = '分成';
+                            ctypeSrc_show2 = '分成 : <span><span>60</span> %</span>';
+                        }else if(ctype == 0.7){
+                            ctypeSrc = "image/signal_data_i04.png";
+                            ctypeSrc_show = '分成';
+                            ctypeSrc_show2 = '分成 : <span><span>70</span> %</span>';
+                        }else if(ctype == 0.8){
+                            ctypeSrc = "image/signal_data_i04.png";
+                            ctypeSrc_show = '分成';
+                            ctypeSrc_show2 = '分成 : <span><span>80</span> %</span>';
+                        }else if(ctype == 0.9){
+                            ctypeSrc = "image/signal_data_i04.png";
+                            ctypeSrc_show = '分成';
+                            ctypeSrc_show2 = '分成 : <span><span>90</span> %</span>';
+                        }else if(ctype == 7){
+                            ctypeSrc = "image/signal_data_i03_2.png";
+                            ctypeSrc_show = '加佣';
+                            ctypeSrc_show2 = '加佣 : <span><span>7</span> USD/手</span>';
+                        }else if(ctype == 10&&gtype == 2){
+                            ctypeSrc = "image/signal_data_i03_2.png";
+                            ctypeSrc_show = '加佣';
+                            ctypeSrc_show2 = '加佣 : <span><span>10</span> USD/手</span>';
+                        }else if(ctype == 12){
+                            ctypeSrc = "image/signal_data_i03_2.png";
+                            ctypeSrc_show = '加佣';
+                            ctypeSrc_show2 = '加佣 : <span><span>12</span> USD/手</span>';
+                        }else if(ctype == 5){
+                            ctypeSrc = "image/signal_data_i03_2.png";
+                            ctypeSrc_show = '加佣';
+                            ctypeSrc_show2 = '加佣 : <span><span>5</span> USD/手</span>';
+                        }else if(ctype == 8){
+                            ctypeSrc = "image/signal_data_i03_2.png";
+                            ctypeSrc_show = '加佣';
+                            ctypeSrc_show2 = '加佣 : <span><span>8</span> USD/手</span>';
+                        }else if(ctype == 10&&gtype == 3){
+                            ctypeSrc = "image/signal_data_i03_2.png";
+                            ctypeSrc_show = '加佣';
+                            ctypeSrc_show2 = '加佣 : <span><span>10</span> USD/手</span>';
+                        }
+                        var history_profit = data.data[i].history_profit*100;
+                        var history_money = data.data[i].money;
+                        if(history_money == 0){
+                            history_profit = 0;
+                        }else {
+                            history_profit = history_profit/history_money;
+                        }
+                        history_profit = history_profit.toFixed(2);
+                        var balance = data.data[i].balance;
+                        var bail = data.data[i].bail;
+                        var begin_money = data.data[i].begin_money;
+                        var now_money = data.data[i].now_money;
+                        var status = now_money - begin_money;       //差值大于等于0的时候，说明已经满额；
+                        if(begin_money=='0.00'){
+                            var statusid = '0';      //0为不限额，1为限额；
+                        }else{
+                            var statusid = '1';
+                        }
+                        var Status = data.data[i].status;
+                        var jindu = now_money/begin_money;
+                        jindu =  jindu.toFixed(2)*100;
+                        if(jindu>100){jindu = 100;}
+                        var score = data.data[i].score;
+                        var rand_profit = data.data[i].rand_profit;
+                        if(rand_profit=='' || rand_profit==undefined){
+                            rand_profit='0,0,0,0,0,0,0,0,0,0';
+                        }
+                        /!*html += ("<li data='"+mt4id+"'><a href='"+id_src+"' class='step_1_signal_a' target='_blank'>" +
+                        "<div class='signal_div'><div class='signal_head'><img src='"+u_img+"' class='signal_head_pic01'></div>" +
+                        "<p class='signal_info'><span class='signal_name'>MAM 名称 :</span><span class='signal_num'>"+name+"</span><span class='signal_mt4id' style='display: none;'></span></p> " +
+                        "<div class='signal_logo_box'><p>"+name2+"</p></div><div class='workroom_box'><i></i></div></div></a>" +
+                        "<div class='signal_div signal_chart' data-chart='"+rand_profit+"'></div>" +
+                        "<div class='signal_div'><div class='signal_data'>历史业绩<span class='profit_margin'><span><span>"+history_profit+"</span>%</span></span></div>" +
+                        "<div class='signal_data gtype' data='"+gtype+"'>保障模式 : "+gtype_show+"<i class='signal_data_i'><img src='"+gtypeSrc+"' class='signal_data_i01'></i>" +
+                        "<span class='win_rate'>当前保证金 : <span><span>"+bail+"</span> 元</span></span></div>" +
+                        "<div class='signal_data ctype' data='"+ctype+"'>经理酬劳 : "+ctypeSrc_show+"<i class='signal_data_i'><img src='"+ctypeSrc+"' class='signal_data_i03'></i>" +
+                        "<span class='duration'>"+ctypeSrc_show2+"</span></div><span class='balance' style='display: none;'>"+balance+"</span></div> " +
+                        "<div class='signal_div'><div class='signal_div_score'><p class='score' style='display: none;'>"+score+"</p><p class='jindu' style='display: none;'>"+jindu+"</p>" +
+                        "<div class='star-vote'><!--<span class='add-star'></span><span class='del-star'></span>--></div></div><span class='Status' style='display: none;'>"+Status+"</span><span class='status' style='display: none;' statusid='"+statusid+"'>"+status+"</span><span class='id' style='display: none;'>"+id+"</span>" +
+                        "<a href='javascript:void(0)' class='signal_btn1'><span>投 资</span></a>" +
+                        "<a href='javascript:void(0)' class='signal_btn3'><span>交易中</span></a> " +
+                        "<a href='javascript:void(0)' class='signal_btn4'><span>正在投资</span></a></div></li>");*!/
+                        html += ("<li data='"+mt4id+"'><a class='peel' href='"+id_src+"' target='_blank'><img src='image/page-peel.png' class='peel'><span class='back'></span></a> " +
+                        "<a href='"+id_src+"' class='step_1_signal_a' target='_blank'>" +
+                        "<div class='signal_div'><div class='signal_head'><img src='"+u_img+"' class='signal_head_pic01'></div>" +
+                        "<p class='signal_info'><span class='signal_name'>MAM 名称 :</span><span class='signal_num'>"+name+"</span><span class='signal_mt4id' style='display: none;'></span></p></div></a>" +
+                        "<div class='signal_div'><p class='signal_div_middle'><span class='score' style='display: none;'>"+score+"</span><span class='jindu' style='display: none;'>"+jindu+"</span>" +
+                        "<span class='left'>资金管理规模</span><span class='right'>∞</span><div style='clear: both;'></div></p>" +
+                        "<div class='down_time'><p><span>26</span>天</p><p><span>-</span>时</p><p><span>12</span>分</p><p><span>-</span>秒</p></div></div>" +
+                        "<div class='signal_div'><div class='signal_data'>历史业绩<span class='profit_margin'><span><span>"+history_profit+"</span> %</span></span></div>" +
+                        "<div class='signal_data gtype' data='"+gtype+"'>保障模式<span>"+gtype_show+"</span></div>" +
+                        "<div class='signal_data ctype' data='"+ctype+"'>经理酬劳<span>"+ctypeSrc_show+"</span></div>" +
+                        /!*"<div class='signal_data'>当前业绩<span><span>"+bail+"</span> %</span></div>" +
+                        "<div class='signal_data'>已缴保证金<span><span>"+bail+"</span> 元</span></div>" +
+                        "<div class='signal_data'>"+ctypeSrc_show2+"</div>" +*!/
+                        "<span class='balance' style='display: none;'>"+balance+"</span></div>" +
+                        "<div class='signal_div'><span class='Status' style='display: none;'>"+Status+"</span><span class='status' style='display: none;' statusid='"+statusid+"'>"+status+"</span><span class='id' style='display: none;'>"+id+"</span>" +
+                        "<a href='javascript:void(0)' class='signal_btn1'><span>投 资</span></a>" +
+                        "<a href='javascript:void(0)' class='signal_btn2' style='display: none;'><span>已结束</span></a>" +
+                        "<a href='javascript:void(0)' class='signal_btn3' style='display: none;'><span>交易中</span></a>" +
+                        "<a href='javascript:void(0)' class='signal_btn4' style='display: none;'><span>正在投资</span></a></div></li>");
+                        html=html.replace("undefined","");  //移除underfined字样
+                    }
+//                    $(".step_1 .signal_ul").html(html);
+
+                    setTimeout(function(){  //加载小图表
+                        setChart(10*(page-1));
+                    },1000);
+                    $(".signal_data_i01").on("click", function () {     //保障模式解释截图点击变换
+                        if($(this).attr("src") == 'image/signal_data_i07.png'){
+                            $(this).attr("src","image/signal_data_i08.png");
+                        }else if($(this).attr("src") == 'image/signal_data_i08.png'){
+                            $(this).attr("src","image/signal_data_i07.png");
+                        }
+                    });
+                    $(".step_1 .signal li").each(function () {      //根据状态改变按钮状态
+                        var Status = $(this).find(".Status").html();
+                        var status = $(this).find(".status").html();
+                        var statusid=$(this).find(".status").attr("statusid");
+                        var step_1_id = $(this).find(".id").html();
+                        var step_2_id = $(".step_2 .signal li").find(".id").html();
+                        if(Status == 0){    //投资
+                            if(status < 0 || statusid=='0'){
+                                $(this).find(".signal_btn1").show();
+                                $(this).find(".signal_btn3").hide();
+                                $(this).find(".signal_btn4").hide();
+                            }else if(status >= 0 && statusid!=='0'){
+                                $(this).find(".signal_btn1").hide();
+                                $(this).find(".signal_btn3").show();
+                                $(this).find(".signal_btn4").hide();
+                            }
+                        }else if(Status == 1){      //交易中
+                            if(statusid=='0'){
+                                $(this).find(".signal_btn1").show();
+                                $(this).find(".signal_btn3").hide();
+                                $(this).find(".signal_btn4").hide();
+                            }else {
+                                $(this).find(".signal_btn1").hide();
+                                $(this).find(".signal_btn3").hide();
+                                $(this).find(".signal_btn4").show();
+                                $(this).find(".signal_btn4").find("span").html("交易中");
+                            }
+                        }else if(Status == 2){      //已结束
+                            $(this).find(".signal_btn1").hide();
+                            $(this).find(".signal_btn3").show();
+                            $(this).find(".signal_btn3").find("span").html("已结束");
+                            $(this).find(".star-vote").html("交易完成");
+                            $(this).find(".signal_btn4").hide();
+                        }
+                        if(step_1_id == step_2_id){
+                            $(this).find(".signal_btn1").hide();
+                            $(this).find(".signal_btn3").hide();
+                            $(this).find(".signal_btn4").show();
+                            $(this).find(".signal_btn4").find("span").html("正在投资");
+                        }
+                        var gtype = $(this).find(".gtype").attr("data");
+                        var jindu = $(this).find(".jindu").html();
+                        if(gtype == 1){
+                            if(step_1_id == step_2_id){
+                                var balance = $(this).find(".balance").html();
+                                $(this).find(".star-vote").html("剩余：<p style='color: #f59000;display: inline-block;'>"+balance+"</p>天");
+                            }else {
+                                $(this).find(".star-vote").html("<div class='modulusContent'><div class='moduluscontain' style='width: "+jindu+"%;'></div><p>"+jindu+"%</p></div>");
+                            }
+                        }else if(gtype == 2){
+                            $(this).find(".star-vote").html("按日结算");
+                        }else if(gtype == 3){
+                            $(this).find(".star-vote").html("按日结算");
+                            $(this).find(".gtype").find(".signal_data_i").hide();
+//                            $(this).find(".ctype").find(".signal_data_i").find(".signal_data_i03").attr("src","image/signal_data_i03_2.png");
+                        }
+                    });
+                    signal_btn1();      //点击投资函数
+                }
+            }
+        });*/
+
+        /*点击“加载更多信号”*/
+        /*var page = 1;
+        $(".signal_more").bind("click",function() {   //点击加载更多
+            page = page + 1;
+            $(this).hide();
+            $(".signal_moreing").show();
+            setTimeout(function () {
+                $.ajax({
+                    url: '{:url("api.mam/mam_list")}',
+                    type : 'post',
+                    dateType : 'json',
+                    data : {
+                        page: page
+                    },
+                    success: function (data) {
+                        data = JSON.parse(data);
+                        console.log(data.data.length);
+                        var html;
+                        if(data.data.length==0){
+                            $(".signal_moreing").hide();
+                            $(".signal_more").show().css({"border": "1px solid #cccccc","color": "#cccccc"}).html("加载完毕").addClass("disabled");
+                            return false;
+                        }
+                        for(var i = 0;i<data.data.length;i++){
+                            var id = data.data[i].id;
+                            var mt4id = data.data[i].mt4id;
+                            var id_src = "{:url('mam/detail/"+id+"')}";
+                            var name = data.data[i].name;
+                            var name2 = data.data[i].nickname;
+                            var login = data.data[i].login;
+                            if(name2 == ''||name2==undefined){
+                                name2 = login.substring(0,4)+"***"+login.substring(7,11);
+                            }
+                            var u_img = data.data[i].u_img;
+                            if(u_img==''||u_img==undefined){
+                                u_img='touxiang.png';
+                            }
+                            var gtype = data.data[i].gtype;     //保障模式
+                            var ctype = data.data[i].ctype;     //经理酬劳
+                            var gtypeSrc,gtype_show;
+                            if(gtype == 1){     //保本
+                                gtypeSrc = "image/signal_data_i01.png";
+                                gtype_show = '保本';
+                            }else if(gtype == 2){   //保障池
+                                gtypeSrc = "image/signal_data_i07.png";
+                                gtype_show = '保障池';
+                            }else if(gtype == 3){
+                                gtypeSrc = "";
+                                gtype_show = '无';
+                            }
+                            var ctypeSrc,ctypeSrc_show,ctypeSrc_show2;
+                            if(ctype == 0.5){
+                                ctypeSrc = "image/signal_data_i04.png";
+                                ctypeSrc_show = '分成';
+                                ctypeSrc_show2 = '分成 : <span><span>50</span> %</span>';
+                            }else if(ctype == 0.6){
+                                ctypeSrc = "image/signal_data_i04.png";
+                                ctypeSrc_show = '分成';
+                                ctypeSrc_show2 = '分成 : <span><span>60</span> %</span>';
+                            }else if(ctype == 0.7){
+                                ctypeSrc = "image/signal_data_i04.png";
+                                ctypeSrc_show = '分成';
+                                ctypeSrc_show2 = '分成 : <span><span>70</span> %</span>';
+                            }else if(ctype == 0.8){
+                                ctypeSrc = "image/signal_data_i04.png";
+                                ctypeSrc_show = '分成';
+                                ctypeSrc_show2 = '分成 : <span><span>80</span> %</span>';
+                            }else if(ctype == 0.9){
+                                ctypeSrc = "image/signal_data_i04.png";
+                                ctypeSrc_show = '分成';
+                                ctypeSrc_show2 = '分成 : <span><span>90</span> %</span>';
+                            }else if(ctype == 7){
+                                ctypeSrc = "image/signal_data_i03_2.png";
+                                ctypeSrc_show = '加佣';
+                                ctypeSrc_show2 = '加佣 : <span><span>7</span> USD/手</span>';
+                            }else if(ctype == 10&&gtype == 2){
+                                ctypeSrc = "image/signal_data_i03_2.png";
+                                ctypeSrc_show = '加佣';
+                                ctypeSrc_show2 = '加佣 : <span><span>10</span> USD/手</span>';
+                            }else if(ctype == 12){
+                                ctypeSrc = "image/signal_data_i03_2.png";
+                                ctypeSrc_show = '加佣';
+                                ctypeSrc_show2 = '加佣 : <span><span>12</span> USD/手</span>';
+                            }else if(ctype == 5){
+                                ctypeSrc = "image/signal_data_i03_2.png";
+                                ctypeSrc_show = '加佣';
+                                ctypeSrc_show2 = '加佣 : <span><span>5</span> USD/手</span>';
+                            }else if(ctype == 8){
+                                ctypeSrc = "image/signal_data_i03_2.png";
+                                ctypeSrc_show = '加佣';
+                                ctypeSrc_show2 = '加佣 : <span><span>8</span> USD/手</span>';
+                            }else if(ctype == 10&&gtype == 3){
+                                ctypeSrc = "image/signal_data_i03_2.png";
+                                ctypeSrc_show = '加佣';
+                                ctypeSrc_show2 = '加佣 : <span><span>10</span> USD/手</span>';
+                            }
+                            var history_profit = data.data[i].history_profit*100;
+                            var history_money = data.data[i].money;
+                            if(history_money == 0){
+                                history_profit = 0;
+                            }else {
+                                history_profit = history_profit/history_money;
+                            }
+                            history_profit = history_profit.toFixed(2);
+                            var balance = data.data[i].balance;
+                            var bail = data.data[i].bail;
+                            var begin_money = data.data[i].begin_money;
+                            var now_money = data.data[i].now_money;
+                            var status = now_money - begin_money;       //差值大于等于0的时候，说明已经满额；
+                            if(begin_money=='0.00'){
+                                var statusid = '0';      //0为不限额，1为限额；
+                            }else{
+                                var statusid = '1';
+                            }
+                            var Status = data.data[i].status;
+                            var jindu = now_money/begin_money;
+                            jindu =  jindu.toFixed(2)*100;
+                            if(jindu>100){jindu = 100;}
+                            var score = data.data[i].score;
+                            var rand_profit = data.data[i].rand_profit;
+                            if(rand_profit=='' || rand_profit==undefined){
+                                rand_profit='0,0,0,0,0,0,0,0,0,0';
+                            }
+                            html += ("<li data='"+mt4id+"'><span class='id' style='display: none;'>"+id+"</span><a href='"+id_src+"' class='step_1_signal_a' target='_blank'>" +
+                            "<div class='signal_div'><div class='signal_head'><img src='__BASIC__upload/image/"+u_img+"' class='signal_head_pic01'></div>" +
+                            "<p class='signal_info'><span class='signal_name'>MAM 名称 :</span><span class='signal_num'>"+name+"</span><span class='signal_mt4id' style='display: none;'></span></p> " +
+                            "<div class='signal_logo_box'><p>"+name2+"</p></div><div class='workroom_box'><i></i></div></div></a>" +
+                            "<div class='signal_div signal_chart' data-chart='"+rand_profit+"'></div>" +
+                            "<div class='signal_div'><div class='signal_data'>历史业绩<span class='profit_margin'><span><span>"+history_profit+"</span>%</span></span></div>" +
+                            "<div class='signal_data' data='"+gtype+"'>保障模式 : "+gtype_show+"<i class='signal_data_i'><img src='"+gtypeSrc+"' class='signal_data_i01'></i>" +
+                            "<span class='win_rate'>当前保证金 : <span><span>"+bail+"</span> 元</span></span></div>" +
+                            "<div class='signal_data' data='"+ctype+"'>经理酬劳 : "+ctypeSrc_show+"<i class='signal_data_i'><img src='"+ctypeSrc+"' class='signal_data_i03'></i>" +
+                            "<span class='duration'>"+ctypeSrc_show2+"</span></div><span class='balance' style='display: none;'>"+balance+"</span></div>" +
+                            "<div class='signal_div'><div class='signal_div_score'><p class='score' style='display: none;'>"+score+"</p><p class='jindu' style='display: none;'>"+jindu+"</p>" +
+                            "<div class='star-vote'><!--<span class='add-star'></span><span class='del-star'></span>--></div></div><span class='Status' style='display: none;'>"+Status+"</span><span class='status' style='display: none;' statusid='"+statusid+"'>"+status+"</span><span class='id' style='display: none;'>"+id+"</span>" +
+                            "<a href='javascript:void(0)' class='signal_btn1'><span>投 资</span></a>" +
+                            "<a href='javascript:void(0)' class='signal_btn3'><span>交易中</span></a>" +
+                            "<a href='javascript:void(0)' class='signal_btn4'><span>正在交易</span></a></div></li>");
+                            html=html.replace("undefined","");  //移除underfined字样
+                        }
+                        $(".step_1 .signal").append(html);
+                        setTimeout(function(){  //加载小图表
+                            setChart(10*(page-1));
+                        },1000);
+                        $(".signal_data_i01").on("click", function () {     //保障模式解释截图点击变换
+                            if($(this).attr("src") == 'image/signal_data_i07.png'){
+                                $(this).attr("src","image/signal_data_i08.png");
+                            }else if($(this).attr("src") == 'image/signal_data_i08.png'){
+                                $(this).attr("src","image/signal_data_i07.png");
+                            }
+                        });
+                        $(".step_1 .signal li").each(function () {      //根据状态改变按钮状态
+                            var Status = $(this).find(".Status").html();
+                            var status = $(this).find(".status").html();
+                            var statusid=$(this).find(".status").attr("statusid");
+                            var step_1_id = $(this).find(".id").html();
+                            var step_2_id = $(".step_2 .signal li").find(".id").html();
+                            if(Status == 0){    //投资
+                                if(status < 0 || statusid=='0'){
+                                    $(this).find(".signal_btn1").show();
+                                    $(this).find(".signal_btn3").hide();
+                                    $(this).find(".signal_btn4").hide();
+                                }else if(status >= 0 && statusid!=='0'){
+                                    $(this).find(".signal_btn1").hide();
+                                    $(this).find(".signal_btn3").show();
+                                    $(this).find(".signal_btn4").hide();
+                                }
+                            }else if(Status == 1){      //交易中
+                                if(statusid=='0'){
+                                    $(this).find(".signal_btn1").show();
+                                    $(this).find(".signal_btn3").hide();
+                                    $(this).find(".signal_btn4").hide();
+                                }else {
+                                    $(this).find(".signal_btn1").hide();
+                                    $(this).find(".signal_btn3").hide();
+                                    $(this).find(".signal_btn4").show();
+                                    $(this).find(".signal_btn4").find("span").html("交易中");
+                                }
+                            }else if(Status == 2){      //已结束
+                                $(this).find(".signal_btn1").hide();
+                                $(this).find(".signal_btn3").show();
+                                $(this).find(".signal_btn3").find("span").html("已结束");
+                                $(this).find(".star-vote").html("交易完成");
+                                $(this).find(".signal_btn4").hide();
+                            }
+                            if(step_1_id == step_2_id){
+                                $(this).find(".signal_btn1").hide();
+                                $(this).find(".signal_btn3").hide();
+                                $(this).find(".signal_btn4").show();
+                                $(this).find(".signal_btn4").find("span").html("正在投资");
+                            }
+                            var gtype = $(this).find(".gtype").attr("data");
+                            var jindu = $(this).find(".jindu").html();
+                            if(gtype == 1){
+                                if(step_1_id == step_2_id){
+                                    var balance = $(this).find(".balance").html();
+                                    $(this).find(".star-vote").html("剩余：<p style='color: #f59000;display: inline-block;'>"+balance+"</p>天");
+                                }else {
+                                    $(this).find(".star-vote").html("<div class='modulusContent'><div class='moduluscontain' style='width: "+jindu+"%;'></div><p>"+jindu+"%</p></div>");
+                                }
+                            }else if(gtype == 2){
+                                $(this).find(".star-vote").html("按日结算");
+                            }else if(gtype == 3){
+                                $(this).find(".star-vote").html("按日结算");
+                                $(this).find(".gtype").find(".signal_data_i").hide();
+//                                $(this).find(".ctype").find(".signal_data_i").find(".signal_data_i03").attr("src","image/signal_data_i03_2.png");
+                            }
+                        });
+                        signal_btn1();      //点击投资函数
+
+                        $(".signal_more").show();
+                        $(".signal_moreing").hide();
+                    }
+                });
+            },1000);
+        });*/
+
+        //加载iframe的高度适配
+        /*$("#iframe_imam").load(function() {
+            var mainheight = $(this).contents().find("body").height()+252;
+            if(mainheight>400){
+                $(this).height(mainheight);
+            } else {
+                $(this).height(400);
+            }
+        });
+        setTimeout(function () {
+            var mainheight2 = $("#iframe_imam").contents().find("body").height() + 252;
+            if (mainheight2 > 400) {
+                $("#iframe_imam").height(mainheight2);
+            } else {
+                $("#iframe_imam").height(400);
+            }
+        }, 600);*/
+
+        /*步数导航*/
+        $(".order_step_1").on("click", function () {
+            $(".order_step ul").css("display","block");
+            $(".order_step_1").addClass(".active").siblings().removeClass("active");
+            $(".order_step_2").css("display","none");
+            $(".order_step_3").css("display","none");
+            $(this).addClass("active").siblings().removeClass("active");
+            $(".step_1").fadeIn().siblings().hide();
+//            setChart(10*(page-1));//加载小图表
+        });
+        $(".order_step_2").on("click", function () {
+            if($(".running2").css("display")=='block'){
+                return false;
+            }
+//            $(this).addClass("active").siblings().removeClass("active");
+            $(".step_2").fadeIn().siblings().hide();
+//            setChart(10*(page-1));//加载小图表
+        });
+        $(".order_step_3").on("click", function () {
+            $(this).addClass("active").siblings().removeClass("active");
+            $(".step_2").fadeIn().siblings().hide();
+//            setChart(10*(page-1));//加载小图表
+        });
+
+        /*申请成为MAM经理弹窗*/
+        $("#register_mam").on("click", function () {
+            $(".register_mam").fadeIn();
+        });
+
+        /*账户余额不足弹窗*/
+        $(".not_sufficient_funds_close").on("click", function () {
+            $(".not_sufficient_funds").hide();
+        });
+        $(".not_sufficient_btn").on("click", function () {
+            $(".not_sufficient_funds").hide();
+            $(".recharge").fadeIn();
+        });
+        /*停止投资弹窗*/
+        $(".stop_investment_btn1").on("click", function () {
+            $(".stop_investment").hide();
+        });
+        $(".stop_investment_btn2").on("click", function () {
+            var mam_id = $(".step_2 .signal li").find(".id").html();
+            $.ajax({
+                url: '{:url("api.mam/stop")}',
+                type: 'post',
+                dataType: 'json',
+                data: {mam_id : mam_id},
+                success: function (data) {
+                    if(data.code == 200){
+                        $(".stop_investment").hide();
+                        $(".running2").hide();
+                        $(".step_2_btn").show().siblings(".step_3_btn2").hide();
+                        $(".step_3_btn1").hide();
+                        $(".checked_info").css("width","906px");
+                        $(".step_2").find(".signal").css("display","none");
+                        $(".step_2").find("#iframe_imam").css("display","none");
+                        $(".step_2").find(".step_3_remind").css("display","none");
+                        $(".order_step_2").css("cursor","pointer").addClass("active").removeClass("disabled");
+                        $(".order_step_3").css("display","none");
+                        $(".step_1 .signal_ul li").each(function () {
+                            var status = $(this).find(".status").html();
+                            var statusid=$(this).find(".status").attr("statusid");
+                            if(status < 0 || statusid=='0'){
+                                $(this).find(".signal_btn1").show();
+                                $(this).find(".signal_btn3").hide();
+                                $(this).find(".signal_btn4").hide();
+                            }else if(status >= 0 && statusid!=='0'){
+                                $(this).find(".signal_btn1").hide();
+                                $(this).find(".signal_btn3").show();
+                                $(this).find(".signal_btn4").hide();
+                            }
+                        });
+                        location.reload();
+                    }else {
+                        $(".stop_investment").hide();
+                        win.alert("",data.msg);
+                    }
+                }
+            });
+        });
+
+        /*点击“投资”*/
+        /* function signal_btn1(){
+            $(".signal_btn1").on("click", function () {
+                if($(".running2").css("display") == 'block'){
+                    win.alert("","只能投资一个mam交易经理");
+                    return false;
+                }
+                $(".step_1").hide();
+                $(".step_2").show();
+                $(".order_step_2").css("display","inline-block");
+                $(".order_step_2").addClass("active").siblings().removeClass("active");
+                $(".order_step").css("height","50px");
+                $(".order_step ul").css("display","none");
+                /!*this.data 传递到step2*!/
+//                var account = $(this).parent().parent().attr("data");
+                var account = $(this).parent().find(".id").html();
+                var step_2_signal_li = $(this).parent().parent().html();
+                $(".step_2 .signal").html("<li data='"+account+"'>"+step_2_signal_li+"</li>");
+                setTimeout(function(){  //加载小图表
+                    setChart(10*(page-1));
+                },1000);
+                $(".step_2 .signal li").find(".signal_btn1").hide();
+                $("#iframe_imam").show().attr("src","__HTTP__mam/imam/id/"+account+".html");
+                $(".nodata").hide();
+            });
+        }*/
+
+        /*第二步“立即投资”*/
+        $(".step_2_btn").on("click", function () {
+            var uid = '{$uid}';
+            if(uid == 0||uid==undefined){
+                win.alert("","请先登录！");
+                return false;
+            }
+            var display = $(".step_2_signal").find(".nodata").css("display");
+            if(display !='none'&&display!=undefined){
+                win.alert("","请先选择MAM交易经理!");
+                return false;
+            }
+            $.ajax({
+                url: '{:url("api.account/get")}',
+                type: 'get',
+                dataType: 'jsonp',
+                jsonp: 'callback',
+                success: function (data) {
+                    if (data.code == '200') {
+                        var MT4data = data.data;
+                        if (typeof(MT4data[0]) == "undefined") {     //表示没有绑定mt4;
+//                    console.log('没有绑定mt4;')
+                            win.alert("","请先绑定mt4账户!");
+                            return false;
+                        } else {    //绑定了mt4;
+                            $('.mam_mt4select').fadeIn();
+                            var html='';
+                            for(var i=0;i<MT4data.length;i++){
+                                if(MT4data[i].sh == 0){
+                                    html+='<p class="mam_mt4_ii_p mam_mt4_ii_p_off">'+MT4data[i].mt4id+'<span style="color:red">(审核中)</span></p>';
+                                }else if(MT4data[i].sh==1){
+                                    html+='<p class="mam_mt4_ii_p" onclick="select_mam_mt4(this)">'+MT4data[i].mt4id+'</p>';
+                                }
+                                $(".mam_mt4_item_account").html(MT4data[0].mt4id);
+                            }
+                            $(".mam_mt4_ii").html(html);
+                        }
+                    }
+                }
+            });
+            $(".mam_goin").on("click", function () {
+                if($(".mam_mt4_item_account").html() != ''){
+                    $('.mam_mt4select').hide();
+                    //余额充足的时候，跟随
+                    $(".follow_sure").fadeIn();
+
+                    /*传递参数到确认投资弹窗里面*/
+                    var text1 = $("#iframe_imam").contents().find(".step_2_signal_data_text1").val();
+                    if(text1 ==1){
+                        text1 = '每日'
+                    }else if(text1 ==7){
+                        text1 = '每周'
+                    }else if(text1 ==30){
+                        text1 = '每月'
+                    }else if(text1 ==90){
+                        text1 = '每三月'
+                    }
+                    var text2 = $("#iframe_imam").contents().find(".step_2_signal_data_text2").val();
+                    if(text2 == 1){
+                        text2 = '保本'
+                    }else if(text2 == 2){
+                        text2 = '保障池'
+                    }else if(text2 == 3){
+                        text2 = '无'
+                    }
+                    var text3 = $("#iframe_imam").contents().find(".step_2_signal_data_text3").val();
+                    if(text3 == 0.5){
+                        text3 = '按净收益提取 50%'
+                    }else if(text3 == 0.6){
+                        text3 = '按净收益提取 60%'
+                    }else if(text3 == 0.7){
+                        text3 = '按净收益提取 70%'
+                    }else if(text3 == 0.8){
+                        text3 = '按净收益提取 80%'
+                    }else if(text3 == 0.9){
+                        text3 = '按净收益提取 90%'
+                    }else if(text3 == 7){
+                        text3 = '按手数收取佣金 7 USD/手'
+                    }else if(text3 == 10){
+                        text3 = '按手数收取佣金 10 USD/手'
+                    }else if(text3 == 12){
+                        text3 = '按手数收取佣金 12 USD/手'
+                    }else if(text3 == 5){
+                        text3 = '按手数收取佣金 5 USD/手'
+                    }else if(text3 == 8){
+                        text3 = '按手数收取佣金 8 USD/手'
+                    }
+                    var text4 = $("#iframe_imam").contents().find("input[name='freeze_money']").val();
+                    $(".follow_sure_text1").html(text1);
+                    $(".follow_sure_text2").html(text2);
+                    $(".follow_sure_text3").html(text3);
+                    $(".follow_sure_text4").html(text4);
+                }
+            });
+        });
+        /*确认投资弹窗*/
+        $(".follow_sure_btn").on("click", function () {
+            var mam_id = $("#iframe_imam").contents().find(".step_2_signal_data_text0").val();
+            var slave_mt4id = $(".mam_mt4_item_account").html();
+            console.log("mam_id:"+mam_id+",slave_mt4id:"+slave_mt4id);
+            $.ajax({
+                url: '{:url("api.mam/follow")}',
+                type: 'post',
+                dataType: 'json',
+                data: {mam_id : mam_id,slave_mt4id : slave_mt4id},
+                success: function (data) {
+                    if(data.code == 200){
+//                        console.log("跟随成功！");
+                        $(".follow_sure").hide();
+                        $(".buy_succeed").fadeIn();
+                        setTimeout(function () {
+                            $(".buy_succeed").hide();
+                            $(".order_step_3").css("display","inline-block").addClass("active").siblings().removeClass("active");
+                            is_going();
+                            location.reload();
+                            /*$(".step_2 .signal").show();
+
+                            $(".step_2 .signal li .signal_btn4").show();
+                            setChart(10*(page-1));//加载小图表
+//                            $(".step_2 .step_3_remind").show();
+                            $(".step_2_btn").hide().siblings(".step_3_btn2").show();
+                            $(".order_step_3").addClass("active").siblings().removeClass("active");
+                            $(".step_1 .signal li").each(function () {
+                                var data_id = $(this).find(".id").html();
+                                if(data_id == mam_id){
+                                    $(this).find(".signal_btn1").hide().siblings(".signal_btn4").show();
+                                }
+                            });
+                            $(".running2").show();
+                            $(".order_step_2").css({"color":"#aaaaaa","cursor":"not-allowed"});*/
+                        },2000);
+                    }else {
+                        $(".follow_sure").hide();
+                        win.alert("",data.msg);
+                    }
+                }
+            });
+        });
+        $(".follow_sure_close").on("click", function () {
+            $(".follow_sure").hide();
+        });
+        /*点击“停止投资”*/
+        $(".step_3_btn2").on("click", function () {
+            $(".stop_investment").fadeIn();
+        });
+
+        /*从详情页点击“投资”，进入该页面。打开第二步，获取该id的信号数据，进行操作*/
+//        http://www.znforex.cn/mam/index.html?id=1
+        /*if($()){
+         $(".step_1").hide();
+         $(".step_2").show();
+         $(".order_step_2").addClass("active").siblings().removeClass("active");
+         /!*this.data 传递到step2*!/
+         //            var id = $(this).parent().parent().attr("data");
+         $(".step_2_signal_box01").attr("data",id);
+
+         }*/
+
+    });
+</script>
+
+<!--MAM交易弹窗-->
+<!--追加保障金-->
+<style>
+    .mam_zhuijia{display: none;width: 100%;height: 100%;background-color: rgba(0,0,0,0.4);position: fixed;top: 0;z-index: 1000;}
+    .mam_zhuijia_close {position: absolute;top: -10px;right: -10px;width: 30px;height: 30px;cursor: pointer;background: url(../image/buchang_close.png)no-repeat center;background-size: cover;z-index: 1;}
+    .mam_zhuijia_ul{padding: 10px 40px;}
+    .mam_zhuijia_ul li{line-height: 40px;font-size: 16px;position: relative;}
+    .mam_zhuijia_ul li i{display: inline-block;width: 0.67em;}
+    .mam_zhuijia_ul li:nth-child(2) i{display: inline-block;width: 0.25em;}
+    .mam_zhuijia_ul li div{display: inline-block;width: 20px;}
+    .mam_zhuijia_ul li input{background: url(../image/vip10.png) 160px 12px no-repeat;border: 1px solid #dadada;font-size: 14px;display: inline-block;width: 174px;height: 30px;padding-left: 10px;cursor: pointer;}
+    .mam_zhuijia_ul li ul{display: none;width: 184px;position: absolute;left: 132px;top: 35px;background: #fff;border: 1px solid #dadada;z-index: 9;}
+    .mam_zhuijia_ul li ul li{line-height: 30px;width: 174px;padding-left: 10px;}
+    .mam_zhuijia_ul li ul li:hover{background: #dadada;}
+    .mam_zhuijia_btn{display: block;width: 80%;height: 40px;margin: 0 auto;line-height: 40px;background: #611987;color: #fff;font-size: 18px;outline: none;border: none;border-radius: 6px;margin-top: 13px;cursor: pointer;padding: 0;}
+</style>
+<div class="mam_zhuijia">
+    <div class="confirmBox" style="width: 400px;height:320px;margin-top:-160px;margin-left: -200px;">
+        <div class="mam_zhuijia_close" ></div>
+        <p class="confirmTitle mam_zhuijia_name"></p>
+        <ul class="mam_zhuijia_ul" data="0">
+            <li>初<i></i>始<i></i>资<i></i>金：<div></div><span class="mam_zhuijia_span01">10000</span> USD</li>
+            <li>追<i></i>加<i></i>服<i></i>务<i></i>费：<div></div><input type="text" placeholder="请选择追加服务费比例" readonly="readonly" class="mam_zhuijia_input"><ul class="mam_zhuijia_input_ul"><li>-2%</li><li>-5%</li><li>-10%</li></ul></li>
+            <li>可<i style="width: 0.25em;"></i>用<i style="width: 0.25em;"></i>信<i style="width: 0.25em;"></i>用<i style="width: 0.25em;"></i>金：<div></div><span>¥ {if !empty($info)}{$info.credit|number_format=###,2}{else/}0.00{/if}</span></li>
+            <li>应预充服务费：<div></div><span style="color: #611987;">¥ <span class="mam_zhuijia_span02">0</span></span></li>
+        </ul>
+        <p class="mam_zhuijia_tips" style="width: 80%;height: 20px;line-height: 20px;margin: 0 auto;font-size: 16px;color: red;"></p>
+        <button class="mam_zhuijia_btn" style="margin-top: 0;">提交</button>
+    </div>
+</div>
+<script>
+    $(".step_3_btn1").on("click", function () {
+        $(".mam_zhuijia").fadeIn();
+    });
+    $(".mam_zhuijia_input").on("click", function (event) {
+        $(".mam_zhuijia_input_ul").show();
+        event.stopPropagation();
+    });
+    $(".mam_zhuijia_input_ul li").on("click", function () {
+        $(".mam_zhuijia_input").val($(this).html());
+        var mam_zhuijia_input;
+        if($(this).html()=='-2%'){
+            mam_zhuijia_input = 0.02;
+        }else if($(this).html()=='-5%'){
+            mam_zhuijia_input = 0.05;
+        }else if($(this).html()=='-10%'){
+            mam_zhuijia_input = 0.1;
+        }
+        var mam_zhuijia_span02 = Math.round($(".mam_zhuijia_span01").html()*mam_zhuijia_input*6.5*100)/100;
+        var credit = "{$info.credit}";
+        if(credit == ''){
+            credit = 0;
+        }
+//        console.log(mam_zhuijia_span02)
+//        console.log(credit)
+        if(parseFloat(mam_zhuijia_span02)<=parseFloat(credit)){
+            mam_zhuijia_span02 = 0;
+        }else {
+            mam_zhuijia_span02 = (mam_zhuijia_span02 - credit).toFixed(2);
+        }
+        $(".mam_zhuijia_span02").html(mam_zhuijia_span02);
+    });
+    $(".mam_zhuijia_btn").on("click", function () {         //提交
+        var mam_zhuijia_input = $(".mam_zhuijia_input").val();
+        if(mam_zhuijia_input==''){
+            $(".mam_zhuijia_tips").html("请选择追加服务费比例!");
+            return false;
+        }
+        if(mam_zhuijia_input=='-2%'){
+            mam_zhuijia_input = 0.02;
+        }else if(mam_zhuijia_input=='-5%'){
+            mam_zhuijia_input = 0.05;
+        }else if(mam_zhuijia_input=='-10%'){
+            mam_zhuijia_input = 0.1;
+        }
+        var mam_id = $(".mam_zhuijia_ul").attr("data");
+        $.ajax({
+            type : 'POST',
+            url : "{:url('api.mam/follow_setInc_bail')}",
+            data : {
+                mam_id : mam_id,
+                stoploss : mam_zhuijia_input
+            },
+            success : function (data){
+                var data = JSON.parse(data);
+                if(data.code==200){
+                    $(".mam_zhuijia_tips").html(data.msg);
+                    setTimeout(function () {
+                        location.reload();
+                    },1000);
+                }else {
+                    $(".mam_zhuijia_tips").html(data.msg);
+                }
+            }
+        });
+    });
+    $("body").on("click", function (event) {
+        $(".mam_zhuijia_input_ul").hide();
+        $(".mam_zhuijia_tips").html("");
+    });
+    $(".mam_zhuijia_close").on("click", function () {
+        $(".mam_zhuijia").hide();
+    });
+</script>
+<!--只能投资一个mam交易弹窗-->
+<div class="win_onlyone" style="display: none;">
+    <div class="mask-layer"></div>
+    <div class="window-panel" style="height: 172px; width: 300px; margin-left: -150px; margin-top: -86px;">
+        <div class="title"><h3></h3></div><a href="javascript:void(0)" class="close-btn" title="关闭"></a>
+        <div class="body-panel" style="height: 136px;"><i></i><p class="content">只能投资一个mam交易经理</p>
+            <p class="btns"><button class="w-btn" tabindex="1">确 定</button></p>
+        </div>
+    </div>
+    <script>
+        $(".close-btn").on("click", function () {
+            $(".win_onlyone").hide();
+        });
+        $(".w-btn").on("click", function () {
+            $(".win_onlyone").hide();
+        });
+    </script>
+</div>
+<!--账户余额不足弹窗-->
+<div class="not_sufficient_funds">
+    <div class="confirmBox" style="width: 400px;height:250px;margin-top:-125px;margin-left: -200px;">
+        <div class="not_sufficient_funds_close" ></div>
+        <p class="confirmTitle">账户余额不足</p>
+        <div class="funds_t">
+            <p class="funds_t_p1"><span>569</span>元<br>预存服务费</p>
+            <p class="funds_t_p2">当前账户余额￥<span>269</span></p>
+            <p class="funds_t_p3">应预充服务费<span>￥300</span></p>
+        </div>
+        <a href="javascript:void(0);" class="not_sufficient_btn">充值</a>
+    </div>
+</div>
+<!--确认投资mam交易-->
+<div class="follow_sure">
+    <div class="follow_sure_inner">
+        <div class="follow_sure_close"></div>
+        <p class="confirmTitle">请确认以下内容</p>
+        <p class="confirmtext" style="padding-top:10px;">1.  100%同步MAM经理交易</p>
+        <p class="confirmtext">2.  结算周期：<span class="follow_sure_text1">**</span></p>
+        <p class="confirmtext">3.  保障模式： <span class="follow_sure_text2">***</span></p>
+        <p class="confirmtext">4.  服务费用为<span class="follow_sure_text3">********%</span></p>
+        <p class="confirmtext">5.  冻结账户余额<span class="follow_sure_text4" style="color: #611987;">***</span>元</p>
+        <img src="__STATIC__image/vip15.png" class="confirm_agree">
+        <p style="padding:15px 0 10px 3px;float:left;font-size:16px;" class="allprotocol">我已阅读并同意<a href="{:url('mam/protocol')}" target="_blank" style="color:#611987">《保障交易服务协议》</a></p>
+        <button class="confirm_btn follow_sure_btn">确  认</button>
+    </div>
+</div>
+<!--停止投资-->
+<div class="stop_investment" style="display: none;width: 100%;height: 100%;background-color: rgba(0,0,0,0.4);position: fixed;top: 0;z-index: 1000;">
+    <div class="confirmBox" style="width:320px;height:200px;margin-top:-100px;margin-left:-160px;">
+        <img src="__STATIC__image/not_login_icon.png" style="display: block;width:40px;margin:0 auto;padding: 20px 0 10px 0;">
+        <p style="font-size:20px;color:#333333;text-align: center;">是否确认停止投资?</p>
+        <p style="font-size:16px;color:#611987;text-align: center;line-height: 26px;padding-top: 10px;">剩余冻结资金将返回到账户余额</p>
+        <div style="width:80%;margin:0 auto;" class="not_login_btn">
+            <button style="margin-top: 10px;" class="stop_investment_btn1">再看看</button>
+            <button style="margin-top: 10px;float:right;background: #fff;color:#611987;border:1px solid #611987;" class="stop_investment_btn2">停止投资</button>
+        </div>
+    </div>
+</div>
+<!--选择mt4账号弹窗-->
+<style>
+    .mam_mt4select{display:none;width: 100%;height: 100%;background-color: rgba(0,0,0,0.4);position: fixed;top: 0;z-index: 1000;}
+    .mam_mt4_s{position:relative; width: 300px;height: 200px;background: #fff;box-shadow: 2px 5px 5px rgba(0,0,0,0.1);border-radius: 8px;z-index: 99;position: absolute;left: 0;top: 0;right: 0;bottom: 0;margin: auto;}
+    .mam_mt4_s_close{ position: absolute;top: -10px;right: -10px;width: 30px;height: 30px;cursor: pointer;background: url(../image/buchang_close.png)no-repeat center;background-size: cover;z-index: 1;}
+    .mam_mt4_s>p{font-size:20px;color:#333333;text-align: center;padding:20px 0;}
+    .mam_mt4_item{width:250px;height:40px;border:1px solid #999999;margin:0 auto;border-radius: 4px;background:url(../image/main_b_title02_2.png) no-repeat 10px center;}
+    .mam_mt4_item_account{width:150px;padding-left:40px;line-height: 40px;color:#999999;float:left;}
+    .mam_mt4_item_icon{float:right;height:40px;cursor:pointer;}
+    .mam_mt4_ii{display:none; width:210px;margin:0 auto;padding-left:40px;color:#999999;border:1px solid #999999;border-top:1px solid #fff;position:absolute;top:104px;left:24px;background: #fff;z-index:3;}
+    .mam_mt4_ii_p{clear:both;width:210px;height:30px;line-height: 30px;cursor:pointer;}
+    .mam_mt4_ii_p:hover{color:#611987;}
+    .mam_goin{width:250px;height:40px;background: #611987;color:#fff;margin:20px auto;display:block;border:none;border-radius: 4px;font-size:16px;line-height: 40px;cursor:pointer;}
+    .mam_mt4_ii_p_off:hover{color:#999!important;}
+</style>
+<!-- mam交易mt4选择框 -->
+<div class="mam_mt4select">
+    <div class="mam_mt4_s">
+        <i class="mam_mt4_s_close"></i>
+        <p>请选择MT4帐号</p>
+        <div class="mam_mt4_item" data-id="0">
+            <p class="mam_mt4_item_account"></p>
+            <img src="__STATIC__image/select_icon_03.png" class="mam_mt4_item_icon">
+        </div>
+        <div class="mam_mt4_ii">
+        </div>
+        <button class="mam_goin">确  认</button>
+    </div>
+</div>
+<script>
+    $(".mam_mt4_s_close").click(function(){
+        $(".mam_mt4select").hide()
+    });
+    $(".mam_mt4_item").click(function(e){
+        e.stopPropagation();
+        if($(this).data("id")=='0'){
+            $(".mam_mt4_ii").show();
+            $(this).data("id","1")
+        }else{
+            $(".mam_mt4_ii").hide();
+            $(this).data("id","0")
+        }
+    });
+    function select_mam_mt4(obj){
+        $(".mam_mt4_ii").hide();
+        $(".mam_mt4_item").data("id","0");
+        $(".mam_mt4_item_account").html($(obj).html())
+    }
+    $("body").click(function(){
+        $(".mam_mt4_ii").hide();
+        $(".mam_mt4_item").data("id","0");
+    })
+</script>
+<!--新项目通知弹窗-->
+<div class="new_inform_window" style="display: none;width: 100%;height: 100%;background-color: rgba(0,0,0,0.4);position: fixed;top: 0;z-index: 1000;">
+    <div class="confirmBox" style="width:450px;height:630px;margin-top:-315px;margin-left:-225px;">
+        <div class="new_inform_window_close" style="position: absolute;top: -10px;right: -10px;width: 30px;height: 30px;cursor: pointer;background: url(../image/buchang_close.png)no-repeat center;background-size: cover;z-index: 1;"></div>
+        <p class="confirmTitle">如何开启MAM新项目通知</p>
+        <div style="text-align: center;">
+            <img src="__STATIC__image/new_inform_window01.png">
+            <p style="line-height: 30px;font-size: 16px;color: #555555;">关注亿思汇微信公众号</p>
+            <img src="__STATIC__image/new_inform_window02.png">
+            <p style="line-height: 30px;font-size: 16px;color: #555555;">点击APP/服务→绑定账号</p>
+            <img src="__STATIC__image/new_inform_window03.png">
+            <p style="line-height: 30px;font-size: 16px;color: #555555;">点击进入小程序</p>
+            <img src="__STATIC__image/new_inform_window04.png">
+            <p style="line-height: 30px;font-size: 16px;color: #555555;">进入 MAM 板块开启新项目提醒</p>
+        </div>
+    </div>
+</div>
+{if $zhq_mam_adv}
+<!--首次进入mam，提示框-->
+<div class="mam_fristEnter" style="width: 100%;height: 100%;background-color: rgba(0,0,0,0.4);position: fixed;top: 0;z-index: 1000;">
+    <div class="confirmBox" style="width:320px;height:240px;margin-top:-120px;margin-left:-160px;">
+        <h3 style="text-align: center;line-height: 50px;">跨平台mam交易须知</h3>
+        <p style="font-size:16px;color:#333333;padding: 0 20px;line-height: 26px;">
+            1.  本系统支持跨平台mt4账户；<br>
+            2.  跨平台mt4账户交易环境(点差+手续<br><i style="display: block;text-indent: 1em;">费)不得高于发起者交易环境的50%；</i>
+            3.  结算时只计算系统订单。</p>
+        <img src="__STATIC__image/vip15.png" class="confirm_agree" style="width: 18px;margin-left: 20px;padding-top: 5px;">
+        <p style="padding: 7px 0 10px 3px;float:left;font-size:14px;" class="allprotocol">我已阅读并同意<a href="{:url('mam/protocol')}" target="_blank" style="color:#611987">《保障交易服务协议》</a></p>
+        <div style="width:280px;margin:0 auto;" class="not_login_btn">
+            <a style="display: block;width: 100%;height: 40px;line-height: 40px;text-align: center;background: #cccccc;color: #ffffff;border-radius: 4px;float: left;" class="mam_fristEnter_btn disabled" href="javascript:void(0)">知道了（<span>5</span>S）</a>
+        </div>
+    </div>
+</div>
+<script>
+    //首次进入mam页面，弹出提示弹窗；
+    var time = 5;
+    setInterval(function () {
+        time--;
+        $(".mam_fristEnter_btn").find("span").html(time);
+        if(time <= 0){
+            time = 1;
+            $(".mam_fristEnter_btn").css("background","#611987").removeClass("disabled");
+        }
+    },1000);
+    $(".mam_fristEnter_btn").on("click", function () {
+        $(".mam_fristEnter").hide();
+    });
+</script>
+{/if}
+<!-- 底部邀请好友 -->
+{if !empty($uid)}
+<div class="freevip" style="display: none;">
+    <div class="freevip1" style="height: 100px;">
+        <!--<img src="image/wave_03_mam.png" style="position:absolute;width:100%;left:0;z-index:2;bottom:0;">-->
+        <img src="__STATIC__image/wave_01_mam.png" class="invite_ad_bg" style="z-index: 2">
+        <!--<img src="image/freegeticon1_mam.png" style="position:absolute;left: 10%;width: 80%;z-index:2;top:0;">-->
+    </div>
+    <div class="freevip3">
+        <img src="__STATIC__image/freeget1_mam.png" class="freeget1" style="width: 1000px;margin-left: -500px;left: 50%;bottom: 10px;">
+        <img src="__STATIC__image/freevipClose.png" class="freevipClose" style="width: 40px;bottom: 60px;margin-left: 550px;">
+        <img src="__STATIC__image/freevipClose2.png" class="freevipClose2" style="width: 40px;bottom: 60px;margin-left: 550px;">
+        <p class="freevipclosetext" style="bottom: 70px;margin-left: 585px;">剩余<span>3</span>秒</p>
+    </div>
+</div>
+<!--<script>
+    setTimeout(function () {
+        $(".freevip").fadeIn();
+        var n = 2;
+        var time2 = setInterval(function () {
+            if (n > 0) {
+                $(".freevipclosetext").find("span").html(n&#45;&#45;);
+            } else {
+                clearInterval(time2);
+                $(".freevipClose").hide();
+                $(".freevipclosetext").hide();
+                $(".freevipClose2").show().click(function () {
+                    $(".freevip").fadeOut();
+                });
+            }
+        }, 1000);
+    }, 45000);
+    $(".freevipClose2").click(function(){
+        $(".freevip").hide();
+    });
+//    var uid = {$uid};
+    $(".freeget1").on("click", function () {
+//        window.open('{:url("mam/invite")}?uid='+uid);     /*// http://www.znforex.cn/user/trade.html?tab=7&title=mam*/
+        window.open('{:url("user/trade")}?tab=7&title=mam');
+    });
+</script>-->
+{/if}
+<script src="__STATIC__js/echarts.min.js" type="text/javascript" defer="defer"></script>
+<script src="__STATIC__js/master-echarts.js" type="text/javascript" defer="defer"></script>
+{/block}

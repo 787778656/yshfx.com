@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MT4用户跟单系统</title>
+    <link rel="shortcut icon" href="__STATIC__image/favicon.ico" />
+    <link href="__STATIC__css/order.css" rel="stylesheet">
+    <link href="__STATIC__css/page.css" rel="stylesheet">
+    <style type="text/css">
+        /*body{background: #f3f3f3;}*/
+        .o_main{margin: 48px auto 0 auto;}
+    </style>
+</head>
+<body>
+<!-- 历史-->
+<div class="historyBox">
+    <ul class="historyHead">
+        <li>建仓时间</li>
+        <li>交易品种</li>
+        <li>类型</li>
+        <li>交易量</li>
+        <li>建仓价格</li>
+        <li>止损</li>
+        <li>止盈</li>
+        <li>平仓时间</li>
+        <li>平仓价格</li>
+        <li>手续费</li>
+        <li>库存费</li>
+        <li>获利(点数)</li>
+    </ul>
+    <div class="historyInfo">
+    {volist name="arrHistory" id="row"}
+        <ul>
+            <li>
+            <?php echo date('Y-m-d H:i:s', $row['open_time']-8*3600+2);?>
+            </li>
+            <li>{$row['symbol']}</li>
+            <li>{$row['op']==1?"sell":"buy"}</li>
+            <li>{$row['lots']}</li>
+            <li>{$row['open_price']}</li>
+            <li>{$row['stoploss']|default='--'}</li>
+            <li>{$row['takeprofit']|default='--'}</li>
+            <li>
+            <?php echo date('Y-m-d H:i:s', $row['close_time']-8*3600+2);?>
+            </li>
+            <li>{$row['close_price']}</li>
+            <li {$row['commission']<0?"style='color:#e60000'":"style='color:#005ea3'"}>{$row['commission']|default=0}</li>
+            <li {$row['swap']<0?"style='color:#e60000'":"style='color:#005ea3'"}>{$row['swap']|default=0}</li>
+            <li {$row['profit']<0?"style='color:#e60000'":"style='color:#005ea3'"}>
+                {$row['profit']}&nbsp;
+                <?php 
+                if ($row['close_price'] && $row['open_price']){
+                    echo '('.number_format(abs($row['close_price']-$row['open_price']),$row['dlen'])*pow(10, $row['dlen']).')';
+                }                            
+                ?>
+            </li>
+        </ul>
+    {/volist}
+    </div>
+</div>
+<div class="pagingBox">
+    {$arrHistory->render()}
+</div>
+</body>
+</html>

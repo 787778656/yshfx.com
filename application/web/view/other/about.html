@@ -1,0 +1,356 @@
+{extend name="web@base/main"/}
+{block name="tdk"}
+<title></title>
+<meta name="keywords" content="亿思汇,智能交易共享社区,亿思汇公司简介,亿思汇联系地址,亿思汇官网"/>
+<meta name="description" content="亿思汇由上海种客网络科技有限公司（以下简称：种客网络），主要从事互联网及移动互联网科技产品的研发和运营，企业总部位于上海。"/>
+{/block}
+{block name="body"}
+<script>
+        $(function () {
+            /*左侧导航*/
+            if($(".left_1").hasClass("active")){
+                $("title").html("平台介绍-亿思汇公司简介-亿思汇官网");
+            }else if($(".left_2").hasClass("active")){
+                $("title").html("企业介绍-亿思汇公司简介-亿思汇官网");
+            }else if($(".left_3").hasClass("active")){
+                $("title").html("平台由来-亿思汇公司简介-亿思汇官网");
+            }else if($(".left_4").hasClass("active")){
+                $("title").html("设计理念-亿思汇公司简介-亿思汇官网");
+            }else if($(".left_5").hasClass("active")){
+                $("title").html("团队介绍-亿思汇公司简介-亿思汇官网");
+            }else if($(".left_6").hasClass("active")){
+                $("title").html("有可能的合作-亿思汇公司简介-亿思汇官网");
+            }else if($(".left_7").hasClass("active")){
+                $("title").html("联系我们-亿思汇公司简介-亿思汇官网");
+            }
+            /*right_5,鼠标放在照片上面*/
+            $(".inner_li").hover(function () {
+                $(this).find(".inner_li_div").hide();
+                $(".introduce_1").show().siblings().hide();
+            },function () {
+                $(this).find(".inner_li_div").show();
+            });
+            $(".inner_li:nth-child(1)").hover(function () {
+                $(".introduce_2").show().siblings().hide();
+            });
+            $(".inner_li:nth-child(2)").hover(function () {
+                $(".introduce_3").show().siblings().hide();
+            });
+            $(".inner_li:nth-child(3)").hover(function () {
+                $(".introduce_4").show().siblings().hide();
+            });
+            $(".inner_li:nth-child(4)").hover(function () {
+                $(".introduce_5").show().siblings().hide();
+            });
+            /*right_6,点击留言跳到第七步*/
+            $(".right_6_btn").on("click", function () {
+                $(".left_7").addClass("active").siblings().removeClass("active");
+                $(".right_6").hide();
+                $(".right_7").show();
+            });
+            /*right_7，切换地图*/
+            $(".map_info_title01").on("click", function () {
+                $(".map_img").attr("src","__STATIC__image/about01.png");
+                $(this).addClass("active");
+                $(".map_info_title02").removeClass("active");
+                $(".map_info01").show();
+                $(".map_info02").hide();
+            });
+            $(".map_info_title02").on("click", function () {
+                $(".map_img").attr("src","__STATIC__image/about02.png");
+                $(this).addClass("active");
+                $(".map_info_title01").removeClass("active");
+                $(".map_info01").hide();
+                $(".map_info02").show();
+            });
+            /*right_7,联系我们*/
+            $('#submit_btn').click(function () {
+                var name = $("input[name=et_pb_contact_name_1]").val();
+                var tel = $("input[name=et_pb_contact_tel_1]").val();
+                var email = $("input[name=et_pb_contact_email_1]").val();
+                var message = $("textarea[name=et_pb_contact_message_1]").val();
+                if (name == '') {
+                    $(".tips").html('请输入您的姓名');
+                    return false;
+                }
+                if (tel == '') {
+                    $(".tips").html('请输入您的电话');
+                    return false;
+                }
+                if (email == '') {
+                    $(".tips").html('请输入您的电邮');
+                    return false;
+                }
+                if (message == '') {
+                    $(".tips").html('请输入您想咨询的内容');
+                    return false;
+                }
+                var postData = {
+                    name: name,
+                    mobile: tel,
+                    email: email,
+                    message: message
+                };
+                $.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    url: "{:url('other/user_content')}",
+                    data: postData,
+                    success: function (data) {
+                        var json = JSON.parse(data);
+                        if (json.code == 200) {
+                            $(".tips").html(json.msg);
+                            setTimeout("window.location.reload();", 3000);
+                        } else {
+                            $(".tips").html(json.msg);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+<style>
+        .header{background: #ffffff;box-shadow: 0 1px 1px rgba(0,0,0,0.1);}
+        .main {width: 100%;background: #f3f3f3;}
+        .main_inner {margin: 110px auto 0 auto;width: 1200px;min-height: 800px;clear: both;background: #fff;}
+        .main_left{float: left;width: 178px;height: 800px;border-right: 1px solid #dadada;}
+        .main_left a{display: block;width: 100%;height: 100px;font-size: 18px;color: #696969;text-align: center;padding: 25px 0;line-height: 30px;cursor: pointer;}
+        .main_left a span{display: block;font-size: 14px;line-height: 20px;}
+        .main_left a:hover,.main_left .active{color: #611987;}
+        .main_right{float: left;width: 1020px;height: 800px;}
+        .main_right h2{text-align: center;color: #611987;line-height: 40px;margin: 20px 0 10px 0;}
+        .main_right h2 span{display: block;font-size: 16px;line-height: 20px;color: #9f9f9f;}
+        .main_right p{color: #333333;font-size: 18px;line-height: 30px;}
+        .right_1,.right_2,.right_3,.right_4,.right_5,.right_6,.right_7{width: 1020px;height: 800px;padding: 0 50px;}
+        .right_2{display: block;}
+        .right_1 .ppt{width: 100%;height: 500px;position: relative;}
+        .right_2 p,.right_3 p,.right_4 p{margin-bottom: 30px;}
+        .right_4{overflow-y: scroll;height: 780px;}
+        .right_5{padding: 0;width: 1020px;}
+        .right_5 .team{margin:0 auto;width:1020px;height:700px;overflow:hidden;position:relative;}
+        .right_5 .inner{width: 1020px;height: 540px;float: left;}
+        .right_5 .inner .inner_li{width: 255px;height: 180px;overflow: hidden;float: left;position: relative;}
+        .right_5 .inner img{float:left;overflow: hidden;width: 255px;}
+        .right_5 .inner .inner_li .inner_li_div{width: 255px;height: 180px;background: rgba(0,0,0,0.4);position: absolute;left: 0;top: 0;cursor: pointer}
+        .right_5 .inner .inner_li .inner_li_div p{color: #ffffff;width: 100%;text-align: center;font-size: 14px;line-height: 30px;position: absolute;bottom: 15px;}
+        .right_5 .inner .inner_li .inner_li_div p:after{content: '';width: 30px;height: 1px;background: #ffffff;position: absolute;left: 112px;bottom: 0px;}
+        .right_5 .introduce{width: 960px;height: 160px;float: left;padding: 0 30px;}
+        .right_5 .introduce p{text-align: center;line-height: 40px;font-size: 22px;color: #333333;padding-top: 10px;}
+        .right_5 .introduce span{font-size: 18px;line-height: 30px;color: #888888;text-align: center;display: block;}
+        .right_5 .introduce span:last-child{line-height: 25px;font-size: 16px;text-align: left;}
+        .introduce_1 .introduce_3 .introduce_4 .introduce_5{display: none;}
+        /*.right_5 .inner .inner_01 .inner_01_li p span{display: inline-block;width: 100%;color: #777777;font-size: 16px;line-height: 20px;position: relative;margin-bottom: 20px;}
+        .right_5 .inner .inner_01 .inner_01_li p span:nth-child(2):after{content: '';width: 40px;height: 2px;background: #eeeeee;position: absolute;left: 97px;bottom: -10px;}
+        .right_5 .inner .inner_01 .inner_01_li p span:last-child{display: none;}
+        .right_5 .bt{width:30px;height:30px;position:absolute;display:block;background-color:orange;line-height: 30px;text-align: center;color: #ffffff;border-radius: 4px;cursor: pointer;}
+        .right_5 .left{left:10px;top:250px;background: url("../image/about15.png") rgba(255,255,255,0.5) 8px 5px no-repeat;}
+        .right_5 .right{right:10px;top:250px;background: url("../image/about16.png") rgba(255,255,255,0.5) 10px 5px no-repeat;}*/
+        .right_6{background: url("__STATIC__image/about14.png")no-repeat;background-size: cover;position: relative;}
+        .right_6 .right_6_inner{width: 550px;height: 300px;background: #ffffff;position: absolute;margin: auto;left: 0;top: 0;right: 0;bottom: 0;}
+        .right_6 .right_6_inner p{margin: 0 auto;text-align: center;padding-top: 20px;border-top: 1px solid #eeeeee;}
+        .right_6 .right_6_inner p a{color: #611987;border-bottom: 1px solid #611987;}
+        .right_7 .map{width: 920px;height: 370px;margin-top: 20px;position: relative;}
+        .right_7 .map img{width: 100%;height: 100%;}
+        .right_7 .map .map_info{position: absolute;top: 0;left: 30px;width: 220px;height: 280px;background: #ffffff;}
+        .right_7 .map .map_info a{display: inline-block;float: left;width: 110px;height: 50px;background: #eeeeee;text-align: center;line-height: 50px;font-size: 18px;color: #999999;cursor: pointer;}
+        .right_7 .map .map_info .active{background: #611987;color: #ffffff;}
+        .map_info01,.map_info02{float: left;width: 100%;}
+        .map_info01{display: none;}
+        .right_7 .map .map_info p{line-height: 50px;margin-top: 10px;font-weight: bold;text-align: center;}
+        .right_7 .map .map_info div span{display: block;text-align: center;font-size: 14px;line-height: 25px;padding-bottom: 10px;}
+        .right_7 .map .map_info p span{display: inline-block;font-size: 16px;vertical-align: middle;padding-bottom: 0;}
+        .right_7 .map .map_info p i{display: inline-block;vertical-align: middle;width: 16px;height: 20px;background: url('../image/contactUs_pic002.png')no-repeat;background-size: cover;margin-right: 10px;}
+        .right_7_l{float: left;width: 300px;height: 100px;}
+        .right_7_l p{text-align: left;font-size: 16px;line-height: 30px;}
+        .right_7_l p:nth-child(1){margin-top: 20px;line-height: 50px;}
+        .right_7_l p:nth-child(1) i{vertical-align: middle;display: inline-block;width: 33px;height: 30px;background: url('../image/contactUs_pic006.png')no-repeat;background-size: cover;margin-right: 20px;}
+        .right_7_l p:nth-child(2) i{vertical-align: middle;display: inline-block;width: 20px;height: 20px;background: url('../image/contactUs_pic008.png')no-repeat;background-size: cover;margin-left: 5px;margin-right: 28px;}
+        .right_7_l p:nth-child(3) i{vertical-align: middle;display: inline-block;width: 20px;height: 20px;background: url('../image/contactUs_pic007.png')no-repeat;background-size: cover;margin-left: 5px;margin-right: 28px;}
+        .right_7_l p span{vertical-align: middle;font-size: 16px;color: #333333;}
+        .right_7_l p:nth-child(1) span{font-weight: bold;}
+        .right_7_r{float: left;width: 620px;}
+        .right_7_r p{font-size: 18px;line-height: 30px;margin-top: 20px;color: #333333;text-align: left;}
+        .right_7_r input{width: 182px;height: 38px;line-height: 38px;font-size: 16px;padding-left: 15px;border: 1px solid #e7e7e7;float: left;margin-right: 10px;margin-top: 10px;}
+        .right_7_r input:nth-child(4){margin-right: 0;}
+        .right_7_r textarea{width: 600px;height: 70px;line-height: 30px;font-size: 16px;padding-left: 15px;border: 1px solid #e7e7e7;float: left;margin-top: 10px;}
+        .right_7_r .tips{float: left;width: 620px;height: 20px;font-size: 16px;line-height: 20px;color: #ff3939;}
+        .right_7_r a{display: block;float: right;width: 197px;height: 40px;background: #611987;border-radius: 5px;line-height: 40px;color: #fff;text-align: center;font-size: 16px;cursor: pointer;}
+    </style>
+<body>
+<div class="main">
+    <div class="main_inner" style="padding: 0;">
+        <div class="main_left">
+            <!--<a href="__HTTP__other/about/introduce.html" class="left_1 {if $pageName=='introduce'}active{/if}"><p>平台介绍</p><span>INTRODUCE</span></a>-->
+            <a href="__HTTP__other/about/introduce.html" class="left_2 {if $pageName=='introduce'}active{/if}"><p>企业介绍</p><span>COMPANY PROFILE</span></a>
+            <a href="__HTTP__other/about/platform.html" class="left_3 {if $pageName=='platform'}active{/if}"><p>平台由来</p><span>PLATFORM ORIGIN</span></a>
+            <a href="__HTTP__other/about/concept.html" class="left_4 {if $pageName=='concept'}active{/if}"><p>设计理念</p><span>CONCEPT</span></a>
+            <!--<a href="__HTTP__other/about/team.html" class="left_5 {if $pageName=='team'}active{/if}"><p>团队介绍</p><span>TEAM INTRODUCTION</span></a>-->
+            <!--<a href="__HTTP__other/about/cooperation.html" class="left_6 {if $pageName=='cooperation'}active{/if}"><p>有可能的合作</p><span>COOPERATION</span></a>-->
+            <!--<a href="__HTTP__other/about/contact.html" class="left_7 {if $pageName=='contact'}active{/if}"><p>联系我们</p><span>CONTACT US</span></a>-->
+        </div>
+        <div class="main_right">
+        {if isset($pageName)}
+        {switch name="pageName"}
+            {case value="introduce"}
+            <div class="right_2">
+                <h2>企业介绍<br><span>COMPANY PROFILE</span></h2>
+                <p style="text-indent: 2em;">亿思汇智能服务平台主要从事互联网及移动互联网科技产品的研发和运营，成立于2018年，于2009年开始经验丰富的互联网团队和资深的资管团队合并组成的团队，形成一个技术力量完备，交易稳健，风控严谨，管理成熟的平台运维团队，平台由三个小组，分别负责网络技术，数学交互，交易科学，通力协作完成同步交易，数字统计，可视操作，智能风控，大数据采集等多个维度的工作，从根本上解决了跨平台同步障碍，内外网交互资源占用，交易环境差异，交易异常的采集与防御等难题，更便捷，更快速，更准确的服务广大交易者，让交易者更智慧，做到降低风险，获得真实收益。</p>
+                <p style="text-indent: 2em;">ISH Intelligent Service Platform is mainly engaged in the research and development and operation of Internet and mobile Internet technology products. Established in 2018, ISH began to merge experienced Internet teams and senior management teams in 2009 to form a complete technical force, stable trading, rigorous wind control and mature platform management. Dimensional team, platform by three groups, respectively responsible for network technology, mathematical interaction, transaction science, collaboration to complete synchronous transactions, digital statistics, visual operations, intelligent wind control, large data acquisition and other dimensions of the work, fundamentally solve the cross-platform synchronization obstacles, internal and external network interaction resources, trading ring Difficulties in circumstances, the acquisition and defense of abnormal transactions, more convenient, faster, more accurate service for the vast number of traders, so that traders more wise, to reduce risk, to obtain real returns.</p>
+            </div>
+            {/case}
+            {case value="platform"}
+            <div class="right_3">
+                <h2>平台由来<br><span>PLATFORM ORIGIN</span></h2>
+                <p style="text-indent: 2em;">平台运营之初并不提供开放式跟单服务，运营团队在交易操作团队的需求下，尝试的编译了一些程序化(EA)代替操盘手部分工作，由于每位交易员风格和策略都不同，需要一款全局控制的软件来管理每一位操作员的交易，此时亿思汇第一个版本出现了，一个内部使用的交易管理软件，团队风险控制水平和盈利水平得到了大大的提升，通过与更大的资金规模接触与合作，我们需要对市场更加运筹帷幄，我们需要这个机器人更加的聪明，于是这款内部软件需要从执行程序转向人工智能（AI），那么需要庞大的数据作为支撑，于是亿思汇便应育而生，我们将内部交易管理软件制作成公版跟单社交平台，旨在通过大数据帮助广大用户实实在在成长，并不断自我进化，实现智能交易，更好的服务与资管业务，同时更好的服务广大交易者。</p>
+                <p style="text-indent: 2em;">At the beginning of the operation platform does not provide open documentary service operations team in trading operations team needs, try to compile some program (EA) to replace the hand part of the work, because each trader style and strategy are different, need a global control software to manage every operator transactions, ShareFx first version appeared, a transaction management software for internal use, the level of risk control team and the profit level has been greatly improved, and the size of funds through contact with greater cooperation in the foreign exchange market, we need more control, we need a more intelligent robot, so this needs from internal software execution program to artificial intelligence (AI), then need huge data as a support, so ShareFx was produced, the internal Transaction management software made the public version of the exchange with social networking platform designed by big data to help customers real growth, and constantly self evolution, intelligent trading, better service and information management business, and better service to the majority of traders.</p>
+            </div>
+            {/case}
+            {case value="concept"}
+            <div class="right_4">
+                <h2>设计理念<br><span>CONCEPT</span></h2>
+                <p>为什么要跟随其他交易者？<br>
+                    大师交易者为本站通过对全球交易者进行招募并通过数字科学进行筛选交易风险可控，盈利较佳的交易者，通过大师的历史交易和相关数据与自我交易进行对比，当自我交易无法满足安全盈利的情况下，可以适当跟随交易，解放双手和双眼，并从中获利。</p>
+                <p>为什么要跟随多个交易者？<br>
+                    平台交易者通常也是通过EA或手动交易，历史证明在长期交易过程中表现良好并且回报丰厚，但在实际中，跟随单个交易者同自己交易一样，需要克服很多心理问题，组合跟单能够避免这一问题，组合跟单相当于将您的账户拆分，分散跟随多个交易者进行交易，可以理解为集众家之长进行交易，在某种程度上实现降低风险，提高收益率。</p>
+                <p>为什么要设置跟随规则（风控参数）？<br>
+                    在实际跟随过程中，很多跟随者无法从数字统计科学中快速理解交易者交易策略与风险，往往会被交易者华丽的业绩所迷惑，通常需要跟随一段时间才能够真正确认跟随的可行是否足够，所以在这个验证的过程中需要对其进行一系列的跟随限制，防止发生重大亏损风险，当充分认可交易者的交易理念时，方可将限制减小或取消。</p>
+                <p>为什么要设置全局控制？<br>
+                    全局控制是本站最拥有技术特色的地方，我们充分认可本站每一位交易者的交易水平，但是每一位交易者的认识都是局限的，全局限制旨在利用大数据的手段的，为交易者赋予更多的科学防护手段，充分发挥本站在大数据和数字交互的技术优势，在一定程度上进一步降低交易风险。</p>
+                <p>交易者综合评分是如何计算的？<br>
+                    我们用了一个很科学的计算的方式来统计每位交易者的总和能力，盈利能力与风险系数的总和评分，也就是我们除了参考交易者的盈利能力的同时，我们更重视风险的存在，所以本站没有采用传统的盈利排名和大众评分的，而是通过系统自动运算评分，对评分进行高低排序，更直观展现交易者水平。</p>
+                <p>“我的交易”统计有什么用？<br>
+                    我们将每个用户的交易数据历史都真实的统计出来，希望用户在各个维度去思考自己的交易，帮助交易这提高交易水平，同时本站在用户允许的情况下，对用户交易数据进行采集，并生成大数据，进一步提高交易可行性。</p>
+            </div>
+            {/case}
+            {case value="team"}
+            <div class="right_5">
+                <h2>团队介绍<br><span>TEAM INTRODUCTION</span></h2>
+                <div class="team">
+                    <div class="inner">
+                        <div class="inner_li">
+                            <img src="__STATIC__image/about03.png"><div class="inner_li_div"><p>江岸</p></div>
+                        </div>
+                        <div class="inner_li">
+                            <img src="__STATIC__image/about04.png"><div class="inner_li_div"><p>亦风</p></div>
+                        </div>
+                        <div class="inner_li">
+                            <img src="__STATIC__image/about05.png"><div class="inner_li_div"><p>肖曦</p></div>
+                        </div>
+                        <div class="inner_li">
+                            <img src="__STATIC__image/about06.png"><div class="inner_li_div"><p>邱天</p></div>
+                        </div>
+                        <div class="inner_li">
+                            <img src="__STATIC__image/about07.png"><div class="inner_li_div"><p>杨正</p></div>
+                        </div>
+                        <div class="inner_li">
+                            <img src="__STATIC__image/about08.png"><div class="inner_li_div"><p>王冲</p></div>
+                        </div>
+                        <div class="inner_li">
+                            <img src="__STATIC__image/about09.png"><div class="inner_li_div"><p>祝丹</p></div>
+                        </div>
+                        <div class="inner_li">
+                            <img src="__STATIC__image/about10.png"><div class="inner_li_div"><p>王光宇</p></div>
+                        </div>
+                        <div class="inner_li">
+                            <img src="__STATIC__image/about11.png"><div class="inner_li_div"><p>彭文俊</p></div>
+                        </div>
+                        <div class="inner_li">
+                            <img src="__STATIC__image/about12.png"><div class="inner_li_div"><p>张飞</p></div>
+                        </div>
+                        <div class="inner_li">
+                            <img src="__STATIC__image/about13.png"><div class="inner_li_div"><p>胡越</p></div>
+                        </div>
+                        <div class="inner_li">
+                            <img src="__STATIC__image/about17.png"><div class="inner_li_div"><p>赵鹏</p></div>
+                        </div>
+                    </div>
+                    <div class="introduce">
+                        <div class="introduce_1">
+                            <p>平台主要运营成员</p>
+                            <span>亿思汇平台拥有完备的运营、技术及专业团队，包括：PHP开发工程师，java工程师，web工程师，ios开发工程师，安卓开发工程师，UE/UI设计师，交易风控专员，交易专员，网络推广运营专员等完备的营运团队，平均职场年龄均为3年以上，能够快速实现各种常见或复杂的网络程序和营销工具，具有清晰的网络运营思路和运营经验，能够顺应时代，打造与时俱进的互联网产品，将网络技术与交易完美融合，打造极具竞争力的交易网络产品-亿思汇。</span>
+                        </div>
+                        <div class="introduce_2">
+                            <p>江岸</p>
+                            <span>执行总经理/联合创始人</span>
+                            <span>10年创业经历+5年互联网产品运营经验，本科，武汉大学市场营销，对品牌的本土化适应及产品运作有丰富实战经验具有扎实的专业理论功底。移动互联网的开发及运营，有较强的产品逻辑和丰富的营销经验，精通移动互联网开发技术、设计、推广等，经历参与的项目均获得一定成绩。</span>
+                        </div>
+                        <div class="introduce_3">
+                            <p>亦风</p>
+                            <span>技术总监</span>
+                            <span>8年网络技术资历+6年网络技术团队管理经验，擅长团队组建与扩充、产品研发管理体系的建立与完善;拥有较强的技术团队建设、管理及提升的能力。具有10多年从事网络系统，以及计算机软件研究和开发的实际经验，大到系统级的设计，小至局部功能的具体实现。</span>
+                        </div>
+                        <div class="introduce_4">
+                            <p>肖曦</p>
+                            <span>项目经理</span>
+                            <span>5年网络运营经验+3年网络自媒体运作经验，擅长网络管理运营和公共资源的协调处理，同时具有较强的网络媒体运营能力。互联网营销推广，网络创意设计与研发，竞价与联盟推广技术，通过丰富的推广经验，能够有效的降低推广成本，提高获客效率。</span>
+                        </div>
+                        <div class="introduce_5">
+                            <p>邱天</p>
+                            <span>产品经理</span>
+                            <span>6年网络产品设计与策划经验，拥有管理团队和较强的产品设计开发能力，多年专业设计经验，68设计联盟全国排名第一网页设计师，站酷精选设计师，精通各类图片编辑软件，理解通用开发语言，掌握wap通用代码，熟悉相关的影音编辑软件。</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/case}
+            {case value="cooperation"}
+            <div class="right_6">
+                <div class="right_6_inner">
+                    <h2>有可能的合作<br><span>COOPERATION</span></h2>
+                    <p>在金融科技领域互惠互利的合作皆有可能，<a href="__HTTP__other/about/contact.html" class="right_6_btn">请给我们留言吧!</a></p>
+                </div>
+            </div>
+            {/case}
+            {case value="contact"}
+            <div class="right_7">
+                <h2>联系我们<br><span>CONTACT US</span></h2>
+                <p style="text-indent: 2em;">我们为客户提供多语种客户服务，每周一到周五 24 小时全天候不间断。如果您有任何疑问或者想了解更多信息，您可以随时和我们联系。</p>
+                <div class="map">
+                    <img src="__STATIC__image/about02.png" class="map_img">
+                    <div class="map_info">
+                        <a href="javascript:void(0)" class="map_info_title01">上海</a>
+                        <a href="javascript:void(0)" class="map_info_title02 active">武汉</a>
+                        <div class="map_info01">
+                            <p><i></i><span>公司地址-上海</span></p>
+                            <span>地址:<br>上海源深路1088号平安财富大厦</span>
+                            <span>电子邮箱:<br>service@srefx.com</span>
+                        </div>
+                        <div class="map_info02">
+                            <p><i></i><span>公司地址-武汉</span></p>
+                            <span>地址:<br>武汉市武昌区汉街总部国际</span>
+                            <span>电子邮箱:<br>cn.service@srefx.com</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="right_7_l">
+                    <p><i></i><span>联系方式</span></p>
+                    <p><i></i><span>免费电话:400-016-0508<br><span style="margin-left: 120px;">021-50685310</span></span></p>
+                    <p><i></i><span>电子邮箱:service@srefx.com</span></p>
+                </div>
+                <div class="right_7_r">
+                    <p>或者留下您的信息, 我们收到后会马上与您联系!</p>
+                    <input type="text" placeholder="您的姓名" name="et_pb_contact_name_1">
+                    <input type="text" placeholder="您的电话" name="et_pb_contact_tel_1">
+                    <input type="text" placeholder="您的电邮地址" name="et_pb_contact_email_1">
+                    <textarea placeholder="详细内容" name="et_pb_contact_message_1"></textarea>
+                    <div class="tips"></div>
+                    <a id="submit_btn">提交</a>
+                </div>
+            </div>
+            {/case}
+            {/switch}
+        {/if}
+        </div>
+    </div>
+</div>
+<script>
+    function Request(name) {
+        new RegExp("(^|&)" + name + "=([^&]*)").exec(window.location.search.substr(1));
+        return RegExp.$2;
+    }
+    if (Request("id") == 1) {
+        $(".left_7").addClass("active").siblings().removeClass("active");
+        $(".right_7").show().siblings().hide();
+    }
+</script>
+{/block}

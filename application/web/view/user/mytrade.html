@@ -1,0 +1,129 @@
+<link href="__STATIC__css/order.css" rel="stylesheet">
+<style>
+    .allzt_title{font-size:14px;}
+    .allzt_info,.allzt_info2{font-size:16px;color:#282828;}
+</style>
+<div style="position:relative;" class="jyBody" id="jiaoyi_detail">
+<input type="hidden" name="beginMoney" value="{$beginMoney}">
+        <ul class="alldatazt">
+            <li>
+                <p class="allzt_title" title="历史交易订单数量 (不含当前持仓数量)">总交易</p>
+                <p class="allzt_info">{$arrTrade.trade_total}</p>
+            </li>
+            <li>
+                <p class="allzt_title" title="历史交易盈利交易÷总交易 (该值是交易胜率的直接体现)">盈利交易</p>
+                <p class="allzt_info">
+                <?php 
+                $result = 0;
+                if (isset($arrTrade['trade_total'])){
+                    $result = number_format(($arrTrade['trade_profit']/$arrTrade['trade_total']), 4);
+                    $result = strval($result*100).'%';
+                }
+                echo sprintf('%s(%s)', $arrTrade['trade_profit'], $result);
+                ?>                        
+                </p>
+            </li>
+            <li>
+                <p class="allzt_title" title="历史交易亏损交易÷总交易 (该值是交易失误率的直接体现)">亏损交易</p>
+                <p class="allzt_info">
+                <?php 
+                $result = 0;
+                if (isset($arrTrade['trade_total'])){
+                    $result = number_format(($arrTrade['trade_loss']/$arrTrade['trade_total']), 4);
+                    $result = strval($result*100).'%';
+                }
+                echo sprintf('%s(%s)', $arrTrade['trade_loss'], $result);
+                ?> 
+                </p>
+            </li>
+            <li>
+                <p class="allzt_title" title="毛利÷毛利亏损 (该值意味着交易者盈利能力与覆盖亏损的能力)">利润因子</p>
+                <p class="allzt_info">{$arrTrade.profit_factor}</p>
+            </li>
+        </ul>
+        <ul class="alldatazt">
+            <li>
+                <p class="allzt_title" title="历史交易获利最大的订单金额 ">最好交易</p>
+                <p class="allzt_info allzt_t_blue">{$arrTrade.trade_best}</p>
+            </li>
+            <li>
+                <p class="allzt_title" title="历史交易亏损最大的订单金额">最差交易</p>
+                <p class="allzt_info allzt_t_red">{$arrTrade.trade_worst}</p>
+            </li>
+            <li>
+                <p class="allzt_title" title="总利润÷总交易 (该值是每笔交易净获利平均值)">预期回报</p>
+                <p class="allzt_info allzt_t_blue">
+                <?php
+                $profit = $arrTrade['gross_profit']+$arrTrade['gross_loss']+$arrTrade['commission']+$arrTrade['swap'];
+                $result = ($arrTrade['trade_total']==0)?'--':number_format($profit/$arrTrade['trade_total'],2);
+                echo $result;
+                ?>                        
+                </p>
+            </li>
+            <li>
+                <p class="allzt_title" title="在盈利能力和风险之间最重要的比率之一。Sharp Ratio显示了算术平均值超过从股票波动的标准偏差的次数。例如，Sharp=0.6意味着存在每获得6美元利润就有损失10美元的平均风险。值越大，交易风险越低。然而，在个别交易中大的利润值可以产生标准偏差值越大，因此导致Sharp Ratio不合理的减少。">夏普比率</p>
+                <p class="allzt_info">{$arrTrade.sharpe_ratio}</p>
+            </li>
+        </ul>
+        <ul class="alldatazt">
+            <li>
+                <p class="allzt_title" title="连续盈利交易相加金额最大值">最大连续赢利</p>
+                <p class="allzt_info allzt_t_blue">{$arrTrade.sprofit_max} USD ({$arrTrade.sprofit_max_num})</p>
+            </li>
+            <li>
+                <p class="allzt_title" title="连续盈利交易相加订单数量最大值">最大连续盈利</p>
+                <p class="allzt_info allzt_t_blue">{$arrTrade.sprofit_more_num} ({$arrTrade.sprofit_more} USD)</p>
+            </li>
+            <li>
+                <p class="allzt_title" title="连续亏损交易相加金额最大值">最大连续亏损</p>
+                <p class="allzt_info allzt_t_red">{$arrTrade.sloss_max} USD ({$arrTrade.sloss_max_num})</p>
+            </li>
+            <li>
+                <p class="allzt_title" title="连续亏损交易相加订单数量最大值">最大连续失误</p>
+                <p class="allzt_info allzt_t_red">{$arrTrade.sloss_more_num} ({$arrTrade.sloss_more} USD)</p>
+            </li>
+        </ul>
+        <ul class="alldatazt">
+            <li>
+                <p class="allzt_title" title="历史交易盈利的总和">毛利</p>
+                <p class="allzt_info2"><span class="allzt_t_blue">{$arrTrade.gross_profit}</span>USD</p>
+                <p class="allzt_info2">(<span class="allzt_t_blue">{$arrTrade.gross_profit_num}</span>点数)</p>
+            </li>
+            <li>
+                <p class="allzt_title" title="历史交易亏损的总和">毛利亏损</p>
+                <p class="allzt_info2"><span class="allzt_t_red">{$arrTrade.gross_loss}</span> USD</p>
+                <p class="allzt_info2">(<span class="allzt_t_red">{$arrTrade.gross_loss_num}</span>点数)</p>
+            </li>
+            <li>
+                <p class="allzt_title" title="毛利÷盈利交易 (每一笔盈利订单的平均值)">平均利润</p>
+                <p class="allzt_info2"><span class="allzt_t_blue">{$arrTrade.avg_profit}</span> USD</p>
+                <p class="allzt_info2">(<span class="allzt_t_blue">{$arrTrade.avg_profit_num}</span>点数)</p>
+            </li>
+            <li>
+                <p class="allzt_title" title="毛损÷亏损交易 (每一笔亏损订单的平均值)">平均损失</p>
+                <p class="allzt_info2"><span class="allzt_t_red">{$arrTrade.avg_loss}</span> USD</p>
+                <p class="allzt_info2">(<span class="allzt_t_red">{$arrTrade.avg_loss_num}</span>点数)</p>
+            </li>
+        </ul>
+        <ul class="alldatazt" style="display: none;">
+            <li>
+                <p class="allzt_title" title="交易利润÷月份 (该值是每月利润率的平均值)">每月增长</p>
+                <p class="allzt_info allzt_t_blue">
+                    <?php
+                    if (!empty($accountInfo['trade_month'])){
+                        $avg_mproft = @number_format(($total/$accountInfo['trade_month']),2);
+                    }else{
+                        $avg_mproft = 0; 
+                    }
+                    echo $avg_mproft.'%';
+                    ?>
+                </p>
+            </li>
+            <li>
+                <p class="allzt_title" title="每月增长×12 (该值通过每月平均收益率对全年收益率的预测)">年度预测</p>
+                <p class="allzt_info allzt_t_blue">{$avg_mproft*12}%</p>
+            </li>
+            <li></li>
+            <li></li>
+        </ul>
+</div>

@@ -1,0 +1,193 @@
+{extend name="web@base/studio"/}
+{block name="body"}
+<style>
+    .createlivemain{width:100%;background: #f3f3f3}
+    .createlivebox{width:1140px;height:725px;margin:0 auto;margin-top:48px;background: #fff;padding:30px;}
+    .createlive_head{font-size:24px;color:#333333;border-bottom:1px solid #ebebeb;padding-bottom:10px;}
+    .createlivehead{float:left;margin-top:20px;}
+    .createliveheadli{width:140px;height:40px;clear:both;color:#555555;cursor:pointer;}
+    .createliveheadli_active{background: #611987;}
+    .createliveheadli img{width:21px;float:left;margin:10px 12px 10px 22px;}
+    .createliveheadli p{font-size:16px;color:#555555;float:left;line-height: 40px;}
+    .createliveheadli_active p{color:#fff;}
+    .createlive{float:right;width:964px;margin-top:20px;}
+    .createlivehead_upload{width:70px;height:25px;border:1px solid #611987;border-radius: 4px;margin:10px;cursor:pointer;}
+    .createinput{float:left;width:630px;margin-left:30px;}
+    .createinput>li{margin-bottom:15px;position: relative;}
+    .createinput>li>p{float:left;width:100px;line-height:40px;font-size:16px;color:#666666;}
+    .createinput>li>input,.createinput>li>div{width:500px;height:40px;border:1px solid #d8d8d8;border-radius: 4px;text-indent:20px;font-size:16px;}
+    .createinput>li>textarea{width:460px;height:100px;border:1px solid #d8d8d8;border-radius: 4px;font-size:16px;padding:10px 20px;}
+    .createuploadcard{float: left;background: url(__STATIC__image/createuploadcard_icon.png) no-repeat 459px 5px;cursor:pointer;}
+    .createuploadcard>p{line-height: 40px;color:#7d7a7a;width: 90%;border-right:1px solid #d8d8d8;}
+    .createuploadcard>input{line-height: 40px;height:40px;color:#7d7a7a;width: 79%;border-right:1px solid #d8d8d8;font-size: 16px;padding-left:20px;position: absolute;top:0;left:82px;opacity: 0;}
+    .tocreateroom{width:500px;float:left;height:50px;margin-left:100px;background: #611987;color:#fff;border:none;border-radius: 4px;font-size:18px;line-height:50px;text-align: center;cursor:pointer;}
+    .allbroker{display:none;width:500px;position: absolute;top:39px;left:100px;height:200px;overflow-y:scroll;border:1px solid #d8d8d8;border-top:none;z-index:3;background: #fff;text-indent:20px;}
+    .allbroker>li{color:#6d6969;cursor:pointer;height:30px;line-height: 30px;}
+    .allbroker>li:hover{background: #eaeaea;color:#611987;}
+    .click_btn{width:40px!important;height:40px!important;position:absolute;top:0;right:29px;border:none!important;cursor:pointer;}
+    .fileimage{width:100%;height:100%;position: absolute;top:0;left:0;opacity: 0;}
+    .signal_server_ulleft{width:50px;border:1px solid #dadada;float:left;}
+    .signal_server_ulleft li{height:137px;border-bottom:1px solid #dadada;line-height:136px;text-align: center;}
+    .signal_server_ulleft li:last-child{border-bottom:none;}
+    .signal_server_ulright{height:68px;border-bottom:1px solid #dadada;}
+    .signal_server_ulright2{height:136px;}
+    .signal_server_ulright:last-child,.signal_server_ulright2:last-child{border-bottom:none;}
+    .signal_server_ulright2 li{width:206px;border-right:1px solid #dadada;float:left;height:100%;text-align: center;font-size:14px;color:#333333;line-height: 136px;}
+    .signal_server_ulright li{width:206px;border-right:1px solid #dadada;float:left;height:100%;text-align: center;font-size:14px;color:#333333;line-height: 68px;}
+    .signal_server_ulright li:nth-child(1),.signal_server_ulright2 li:nth-child(1){width:80px;}
+    .signal_server_ulright li:last-child,.signal_server_ulright2 li:last-child{border-right:none;}
+    .signal_server_ulright:nth-child(1) li{line-height: 40px;}
+    .signal_server_ulright:nth-child(odd){background: #fff;}
+    .signal_server_ulright:nth-child(even){background: #f7f9fb;}
+    .signal_server_ulright li>div{height:30px;line-height: 30px;}
+    .signal_server_ulright li>div>img {float:left;margin:9px 6px 0 6px;}
+    .signal_server_ulright li>div>p{float:left;color:#611987;}
+</style>
+<div class="createlivemain">
+    <div class="createlivebox">
+        <p class="createlive_head"><span style="border-bottom:2px solid #611987;padding-bottom:10px;">资费规则</span></p>
+        <ul class="createlivehead">
+            <li class="createliveheadli createliveheadli_active">
+                <img src="__STATIC__image/signal_server_head1.png" class="createliveheadicon1" style="display: none">
+                <img src="__STATIC__image/signal_server_head2.png" class="createliveheadicon2">
+                <p>信号服务</p>
+            </li>
+            <li class="createliveheadli">
+                <img src="__STATIC__image/postage_server_head1.png" class="createliveheadicon1">
+                <img src="__STATIC__image/postage_server_head2.png" class="createliveheadicon2" style="display: none">
+                <p>资管服务</p>
+            </li>
+        </ul>
+        <div class="createlive" id="xhfw">
+            <div style="width:100%;height:40px;background:#f5f5f5;margin-bottom:20px;">
+                <img src="__STATIC__image/signal_server_head3.png" style="width:22px;float:left;margin:9px 10px;">
+                <p style="line-height:40px;font-size:16px;color:#611987;">信号服务</p>
+            </div>
+            <ul class="signal_server_ulleft">
+                <li style="height:40px;"></li>
+                <li>规则</li>
+                <li>费用</li>
+                <li style="line-height: 24px;height:96px;padding-top:40px;">费用<br>说明</li>
+            </ul>
+            <div style="width:908px;border:1px solid #dadada;border-left:none;float:left;background: #f7f9fb">
+                <ul class="signal_server_ulright" style="height:40px;">
+                    <li></li>
+                    <li>共享信号</li>
+                    <li>收费信号</li>
+                    <li>免费（指定经纪商）</li>
+                    <li>免费（指定链接开户）</li>
+                </ul>
+                <ul class="signal_server_ulright">
+                    <li>工作室</li>
+                    <li>共享至亿思汇首页展示</li>
+                    <li style="line-height: 22px;padding-top:14px;height:54px;">不共享至亿思汇首页展示，<br>用户付费跟随</li>
+                    <li>指定的经纪商，可免费跟随</li>
+                    <li>指定的链接开户，可免费跟随</li>
+                </ul>
+                <ul class="signal_server_ulright">
+                    <li>跟随者</li>
+                    <li>
+                        <div style="margin-top:4px;">
+                            <img src="__STATIC__image/signal_server_yes.png" style="margin-left:35px;">
+                            <p>跨平台</p>
+                            <img src="__STATIC__image/signal_server_yes.png">
+                            <p>Demo</p>
+                        </div>
+                        <div>
+                            <img src="__STATIC__image/signal_server_yes.png" style="margin-left:55px;">
+                            <p>组合跟随</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="margin-top:4px;">
+                            <img src="__STATIC__image/signal_server_yes.png" style="margin-left:35px;">
+                            <p>跨平台</p>
+                            <img src="__STATIC__image/signal_server_yes.png">
+                            <p>Demo</p>
+                        </div>
+                        <div>
+                            <img src="__STATIC__image/signal_server_no.png" style="margin-left:55px;">
+                            <p style="color:#999999">组合跟随</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="margin-top:4px;">
+                            <img src="__STATIC__image/signal_server_no.png" style="margin-left:35px;">
+                            <p style="color:#999999">跨平台</p>
+                            <img src="__STATIC__image/signal_server_no.png">
+                            <p style="color:#999999">Demo</p>
+                        </div>
+                        <div>
+                            <img src="__STATIC__image/signal_server_no.png" style="margin-left:55px;">
+                            <p style="color:#999999">组合跟随</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="margin-top:4px;">
+                            <img src="__STATIC__image/signal_server_no.png" style="margin-left:35px;">
+                            <p style="color:#999999">跨平台</p>
+                            <img src="__STATIC__image/signal_server_no.png">
+                            <p style="color:#999999">Demo</p>
+                        </div>
+                        <div>
+                            <img src="__STATIC__image/signal_server_no.png" style="margin-left:55px;">
+                            <p style="color:#999999">组合跟随</p>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="signal_server_ulright">
+                    <li>工作室</li>
+                    <li style="line-height: 22px;padding-top:14px;height:54px;">获得平台支付的报酬<br><a href="{:url('master/create')}" style="color:#611987;border-bottom: 1px solid #611987;cursor:pointer;">查看规则</a></li>
+                    <li style="line-height: 22px;padding-top:14px;height:54px;">获得用户支付的报酬<br>（平台扣除20%服务费）</li>
+                    <li style="line-height: 22px;padding-top:14px;height:54px;">获得用户支付的报酬<br>（平台服务费：12元/手）</li>
+                    <li style="line-height: 22px;padding-top:14px;height:54px;">获得用户支付的报酬<br>（平台服务费：20元/手）</li>
+                </ul>
+                <ul class="signal_server_ulright">
+                    <li>跟随者</li>
+                    <li>免费跟随</li>
+                    <li>付费跟随</li>
+                    <li>免费跟随</li>
+                    <li>免费跟随</li>
+                </ul>
+                <ul class="signal_server_ulright2">
+                    <li></li>
+                    <li>--</li>
+                    <li>--</li>
+                    <li style="line-height:25px;text-align: left;height:116px;padding:0 5px;padding-top:20px;width:196px;">平台服务费：指亿思汇平台向工作室收取所有跟随的用户每日总标准手数*12元（约2美元/手）,该费用需工作室<span class="chargealert" style="color:#611987;border-bottom:1px solid #611987;cursor:pointer;">预缴</span></li>
+                    <li style="line-height:25px;text-align: left;height:116px;padding:0 5px;padding-top:20px;width:196px;">平台服务费：指亿思汇平台向工作室收取所有跟随的用户每日总标准手数*20元（约3美元/手），该费用需工作室<span class="chargealert" style="color:#611987;border-bottom:1px solid #611987;cursor:pointer;">预缴</span></li>
+                </ul>
+            </div>
+            <div style="clear:both;height:48px;width:959px;border:1px solid #dadada;border-top:none;line-height: 48px;text-indent:20px;">
+                备注：以上资费往来，请至：个人中心→我的账户→余额及明细查看
+            </div>
+        </div>
+        <div class="createlive" id="zgfw" style="display: none;">
+            <div style="width:100%;height:40px;background:#f5f5f5;margin-bottom:20px;">
+                <img src="__STATIC__image/postage_server_head3.png" style="width:22px;float:left;margin:9px 10px;">
+                <p style="line-height:40px;font-size:16px;color:#611987;">资管服务</p>
+            </div>
+            <img src="__STATIC__image/zgfw_detail.jpg" style="display:block;margin:20px auto;">
+        </div>
+    </div>
+</div>
+<script>
+    $(".createliveheadli").click(function(){
+        $(".createliveheadli").removeClass("createliveheadli_active");
+        $(this).addClass("createliveheadli_active");
+        $(".createliveheadicon1").show();
+        $(".createliveheadicon2").hide();
+        $(this).find(".createliveheadicon1").hide();
+        $(this).find(".createliveheadicon2").show();
+        if($(this).find("p").html()=='信号服务'){
+            $(".createlive").hide();
+            $("#xhfw").show();
+        }else if($(this).find("p").html()=='资管服务'){
+            $(".createlive").hide();
+            $("#zgfw").show();
+        }
+    });
+    $(".chargealert").click(function(){
+        $(".recharge").fadeIn();
+    });
+</script>
+{/block}

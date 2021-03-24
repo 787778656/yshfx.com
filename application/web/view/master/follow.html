@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MT4用户跟单系统</title>
+    <link rel="shortcut icon" href="__STATIC__image/favicon.ico" />
+    <link href="__STATIC__css/order.css" rel="stylesheet">
+    <link href="__STATIC__css/page.css" rel="stylesheet">
+    <style type="text/css">
+        /*body{background: #f3f3f3;}*/
+        .o_main{margin: 48px auto 0 auto;}
+        #whiteDiv{display:none;}
+        .follower_head_img{width: 50px;height: 50px;}
+        .follower_head{font-size: 16px;    padding: 19px 0;}
+        .fo_person li{font-size:16px;height: 25px;}
+        .fo_info>li p:nth-child(1){font-size:14px;color:#777;height: 35px;line-height: 46px;}
+        .fo_info>li p:nth-child(2){font-size:16px;color:#777;height: 35px;line-height: 28px;}
+        .follower_body>li{height: 70px;}
+        .fo_head_box{    margin: 10px 15px;width: 50px;height: 50px;}
+        .fo_person{    margin-top: 7px;}
+        .follower_head_img{border: 1px solid #ccc;}
+    </style>
+</head>
+<body>
+<!-- 历史-->
+            <p class="follower_head">当前跟随者：<span class="follower_head_em">{$follow}</span>人</p>
+            <p class="follower_head">跟随资金：<span class="follower_head_em" id="follow_mon"></span></p>
+            <input type="hidden" class="balance" value="{$tBalance}">
+            <ul class="follower_body">
+            {volist name="arrFollow" id="row"}               
+                <li>
+                    <div class="fo_head_box">
+                    {if (isset($row['vphoto']))}
+                        {if ($row['vphoto']<=95)}
+                        <img src="__STATIC__image/vphoto/{$row['vphoto']}.jpg" class="follower_head_img">
+                        {else/}
+                        <img src="__STATIC__image/combinationHead4.png" class="follower_head_img">
+                        {/if}
+                    {else/}
+                        {if (!empty($row['u_img']))}
+                        {if strstr($row['u_img'], 'http')}
+                        <img src="{$row['u_img']}" class="follower_head_img">
+                        {else/}
+                        <img src="__STATIC__upload/image/{$row['u_img']}" class="follower_head_img">
+                        {/if}
+                        {else/}
+                        <img src="__STATIC__image/combinationHead4.png" class="follower_head_img">
+                        {/if}
+                    {/if}
+                    </div>
+                    <ul class="fo_person">
+                        <li>用&nbsp;&nbsp;&nbsp;户：<?php echo empty($row['login']) ? $row['nickname'] : substr_replace($row['login'], '***', 4, 3);?></li>
+                        {if isset($row['slave_mt4id']) && isset($arrMt4[$row['slave_mt4id']])}
+                        <li>经纪商：<?php echo strstr($arrMt4[$row['slave_mt4id']], '-')?ucwords(strstr($arrMt4[$row['slave_mt4id']], '-', true)):ucwords($arrMt4[$row['slave_mt4id']]);?></li>
+                        {else/}
+                        <li>经纪商：<?php echo array_rand($mt4service, 1);?></li>
+                        {/if}
+                    </ul>
+                    <ul class="fo_info">
+                        <li>
+                            <p>跟单结余</p>
+                            <p><?php
+                            if (!isset($row['balance'])){
+                                $key = sprintf('%s-%s-%s', 'zhtEA', 'mt4_account_detail', $row['slave_mt4id']);
+                                $account = unserialize($redis->get($key));                                
+                                echo '<input type="hidden" class="balance"  value="'.str_replace(',','',$account['balance']).'">';
+                                echo number_format($account['balance'],2);
+                            }else{
+                                echo $row['balance'];
+                            }
+                            ?> USD</p>
+                        </li>
+                        <li>
+                        <p>
+                        <?php
+                        if(strstr($row['weight'],'%')){
+                            echo '比例跟单';
+                        }else{
+                            echo '固定手数';
+                        }
+                        ?>
+                        </p>
+                        <p><?php echo str_replace('-', '', $row['weight']);?></p>
+                        </li>
+                        <li>
+                            <p>跟单方向</p>
+                            <p>{$row['weight']>0?'正向':'反向';}</p>
+                        </li>
+                        <li>
+                            <p>最大持仓限定</p>
+                            <p>{$row['maxhold']?$row['maxhold']:'不限'}</p>
+                        </li>
+                    </ul>
+                </li>
+            {/volist}
+            </ul>
+            <div class="pagingBox">
+                {$arrFollow->render()}
+            </div>
+</body>
+</html>

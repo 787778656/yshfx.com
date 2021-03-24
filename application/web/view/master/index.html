@@ -1,0 +1,2614 @@
+{extend name="web@base/main"/}
+{block name="tdk"}
+<title>亿思汇跟随交易-亿思汇官网</title>
+<meta name="keywords" content="亿思汇,智能交易共享社区,亿思汇跟随交易,亿思汇官网"/>
+<meta name="description" content="最具人气的智能交易共享社区，最稳定的跨平台跟单系统，最佳跟随交易平台，最靠谱的跟随交易，交易者的最佳选择。"/>
+{/block}
+{block name="body"}
+<link href="__STATIC__css/order_vip2.css" rel="stylesheet">
+<!--隐藏最大浮亏样式修改-->
+<style>
+    .step_2_signal_title .step_2_signal_title_span, .step_3_signal_title .step_3_signal_title_span{width: 15%!important;}
+    .step_2_signal_ul li .signal_div, .step_3_signal_ul li .signal_div{width: 15%!important;}
+    .step_2_signal_title_span:nth-child(2), .step_2_signal_title_span:nth-child(3), .step_2_signal_title_span:nth-child(5), .step_3_signal_title_span:nth-child(2), .step_3_signal_title_span:nth-child(3), .step_3_signal_title_span:nth-child(5){width: 15%!important;}
+    .step_2_signal_ul li .signal_div:nth-child(2), .step_2_signal_ul li .signal_div:nth-child(3), .step_2_signal_ul li .signal_div:nth-child(5), .step_3_signal_ul li .signal_div:nth-child(2), .step_3_signal_ul li .signal_div:nth-child(3), .step_3_signal_ul li .signal_div:nth-child(5){width: 15%!important;}
+    .step_2_signal_title_span:nth-child(6),.step_3_signal_title_span:nth-child(6),.step_2_signal_title_span:nth-child(7),.step_3_signal_title_span:nth-child(7){width: 12%!important;}
+    .step_2_signal_ul li .signal_div:nth-child(6),.step_3_signal_ul li .signal_div:nth-child(6),.step_2_signal_ul li .signal_div:nth-child(7),.step_3_signal_ul li .signal_div:nth-child(7){width: 12%!important;}
+    .step_3_signal_ul li .signal_div:last-child{text-align: center;}
+    .step_3_signal_ul li .signal_div:last-child a{float: none;}
+    .step_3_signal_ul li .signal_div:last-child a:last-child{float: none;}
+    .step_2_signal_ul li .signal_div .signal_head, .step_3_signal_ul li .signal_div .signal_head{margin-left: 20px;}
+</style>
+
+<div class="main">
+    <div class="main_inner">
+        <div class="order_step">
+            <p><img src="__STATIC__image/order_step_img.png"><span><a href="{:url('index/index')}">首页</a></span>
+                <span class="order_step_1 active"> / <a href="javascript:void(0)">跟随交易</a></span>
+                <span class="order_step_2"> / <a href="javascript:void(0)">设置跟随规则</a></span>
+                <span class="order_step_3"> / <a href="javascript:void(0)" style="border-bottom: 1px dotted #b4b4b4;">启动跟单</a></span>
+                <span class="my_order"><img src="__STATIC__image/my_order.png"><span>我的跟随</span><strong class="my_order_i" style="display: none;">1</strong></span>
+                <!--上传信号-->
+                <a href="{:url('master/create')}" target="_blank" class="establish" id="createBox"><img src="__STATIC__image/order_step_icon02.png"><span>上传信号</span></a>
+                <!--创建工作室-->
+                <!--<a href="{:url('studio/create')}" target="_blank" class="create_live" id="create_live"><img src="__STATIC__image/order_step_icon03.png"><span>创建工作室</span></a>-->
+                <!--搜索名称，作者，交易商-->
+                <span class="order_step_search"><input type="text" placeholder="搜索"><i></i></span>
+            </p>
+        </div>
+        <div class="step_box">
+            <div class="step_1">
+                <div class="add_signal">
+                    <div class="add_signal_inner">
+                        <div class="change_mt4">
+                            <p><img src="__STATIC__image/order_step_icon01.png" style="vertical-align: middle;"><span style="margin-left: 10px;vertical-align: middle;">MT4账号</span></p>
+                            <div class="active_mt4">
+                                <ul class="active_mt4_input"><li class="active_mt4_li"><span style="color: #999999;padding-left: 30px;float: left;line-height: 28px;">未绑定MT4</span></li></ul><img src="__STATIC__image/select_icon_03.png" class="active_mt4_btn">
+                                <ul class="active_mt4_ul"></ul>
+                            </div>
+                        </div>
+                        <div class="checked_signal">
+                            <div id="end"></div>
+                        </div>
+                        <a href="javascript:void(0);" class="step_1_btn">下一步</a>
+                    </div>
+                    <div class="sort_box">
+                        <ul class="sort_ul">
+                            <li><span>交易者</span></li>
+                            <li><span>成长</span></li>
+                            <li class="sort_li sort_2" data="-1"><span>利润率</span><i class="sort-downup"></i></li>
+                            <li class="sort_li sort_7" data="-2"><span>交易胜率</span><i class="sort-downup"></i></li>
+                            <li class="sort_li sort_6" data="-3"><span>交易时长</span><i class="sort-downup"></i></li>
+                            <li class="sort_li sort_4" data="-4"><span>风 险</span><i class="sort-downup"></i></li>
+                            <li class="sort_li sort_3" data="-5"><span>跟单人数</span><i class="sort-downup"></i></li>
+                            <li class="sort_li sort_1 active" data="-6"><span>综 合</span><i class="sort-downup sort-down"></i></li>
+                        </ul>
+                    </div>
+                </div>
+                <iframe name="mainframe" name="right" id="iframe_imam_list" src="{:url('master/signal_list')}?account={$account}" frameborder="false" scrolling="no" style="border:none" width="100%" height="1650" allowtransparency="true"></iframe>
+            </div>
+            <div class="step_2" style="display: none;">
+                <div class="add_signal">
+                    <div class="add_signal_inner">
+                        <div class="change_mt4">
+                            <p><img src="__STATIC__image/order_step_icon01.png" style="vertical-align: middle;"><span style="margin-left: 10px;vertical-align: middle;">MT4账号</span></p>
+                            <div class="active_mt4">
+                                <ul class="active_mt4_input"><li class="active_mt4_li"><span style="color: #999999;padding-left: 30px;float: left;line-height: 28px;">未绑定MT4</span></li></ul><img src="__STATIC__image/select_icon_03.png" class="active_mt4_btn">
+                                <ul class="active_mt4_ul"></ul>
+                            </div>
+                        </div>
+                        <div class="checked_info checked_info1">
+                            <p>最大预付款占用<i></i>（100倍杠杆）:  <span class="money1">0</span><span> 美元</span></p>
+                            <p>建议MT4预留资金（100倍杠杆）:  <span class="money2">0</span><span> 美元</span></p>
+                        </div>
+                        <div class="checked_info checked_info2">
+                            <p>当前跟单模式 : 比例跟单 <span>示例<span class="checked_info_title">例如：您的可用预付款为1000美元，信号当前净值为2000美元，您设置的比例为50%，当信号创建了一个1手的订单时，那么系统将会自动为您创建一个0.25手（1000/2000*50%*1=0.25手）的订单。</span></span></p>
+                        </div>
+                        <a href="javascript:void(0);" class="step_2_btn">启动跟单</a>
+                    </div>
+                    <div class="step_2_signal_title">
+                        <span class="step_2_signal_title_span">作者</span>
+                            <span class="step_2_signal_title_span"  title="当信号开仓交易时，系统将交易量转换成权重相应的手数进行同步交&#10易。" style="position: relative;">
+                                <span>权重</span><i></i>
+                            </span>
+                            <span class="step_2_signal_title_span"  title="当信号开仓交易时，系统会根据用户设置的方向进行同向/反向开仓，&#10例如：当信号创建一个buy订单，反向则会创建一个sell订单。" style="position: relative;">
+                                <span>跟单方向</span><i></i>
+                            </span>
+                            <span class="step_2_signal_title_span"  title="当一个信号出现整体浮亏，并且达到设定的金额，系统将切断该信号&#10的连接，同时对该信号下的订单进行平仓操作。">
+                                <span>最大浮亏限制(美元)</span><i></i>
+                            </span>
+                            <span class="step_2_signal_title_span"  title="当一个信号同时持仓超过设定单量时，则屏蔽超出的订单（不再创建&#10该信号其他订单），直至订单低于设定单量，重新恢复跟单。">
+                                <span>最大持仓单量限制</span><i></i>
+                            </span>
+                        <span class="step_2_signal_title_span">状态</span>
+                        <span class="step_2_signal_title_span">操作</span>
+                    </div>
+                </div>
+                <div class="step_2_signal">
+                    <ul class="step_2_signal_ul"></ul>
+                    <a href="javascript:void(0);" class="step_2_signal_more"><i>+</i><span>添加更多信号</span></a>
+                </div>
+            </div>
+            <div class="step_3" style="display: none;">
+                <div class="add_signal">
+                    <div class="add_signal_inner">
+                        <div class="change_mt4">
+                            <p><img src="__STATIC__image/order_step_icon01.png" style="vertical-align: middle;"><span style="margin-left: 10px;vertical-align: middle;">MT4账号</span></p>
+                            <div class="active_mt4">
+                                <ul class="active_mt4_input"><li class="active_mt4_li"><span style="color: #999999;padding-left: 30px;float: left;line-height: 28px;">未绑定MT4</span></li></ul><img src="__STATIC__image/select_icon_03.png" class="active_mt4_btn">
+                                <ul class="active_mt4_ul"></ul>
+                            </div>
+                        </div>
+                        <div class="checked_info checked_info1">
+                            <p>最大预付款占用<i></i>（100倍杠杆）:  <span class="money1">0</span><span> 美元</span></p>
+                            <p>建议MT4预留资金（100倍杠杆）:  <span class="money2">0</span><span> 美元</span></p>
+                        </div>
+                        <div class="checked_info checked_info2">
+                            <p>当前跟单模式 : 比例跟单 <span>示例<span class="checked_info_title">例如：您的可用预付款为1000美元，信号当前净值为2000美元，您设置的比例为50%，当信号创建了一个1手的订单时，那么系统将会自动为您创建一个0.25手（1000/2000*50%*1=0.25手）的订单。</span></span></p>
+                        </div>
+                        <a class="step_3_btn1" style="cursor:pointer">确认跟单</a>
+                        <a class="step_3_btn2" style="cursor:pointer;display: none;">停止跟单</a>
+                        <input type="hidden" name="uid" value="{$uid}">
+                    </div>
+                    <div class="step_3_signal_title">
+                        <span class="step_3_signal_title_span">作者</span>
+                        <span class="step_3_signal_title_span"  title="当信号开仓交易时，系统将交易量转换成权重相应的手数进行同步交&#10易。">
+                            <span>权重</span><i></i>
+                        </span>
+                        <span class="step_3_signal_title_span"  title="当信号开仓交易时，系统会根据用户设置的方向进行同向/反向开仓，&#10例如：当信号创建一个buy订单，反向则会创建一个sell订单。">
+                            <span>跟单方向</span><i></i>
+                        </span>
+                        <span class="step_3_signal_title_span"  title="当一个信号出现整体浮亏，并且达到设定的金额，系统将切断该信号&#10的连接，同时对该信号下的订单进行平仓操作。">
+                            <span>最大浮亏限制(美元)</span><i></i>
+                        </span>
+                        <span class="step_3_signal_title_span"  title="当一个信号同时持仓超过设定单量时，则屏蔽超出的订单（不再创建&#10该信号其他订单），直至订单低于设定单量，重新恢复跟单。">
+                            <span>最大持仓单量限制</span><i></i>
+                        </span>
+                        <span class="step_3_signal_title_span">状态</span>
+                        <span class="step_3_signal_title_span">操作</span>
+                    </div>
+                </div>
+                <div class="step_3_signal">
+                    <ul class="step_3_signal_ul"></ul>
+                    <a href="javascript:void(0);" class="step_2_signal_more"><i>+</i><span>添加更多信号</span></a>
+                </div>
+                <span class="step_3_remind"><i></i><span>启动：首次启动将会立即同步当前信号持仓订单；<br>
+                        <span style="margin-left: 25px;">修改：将在信号下一次发生交易后生效；</span><br>
+                    <span style="margin-left: 25px;">删除：将立即移除信号下的交易订单。</span></span><br><br>
+                    <i></i><span>亿思汇社区跟随注意事项：<br>
+                        <span style="margin-left: 25px;"><span style="color: #282828;">新跟随</span>会立即补上信号源持有单子</span><br>
+                        <span style="margin-left: 25px;">跟随者平掉跟随单；系统将会自动补回</span><br>
+                        <span style="margin-left: 25px;">如需<span style="color: #282828;">平单</span>请到“我的交易”处点击“停止跟单”</span></span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--/*抛物线运动插件*/-->
+<!--<script>
+    /*! fly - v1.0.0 - 2014-12-22
+     * https://github.com/amibug/fly
+     * Copyright (c) 2014 wuyuedong; Licensed MIT */
+    !function (a) {
+        a.fly = function (b, c) {
+            var d = {
+                version: "1.0.0",
+                autoPlay: !0,
+                vertex_Rtop: 20,
+                speed: 1.2,
+                start: {},
+                end: {},
+                onEnd: a.noop
+            }, e = this, f = a(b);
+            e.init = function (a) {
+                this.setOptions(a), !!this.settings.autoPlay && this.play()
+            }, e.setOptions = function (b) {
+                this.settings = a.extend(!0, {}, d, b);
+                var c = this.settings, e = c.start, g = c.end;
+                f.css({
+                    marginTop: "0px",
+                    marginLeft: "0px",
+                    position: "fixed"
+                }).appendTo("body"), null != g.width && null != g.height && a.extend(!0, e, {
+                    width: f.width(),
+                    height: f.height()
+                });
+                var h = Math.min(e.top, g.top) - Math.abs(e.left - g.left) / 3;
+                h < c.vertex_Rtop && (h = Math.min(c.vertex_Rtop, Math.min(e.top, g.top)));
+                var i = Math.sqrt(Math.pow(e.top - g.top, 2) + Math.pow(e.left - g.left, 2)), j = Math.ceil(Math.min(Math.max(Math.log(i) / .05 - 75, 30), 100) / c.speed), k = e.top == h ? 0 : -Math.sqrt((g.top - h) / (e.top - h)), l = (k * e.left - g.left) / (k - 1), m = g.left == l ? 0 : (g.top - h) / Math.pow(g.left - l, 2);
+                a.extend(!0, c, {count: -1, steps: j, vertex_left: l, vertex_top: h, curvature: m})
+            }, e.play = function () {
+                this.move()
+            }, e.move = function () {
+                var b = this.settings, c = b.start, d = b.count, e = b.steps, g = b.end, h = c.left + (g.left - c.left) * d / e, i = 0 == b.curvature ? c.top + (g.top - c.top) * d / e : b.curvature * Math.pow(h - b.vertex_left, 2) + b.vertex_top;
+                if (null != g.width && null != g.height) {
+                    var j = e / 2, k = g.width - (g.width - c.width) * Math.cos(j > d ? 0 : (d - j) / (e - j) * Math.PI / 2), l = g.height - (g.height - c.height) * Math.cos(j > d ? 0 : (d - j) / (e - j) * Math.PI / 2);
+                    f.css({width: k + "px", height: l + "px", "font-size": Math.min(k, l) + "px"})
+                }
+                f.css({left: h + "px", top: i + "px"}), b.count++;
+                var m = window.requestAnimationFrame(a.proxy(this.move, this));
+                d == e && (window.cancelAnimationFrame(m), b.onEnd.apply(this))
+            }, e.destory = function () {
+                f.remove()
+            }, e.init(c)
+        }, a.fn.fly = function (b) {
+            return this.each(function () {
+                void 0 == a(this).data("fly") && a(this).data("fly", new a.fly(this, b))
+            })
+        }
+    }(jQuery);
+</script>
+&lt;!&ndash;抛物线适配不同屏幕，抛物线运行设置&ndash;&gt;
+<script>
+    if (document.location.search.match(/type=embed/gi)) {
+        window.parent.postMessage('resize', "*");
+    }
+</script>-->
+
+<!--主信号页面运行逻辑。。。。。-->
+<script>
+    $(function () {
+
+        /*var disab =setInterval(function () {
+            if($("#iframe_imam_list").contents().find("body").html()!=''&&$("#iframe_imam_list").contents().find("body").html()!=null){
+                console.log("禁止按钮");
+                $("#iframe_imam_list").contents().find(".signal_btn1").addClass("disabled");
+                $("#iframe_imam_list").contents().find(".signal_btn3").addClass("disabled");
+                clearInterval(disab);
+            }
+        },100);*/
+        /*限制点击“跟随按钮”*/
+        var uid = '{$uid}';
+        /*if (uid != 0) {     //确定已经登录。否则不限制信号添加
+            var mt4 = '{$info.zhmt4uid}';
+            if (mt4 != '') {       //确定已经绑定mt4。否则不限制信号添加
+                /!*用计时器监听iframe加载完成之后添加disabled；*!/
+                /!*var disab =setInterval(function () {
+                    if($("#iframe_imam_list").contents().find("body").html()!=''&&$("#iframe_imam_list").contents().find("body").html()!=null){
+                        console.log("禁止按钮");
+                        $("#iframe_imam_list").contents().find(".signal_btn1").addClass("disabled");
+                        $("#iframe_imam_list").contents().find(".signal_btn3").addClass("disabled");
+                        clearInterval(disab);
+                    }
+                },100);*!/
+            }
+        }*/
+        /*var mt4 = '{$info.zhmt4uid}';
+        if (uid == 0 || uid == null || mt4 == '' || mt4 == null) {
+            setTimeout(function () {
+                console.log("恢复按钮");
+                $("#iframe_imam_list").contents().find(".signal_btn1").removeClass("disabled");
+                $("#iframe_imam_list").contents().find(".signal_btn3").removeClass("disabled");
+            },1000);
+        }*/
+
+        /*我的跟随交易数量函数*/
+        // function get_my_signal_num(){
+        //     if($(".step_3_signal_li").length != 0){
+        //         $(".my_order_i").css("display","block").html($(".step_3_signal_li").length);
+        //         $(".my_order").on("click", function () {
+        //             $(".order_step_2").show();
+        //             $(".order_step_3").show().addClass("active").siblings().removeClass("active");
+        //             $(".step_3").fadeIn().siblings().hide();
+        //             $(".establish").hide();
+        //             $(".create_live").hide();
+        //             $(".order_step_search").hide();
+        //             money3();
+        //             changeInput();
+        //         });
+        //     }else {
+        //         $(".my_order_i").css("display","none");
+        //         $(".my_order").on("click", function () {
+        //             win.alert("","您还没有正在跟随的交易！");
+        //         });
+        //     }
+        // }
+        function get_my_signal_num(){
+            if($(".step_3_signal_li").length != 0){
+                $(".my_order_i").css("display","block").html($(".step_3_signal_li").length);
+            }else {
+                $(".my_order_i").css("display","none");
+            }
+        }
+
+        $(".my_order").on("click", function () {
+                if($(".step_3_signal_li").length != 0){
+                    $(".order_step_2").show();
+                    $(".order_step_3").show().addClass("active").siblings().removeClass("active");
+                    $(".step_3").fadeIn().siblings().hide();
+                    $(".establish").hide();
+                    $(".create_live").hide();
+                    $(".order_step_search").hide();
+                    money3();
+                    changeInput();
+                }else{
+                    win.alert("","您还没有正在跟随的交易！");
+                }
+        });
+
+        /*选择mt4帐号*/
+        /*默认显示第一个mt4账户*/
+        var MYmt4id;
+        if(uid == 0 || uid == ''||uid == undefined){
+            no_running();
+            MYmt4id = 0;
+            $(".sort_li").on("click", function () {
+                $(this).addClass("active").siblings().removeClass("active");
+                if($(this).find(".sort-downup").hasClass("sort-down") == true){
+                    $(this).siblings().find(".sort-downup").removeClass("sort-down");
+                    $(this).siblings().find(".sort-downup").removeClass("sort-up");
+                    $(this).find(".sort-downup").addClass("sort-up").removeClass("sort-down");
+                    $(".sort_1").attr("data","6");
+                    $(".sort_2").attr("data","1");
+                    $(".sort_7").attr("data","2");
+                    $(".sort_6").attr("data","3");
+                    $(".sort_4").attr("data","4");
+                    $(".sort_3").attr("data","5");
+                }else if($(this).find(".sort-downup").hasClass("sort-up") == true){
+                    $(this).siblings().find(".sort-downup").removeClass("sort-down");
+                    $(this).siblings().find(".sort-downup").removeClass("sort-up");
+                    $(this).find(".sort-downup").addClass("sort-down").removeClass("sort-up");
+                    $(".sort_1").attr("data","-6");
+                    $(".sort_2").attr("data","-1");
+                    $(".sort_7").attr("data","-2");
+                    $(".sort_6").attr("data","-3");
+                    $(".sort_4").attr("data","-4");
+                    $(".sort_3").attr("data","-5");
+                }else {
+                    $(this).siblings().find(".sort-downup").removeClass("sort-down");
+                    $(this).siblings().find(".sort-downup").removeClass("sort-up");
+                    $(this).find(".sort-downup").addClass("sort-down");
+                    $(".sort_1").attr("data","-6");
+                    $(".sort_2").attr("data","-1");
+                    $(".sort_7").attr("data","-2");
+                    $(".sort_6").attr("data","-3");
+                    $(".sort_4").attr("data","-4");
+                    $(".sort_3").attr("data","-5");
+                }
+                var order = $(this).attr("data");
+                var keyword = $(".order_step_search").find("input").val();
+                keyword = keyword.replace(/<.*?>/ig,"");
+                $("#iframe_imam_list").attr("src",'{:url("signal_list")}?account='+MYmt4id+'&order='+order+'&keyword='+keyword);
+                /*setTimeout(function () {
+                 Mymt4id();
+                 },1000);*/
+            });
+            $(".order_step_search i").on("click", function () {
+                var order = $(".sort_ul .active").attr("data");
+                var keyword = $(".order_step_search").find("input").val();
+                keyword = keyword.replace(/<.*?>/ig,"");
+                $("#iframe_imam_list").attr("src",'{:url("signal_list")}?account='+MYmt4id+'&order='+order+'&keyword='+keyword);
+                /*setTimeout(function () {
+                 Mymt4id();
+                 },1000);*/
+            });
+            function Enter(){
+                if (event.keyCode == 13) {
+                    var order = $(".sort_ul .active").attr("data");
+                    var keyword = $(".order_step_search").find("input").val();
+                    keyword = keyword.replace(/<.*?>/ig,"");
+                    $("#iframe_imam_list").attr("src",'{:url("signal_list")}?account='+MYmt4id+'&order='+order+'&keyword='+keyword);
+                    /*setTimeout(function () {
+                     Mymt4id();
+                     },1000);*/
+                }
+            }
+            $(".order_step_search input").focus(function () {       //登录弹窗显示的时候，enter键登录
+                $(this).animate({"width":"150px"});
+                document.onkeydown =Enter;
+            }).blur(function() {
+                document.onkeydown = '';
+            });
+            $(".order_step_search input").blur(function () {
+                $(this).animate({"width":"80px"});
+            });
+        }else {
+            $.ajax({
+                url: '{:url("api.account/get")}',
+                type: 'get',
+                dataType: 'jsonp',
+                jsonp: 'callback',
+                success: function (data) {
+//                    console.log(data);
+                    if (data.code == '200') {
+                        var MT4data = data.data;
+                        if (typeof(MT4data[0]) == "undefined") {     //表示没有绑定mt4;
+//                            console.log('没有绑定mt4;')
+                            no_running();
+                            MYmt4id = 0;
+                            $(".sort_li").on("click", function () {
+                                $(this).addClass("active").siblings().removeClass("active");
+                                if($(this).find(".sort-downup").hasClass("sort-down") == true){
+                                    $(this).siblings().find(".sort-downup").removeClass("sort-down");
+                                    $(this).siblings().find(".sort-downup").removeClass("sort-up");
+                                    $(this).find(".sort-downup").addClass("sort-up").removeClass("sort-down");
+                                    $(".sort_1").attr("data","6");
+                                    $(".sort_2").attr("data","1");
+                                    $(".sort_7").attr("data","2");
+                                    $(".sort_6").attr("data","3");
+                                    $(".sort_4").attr("data","4");
+                                    $(".sort_3").attr("data","5");
+                                }else if($(this).find(".sort-downup").hasClass("sort-up") == true){
+                                    $(this).siblings().find(".sort-downup").removeClass("sort-down");
+                                    $(this).siblings().find(".sort-downup").removeClass("sort-up");
+                                    $(this).find(".sort-downup").addClass("sort-down").removeClass("sort-up");
+                                    $(".sort_1").attr("data","-6");
+                                    $(".sort_2").attr("data","-1");
+                                    $(".sort_7").attr("data","-2");
+                                    $(".sort_6").attr("data","-3");
+                                    $(".sort_4").attr("data","-4");
+                                    $(".sort_3").attr("data","-5");
+                                }else {
+                                    $(this).siblings().find(".sort-downup").removeClass("sort-down");
+                                    $(this).siblings().find(".sort-downup").removeClass("sort-up");
+                                    $(this).find(".sort-downup").addClass("sort-down");
+                                    $(".sort_1").attr("data","-6");
+                                    $(".sort_2").attr("data","-1");
+                                    $(".sort_7").attr("data","-2");
+                                    $(".sort_6").attr("data","-3");
+                                    $(".sort_4").attr("data","-4");
+                                    $(".sort_3").attr("data","-5");
+                                }
+                                var order = $(this).attr("data");
+                                var keyword = $(".order_step_search").find("input").val();
+                                keyword = keyword.replace(/<.*?>/ig,"");
+                                $("#iframe_imam_list").attr("src",'{:url("signal_list")}?account='+MYmt4id+'&order='+order+'&keyword='+keyword);
+                                /*setTimeout(function () {
+                                 Mymt4id();
+                                 },1000);*/
+                            });
+                            $(".order_step_search i").on("click", function () {
+                                var order = $(this).attr("data");
+                                var keyword = $(".order_step_search").find("input").val();
+                                keyword = keyword.replace(/<.*?>/ig,"");
+                                $("#iframe_imam_list").attr("src",'{:url("signal_list")}?account='+MYmt4id+'&order='+order+'&keyword='+keyword);
+                                /*setTimeout(function () {
+                                 Mymt4id();
+                                 },1000);*/
+                            });
+                            function Enter(){
+                                if (event.keyCode == 13) {
+                                    var order = $(this).attr("data");
+                                    var keyword = $(".order_step_search").find("input").val();
+                                    keyword = keyword.replace(/<.*?>/ig,"");
+                                    $("#iframe_imam_list").attr("src",'{:url("signal_list")}?account='+MYmt4id+'&order='+order+'&keyword='+keyword);
+                                    /*setTimeout(function () {
+                                     Mymt4id();
+                                     },1000);*/
+                                }
+                            }
+                            $(".order_step_search input").focus(function () {       //登录弹窗显示的时候，enter键登录
+                                $(this).animate({"width":"150px"});
+                                document.onkeydown =Enter;
+                            }).blur(function() {
+                                document.onkeydown = '';
+                            });
+                            $(".order_step_search input").blur(function () {
+                                $(this).animate({"width":"80px"});
+                            });
+                        } else { //绑定了mt4;
+                            if(MT4data[0].sh == 0){
+                                $(".active_mt4_li").html("<i></i><span data='"+MT4data[0].status+"'>"+ MT4data[0].mt4id +"(审核中)</span>");
+                            }else {
+                                $(".active_mt4_li").html("<i></i><span data='"+MT4data[0].status+"'>"+ MT4data[0].mt4id +"</span>");
+                            }
+                            Mymt4id();
+                            MYmt4id = MT4data[0].mt4id;
+                            $(".sort_li").on("click", function () {
+                                $(this).addClass("active").siblings().removeClass("active");
+                                if($(this).find(".sort-downup").hasClass("sort-down") == true){
+                                    $(this).siblings().find(".sort-downup").removeClass("sort-down");
+                                    $(this).siblings().find(".sort-downup").removeClass("sort-up");
+                                    $(this).find(".sort-downup").addClass("sort-up").removeClass("sort-down");
+                                    $(".sort_1").attr("data","6");
+                                    $(".sort_2").attr("data","1");
+                                    $(".sort_7").attr("data","2");
+                                    $(".sort_6").attr("data","3");
+                                    $(".sort_4").attr("data","4");
+                                    $(".sort_3").attr("data","5");
+                                }else if($(this).find(".sort-downup").hasClass("sort-up") == true){
+                                    $(this).siblings().find(".sort-downup").removeClass("sort-down");
+                                    $(this).siblings().find(".sort-downup").removeClass("sort-up");
+                                    $(this).find(".sort-downup").addClass("sort-down").removeClass("sort-up");
+                                    $(".sort_1").attr("data","-6");
+                                    $(".sort_2").attr("data","-1");
+                                    $(".sort_7").attr("data","-2");
+                                    $(".sort_6").attr("data","-3");
+                                    $(".sort_4").attr("data","-4");
+                                    $(".sort_3").attr("data","-5");
+                                }else {
+                                    $(this).siblings().find(".sort-downup").removeClass("sort-down");
+                                    $(this).siblings().find(".sort-downup").removeClass("sort-up");
+                                    $(this).find(".sort-downup").addClass("sort-down");
+                                    $(".sort_1").attr("data","-6");
+                                    $(".sort_2").attr("data","-1");
+                                    $(".sort_7").attr("data","-2");
+                                    $(".sort_6").attr("data","-3");
+                                    $(".sort_4").attr("data","-4");
+                                    $(".sort_3").attr("data","-5");
+                                }
+                                var order = $(this).attr("data");
+                                var keyword = $(".order_step_search").find("input").val();
+                                keyword = keyword.replace(/<.*?>/ig,"");
+                                $("#iframe_imam_list").attr("src",'{:url("signal_list")}?account='+MYmt4id+'&order='+order+'&keyword='+keyword);
+                                /*setTimeout(function () {
+                                 Mymt4id();
+                                 },1000);*/
+                            });
+                            $(".order_step_search i").on("click", function () {
+                                var order = $(this).attr("data");
+                                var keyword = $(".order_step_search").find("input").val();
+                                keyword = keyword.replace(/<.*?>/ig,"");
+                                $("#iframe_imam_list").attr("src",'{:url("signal_list")}?account='+MYmt4id+'&order='+order+'&keyword='+keyword);
+                                /*setTimeout(function () {
+                                 Mymt4id();
+                                 },1000);*/
+                            });
+                            function Enter(){
+                                if (event.keyCode == 13) {
+                                    var order = $(this).attr("data");
+                                    var keyword = $(".order_step_search").find("input").val();
+                                    keyword = keyword.replace(/<.*?>/ig,"");
+                                    $("#iframe_imam_list").attr("src",'{:url("signal_list")}?account='+MYmt4id+'&order='+order+'&keyword='+keyword);
+                                    /*setTimeout(function () {
+                                     Mymt4id();
+                                     },1000);*/
+                                }
+                            }
+                            $(".order_step_search input").focus(function () {       //登录弹窗显示的时候，enter键登录
+                                $(this).animate({"width":"150px"});
+                                document.onkeydown =Enter;
+                            }).blur(function() {
+                                document.onkeydown = '';
+                            });
+                            $(".order_step_search input").blur(function () {
+                                $(this).animate({"width":"80px"});
+                            });
+                        }
+                    }else {
+                        no_running();
+                    }
+                }
+            });
+        }
+        /*点击mt4下拉框，获取更多绑定的mt4账户*/
+        $(".active_mt4_btn").on("click", function (event) {
+            $(".active_mt4_ul").show();
+            $.ajax({
+                url: '{:url("api.account/get")}',
+                type: 'get',
+                dataType: 'jsonp',
+                jsonp: 'callback',
+                success: function (data) {
+                    if (data.code == '200') {
+//                    console.log(data);
+                        var MT4data = data.data;
+                        if (typeof(MT4data[0]) == "undefined") {     //表示没有绑定mt4;
+//                            console.log('没有绑定mt4;')
+                        } else {               //绑定了mt4;
+                            for (var i = 0; i < MT4data.length; i++) {
+                                var mt4id = data.data[i].mt4id;
+                                var mt4server = data.data[i].mt4server;
+                                var html;
+                                if(MT4data[i].sh==0){
+                                    html += "<li><i></i><span class='MYmt4id' data='"+MT4data[i].status+"'>"+mt4id+"(审核中)</span></li>";
+                                }else{
+                                    html += "<li><i></i><span class='MYmt4id' data='"+MT4data[i].status+"'>"+mt4id+"</span></li>";
+                                }
+                                html = html.replace("undefined", "");  //移除underfined字样
+                                $(".active_mt4_ul").html(html);
+                                $(".active_mt4_ul li").on("click", function () {
+                                    $(".active_mt4_ul").hide();
+                                    var mt4 = $(this).html();
+                                    $(".active_mt4_input li").html(mt4);
+                                    setTimeout(function () {
+                                        Mymt4id();
+                                    },1000);
+                                    setTimeout(function () {
+                                        /*加载出信号栏选中信号之后，再回复按钮可点击*/
+                                        $("#iframe_imam_list").contents().find(".signal_btn1").removeClass("disabled");
+                                        /*$(".signal_btn2").removeClass("disabled");*/
+                                        $("#iframe_imam_list").contents().find(".signal_btn3").removeClass("disabled");
+                                    },2000);
+                                    MYmt4id = $(this).find(".MYmt4id").html();
+                                    if(MYmt4id.indexOf("(审核中)")>0){
+                                        MYmt4id = MYmt4id.replace("(审核中)","");
+                                    }
+                                    var order = $(this).attr("data");
+                                    var keyword = $(".order_step_search").find("input").val();
+                                    keyword = keyword.replace(/<.*?>/ig,"");
+                                    $("#iframe_imam_list").attr("src",'{:url("signal_list")}?account='+MYmt4id+'&order='+order+'&keyword='+keyword);
+                                    $(".sort_li").on("click", function () {
+                                        $(this).addClass("active").siblings().removeClass("active");
+                                        if($(this).find(".sort-downup").hasClass("sort-down") == true){
+                                            $(this).siblings().find(".sort-downup").removeClass("sort-down");
+                                            $(this).siblings().find(".sort-downup").removeClass("sort-up");
+                                            $(this).find(".sort-downup").addClass("sort-up").removeClass("sort-down");
+                                            $(".sort_1").attr("data","6");
+                                            $(".sort_2").attr("data","1");
+                                            $(".sort_7").attr("data","2");
+                                            $(".sort_6").attr("data","3");
+                                            $(".sort_4").attr("data","4");
+                                            $(".sort_3").attr("data","5");
+                                        }else if($(this).find(".sort-downup").hasClass("sort-up") == true){
+                                            $(this).siblings().find(".sort-downup").removeClass("sort-down");
+                                            $(this).siblings().find(".sort-downup").removeClass("sort-up");
+                                            $(this).find(".sort-downup").addClass("sort-down").removeClass("sort-up");
+                                            $(".sort_1").attr("data","-6");
+                                            $(".sort_2").attr("data","-1");
+                                            $(".sort_7").attr("data","-2");
+                                            $(".sort_6").attr("data","-3");
+                                            $(".sort_4").attr("data","-4");
+                                            $(".sort_3").attr("data","-5");
+                                        }else {
+                                            $(this).siblings().find(".sort-downup").removeClass("sort-down");
+                                            $(this).siblings().find(".sort-downup").removeClass("sort-up");
+                                            $(this).find(".sort-downup").addClass("sort-down");
+                                            $(".sort_1").attr("data","-6");
+                                            $(".sort_2").attr("data","-1");
+                                            $(".sort_7").attr("data","-2");
+                                            $(".sort_6").attr("data","-3");
+                                            $(".sort_4").attr("data","-4");
+                                            $(".sort_3").attr("data","-5");
+                                        }
+                                        var order = $(this).attr("data");
+                                        var keyword = $(".order_step_search").find("input").val();
+                                        keyword = keyword.replace(/<.*?>/ig,"");
+                                        $("#iframe_imam_list").attr("src",'{:url("signal_list")}?account='+MYmt4id+'&order='+order+'&keyword='+keyword);
+                                        /*setTimeout(function () {
+                                         Mymt4id();
+                                         },1000);*/
+                                    });
+                                    $(".order_step_search i").on("click", function () {
+                                        var order = $(this).attr("data");
+                                        var keyword = $(".order_step_search").find("input").val();
+                                        keyword = keyword.replace(/<.*?>/ig,"");
+                                        $("#iframe_imam_list").attr("src",'{:url("signal_list")}?account='+MYmt4id+'&order='+order+'&keyword='+keyword);
+                                        /*setTimeout(function () {
+                                         Mymt4id();
+                                         },1000);*/
+                                    });
+                                    function Enter(){
+                                        if (event.keyCode == 13) {
+                                            var order = $(this).attr("data");
+                                            var keyword = $(".order_step_search").find("input").val();
+                                            keyword = keyword.replace(/<.*?>/ig,"");
+                                            $("#iframe_imam_list").attr("src",'{:url("signal_list")}?account='+MYmt4id+'&order='+order+'&keyword='+keyword);
+                                            /*setTimeout(function () {
+                                             Mymt4id();
+                                             },1000);*/
+                                        }
+                                    }
+                                    $(".order_step_search input").focus(function () {       //登录弹窗显示的时候，enter键登录
+                                        $(this).animate({"width":"150px"});
+                                        document.onkeydown =Enter;
+                                    }).blur(function() {
+                                        document.onkeydown = '';
+                                    });
+                                    $(".order_step_search input").blur(function () {
+                                        $(this).animate({"width":"80px"});
+                                    });
+                                });
+                            }
+                        }
+                    }
+                }
+            });
+            event.stopPropagation();
+        });
+        $("body").click(function(event){
+            $(".active_mt4_ul").hide();
+        });
+        /*第三步里面获取用户EA里面的单子信息*/
+        function Mymt4id(){
+            var Mymt4id = $(".active_mt4_li").find("span").html();          //多mt4账户里面，选择的mt4账户
+            localStorage.setItem("myaccount",Mymt4id);
+            /*判定是否有订单正在运行,区分逻辑*/
+            $.ajax({
+                type: 'post',
+                dateType: 'json',
+                url: '{:url("master/get_status")}',
+                data: {slave_mt4id : Mymt4id},
+                success : function (data) {
+                    var json = JSON.parse(data);
+                    if(json.code == 200){
+//                                        console.log("跟单状态为"+json.status);
+                        if(json.status==2){     //表示跟单状态为2，没有跟单;        /*第一步选择信号，第二步修改信号，确认下单，跳转第三步*/
+                            $(".step_3_btn1 ").show();
+                            $(".step_3_btn2").hide();
+//                        no_running();
+                        }else if(json.status==1){       //表示跟单状态为1，正在运行;
+                            $(".step_3_btn1").hide();
+                            $(".step_3_btn2 ").show();
+                            /* 限制修改權重類型 */
+                            /*$(".toggle1").css({'border': '1px solid #a8a7a5','background-color': '#a8a7a5'});*/
+//                        running();
+                        }
+                    }
+                }
+            });
+
+            /*根据该mt4账户进行同步*/
+            $.ajax({
+                url: '{:url("v1.web/get_master_signal","","","api")}',
+                type: 'get',
+                dataType: 'jsonp',
+                jsonp: 'callback',
+                data : {
+                    uid : uid,
+                    slave_mt4id : Mymt4id
+                },
+//                                jsonpCallback:'getjson',
+                success: function (data) {
+                    if(data.code==200){
+                        $(".checked_signal .end_img").remove();
+                        $(".step_2_signal_ul").html("");
+                        $(".step_3_signal_ul").html("");
+                        var html='';
+                        for (var i = 0; i < data.data.length; i++) {
+                            /*判断当前mt4账号下，是否有信号正在跟单*/
+                            var mt4id = data.data[i].mt4id;
+                            /*第一步里面，筛选出正在运行的单子，不能重复添加*/
+                            $("#iframe_imam_list").contents().find(".signal li").each(function () {
+                                var signal_mt4id=$(this).find("p").find("span.signal_mt4id").html();
+                                if($(".active_mt4_li").find("span").attr("data") == 1){
+//                                           console.log(signal_mt4id);
+                                    if(signal_mt4id==mt4id){
+                                        $(this).find("div:last-child").find(".signal_btn1").hide();
+                                        $(this).find("div:last-child").find(".signal_btn3").hide();
+                                        $(this).find("div:last-child").find(".signal_btn4").show();
+                                    }
+                                }else {
+//                                           console.log(signal_mt4id);
+                                    if(signal_mt4id==mt4id){
+                                        $(this).find("div:last-child").find(".signal_btn1").hide();
+                                        $(this).find("div:last-child").find(".signal_btn4").hide();
+                                        $(this).find("div:last-child").find(".signal_btn3").show();
+                                    }
+                                }
+                            });
+
+                            // var url = "{:url('/master/detail/account/" + mt4id + "')}";
+                            var url = "{:url('master/detail')}?account="+mt4id;
+                            var u_img = data.data[i].u_img;
+                            if(u_img==''||u_img==null){
+                                u_img="__STATIC__image/touxiang.png";
+                            } else {
+                                var teststring="http";
+                                if((u_img.toLowerCase()).indexOf(teststring.toLowerCase())!=-1){
+                                    u_img=u_img;
+                                }else{
+                                    u_img='__STATIC__upload/image/'+u_img;
+                                }
+                            }
+                            /*在选中信号栏里面显示正在运行的信号头像*/
+                            $(".checked_signal").append('<img class="end_img" src='+ u_img +' data='+mt4id+'>');
+
+                            var country = data.mt4country[data.data[i].country];
+                            if (country == undefined) {
+                                country = data.mt4country['中国'];
+                            }
+                            var name = data.data[i].name;
+                            var bn = data.data[i].bn;
+                            var input1 = data.data[i].weight;
+                            var StringInput1 = input1.toString();
+                            /*if(StringInput1.indexOf('%')>0){
+                                $(".toggle1").removeClass("toggle-off").addClass("toggle-on");
+                                $(".weight_type1").addClass("active");
+                                $(".weight_type2").removeClass("active");
+                                $(".checked_info2").show();
+                                $(".checked_info1").hide();
+                            }else {
+                                $(".toggle1").removeClass("toggle-on").addClass("toggle-off");
+                                $(".weight_type1").removeClass("active");
+                                $(".weight_type2").addClass("active");
+                                $(".checked_info2").hide();
+                                $(".checked_info1").show();
+                            }*/
+                            var input2;
+                            if(StringInput1.indexOf('-')==0){
+                                input2="反";
+                            }else{
+                                input2="正";
+                            }
+                            if(StringInput1.indexOf('-')==0){
+                                input1 = StringInput1.substr(1,StringInput1.length);
+                            }
+                            var input3 = data.data[i].maxloss;
+                            if(input3 == 0){
+                                input3 = '不限';
+                            }
+                            var input4 = data.data[i].maxhold;
+                            if(input4 == 0){
+                                input4 = '不限';
+                            }
+                            // var studio_id = data.data[i].studio_id;
+                            // if(studio_id == 0){
+                            //     html += ("<li class='step_3_signal_li normalsignal_li'><div class='signal_div'>" +
+                            //     "<div class='signal_head'><a href='"+url+"?server={$pagefrom}' target='_blank'><img src="+u_img+" class='signal_head_pic01'  alt='"+name+"'><img src='/image/countryflag/" + country + ".png' class='signal_head_pic02' style='display: none;'></a></div>" +
+                            //     "<span class='step_3_signal_data mname'>"+name+"</span><span style='display: none' class='num'>"+bn+"</span><span style='display: none' class='mt4id'>"+mt4id+"</span></div>" +
+                            //     "<div class='signal_div'><input class='weight' type='text' value='"+input1+"' readonly='readonly' disabled='disabled'>" +
+                            //     "<div class='ul_div'><div class='step_2_ul_div_toggle'><span class='weight_type weight_type1 active'>比例 </span><a href='javascript:void(0);' class='toggle toggle-on toggle1'></a><span class='weight_type weight_type2'> 手数</span></div>" +
+                            //     "<ul class='weight_ul1'><li>0.01</li><li>0.02</li><li>0.05</li><li>0.1</li>" +
+                            //     "<li>0.2</li><li>0.5</li><li>1</li><li>2</li><li>5</li><li>10</li><li>20</li><li class='last_li'>自定义</li></ul>" +
+                            //     "<ul class='weight_ul2'><li>10%</li><li>20%</li><li>30%</li><li>40%</li><li>50%</li><li>60%</li><li>70%</li><li>80%</li><li>90%</li><li>100%</li>" +
+                            //     "<li class='weight_left'><img src='__STATIC__image/weight_left01.png'></li><li class='weight_right'><img src='__STATIC__image/weight_right02.png'></li></ul></div></div>" +
+                            //     "<div class='signal_div'><input class='sign' type='text' value='"+input2+"' readonly='readonly' disabled='disabled'><ul><li>正</li><li>反</li></ul></div><div class='signal_div'>" +
+                            //     "<input class='maxloss' type='text' value='"+input3+"' readonly='readonly' disabled='disabled'><ul><li>50</li><li>100</li><li>150</li><li>200</li><li>300</li><li>不限</li>" +
+                            //     "<li class='last_li'>自定义</li></ul></div><div class='signal_div'><input class='maxhold' type='text' value='"+input4+"' readonly='readonly' disabled='disabled'><ul><li>1</li>" +
+                            //     "<li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>不限</li><li class='last_li'>自定义</li></ul></div>" +
+                            //     "<div class='signal_div'><p style='color: #00aa6d;' class='status'>监听中</p></div><div class='signal_div'>" +
+                            //     "<a href='javascript:void(0)' class='step_3_signal_btn1'>修改</a><a href='javascript:void(0)' class='step_3_signal_btn2' style='display: none;'>完成</a>" +
+                            //     "<a href='javascript:void(0)' class='step_3_signal_btn3'>删除</a></div></li>");
+                            // }else {
+                            //     var url2="{:url('/studio/detail/" + data.data[i].studio_id + "/"+mt4id+"')}";
+                            //     html += ("<li class='step_3_signal_li studiosignal_li'><div class='signal_div'>" +
+                            //     "<div class='signal_head'><a href='"+url2+"' target='_blank'><img src="+u_img+" class='signal_head_pic01'  alt='"+name+"'><img src='/image/tradestudioicon.png' class='signal_head_pic02'></a></div>" +
+                            //     "<span class='step_3_signal_data mname'>"+name+"</span><span style='display: none' class='num'>"+bn+"</span><span style='display: none' class='mt4id'>"+mt4id+"</span></div>" +
+                            //     "<div class='signal_div'><input class='weight' type='text' value='"+input1+"' readonly='readonly' disabled='disabled'>" +
+                            //     "<div class='ul_div'><div class='step_2_ul_div_toggle'><span class='weight_type weight_type1 active'>比例 </span><a href='javascript:void(0);' class='toggle toggle-on toggle1'></a><span class='weight_type weight_type2'> 手数</span></div>" +
+                            //     "<ul class='weight_ul1'><li>0.01</li><li>0.02</li><li>0.05</li><li>0.1</li>" +
+                            //     "<li>0.2</li><li>0.5</li><li>1</li><li>2</li><li>5</li><li>10</li><li>20</li><li class='last_li'>自定义</li></ul>" +
+                            //     "<ul class='weight_ul2'><li>10%</li><li>20%</li><li>30%</li><li>40%</li><li>50%</li><li>60%</li><li>70%</li><li>80%</li><li>90%</li><li>100%</li>" +
+                            //     "<li class='weight_left'><img src='__STATIC__image/weight_left01.png'></li><li class='weight_right'><img src='__STATIC__image/weight_right02.png'></li></ul></div></div>" +
+                            //     "<div class='signal_div'><input class='sign' type='text' value='"+input2+"' readonly='readonly' disabled='disabled'><ul><li>正</li><li>反</li></ul></div><div class='signal_div'>" +
+                            //     "<input class='maxloss noclick' type='text' value='"+input3+"' readonly='readonly' disabled='disabled'><ul><li>50</li><li>100</li><li>150</li><li>200</li><li>300</li><li>不限</li>" +
+                            //     "<li class='last_li'>自定义</li></ul></div><div class='signal_div'><input class='maxhold noclick' type='text' value='"+input4+"' readonly='readonly' disabled='disabled'><ul><li>1</li>" +
+                            //     "<li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>不限</li><li class='last_li'>自定义</li></ul></div>" +
+                            //     "<div class='signal_div'><p style='color: #00aa6d;' class='status'>监听中</p></div><div class='signal_div'>" +
+                            //     "<a href='javascript:void(0)' class='step_3_signal_btn1'>修改</a><a href='javascript:void(0)' class='step_3_signal_btn2' style='display: none;'>完成</a>" +
+                            //     "<a href='javascript:void(0)' class='step_3_signal_btn3'>删除</a></div></li>");
+                            // }
+
+                                html += ("<li class='step_3_signal_li studiosignal_li'><div class='signal_div'>" +
+                                "<div class='signal_head'><img src="+u_img+" class='signal_head_pic01'  alt='"+name+"'></div>" +
+                                "<span class='step_3_signal_data mname'>"+name+"</span><span style='display: none' class='num'>"+bn+"</span><span style='display: none' class='mt4id'>"+mt4id+"</span></div>" +
+                                "<div class='signal_div'><input class='weight' type='text' value='"+input1+"' readonly='readonly' disabled='disabled'>" +
+                                "<div class='ul_div'><div class='step_2_ul_div_toggle'><span class='weight_type weight_type1 active'>比例 </span><a href='javascript:void(0);' class='toggle toggle-on toggle1'></a><span class='weight_type weight_type2'> 手数</span></div>" +
+                                "<ul class='weight_ul1'><li>0.01</li><li>0.02</li><li>0.05</li><li>0.1</li>" +
+                                "<li>0.2</li><li>0.5</li><li>1</li><li>2</li><li>5</li><li>10</li><li>20</li><li class='last_li'>自定义</li></ul>" +
+                                "<ul class='weight_ul2'><li>10%</li><li>20%</li><li>30%</li><li>40%</li><li>50%</li><li>60%</li><li>70%</li><li>80%</li><li>90%</li><li>100%</li>" +
+                                "<li class='weight_left'><img src='__STATIC__image/weight_left01.png'></li><li class='weight_right'><img src='__STATIC__image/weight_right02.png'></li></ul></div></div>" +
+                                "<div class='signal_div'><input class='sign' type='text' value='"+input2+"' readonly='readonly' disabled='disabled'><ul><li>正</li><li>反</li></ul></div><div class='signal_div'>" +
+                                "<input class='maxloss' type='text' value='"+input3+"' readonly='readonly' disabled='disabled'><ul><li>50</li><li>100</li><li>150</li><li>200</li><li>300</li><li>不限</li>" +
+                                "<li class='last_li'>自定义</li></ul></div><div class='signal_div'><input class='maxhold' type='text' value='"+input4+"' readonly='readonly' disabled='disabled'><ul><li>1</li>" +
+                                "<li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>不限</li><li class='last_li'>自定义</li></ul></div>" +
+                                "<div class='signal_div'><p style='color: #00aa6d;' class='status'>监听中</p></div><div class='signal_div'>" +
+                                "<a href='javascript:void(0)' class='step_3_signal_btn1'>修改</a><a href='javascript:void(0)' class='step_3_signal_btn2' style='display: none;'>完成</a>" +
+                                "<a href='javascript:void(0)' class='step_3_signal_btn3'>删除</a></div></li>");
+
+                        }
+                        $(".step_3_signal_ul").append(html);
+                        if($(".step_3_signal_li").length==0){
+                            $(".order_step_2").css({"color":"#333333","cursor":"pointer"})/*.removeClass("disabled")*/;
+                        }else {
+                            $(".order_step_2").css({"color":"#aaaaaa","cursor":"not-allowed"})/*.addClass("disabled")*/;
+                        }
+                        if($(".active_mt4_li").find("span").attr("data") == 1){
+                            $(".status").html('监听中').css("color","#00aa6d");
+                        }else {
+                            $(".status").html('等待监听').css("color","#555555");
+                        }
+                        if("{$info['server']}"=='' && $(".normalsignal_li").length > 1){
+                            $(".normalsignal_li .status").html("无效(VIP已到期)").addClass("statusvip").after('<img src="__STATIC__image/create_rule_tip.png" class="statusvipicon"><p class="statusviptips">请停止跟单后,选择单一<br>信号免费跟随</p>');
+                            $(".statusvip").mouseover(function(){
+                                $(this).parent().find(".statusvipicon").show();
+                                $(this).parent().find(".statusviptips").show();
+                            }).mouseout(function(){
+                                $(this).parent().find(".statusvipicon").hide();
+                                $(this).parent().find(".statusviptips").hide();
+                            });
+                            $(".statusvip").parent().next().find(".step_3_signal_btn1").hide();
+                        }
+                        if($(".step_3_signal_li").length != 0){
+                            /*点击下一步风控设置*/
+                            running();
+                        }else {
+                            /*点击“下一步风控设置”*/
+                            no_running();
+                        }
+                        /*加载出信号栏选中信号之后，再回复按钮可点击*/
+                        var disab2 =setInterval(function () {
+                            if($("#iframe_imam_list").contents().find("body").html()!=''&&$("#iframe_imam_list").contents().find("body").html()!=null){
+//                                console.log("恢复按钮");
+                                $("#iframe_imam_list").contents().find(".signal_btn1").removeClass("disabled");
+                                $("#iframe_imam_list").contents().find(".signal_btn3").removeClass("disabled");
+                                clearInterval(disab2);
+                            }
+                        },1000);
+                        get_my_signal_num();        //获取我的跟随交易数量
+//                        changeInput();
+                    }
+                }
+            });
+        }
+
+        /*搜索+排序功能*/
+//        http://www.znforex.com/demo/signal_list.html?order=1&keyword=X
+        /*$(".sort_li").on("click", function () {
+            $(this).addClass("active").siblings().removeClass("active");
+            if($(this).find(".sort-downup").hasClass("sort-down") == true){
+                $(this).siblings().find(".sort-downup").removeClass("sort-down");
+                $(this).siblings().find(".sort-downup").removeClass("sort-up");
+                $(this).find(".sort-downup").addClass("sort-up").removeClass("sort-down");
+                $(".sort_1").attr("data","6");
+                $(".sort_2").attr("data","1");
+                $(".sort_7").attr("data","2");
+                $(".sort_6").attr("data","3");
+                $(".sort_4").attr("data","4");
+                $(".sort_3").attr("data","5");
+            }else if($(this).find(".sort-downup").hasClass("sort-up") == true){
+                $(this).siblings().find(".sort-downup").removeClass("sort-down");
+                $(this).siblings().find(".sort-downup").removeClass("sort-up");
+                $(this).find(".sort-downup").addClass("sort-down").removeClass("sort-up");
+                $(".sort_1").attr("data","-6");
+                $(".sort_2").attr("data","-1");
+                $(".sort_7").attr("data","-2");
+                $(".sort_6").attr("data","-3");
+                $(".sort_4").attr("data","-4");
+                $(".sort_3").attr("data","-5");
+            }else {
+                $(this).siblings().find(".sort-downup").removeClass("sort-down");
+                $(this).siblings().find(".sort-downup").removeClass("sort-up");
+                $(this).find(".sort-downup").addClass("sort-down");
+                $(".sort_1").attr("data","-6");
+                $(".sort_2").attr("data","-1");
+                $(".sort_7").attr("data","-2");
+                $(".sort_6").attr("data","-3");
+                $(".sort_4").attr("data","-4");
+                $(".sort_3").attr("data","-5");
+            }
+            var order = $(this).attr("data");
+            var keyword = $(".order_step_search").find("input").val();
+            $("#iframe_imam_list").attr("src",'{:url("signal_list")}?account='+Mymt4id+'&order='+order+'&keyword='+keyword);
+            /!*setTimeout(function () {
+                Mymt4id();
+            },1000);*!/
+        });
+        $(".order_step_search i").on("click", function () {
+            var order = $(this).attr("data");
+            var keyword = $(".order_step_search").find("input").val();
+            $("#iframe_imam_list").attr("src",'{:url("signal_list")}?account='+Mymt4id+'&order='+order+'&keyword='+keyword);
+            /!*setTimeout(function () {
+                Mymt4id();
+            },1000);*!/
+        });
+        function Enter(){
+            if (event.keyCode == 13) {
+                var order = $(this).attr("data");
+                var keyword = $(".order_step_search").find("input").val();
+                $("#iframe_imam_list").attr("src",'{:url("signal_list")}?account='+Mymt4id+'&order='+order+'&keyword='+keyword);
+                /!*setTimeout(function () {
+                    Mymt4id();
+                },1000);*!/
+            }
+        }
+        $(".order_step_search input").focus(function () {       //登录弹窗显示的时候，enter键登录
+            document.onkeydown =Enter;
+        });*/
+        /*加载完iframe之后，点击翻页再执行Mymt4id()函数*/
+        /*setTimeout(function () {
+            $("#iframe_imam_list").contents().find(".pagination li").on("click", function () {
+                setTimeout(function () {
+                    Mymt4id();
+                },1000);
+            });
+        },1000);*/
+
+        /*没有单子运行的操作函数*/
+        function no_running(){
+            /*点击“下一步风控设置”*/
+            $(".step_1_btn").unbind("click");     //把click事件绑定在其他的例如click，hover等事件中的话（例如需要用到其他作用域中的变量，尤其是存在listitem这种情况下），需要用到unbind事件
+            $(".step_1_btn").on("click", function () {
+                $(".order_step_2").show().addClass("active").siblings().removeClass("active");
+                $(".order_step_3").hide();
+                $(".step_2").fadeIn().siblings().hide();
+                $(".establish").hide();
+                $(".create_live").hide();
+                $(".order_step_search").hide();
+                money2();
+                changeInput();
+                get_my_signal_num();
+            });
+        }
+        /*有单子运行的操作函数*/
+        function running(){
+            /*点击下一步风控设置*/
+            $(".step_1_btn").unbind("click");     //把click事件绑定在其他的例如click，hover等事件中的话（例如需要用到其他作用域中的变量，尤其是存在listitem这种情况下），需要用到unbind事件
+            $(".step_1_btn").on("click", function () {
+                $(".order_step_2").show();
+                $(".order_step_3").show().addClass("active").siblings().removeClass("active");
+                $(".step_3").fadeIn().siblings().hide();
+                $(".establish").hide();
+                $(".create_live").hide();
+                $(".order_step_search").hide();
+                money3();
+                changeInput();
+                get_my_signal_num()
+            });
+        }
+
+        /*添加信号*/
+        var h=$(document).scrollTop();     //页面没有滚动时，定义滚动条高度。（如果定义h=0,页面下滑之后刷新，坐标会错误。）
+        $(window).scroll(function(){
+            h=$(this).scrollTop();
+        });
+
+        /*屏幕下拉，选中信号栏绝对定位；*/
+        scroll();
+        $(window).scroll(function() {
+            scroll();
+        });
+        function scroll(){
+            if ($(window).scrollTop() >= 90) {
+                $(".add_signal").css({"position":"fixed","top":"70px","background":"#fff","box-shadow":"0px 3px 5px rgba(0,0,0,0.1)"});
+                $(".order_step").css("height","193px");
+            } else {
+                $(".add_signal").css({"position":"static","background":"#fff","box-shadow":"none"});
+                $(".order_step").css("height","60px");
+            }
+        }
+
+        /*步数导航*/
+        $(".order_step_1").on("click", function () {
+            $(this).addClass("active").siblings().removeClass("active");
+            $(".step_1").fadeIn().siblings().hide();
+            $(".establish").show();
+            $(".create_live").show();
+            $(".order_step_search").show();
+            $(".order_step_1").addClass("active").siblings().removeClass("active");
+        });
+        $(".order_step_2").on("click", function () {
+            /*判断服务器是否有单子（正在运行的或者没有运行的），若有，点击无效，若无，点击进入第二步；*/
+            var Mymt4id = $(".active_mt4_li").find("span").html();          //多mt4账户里面，选择的mt4账户
+            $.ajax({
+                url: '{:url("v1.web/get_master_signal","","","api")}',
+                type: 'get',
+                dataType: 'jsonp',
+                jsonp: 'callback',
+                data: {
+                    uid: uid,
+                    slave_mt4id : Mymt4id
+                },
+//                jsonpCallback: 'getjson',
+                success: function (data) {
+                    if (data.code == 200) {
+//                        console.log(data.data);
+                        if(data.data.length != 0){
+                            return false;
+                        }else{
+                            $(".order_step_2").addClass("active").siblings().removeClass("active");
+                            $(".order_step_3").hide();
+                            /*if($(".running").css("display") == "block"){
+                                $(".order_step_3").css("background","url(../image/order_step_3_03.png) center center no-repeat");
+                            }else {
+                                $(".order_step_3").css("background","url(../image/order_step_3.png) center center no-repeat");
+                            }*/
+                            $(".step_2").fadeIn().siblings().hide();
+                            $(".establish").hide();
+                            $(".create_live").hide();
+                            $(".order_step_search").hide();
+                            changeInput();
+                            money2();
+                        }
+                    }
+                }
+            });
+        });
+        $(".order_step_3").on("click", function () {
+            $(this).addClass("active").siblings().removeClass("active");
+            $(".step_3").fadeIn().siblings().hide();
+            $(".establish").hide();
+            $(".create_live").hide();
+            $(".order_step_search").hide();
+            $(".step_3_btn1").on("click", function () {
+                if($(".step_3_signal_ul").html()==''){
+                    $(".buy_sure").hide();
+                    win.alert("","请先添加信号！");
+                    return false;
+                }
+            });
+            changeInput();
+            money3();
+        });
+        /*模拟测评*/
+        $(".appraisal").on("click", function () {
+            var account;
+            $("#iframe_imam_list").contents().find(".signal li").each(function(){
+                if($(this).find(".signal_btn1").css("display") == "none"){
+                    account += $(this).find(".signal_mt4id").html() + ",";
+                }
+            });
+//                console.log(account);
+            if(account != undefined){
+                account = account.replace("undefined","");
+                account=account.substring(0,account.length-1);
+                window.open('__HTTP__/master/evaluation'+'?account='+account);
+            }else {
+                win.alert("","请先选择信号!");
+            }
+        });
+
+        /*第二步下单操作*/
+        $(".step_2_btn").on("click", function () {
+            /*判断是否登录*/
+            var uid = {$uid};
+            if(uid != 0){        //已登录
+                /*判断是否绑定MT4账户*/
+                var mt4 = '{$info.zhmt4uid}';
+//                var isbuy = '{$info.isbuy}';
+                if(mt4 ==''){       //未绑定mt4
+                    $(".no_binding").fadeIn();
+                }else if($(".mt4s").html() == ''){
+                    win.alert("","mt4账号审核中,暂无法跟单!")
+                } else {                                     //已绑定mt4
+                    if($(".step_2_signal_ul").html()==''){
+                        win.alert("","请先添加信号！");
+                        return false;
+                    }
+                    var end_img_length = $(".step_2_signal_li").length;
+//                    console.log("1111:"+end_img_length);
+                    if(end_img_length >= 2){
+                        var vip = '{$info.server}';
+                        if(vip==''){        //确定vip等级为空。为空则限制信号添加
+                            $(".no_buy").fadeIn();
+                            return false;
+                        }
+                    }
+                    /*如果输入框为空，则阻止；*/
+                    var count = 0;
+                    $(".step_2_signal_li .signal_div").find("input").each(function () {
+                        if($(this).val()==''){
+                            count++;
+                            win.alert('','修改项不能为空！', function () {$(this).focus();});
+                            return false;
+                        }
+                    });
+                    if(count == 0){                     //console.log("全部都不为空。");
+                        /*下单成功操作，进入第三步*/
+                        /*写确认跟单函数*/
+                        if($(".toggle1").hasClass("toggle-on")){
+                            $(".confirmtext_on").show();
+                            $(".confirmtext_off").hide();
+                        }else if($(".toggle1").hasClass("toggle-off")){
+                            $(".confirmtext_off").show();
+                            $(".confirmtext_on").hide();
+                        }
+                        $(".buy_sure").fadeIn();
+                        $(".buy_sure_btn").unbind("click");     //把click事件绑定在其他的例如click，hover等事件中的话（例如需要用到其他作用域中的变量，尤其是存在listitem这种情况下），需要用到unbind事件
+                        $(".buy_sure_btn").on("click", function () {     //点击确认跟单弹窗的“确认按钮”
+                            confirmOrder2();
+                        });
+                    }
+                    running();
+                }
+            }else{              //未登录
+                $(".no_login").fadeIn();
+            }
+        });
+
+        /*第三步，点击‘确认跟单’，‘停止跟单’*/
+        $(".step_3_btn1 ").on("click", function () {
+            var end_img_length = $(".step_3_signal_li").length;
+//                    console.log("1111:"+end_img_length);
+            if(end_img_length >= 2){
+                var vip = '{$info.server}';
+                if(vip==''){        //确定vip等级为空。为空则限制信号添加
+                    $(".no_buy").fadeIn();
+                    return false;
+                }
+            }
+            /*if($(".toggle1").hasClass("toggle-on")){
+                $(".confirmtext_on").show();
+                $(".confirmtext_off").hide();
+            }else if($(".toggle1").hasClass("toggle-off")){
+                $(".confirmtext_off").show();
+                $(".confirmtext_on").hide();
+            }*/
+            $(".buy_sure").fadeIn();
+            $(".buy_sure_btn").unbind("click");     //把click事件绑定在其他的例如click，hover等事件中的话（例如需要用到其他作用域中的变量，尤其是存在listitem这种情况下），需要用到unbind事件
+            $(".buy_sure_btn").on("click", function () {
+                if($(".mt4s").html() == ''){
+                    $(".buy_sure").hide();
+                    win.alert("","mt4账号审核中,暂无法跟单!");
+                    return false;
+                }
+                confirmOrder3();
+            });
+        });
+        $(".step_3_btn2").on("click", function () {
+            $(".step_3_btn2_sure").fadeIn();
+        });
+        /*确认停止跟单函数*/
+        $(".step_3_btn2_sure_btn1").on("click", function () {
+//            console.log("dianji停止");
+            $(".step_3_btn2_sure").hide();
+            var Mymt4id = $(".active_mt4_li").find("span").html();          //多mt4账户里面，选择的mt4账户
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "{:url('master/update_order_status')}",
+                data: {slave_mt4id : Mymt4id},
+                success:function(data){
+                    data = JSON.parse(data);
+                    if (data.code == 200) {
+                        $(".step_3_btn2").hide();
+                        $(".step_3_btn1 ").show();
+                        $(".active_mt4_li span").attr("data","2");
+//                        $(".running").css("display","none");       //信号塔动画运行step_3_btn1
+//                        $(".order_step_3 p").find("span:nth-child(2)").html("启动跟单");
+                        /*$(".order_step_3").css("background","url(../image/order_step_3.png)no-repeat center");
+                        $(".order_step_3.active").css("background","url(../image/order_step_3_02.png)no-repeat center");*/
+                        $(".step_3_signal_li .signal_div").find("p").each(function () {
+                            if($(this).html()=="监听中"||$(this).html()=="修改后生效"){
+                                $(this).html("等待监听").css("color","#555555");
+                                $(this).parent().parent().find(".step_3_signal_btn1").show();
+                                $(this).parent().parent().find(".step_3_signal_btn2").hide();
+                            }
+                        });
+                        $(".step_3_signal_li .signal_div").find("input").css({"cursor":"auto"}).attr("disabled",true).removeClass("running_add");
+                        /*開放權重類型選擇*/
+                        $(".toggle1").css({'border': '1px solid #611987','background-color': '#611987'});
+                        /*如果“停止跟单”，改变第一步里面信号“正在监听”按钮*/
+                        $("#iframe_imam_list").contents().find(".signal li").each(function () {
+                            var signal_btn = $(this).find(".signal_div:last-child").children(".signal_btn4").css("display");
+                            if(signal_btn=='block'){
+                                $(this).find(".signal_div:last-child").children(".signal_btn1").hide();
+                                $(this).find(".signal_div:last-child").children(".signal_btn4").hide();
+                                $(this).find(".signal_div:last-child").children(".signal_btn3").show();
+                            }
+                        });
+                    }else {
+                        win.alert('',data.msg);
+                    }
+                }
+            });
+        });
+        $(".step_3_btn2_sure_btn2").on("click", function () {
+            $(".step_3_btn2_sure").hide();
+        });
+
+        /* 1、如果不是vip用户点击“添加更多信号”按钮，提示非vip用户不可添加。*/
+        $(".step_2_signal_more").on("click", function () {
+            /*判定如果不是vip，return flase。*/
+            var uid = '{$uid}';
+            if(uid!=0){
+//                    var isbuy = '{$info.isbuy}';
+                var mt4 = '{$info.zhmt4uid}';
+                if(mt4!=''){
+                    var vip = '{$info.server}';
+                    if(vip==''){
+                        $(".no_buy").fadeIn();
+                        return false;
+                    }
+                }
+            }
+            $(".order_step_1").addClass("active").siblings().removeClass("active");
+            $(".step_1").fadeIn().siblings().hide();
+            $(".establish").show();
+            $(".create_live").show();
+            $(".order_step_search").show();
+        });
+
+        /*step_2,step_3,信号设置*/
+        function changeInput(){
+            $(".signal_div").find("input").on("click",function(event){
+                $(this).parent().siblings().find("ul").hide();
+                $(this).parent().siblings().find(".ul_div").hide();
+                $(this).css({"border":"1px solid #282828","background":"url(__STATIC__image/vip10_2.png)no-repeat 90px 12px"}).attr("readonly",true).parent().siblings().find("input").css({"border":"1px solid #dadada","background":"url(__STATIC__image/vip10.png)no-repeat 90px 12px"});
+                $(this).parent().find("ul").show();
+                $(this).parent().find(".ul_div").show();
+                event.stopPropagation();
+            });
+            $(".step_2_signal_li .weight").on("click", function () {
+                if($(this).parent().find(".toggle1").hasClass("toggle-on")){
+                    $(this).parent().find(".ul_div .weight_ul1").hide();
+                    $(this).parent().find(".ul_div .weight_ul2").show();
+                }else if($(this).parent().find(".toggle1").hasClass("toggle-off")){
+                    $(this).parent().find(".ul_div .weight_ul1").show();
+                    $(this).parent().find(".ul_div .weight_ul2").hide();
+                }
+            });
+            $(".step_3_signal_li .weight").on("click", function () {
+                if($(this).parent().find(".toggle1").hasClass("toggle-on")){
+                    $(this).parent().find(".ul_div .weight_ul1").hide();
+                    $(this).parent().find(".ul_div .weight_ul2").show();
+                }else if($(this).parent().find(".toggle1").hasClass("toggle-off")){
+                    $(this).parent().find(".ul_div .weight_ul1").show();
+                    $(this).parent().find(".ul_div .weight_ul2").hide();
+                }
+            });
+            /*1、判定用户vip等级（vip2以上才能设置跟单方向）*/
+            var uid = '{$uid}';
+            if(uid!=0){
+                var vip = '{$info.server}';
+                if(vip==''||vip=='vip1'){           //vip2以下服务不能修改跟单方向
+                    $(".step_2_signal_li").children(".signal_div:nth-child(3)").find("input").attr("disabled",true).css({"background":"none"});
+                    $(".step_3_signal_li").children(".signal_div:nth-child(3)").find("input").attr("disabled",true).css({"background":"none"});
+                }
+            }
+            $(".signal_div ul li").mouseover(function () {
+                $(this).css({"background":"#dadada","color":"#282828"}).siblings().css({"background":"none","color":"#999999"})
+            }).on("click", function () {
+                $(this).parent().parent().find("input").val($(this).html()).css({"border":"1px solid #dadada","background":"url(__STATIC__image/vip10.png)no-repeat 90px 12px"});
+                /*修改信号里面"手数"，"最大持仓"的参数，同时改money1和money2的值*/
+                var index=$(this).parent().parent().index();
+                if(index==1||index==4){
+                    if($(".step_2").css("display")=="block"){
+                        setTimeout(function () {
+                            money2();
+                        },100);
+                    }else if($(".step_3").css("display")=="block"){
+                        setTimeout(function () {
+                            money3();
+                        },100);
+                    }
+                }
+            });
+            $(".ul_div ul li").on("click", function () {
+                $(this).parent().parent().parent().find("input").val($(this).html()).css({"border":"1px solid #dadada","background":"url(__STATIC__image/vip10.png)no-repeat 90px 12px"});
+            });
+
+            /*比例跟单和手数跟单*/
+            $('.toggle1').click(function(e){
+                e.preventDefault();     //preventDefault() 方法阻止元素发生默认的行为（例如，当点击提交按钮时阻止对表单的提交）。
+                $(this).toggleClass('toggle-on').toggleClass('toggle-off').addClass('toggle-moving');
+                setTimeout(function(){
+                    $('.toggle1').removeClass('toggle-moving');
+                },200);
+                if($(this).hasClass("toggle-on")){
+                    $(this).parent().find(".weight_type1").addClass("active");
+                    $(this).parent().find(".weight_type2").removeClass("active");
+                    $(this).parent().parent().parent().find(".weight").val("100%");
+                    $(".checked_info1").hide();
+                    $(".checked_info2").show();
+                    $(this).parent().parent().find(".weight_ul1").css("display","none");
+                    $(this).parent().parent().find(".weight_ul2").css("display","block");
+
+                }else if($(this).hasClass("toggle-off")){
+                    $(this).parent().find(".weight_type1").removeClass("active");
+                    $(this).parent().find(".weight_type2").addClass("active");
+                    $(this).parent().parent().parent().find(".weight").val("0.01");
+                    $(".checked_info1").show();
+                    $(".checked_info2").hide();
+                    $(this).parent().parent().find(".weight_ul1").css("display","block");
+                    $(this).parent().parent().find(".weight_ul2").css("display","none");
+                    if($(".step_2").css("display") == 'block'){
+                        money2();
+                    }else if($(".step_3").css("display") == 'block'){
+                        money3();
+                    }
+                }
+            });
+            $('.toggle2').click(function(e){
+                e.preventDefault();     //preventDefault() 方法阻止元素发生默认的行为（例如，当点击提交按钮时阻止对表单的提交）。
+                var uid = '{$uid}';
+                if(uid!=0){     //确定已经登录。否则不限制信号添加
+//                var isbuy = '{$info.isbuy}';
+                    var mt4 = '{$info.zhmt4uid}';
+                    if(mt4!=''){       //确定已经绑定mt4。否则不限制信号添加
+                        var vip = '{$info.server}';
+                        if(vip==''||vip=='vip1'){           //vip2以下服务不能修改跟单方向
+                            $(".no_vip2").fadeIn();
+                            return false;
+                        }
+                    }
+                }
+                $('.toggle2').toggleClass('toggle-on').toggleClass('toggle-off').addClass('toggle-moving');
+                setTimeout(function(){
+                    $('.toggle2').removeClass('toggle-moving');
+                },200);
+                if($('.toggle2').hasClass("toggle-on")){
+                    $(".step_2_signal_li").children(".signal_div:nth-child(3)").find("input").attr("disabled",true).css({"background":"none"});
+                    $(".step_3_signal_li").children(".signal_div:nth-child(3)").find("input").attr("disabled",true).css({"background":"none"});
+                }else if($('.toggle2').hasClass("toggle-off")){
+                    $(".step_2_signal_li").children(".signal_div:nth-child(3)").find("input").attr("disabled",false).css({"background":"url(__STATIC__image/vip10.png)no-repeat 90px 12px"});
+                    $(".step_3_signal_li").each(function () {
+                        if($(this).find(".step_3_signal_btn2").css("display") == "block"){
+                            $(this).children(".signal_div:nth-child(3)").find("input").attr("disabled",false).css({"background":"url(__STATIC__image/vip10.png)no-repeat 90px 12px"});
+                        }
+                    });
+                }
+            });
+
+            /*比例跟单左右翻页*/
+            var weight_page=1;
+            $(".weight").on("click", function () {
+                weight_page=1;
+                $(this).parent().find(".weight_ul2").find("li:nth-child(1)").html("10%");
+                $(this).parent().find(".weight_ul2").find("li:nth-child(2)").html("20%");
+                $(this).parent().find(".weight_ul2").find("li:nth-child(3)").html("30%");
+                $(this).parent().find(".weight_ul2").find("li:nth-child(4)").html("40%");
+                $(this).parent().find(".weight_ul2").find("li:nth-child(5)").html("50%");
+                $(this).parent().find(".weight_ul2").find("li:nth-child(6)").html("60%");
+                $(this).parent().find(".weight_ul2").find("li:nth-child(7)").html("70%");
+                $(this).parent().find(".weight_ul2").find("li:nth-child(8)").html("80%");
+                $(this).parent().find(".weight_ul2").find("li:nth-child(9)").html("90%");
+                $(this).parent().find(".weight_ul2").find("li:nth-child(10)").html("100%");
+                $(this).parent().find(".weight_ul2").find(".weight_left img").attr("src","__STATIC__image/weight_left01.png");
+                $(this).parent().find(".weight_ul2").find(".weight_right img").attr("src","__STATIC__image/weight_right02.png");
+            });
+            $(".weight_left").on("click", function (event) {
+                $(this).parent().parent().parent().find(".weight").css({'border': '1px solid #282828',"background":"url(__STATIC__image/vip10_2.png)no-repeat 90px 12px"});
+                if(weight_page == 1){
+                    $(this).parent().parent().parent().find(".weight").val("100%");
+                    return false;
+                }
+                if(weight_page == 2){
+                    $(".weight_left img").attr("src","__STATIC__image/weight_left01.png");
+                }
+                $(".weight_right img").attr("src","__STATIC__image/weight_right02.png");
+                weight_page--;
+                if(weight_page == 1){
+                    $(this).parent().parent().parent().find(".weight").val("100%");
+                    $(this).parent().find("li:nth-child(1)").html("10%");
+                    $(this).parent().find("li:nth-child(2)").html("20%");
+                    $(this).parent().find("li:nth-child(3)").html("30%");
+                    $(this).parent().find("li:nth-child(4)").html("40%");
+                    $(this).parent().find("li:nth-child(5)").html("50%");
+                    $(this).parent().find("li:nth-child(6)").html("60%");
+                    $(this).parent().find("li:nth-child(7)").html("70%");
+                    $(this).parent().find("li:nth-child(8)").html("80%");
+                    $(this).parent().find("li:nth-child(9)").html("90%");
+                    $(this).parent().find("li:nth-child(10)").html("100%");
+                }else if(weight_page == 2){
+                    $(this).parent().parent().parent().find(".weight").val("110%");
+                    $(this).parent().find("li:nth-child(1)").html("110%");
+                    $(this).parent().find("li:nth-child(2)").html("120%");
+                    $(this).parent().find("li:nth-child(3)").html("130%");
+                    $(this).parent().find("li:nth-child(4)").html("140%");
+                    $(this).parent().find("li:nth-child(5)").html("150%");
+                    $(this).parent().find("li:nth-child(6)").html("160%");
+                    $(this).parent().find("li:nth-child(7)").html("170%");
+                    $(this).parent().find("li:nth-child(8)").html("180%");
+                    $(this).parent().find("li:nth-child(9)").html("190%");
+                    $(this).parent().find("li:nth-child(10)").html("200%");
+                }else if(weight_page == 3){
+                    $(this).parent().parent().parent().find(".weight").val("210%");
+                    $(this).parent().find("li:nth-child(1)").html("210%");
+                    $(this).parent().find("li:nth-child(2)").html("220%");
+                    $(this).parent().find("li:nth-child(3)").html("230%");
+                    $(this).parent().find("li:nth-child(4)").html("240%");
+                    $(this).parent().find("li:nth-child(5)").html("250%");
+                    $(this).parent().find("li:nth-child(6)").html("260%");
+                    $(this).parent().find("li:nth-child(7)").html("270%");
+                    $(this).parent().find("li:nth-child(8)").html("280%");
+                    $(this).parent().find("li:nth-child(9)").html("290%");
+                    $(this).parent().find("li:nth-child(10)").html("300%");
+                }else if(weight_page == 4){
+                    $(this).parent().parent().parent().find(".weight").val("310%");
+                    $(this).parent().find("li:nth-child(1)").html("310%");
+                    $(this).parent().find("li:nth-child(2)").html("320%");
+                    $(this).parent().find("li:nth-child(3)").html("330%");
+                    $(this).parent().find("li:nth-child(4)").html("340%");
+                    $(this).parent().find("li:nth-child(5)").html("350%");
+                    $(this).parent().find("li:nth-child(6)").html("360%");
+                    $(this).parent().find("li:nth-child(7)").html("370%");
+                    $(this).parent().find("li:nth-child(8)").html("380%");
+                    $(this).parent().find("li:nth-child(9)").html("390%");
+                    $(this).parent().find("li:nth-child(10)").html("400%");
+                }else if(weight_page == 5){
+                    $(this).parent().parent().parent().find(".weight").val("410%");
+                    $(this).parent().find("li:nth-child(1)").html("410%");
+                    $(this).parent().find("li:nth-child(2)").html("420%");
+                    $(this).parent().find("li:nth-child(3)").html("430%");
+                    $(this).parent().find("li:nth-child(4)").html("440%");
+                    $(this).parent().find("li:nth-child(5)").html("450%");
+                    $(this).parent().find("li:nth-child(6)").html("460%");
+                    $(this).parent().find("li:nth-child(7)").html("470%");
+                    $(this).parent().find("li:nth-child(8)").html("480%");
+                    $(this).parent().find("li:nth-child(9)").html("490%");
+                    $(this).parent().find("li:nth-child(10)").html("500%");
+                }else if(weight_page == 6){
+                    $(this).parent().parent().parent().find(".weight").val("510%");
+                    $(this).parent().find("li:nth-child(1)").html("510%");
+                    $(this).parent().find("li:nth-child(2)").html("520%");
+                    $(this).parent().find("li:nth-child(3)").html("530%");
+                    $(this).parent().find("li:nth-child(4)").html("540%");
+                    $(this).parent().find("li:nth-child(5)").html("550%");
+                    $(this).parent().find("li:nth-child(6)").html("560%");
+                    $(this).parent().find("li:nth-child(7)").html("570%");
+                    $(this).parent().find("li:nth-child(8)").html("580%");
+                    $(this).parent().find("li:nth-child(9)").html("590%");
+                    $(this).parent().find("li:nth-child(10)").html("600%");
+                }else if(weight_page == 7){
+                    $(this).parent().parent().parent().find(".weight").val("610%");
+                    $(this).parent().find("li:nth-child(1)").html("610%");
+                    $(this).parent().find("li:nth-child(2)").html("620%");
+                    $(this).parent().find("li:nth-child(3)").html("630%");
+                    $(this).parent().find("li:nth-child(4)").html("640%");
+                    $(this).parent().find("li:nth-child(5)").html("650%");
+                    $(this).parent().find("li:nth-child(6)").html("660%");
+                    $(this).parent().find("li:nth-child(7)").html("670%");
+                    $(this).parent().find("li:nth-child(8)").html("680%");
+                    $(this).parent().find("li:nth-child(9)").html("690%");
+                    $(this).parent().find("li:nth-child(10)").html("700%");
+                }else if(weight_page == 8){
+                    $(this).parent().parent().parent().find(".weight").val("710%");
+                    $(this).parent().find("li:nth-child(1)").html("710%");
+                    $(this).parent().find("li:nth-child(2)").html("720%");
+                    $(this).parent().find("li:nth-child(3)").html("730%");
+                    $(this).parent().find("li:nth-child(4)").html("740%");
+                    $(this).parent().find("li:nth-child(5)").html("750%");
+                    $(this).parent().find("li:nth-child(6)").html("760%");
+                    $(this).parent().find("li:nth-child(7)").html("770%");
+                    $(this).parent().find("li:nth-child(8)").html("780%");
+                    $(this).parent().find("li:nth-child(9)").html("790%");
+                    $(this).parent().find("li:nth-child(10)").html("800%");
+                }else if(weight_page == 9){
+                    $(this).parent().parent().parent().find(".weight").val("810%");
+                    $(this).parent().find("li:nth-child(1)").html("810%");
+                    $(this).parent().find("li:nth-child(2)").html("820%");
+                    $(this).parent().find("li:nth-child(3)").html("830%");
+                    $(this).parent().find("li:nth-child(4)").html("840%");
+                    $(this).parent().find("li:nth-child(5)").html("850%");
+                    $(this).parent().find("li:nth-child(6)").html("860%");
+                    $(this).parent().find("li:nth-child(7)").html("870%");
+                    $(this).parent().find("li:nth-child(8)").html("880%");
+                    $(this).parent().find("li:nth-child(9)").html("890%");
+                    $(this).parent().find("li:nth-child(10)").html("900%");
+                }else if(weight_page == 10){
+                    $(this).parent().parent().parent().find(".weight").val("910%");
+                    $(this).parent().find("li:nth-child(1)").html("910%");
+                    $(this).parent().find("li:nth-child(2)").html("920%");
+                    $(this).parent().find("li:nth-child(3)").html("930%");
+                    $(this).parent().find("li:nth-child(4)").html("940%");
+                    $(this).parent().find("li:nth-child(5)").html("950%");
+                    $(this).parent().find("li:nth-child(6)").html("960%");
+                    $(this).parent().find("li:nth-child(7)").html("970%");
+                    $(this).parent().find("li:nth-child(8)").html("980%");
+                    $(this).parent().find("li:nth-child(9)").html("990%");
+                    $(this).parent().find("li:nth-child(10)").html("1000%");
+                }else if(weight_page == 11){
+                    $(this).parent().parent().parent().find(".weight").val("1010%");
+                    $(this).parent().find("li:nth-child(1)").html("1010%");
+                    $(this).parent().find("li:nth-child(2)").html("1020%");
+                    $(this).parent().find("li:nth-child(3)").html("1030%");
+                    $(this).parent().find("li:nth-child(4)").html("1040%");
+                    $(this).parent().find("li:nth-child(5)").html("1050%");
+                    $(this).parent().find("li:nth-child(6)").html("1060%");
+                    $(this).parent().find("li:nth-child(7)").html("1070%");
+                    $(this).parent().find("li:nth-child(8)").html("1080%");
+                    $(this).parent().find("li:nth-child(9)").html("1090%");
+                    $(this).parent().find("li:nth-child(10)").html("1100%");
+                }else if(weight_page == 12){
+                    $(this).parent().parent().parent().find(".weight").val("1110%");
+                    $(this).parent().find("li:nth-child(1)").html("1110%");
+                    $(this).parent().find("li:nth-child(2)").html("1120%");
+                    $(this).parent().find("li:nth-child(3)").html("1130%");
+                    $(this).parent().find("li:nth-child(4)").html("1140%");
+                    $(this).parent().find("li:nth-child(5)").html("1150%");
+                    $(this).parent().find("li:nth-child(6)").html("1160%");
+                    $(this).parent().find("li:nth-child(7)").html("1170%");
+                    $(this).parent().find("li:nth-child(8)").html("1180%");
+                    $(this).parent().find("li:nth-child(9)").html("1190%");
+                    $(this).parent().find("li:nth-child(10)").html("1200%");
+                }else if(weight_page == 13){
+                    $(this).parent().parent().parent().find(".weight").val("1210%");
+                    $(this).parent().find("li:nth-child(1)").html("1210%");
+                    $(this).parent().find("li:nth-child(2)").html("1220%");
+                    $(this).parent().find("li:nth-child(3)").html("1230%");
+                    $(this).parent().find("li:nth-child(4)").html("1240%");
+                    $(this).parent().find("li:nth-child(5)").html("1250%");
+                    $(this).parent().find("li:nth-child(6)").html("1260%");
+                    $(this).parent().find("li:nth-child(7)").html("1270%");
+                    $(this).parent().find("li:nth-child(8)").html("1280%");
+                    $(this).parent().find("li:nth-child(9)").html("1290%");
+                    $(this).parent().find("li:nth-child(10)").html("1300%");
+                }else if(weight_page == 14){
+                    $(this).parent().parent().parent().find(".weight").val("1310%");
+                    $(this).parent().find("li:nth-child(1)").html("1310%");
+                    $(this).parent().find("li:nth-child(2)").html("1320%");
+                    $(this).parent().find("li:nth-child(3)").html("1330%");
+                    $(this).parent().find("li:nth-child(4)").html("1340%");
+                    $(this).parent().find("li:nth-child(5)").html("1350%");
+                    $(this).parent().find("li:nth-child(6)").html("1360%");
+                    $(this).parent().find("li:nth-child(7)").html("1370%");
+                    $(this).parent().find("li:nth-child(8)").html("1380%");
+                    $(this).parent().find("li:nth-child(9)").html("1390%");
+                    $(this).parent().find("li:nth-child(10)").html("1400%");
+                }else if(weight_page == 15){
+                    $(this).parent().parent().parent().find(".weight").val("1410%");
+                    $(this).parent().find("li:nth-child(1)").html("1410%");
+                    $(this).parent().find("li:nth-child(2)").html("1420%");
+                    $(this).parent().find("li:nth-child(3)").html("1430%");
+                    $(this).parent().find("li:nth-child(4)").html("1440%");
+                    $(this).parent().find("li:nth-child(5)").html("1450%");
+                    $(this).parent().find("li:nth-child(6)").html("1460%");
+                    $(this).parent().find("li:nth-child(7)").html("1470%");
+                    $(this).parent().find("li:nth-child(8)").html("1480%");
+                    $(this).parent().find("li:nth-child(9)").html("1490%");
+                    $(this).parent().find("li:nth-child(10)").html("1500%");
+                }else if(weight_page == 16){
+                    $(this).parent().parent().parent().find(".weight").val("1510%");
+                    $(this).parent().find("li:nth-child(1)").html("1510%");
+                    $(this).parent().find("li:nth-child(2)").html("1520%");
+                    $(this).parent().find("li:nth-child(3)").html("1530%");
+                    $(this).parent().find("li:nth-child(4)").html("1540%");
+                    $(this).parent().find("li:nth-child(5)").html("1550%");
+                    $(this).parent().find("li:nth-child(6)").html("1560%");
+                    $(this).parent().find("li:nth-child(7)").html("1570%");
+                    $(this).parent().find("li:nth-child(8)").html("1580%");
+                    $(this).parent().find("li:nth-child(9)").html("1590%");
+                    $(this).parent().find("li:nth-child(10)").html("1600%");
+                }else if(weight_page == 17){
+                    $(this).parent().parent().parent().find(".weight").val("1610%");
+                    $(this).parent().find("li:nth-child(1)").html("1610%");
+                    $(this).parent().find("li:nth-child(2)").html("1620%");
+                    $(this).parent().find("li:nth-child(3)").html("1630%");
+                    $(this).parent().find("li:nth-child(4)").html("1640%");
+                    $(this).parent().find("li:nth-child(5)").html("1650%");
+                    $(this).parent().find("li:nth-child(6)").html("1660%");
+                    $(this).parent().find("li:nth-child(7)").html("1670%");
+                    $(this).parent().find("li:nth-child(8)").html("1680%");
+                    $(this).parent().find("li:nth-child(9)").html("1690%");
+                    $(this).parent().find("li:nth-child(10)").html("1700%");
+                }else if(weight_page == 18){
+                    $(this).parent().parent().parent().find(".weight").val("1710%");
+                    $(this).parent().find("li:nth-child(1)").html("1710%");
+                    $(this).parent().find("li:nth-child(2)").html("1720%");
+                    $(this).parent().find("li:nth-child(3)").html("1730%");
+                    $(this).parent().find("li:nth-child(4)").html("1740%");
+                    $(this).parent().find("li:nth-child(5)").html("1750%");
+                    $(this).parent().find("li:nth-child(6)").html("1760%");
+                    $(this).parent().find("li:nth-child(7)").html("1770%");
+                    $(this).parent().find("li:nth-child(8)").html("1780%");
+                    $(this).parent().find("li:nth-child(9)").html("1790%");
+                    $(this).parent().find("li:nth-child(10)").html("1800%");
+                }else if(weight_page == 19){
+                    $(this).parent().parent().parent().find(".weight").val("1810%");
+                    $(this).parent().find("li:nth-child(1)").html("1810%");
+                    $(this).parent().find("li:nth-child(2)").html("1820%");
+                    $(this).parent().find("li:nth-child(3)").html("1830%");
+                    $(this).parent().find("li:nth-child(4)").html("1840%");
+                    $(this).parent().find("li:nth-child(5)").html("1850%");
+                    $(this).parent().find("li:nth-child(6)").html("1860%");
+                    $(this).parent().find("li:nth-child(7)").html("1870%");
+                    $(this).parent().find("li:nth-child(8)").html("1880%");
+                    $(this).parent().find("li:nth-child(9)").html("1890%");
+                    $(this).parent().find("li:nth-child(10)").html("1900%");
+                }else if(weight_page == 20){
+                    $(this).parent().parent().parent().find(".weight").val("1910%");
+                    $(this).parent().find("li:nth-child(1)").html("1910%");
+                    $(this).parent().find("li:nth-child(2)").html("1920%");
+                    $(this).parent().find("li:nth-child(3)").html("1930%");
+                    $(this).parent().find("li:nth-child(4)").html("1940%");
+                    $(this).parent().find("li:nth-child(5)").html("1950%");
+                    $(this).parent().find("li:nth-child(6)").html("1960%");
+                    $(this).parent().find("li:nth-child(7)").html("1970%");
+                    $(this).parent().find("li:nth-child(8)").html("1980%");
+                    $(this).parent().find("li:nth-child(9)").html("1990%");
+                    $(this).parent().find("li:nth-child(10)").html("2000%");
+                }
+                event.stopPropagation();
+            });
+            $(".weight_right").on("click", function (event) {
+                $(this).parent().parent().parent().find(".weight").css({'border':'1px solid #282828',"background":"url(__STATIC__image/vip10_2.png)no-repeat 90px 12px"});
+                if(weight_page == 20){
+                    $(this).parent().parent().parent().find(".weight").val("1910%");
+                    return false;
+                }
+                if(weight_page == 19){
+                    $(".weight_right img").attr("src","__STATIC__image/weight_right01.png");
+                }
+                $(".weight_left img").attr("src","__STATIC__image/weight_left02.png");
+                weight_page++;
+                if(weight_page == 1){
+                    $(this).parent().parent().parent().find(".weight").val("100%");
+                    $(this).parent().find("li:nth-child(1)").html("10%");
+                    $(this).parent().find("li:nth-child(2)").html("20%");
+                    $(this).parent().find("li:nth-child(3)").html("30%");
+                    $(this).parent().find("li:nth-child(4)").html("40%");
+                    $(this).parent().find("li:nth-child(5)").html("50%");
+                    $(this).parent().find("li:nth-child(6)").html("60%");
+                    $(this).parent().find("li:nth-child(7)").html("70%");
+                    $(this).parent().find("li:nth-child(8)").html("80%");
+                    $(this).parent().find("li:nth-child(9)").html("90%");
+                    $(this).parent().find("li:nth-child(10)").html("100%");
+                }else if(weight_page == 2){
+                    $(this).parent().parent().parent().find(".weight").val("110%");
+                    $(this).parent().find("li:nth-child(1)").html("110%");
+                    $(this).parent().find("li:nth-child(2)").html("120%");
+                    $(this).parent().find("li:nth-child(3)").html("130%");
+                    $(this).parent().find("li:nth-child(4)").html("140%");
+                    $(this).parent().find("li:nth-child(5)").html("150%");
+                    $(this).parent().find("li:nth-child(6)").html("160%");
+                    $(this).parent().find("li:nth-child(7)").html("170%");
+                    $(this).parent().find("li:nth-child(8)").html("180%");
+                    $(this).parent().find("li:nth-child(9)").html("190%");
+                    $(this).parent().find("li:nth-child(10)").html("200%");
+                }else if(weight_page == 3){
+                    $(this).parent().parent().parent().find(".weight").val("210%");
+                    $(this).parent().find("li:nth-child(1)").html("210%");
+                    $(this).parent().find("li:nth-child(2)").html("220%");
+                    $(this).parent().find("li:nth-child(3)").html("230%");
+                    $(this).parent().find("li:nth-child(4)").html("240%");
+                    $(this).parent().find("li:nth-child(5)").html("250%");
+                    $(this).parent().find("li:nth-child(6)").html("260%");
+                    $(this).parent().find("li:nth-child(7)").html("270%");
+                    $(this).parent().find("li:nth-child(8)").html("280%");
+                    $(this).parent().find("li:nth-child(9)").html("290%");
+                    $(this).parent().find("li:nth-child(10)").html("300%");
+                }else if(weight_page == 4){
+                    $(this).parent().parent().parent().find(".weight").val("310%");
+                    $(this).parent().find("li:nth-child(1)").html("310%");
+                    $(this).parent().find("li:nth-child(2)").html("320%");
+                    $(this).parent().find("li:nth-child(3)").html("330%");
+                    $(this).parent().find("li:nth-child(4)").html("340%");
+                    $(this).parent().find("li:nth-child(5)").html("350%");
+                    $(this).parent().find("li:nth-child(6)").html("360%");
+                    $(this).parent().find("li:nth-child(7)").html("370%");
+                    $(this).parent().find("li:nth-child(8)").html("380%");
+                    $(this).parent().find("li:nth-child(9)").html("390%");
+                    $(this).parent().find("li:nth-child(10)").html("400%");
+                }else if(weight_page == 5){
+                    $(this).parent().parent().parent().find(".weight").val("410%");
+                    $(this).parent().find("li:nth-child(1)").html("410%");
+                    $(this).parent().find("li:nth-child(2)").html("420%");
+                    $(this).parent().find("li:nth-child(3)").html("430%");
+                    $(this).parent().find("li:nth-child(4)").html("440%");
+                    $(this).parent().find("li:nth-child(5)").html("450%");
+                    $(this).parent().find("li:nth-child(6)").html("460%");
+                    $(this).parent().find("li:nth-child(7)").html("470%");
+                    $(this).parent().find("li:nth-child(8)").html("480%");
+                    $(this).parent().find("li:nth-child(9)").html("490%");
+                    $(this).parent().find("li:nth-child(10)").html("500%");
+                }else if(weight_page == 6){
+                    $(this).parent().parent().parent().find(".weight").val("510%");
+                    $(this).parent().find("li:nth-child(1)").html("510%");
+                    $(this).parent().find("li:nth-child(2)").html("520%");
+                    $(this).parent().find("li:nth-child(3)").html("530%");
+                    $(this).parent().find("li:nth-child(4)").html("540%");
+                    $(this).parent().find("li:nth-child(5)").html("550%");
+                    $(this).parent().find("li:nth-child(6)").html("560%");
+                    $(this).parent().find("li:nth-child(7)").html("570%");
+                    $(this).parent().find("li:nth-child(8)").html("580%");
+                    $(this).parent().find("li:nth-child(9)").html("590%");
+                    $(this).parent().find("li:nth-child(10)").html("600%");
+                }else if(weight_page == 7){
+                    $(this).parent().parent().parent().find(".weight").val("610%");
+                    $(this).parent().find("li:nth-child(1)").html("610%");
+                    $(this).parent().find("li:nth-child(2)").html("620%");
+                    $(this).parent().find("li:nth-child(3)").html("630%");
+                    $(this).parent().find("li:nth-child(4)").html("640%");
+                    $(this).parent().find("li:nth-child(5)").html("650%");
+                    $(this).parent().find("li:nth-child(6)").html("660%");
+                    $(this).parent().find("li:nth-child(7)").html("670%");
+                    $(this).parent().find("li:nth-child(8)").html("680%");
+                    $(this).parent().find("li:nth-child(9)").html("690%");
+                    $(this).parent().find("li:nth-child(10)").html("700%");
+                }else if(weight_page == 8){
+                    $(this).parent().parent().parent().find(".weight").val("710%");
+                    $(this).parent().find("li:nth-child(1)").html("710%");
+                    $(this).parent().find("li:nth-child(2)").html("720%");
+                    $(this).parent().find("li:nth-child(3)").html("730%");
+                    $(this).parent().find("li:nth-child(4)").html("740%");
+                    $(this).parent().find("li:nth-child(5)").html("750%");
+                    $(this).parent().find("li:nth-child(6)").html("760%");
+                    $(this).parent().find("li:nth-child(7)").html("770%");
+                    $(this).parent().find("li:nth-child(8)").html("780%");
+                    $(this).parent().find("li:nth-child(9)").html("790%");
+                    $(this).parent().find("li:nth-child(10)").html("800%");
+                }else if(weight_page == 9){
+                    $(this).parent().parent().parent().find(".weight").val("810%");
+                    $(this).parent().find("li:nth-child(1)").html("810%");
+                    $(this).parent().find("li:nth-child(2)").html("820%");
+                    $(this).parent().find("li:nth-child(3)").html("830%");
+                    $(this).parent().find("li:nth-child(4)").html("840%");
+                    $(this).parent().find("li:nth-child(5)").html("850%");
+                    $(this).parent().find("li:nth-child(6)").html("860%");
+                    $(this).parent().find("li:nth-child(7)").html("870%");
+                    $(this).parent().find("li:nth-child(8)").html("880%");
+                    $(this).parent().find("li:nth-child(9)").html("890%");
+                    $(this).parent().find("li:nth-child(10)").html("900%");
+                }else if(weight_page == 10){
+                    $(this).parent().parent().parent().find(".weight").val("910%");
+                    $(this).parent().find("li:nth-child(1)").html("910%");
+                    $(this).parent().find("li:nth-child(2)").html("920%");
+                    $(this).parent().find("li:nth-child(3)").html("930%");
+                    $(this).parent().find("li:nth-child(4)").html("940%");
+                    $(this).parent().find("li:nth-child(5)").html("950%");
+                    $(this).parent().find("li:nth-child(6)").html("960%");
+                    $(this).parent().find("li:nth-child(7)").html("970%");
+                    $(this).parent().find("li:nth-child(8)").html("980%");
+                    $(this).parent().find("li:nth-child(9)").html("990%");
+                    $(this).parent().find("li:nth-child(10)").html("1000%");
+                }else if(weight_page == 11){
+                    $(this).parent().parent().parent().find(".weight").val("1010%");
+                    $(this).parent().find("li:nth-child(1)").html("1010%");
+                    $(this).parent().find("li:nth-child(2)").html("1020%");
+                    $(this).parent().find("li:nth-child(3)").html("1030%");
+                    $(this).parent().find("li:nth-child(4)").html("1040%");
+                    $(this).parent().find("li:nth-child(5)").html("1050%");
+                    $(this).parent().find("li:nth-child(6)").html("1060%");
+                    $(this).parent().find("li:nth-child(7)").html("1070%");
+                    $(this).parent().find("li:nth-child(8)").html("1080%");
+                    $(this).parent().find("li:nth-child(9)").html("1090%");
+                    $(this).parent().find("li:nth-child(10)").html("1100%");
+                }else if(weight_page == 12){
+                    $(this).parent().parent().parent().find(".weight").val("1110%");
+                    $(this).parent().find("li:nth-child(1)").html("1110%");
+                    $(this).parent().find("li:nth-child(2)").html("1120%");
+                    $(this).parent().find("li:nth-child(3)").html("1130%");
+                    $(this).parent().find("li:nth-child(4)").html("1140%");
+                    $(this).parent().find("li:nth-child(5)").html("1150%");
+                    $(this).parent().find("li:nth-child(6)").html("1160%");
+                    $(this).parent().find("li:nth-child(7)").html("1170%");
+                    $(this).parent().find("li:nth-child(8)").html("1180%");
+                    $(this).parent().find("li:nth-child(9)").html("1190%");
+                    $(this).parent().find("li:nth-child(10)").html("1200%");
+                }else if(weight_page == 13){
+                    $(this).parent().parent().parent().find(".weight").val("1210%");
+                    $(this).parent().find("li:nth-child(1)").html("1210%");
+                    $(this).parent().find("li:nth-child(2)").html("1220%");
+                    $(this).parent().find("li:nth-child(3)").html("1230%");
+                    $(this).parent().find("li:nth-child(4)").html("1240%");
+                    $(this).parent().find("li:nth-child(5)").html("1250%");
+                    $(this).parent().find("li:nth-child(6)").html("1260%");
+                    $(this).parent().find("li:nth-child(7)").html("1270%");
+                    $(this).parent().find("li:nth-child(8)").html("1280%");
+                    $(this).parent().find("li:nth-child(9)").html("1290%");
+                    $(this).parent().find("li:nth-child(10)").html("1300%");
+                }else if(weight_page == 14){
+                    $(this).parent().parent().parent().find(".weight").val("1310%");
+                    $(this).parent().find("li:nth-child(1)").html("1310%");
+                    $(this).parent().find("li:nth-child(2)").html("1320%");
+                    $(this).parent().find("li:nth-child(3)").html("1330%");
+                    $(this).parent().find("li:nth-child(4)").html("1340%");
+                    $(this).parent().find("li:nth-child(5)").html("1350%");
+                    $(this).parent().find("li:nth-child(6)").html("1360%");
+                    $(this).parent().find("li:nth-child(7)").html("1370%");
+                    $(this).parent().find("li:nth-child(8)").html("1380%");
+                    $(this).parent().find("li:nth-child(9)").html("1390%");
+                    $(this).parent().find("li:nth-child(10)").html("1400%");
+                }else if(weight_page == 15){
+                    $(this).parent().parent().parent().find(".weight").val("1410%");
+                    $(this).parent().find("li:nth-child(1)").html("1410%");
+                    $(this).parent().find("li:nth-child(2)").html("1420%");
+                    $(this).parent().find("li:nth-child(3)").html("1430%");
+                    $(this).parent().find("li:nth-child(4)").html("1440%");
+                    $(this).parent().find("li:nth-child(5)").html("1450%");
+                    $(this).parent().find("li:nth-child(6)").html("1460%");
+                    $(this).parent().find("li:nth-child(7)").html("1470%");
+                    $(this).parent().find("li:nth-child(8)").html("1480%");
+                    $(this).parent().find("li:nth-child(9)").html("1490%");
+                    $(this).parent().find("li:nth-child(10)").html("1500%");
+                }else if(weight_page == 16){
+                    $(this).parent().parent().parent().find(".weight").val("1510%");
+                    $(this).parent().find("li:nth-child(1)").html("1510%");
+                    $(this).parent().find("li:nth-child(2)").html("1520%");
+                    $(this).parent().find("li:nth-child(3)").html("1530%");
+                    $(this).parent().find("li:nth-child(4)").html("1540%");
+                    $(this).parent().find("li:nth-child(5)").html("1550%");
+                    $(this).parent().find("li:nth-child(6)").html("1560%");
+                    $(this).parent().find("li:nth-child(7)").html("1570%");
+                    $(this).parent().find("li:nth-child(8)").html("1580%");
+                    $(this).parent().find("li:nth-child(9)").html("1590%");
+                    $(this).parent().find("li:nth-child(10)").html("1600%");
+                }else if(weight_page == 17){
+                    $(this).parent().parent().parent().find(".weight").val("1610%");
+                    $(this).parent().find("li:nth-child(1)").html("1610%");
+                    $(this).parent().find("li:nth-child(2)").html("1620%");
+                    $(this).parent().find("li:nth-child(3)").html("1630%");
+                    $(this).parent().find("li:nth-child(4)").html("1640%");
+                    $(this).parent().find("li:nth-child(5)").html("1650%");
+                    $(this).parent().find("li:nth-child(6)").html("1660%");
+                    $(this).parent().find("li:nth-child(7)").html("1670%");
+                    $(this).parent().find("li:nth-child(8)").html("1680%");
+                    $(this).parent().find("li:nth-child(9)").html("1690%");
+                    $(this).parent().find("li:nth-child(10)").html("1700%");
+                }else if(weight_page == 18){
+                    $(this).parent().parent().parent().find(".weight").val("1710%");
+                    $(this).parent().find("li:nth-child(1)").html("1710%");
+                    $(this).parent().find("li:nth-child(2)").html("1720%");
+                    $(this).parent().find("li:nth-child(3)").html("1730%");
+                    $(this).parent().find("li:nth-child(4)").html("1740%");
+                    $(this).parent().find("li:nth-child(5)").html("1750%");
+                    $(this).parent().find("li:nth-child(6)").html("1760%");
+                    $(this).parent().find("li:nth-child(7)").html("1770%");
+                    $(this).parent().find("li:nth-child(8)").html("1780%");
+                    $(this).parent().find("li:nth-child(9)").html("1790%");
+                    $(this).parent().find("li:nth-child(10)").html("1800%");
+                }else if(weight_page == 19){
+                    $(this).parent().parent().parent().find(".weight").val("1810%");
+                    $(this).parent().find("li:nth-child(1)").html("1810%");
+                    $(this).parent().find("li:nth-child(2)").html("1820%");
+                    $(this).parent().find("li:nth-child(3)").html("1830%");
+                    $(this).parent().find("li:nth-child(4)").html("1840%");
+                    $(this).parent().find("li:nth-child(5)").html("1850%");
+                    $(this).parent().find("li:nth-child(6)").html("1860%");
+                    $(this).parent().find("li:nth-child(7)").html("1870%");
+                    $(this).parent().find("li:nth-child(8)").html("1880%");
+                    $(this).parent().find("li:nth-child(9)").html("1890%");
+                    $(this).parent().find("li:nth-child(10)").html("1900%");
+                }else if(weight_page == 20){
+                    $(this).parent().parent().parent().find(".weight").val("1910%");
+                    $(this).parent().find("li:nth-child(1)").html("1910%");
+                    $(this).parent().find("li:nth-child(2)").html("1920%");
+                    $(this).parent().find("li:nth-child(3)").html("1930%");
+                    $(this).parent().find("li:nth-child(4)").html("1940%");
+                    $(this).parent().find("li:nth-child(5)").html("1950%");
+                    $(this).parent().find("li:nth-child(6)").html("1960%");
+                    $(this).parent().find("li:nth-child(7)").html("1970%");
+                    $(this).parent().find("li:nth-child(8)").html("1980%");
+                    $(this).parent().find("li:nth-child(9)").html("1990%");
+                    $(this).parent().find("li:nth-child(10)").html("2000%");
+                }
+                event.stopPropagation();
+            });
+            $(".signal_div").find(".ul_div .step_2_ul_div_toggle").on("click",function(event){
+                event.stopPropagation();
+            });
+            $("body").click(function(event){
+                $(".signal_div ul").hide();
+                $(".signal_div .ul_div").hide();
+                $(".signal_div input").css({"background":"url(__STATIC__image/vip10.png) 90px 12px no-repeat","border":"1px solid #dadada"});
+            });
+            $(".last_li").on("click", function () {
+                $(this).parent().parent().find("input").removeAttr("readonly").val("").focus().change(function () {
+                    /*修改信号里面"手数"，"最大持仓"的参数，同时改money1和money2的值*/
+                    var index=$(this).parent().index();
+                    if(index==4){
+                        if($(".step_2").css("display")=="block"){
+                            money2();
+                        }else if($(".step_3").css("display")=="block"){
+                            money3();
+                        }
+                    }
+                    /*if(index == 3 || index == 4){
+                     $(this).blur(function () {
+                     console.log(11111);
+                     })
+                     }*/
+                    /*if($(this).val() !='不限'&&!isNaN($(this).val()) == true){
+                     count++;
+                     win.alert('','请输入数字类型！', function () {$(this).focus();});
+                     return false;
+                     }*/
+
+                });
+            });
+            $(".ul_div .last_li").on("click", function () {
+                $(this).parent().parent().parent().find("input").removeAttr("readonly").val("").focus().change(function () {
+                    /*修改信号里面"手数"，"最大持仓"的参数，同时改money1和money2的值*/
+                    var index=$(this).parent().parent().index();
+                    if(index==1){
+                        if($(".step_2").css("display")=="block"){
+                            money2();
+                        }else if($(".step_3").css("display")=="block"){
+                            money3();
+                        }
+                    }
+                    /*if(index == 3 || index == 4){
+                     $(this).blur(function () {
+                     console.log(11111);
+                     })
+                     }*/
+                    /*if($(this).val() !='不限'&&!isNaN($(this).val()) == true){
+                     count++;
+                     win.alert('','请输入数字类型！', function () {$(this).focus();});
+                     return false;
+                     }*/
+
+                });
+            });
+
+            /*第二步里面的删除*/
+            $(".step_2_signal_btn").on("click", function () {
+                $(this).parent().parent().remove();
+                var num2=$(this).parent().parent().children(".signal_div:nth-child(1)").find("span").html();
+                var src2=$(this).parent().parent().find(".signal_head_pic01").attr("src");
+                $("#iframe_imam_list").contents().find(".signal li").each(function () {
+                    var num1=$(this).find(".signal_name").html();
+                    if(num2==num1){
+                        $(this). find(".signal_btn3").hide();                   //同步改变第一步里面的移除组合按钮
+                        $(this). find(".signal_btn1").show();
+                    }
+                });
+                $(".checked_signal .end_img").each(function () {
+                    var src1=$(this).attr("src");
+                    if(src1==src2){
+                        $(this).remove();                   //同步删除选中信号图标
+                        if($(".end_img").length==0){
+//                            $(".no_signal").show();
+                        }
+                    }
+                });
+                money2();
+            });
+
+            /*第三步修改，完成，删除*/
+            $(".step_3_signal_btn1").on("click",function(){     //修改
+                if($(this).parent().parent().find("p").html() == '监听中'){
+                    $(this).parent().siblings().find("p").html("监听中").css("color","#00aa6d");
+                }else {
+                    $(this).parent().siblings().find("p").html("修改后生效").css("color","#555555");
+                }
+                $(this).parent().siblings().find("input").css({"border":"1px solid #dadada","background":"url('__STATIC__image/vip10.png')no-repeat 90px 12px","cursor":"pointer"}).removeAttr("disabled");
+                // 最大浮亏不可点击
+                // $(this).parent().siblings().find(".maxloss").attr("disabled",true);
+                var uid = '{$uid}';
+                if(uid!=0){
+                    var vip = '{$info.server}';
+                    if(vip==''||vip=='vip1'){       //vip2以下服务不能修改跟单方向
+                        $(".step_3_signal_li").children(".signal_div:nth-child(3)").find("input").attr("disabled",true).css({"background":"none"});
+                    }
+                }
+                $(this).hide();
+                $(this).parent().find("a:nth-child(2)").show();
+                $(".noclick").attr("disabled","true").css({"cursor":"default"});
+            });
+            $(".step_3_signal_btn2").on("click", function () {   //完成
+                var count = 0;
+                if($(".active_mt4_li").find("span").attr("data") == 1){       /*判断正在运行状态下，vip0不能选择多个信号进行跟随*/
+                    var end_img_length = $(".step_3_signal_li").length;
+//                    console.log("1111:"+end_img_length);
+                    if(end_img_length >= 2){
+                        var vip = '{$info.server}';
+                        if(vip==''){        //确定vip等级为空。为空则限制信号添加
+                            count++;
+                            $(".no_buy").fadeIn();
+                            return false;
+                        }
+                    }
+                }
+                $(".step_3_signal_li .signal_div").find("input").each(function () {
+                    if($(this).val()==''){
+                        count++;
+                        win.alert('','修改项不能为空！', function () {$(this).focus();});
+                        return false;
+                    }
+                });
+                if(count == 0){
+                    $(this).hide();
+                    $(this).parent().find("a:nth-child(1)").show();
+                    $(".signal_div ul").show();
+                    $(this).parent().parent().find("input").css({"cursor":"auto"}).attr("disabled",true).removeClass("running_add");
+
+                    /*正在运行的时候，点击“完成按钮”，完成下单操作*/
+                    if($(".active_mt4_li").find("span").attr("data") == 1){
+                        $(".order_step_2").css({"color":"#aaaaaa","cursor":"not-allowed"});
+                        $(this).parent().siblings().find("p").html("监听中").css("color","#00aa6d");
+                        $(".order_step_3").addClass("active").siblings().removeClass("active");
+                        $(".step_3_btn1 ").hide();
+                        $(".step_3_btn2").show();
+                        /*下单函数*/
+                        var uid = $('input[name=uid]').val();
+                        name = $(this).parent().siblings().find('span.step_3_signal_data').eq(0).html();  //作者
+                        bn = $(this).parent().siblings().find("span.num").eq(0).html();
+                        mt4id = $(this).parent().siblings().find("span.mt4id").eq(0).html();
+                        $("#iframe_imam_list").contents().find(".signal li").each(function () {
+                            var signal_mt4id=$(this).find("p").find("span.signal_mt4id").html();
+                            if(signal_mt4id==mt4id){
+                                $(this).find("div:last-child").find(".signal_btn3").hide();
+                                $(this).find("div:last-child").find(".signal_btn4").show();
+                            }
+                        });
+                        weight = $(this).parent().siblings().find("input.weight").eq(0).val();  //权重（手数）
+                        sign = $(this).parent().siblings().find("input.sign").eq(0).val(); //跟单方向
+                        if (sign === '正') {
+                            weight = weight;
+                        } else {
+                            weight = '-'+weight;
+                        }
+                        maxloss = $(this).parent().siblings().find("input.maxloss").eq(0).val();  //最大浮亏
+                        if(maxloss=='不限'){
+                            maxloss = 0;
+                        }
+                        maxhold = $(this).parent().siblings().find("input.maxhold").eq(0).val();  //最大持仓
+                        if(maxhold=='不限'){
+                            maxhold = 0;
+                        }
+                        var Mymt4id = $(".active_mt4_li").find("span").html();          //多mt4账户里面，选择的mt4账户
+                        var data = {
+                            mt4id : mt4id,
+                            bn : bn,
+                            name : name,
+                            weight : weight,
+                            maxloss : maxloss,
+                            maxhold : maxhold,
+                            uid : uid,
+                            slave_mt4id : Mymt4id
+                        };
+//                        console.log(data);
+                        $.ajax({
+                            type: "post",
+                            dataType: "json",
+                            url: "{:url('master/update_order')}",
+                            data: {'data':JSON.stringify(data)},
+                            success:function(data){
+                                data = JSON.parse(data);
+                                if (data.code == 200) {
+                                    $(".buy_sure").hide();
+                                    $(".buy_succeed").fadeIn();
+                                    $(".active_mt4_li span").attr("data","1");
+
+                                    setTimeout(function () {
+                                        $(".buy_succeed").hide();
+                                    },2000);
+                                    /* 限制修改權重類型 */
+                                    /*$(".toggle1").css({'border': '1px solid #a8a7a5','background-color': '#a8a7a5'});*/
+                                }else {
+                                    win.alert('',data.msg);
+                                }
+                            }
+                        });
+                    }else{
+                        $(this).parent().siblings().find("p").html("等待监听").css("color","#555555");
+                    }
+                }
+            });
+            $(".step_3_signal_btn3").on("click", function () {      //删除
+                var count=0;
+                var Arr=[];     //所有第三步里面的单子的状态，集合数组
+                var arr=[];     //筛选出了“监听中”状态的集合
+                for(var i=0;i<$(".step_3_signal_li").length;i++){
+                    var stata = $(".step_3_signal_li").eq(i).find("p").html();
+                    Arr.push(stata);
+                }
+//                console.log(Arr);
+                for(var j=0;j<Arr.length;j++){
+                    if(Arr[j]=='监听中'){
+                        arr.push(Arr[j]);
+                    }
+                }
+//                console.log(arr.length);
+                if(arr.length == 1 && $(this).parent().parent().find("p").html() == '监听中'){     //当点击删除的li标签，是最后一个“监听中”的时候，阻止。
+                    count++;
+                    win.alert("","请先停止跟单！");
+                    return false;
+                }
+                var This = $(this);
+                if(count==0){
+                    var mt4id=$(this).parent().siblings().children('.mt4id').html();
+                    var Mymt4id = $(".active_mt4_li").find("span").html();          //多mt4账户里面，选择的mt4账户
+                    $.ajax({
+                        type: "post",
+                        dataType: "json",
+                        url: "{:url('master/del_order')}",
+                        data: {
+                            mt4id : mt4id,
+                            slave_mt4id : Mymt4id
+                        },
+                        success:function(data){
+                            data = JSON.parse(data);
+                            if (data.code == 200) {
+                                This.parent().parent().remove();
+                                get_my_signal_num();
+                            }else {
+                                win.alert('',data.msg);
+                            }
+                        }
+                    });
+                    if($(".step_3_signal_li").length==1){
+                        $(".order_step_2").css({"color":"#333333","cursor":"pointer"}).removeClass("disabled");
+                        $(".toggle1").addClass('toggle-on').removeClass("toggle-off");
+                        $(".checked_info1").hide();
+                        $(".checked_info2").show();
+                        no_running();
+                    }
+                    var num3=$(this).parent().parent().children(".signal_div:nth-child(1)").find("span").html();
+                    var src3=$(this).parent().parent().find(".signal_head_pic01").attr("src");
+                    $(".step_2_signal_li").each(function () {
+                        var num2=$(this).find(".step_2_signal_data").html();
+                        if(num3==num2){
+                            $(this).remove();           //同步删除第二步里面的信号
+                        }
+                    });
+                    $("#iframe_imam_list").contents().find(".signal li").each(function () {
+                        var num1=$(this).find(".signal_name").html();
+                        if(num3==num1){
+                            $(this). find(".signal_btn3").hide();                   //同步改变第一步里面的移除组合按钮
+                            $(this). find(".signal_btn4").hide();
+                            $(this). find(".signal_btn1").show();
+                        }
+                    });
+                    $(".checked_signal .end_img").each(function () {
+                        var src1=$(this).attr("src");
+                        if(src1==src3){
+                            $(this).remove();                   //同步删除选中信号图标
+                            if($(".end_img").length==0){
+//                                $(".no_signal").show();
+                            }
+                        }
+                    });
+                    money3();
+                };
+                $(".step_3_btn1").on("click", function () {
+                    if($(".step_3_signal_ul").html()==''){
+                        $(".buy_sure").hide();
+                        win.alert("","请先添加信号！");
+                        return false;
+                    }
+                });
+            });
+        }
+
+        /*计算最大预付款，建议MT4预留资金，金额跳动效果*/
+        function money2(){
+            var money1 = 0,money2 = 0;
+            for(var i=0;i<$('.step_2_signal_li').length;i++){
+                if($(".step_2_signal_li").eq(i).children(".signal_div").eq(1).find("input").val().indexOf("%") <= 0){
+//console.log($(".step_2_signal_li").eq(i).children(".signal_div").eq(3).find("input").val());
+                    // 小计函数
+                    var money=parseInt($(".step_2_signal_li").eq(i).children(".signal_div").eq(1).find("input").val()*$(".step_2_signal_li").eq(i).children(".signal_div").eq(4).find("input").val()*1000);
+                    // 总计函数
+                    money1+=money;
+                    money2 = money1 * 2;
+                }
+            }
+            if(isNaN(money1)){
+                money1=0;
+                money2=0;
+            }
+//                    $('.money1').html(money1+' 美元');
+//                    $('.money2').html(money2+' 美元');
+            /*加数字跳动效果*/
+            $('.money1').animateNumber({
+                number: money1,
+                numberStep: function(now,tween) {
+                    var floored_number = Math.floor(now),
+                            target = $(tween.elem);
+                    target.text(floored_number);
+                }
+            }, 500);
+            $('.money2').animateNumber({
+                number: money2,
+                numberStep: function(now,tween) {
+                    var floored_number = Math.floor(now),
+                            target = $(tween.elem);
+                    target.text(floored_number);
+                }
+            }, 500)
+        }
+        function money3(){
+            var money1 = 0,money2 = 0;
+            for(var i=0;i<$('.step_3_signal_li').length;i++){
+                if($(".step_3_signal_li").eq(i).children(".signal_div").eq(1).find("input").val().indexOf("%") <= 0){
+                    //console.log($(".step_2_signal_li").eq(i).children(".signal_div").eq(3).find("input").val());
+                    // 小计函数
+                    var money=parseInt($(".step_3_signal_li").eq(i).children(".signal_div").eq(1).find("input").val()*$(".step_3_signal_li").eq(i).children(".signal_div").eq(4).find("input").val()*1000);
+
+                    // 总计函数
+                    money1+=money;
+                    money2 = money1 * 2;
+                }
+            }
+            /*console.log(money1);
+            console.log(money2);*/
+            if(isNaN(money1)){
+                money1=0;
+                money2=0;
+            }
+//                    $('.money1').html(money1+' 美元');
+//                    $('.money2').html(money2+' 美元');
+            /*加数字跳动效果*/
+            $('.money1').animateNumber({
+                number: money1,
+                numberStep: function(now,tween) {
+                    var floored_number = Math.floor(now),
+                            target = $(tween.elem);
+                    target.text(floored_number);
+                }
+            }, 500);
+            $('.money2').animateNumber({
+                number: money2,
+                numberStep: function(now,tween) {
+                    var floored_number = Math.floor(now),
+                            target = $(tween.elem);
+                    target.text(floored_number);
+                }
+            }, 500)
+        }
+
+        /*第二步，第三步确认跟单*/
+        function confirmOrder2(){
+            var data = [];
+            var uid = $('input[name=uid]').val();
+            var Mymt4id;
+            var mt4id;
+            $('.step_2_signal_li').each(function(i){
+                name = $(this).find('span.step_2_signal_data').eq(0).html();  //作者
+                bn = $(this).find("span.num").eq(0).html();
+                mt4id = $(this).find("span.mt4id").eq(0).html();
+                weight = $(this).find("input.weight").eq(0).val();  //权重（手数）
+                sign = $(this).find("input.sign").eq(0).val(); //跟单方向
+                if (sign === '正') {
+                    weight = weight;
+                } else {
+                    weight = '-'+weight;
+                }
+                maxloss = $(this).find("input.maxloss").eq(0).val();  //最大浮亏
+                if(maxloss=='不限'){
+                            maxloss = 0;
+                        }
+                maxhold = $(this).find("input.maxhold").eq(0).val();  //最大持仓
+                if(maxhold=='不限'){
+                    maxhold = 0;
+                        }
+                Mymt4id = $(".active_mt4_li").find("span").html();          //多mt4账户里面，选择的mt4账户
+                data[i] = {
+//                    slave_mt4id : Mymt4id,
+                    name : name,
+                    bn : bn,
+                    mt4id : mt4id,
+                    weight : weight,
+                    maxloss : maxloss,
+                    maxhold : maxhold,
+                    uid : uid
+                };
+            });
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "{:url('master/confirm')}",
+                data: {
+                    slave_mt4id: Mymt4id,
+                    'data':JSON.stringify(data)
+                },
+                success:function(data){
+                    data = JSON.parse(data);
+                    if (data.code == 200) {
+                        $(".buy_sure").hide();
+                        $(".buy_succeed").fadeIn();
+                        $(".active_mt4_li span").attr("data","1");
+                        setTimeout(function () {
+                            $(".buy_succeed").hide();
+                        },2000);
+                        $(".order_step_3").show().addClass("active").siblings().removeClass("active");
+                        /*if($(".running").css("display") == "block"){
+                            $(".order_step_3").css("background","url(../image/order_step_3_04.png) center center no-repeat");
+                        }else {
+                            $(".order_step_3").css("background","url(../image/order_step_3_02.png) center center no-repeat");
+                        }*/
+                        $(".step_3").fadeIn().siblings().hide();
+                        $(".establish").hide();
+                        $(".create_live").hide();
+                        $(".order_step_search").hide();
+                        $(".order_step_2").css({"color":"#aaaaaa","cursor":"not-allowed"})/*.addClass("disabled")*/;   //第二步按钮显示灰色
+                        $(".step_3_btn1 ").hide();
+                        $(".step_3_btn2").show();
+                        $('.step_2_signal_li').each(function() {
+                            mt4id = $(this).find("span.mt4id").eq(0).html();
+                            $("#iframe_imam_list").contents().find(".signal li").each(function () {
+                                var signal_mt4id = $(this).find("p").find("span.signal_mt4id").html();
+                                if (signal_mt4id == mt4id) {
+                                    $(this).find("div:last-child").find(".signal_btn3").hide();
+                                    $(this).find("div:last-child").find(".signal_btn4").show();
+                                }
+                            });
+                        });
+                        /*修改参数之后，同步到第三步里面*/
+                        for(var i=0;i<$(".step_2_signal_li").length;i++){
+                            var name=$(".step_2_signal_data").eq(i).html();
+                            var num=$(".num").eq(i).html();
+                            var mt4id=$(".mt4id").eq(i).html();
+                            var input1=$(".step_2_signal_li").eq(i).children(".signal_div").eq(1).find("input").val();
+                            var input2=$(".step_2_signal_li").eq(i).children(".signal_div").eq(2).find("input").val();
+                            var input3=$(".step_2_signal_li").eq(i).children(".signal_div").eq(3).find("input").val();
+                            var input4=$(".step_2_signal_li").eq(i).children(".signal_div").eq(4).find("input").val();
+                            var aSrc = $(".step_2_signal_li").eq(i).find('a:first-child').attr('href');
+                            var imgSrc1=$(".step_2_signal_li").eq(i).children(".signal_div").eq(0).find("img:first-child").attr("src");
+                            var imgSrc2=$(".step_2_signal_li").eq(i).children(".signal_div").eq(0).find("img:nth-child(2)").attr("src");
+                            var toggle1;
+                            if($(".step_2_signal_li").eq(i).children(".signal_div").eq(1).find(".toggle1").hasClass("toggle-on")==true){
+                                toggle1 = "toggle-on";
+                            }else if($(".step_2_signal_li").eq(i).children(".signal_div").eq(1).find(".toggle1").hasClass("toggle-off")==true){
+                                toggle1 = "toggle-off";
+                            }
+                            var html;
+                            html += ("<li class='step_3_signal_li'><div class='signal_div'>" +
+                            "<div class='signal_head'><a href='"+aSrc+"?server={$pagefrom}' target='_blank'><img src='"+imgSrc1+"' class='signal_head_pic01'  alt='"+name+"'></a></div>" +
+                            "<span class='step_3_signal_data mname'>"+name+"</span><span style='display: none' class='num'>"+num+"</span><span style='display: none' class='mt4id'>"+mt4id+"</span></div>" +
+                            "<div class='signal_div'><input class='weight' type='text' value='"+input1+"' readonly='readonly' disabled='disabled'>" +
+                            "<div class='ul_div'><div class='step_2_ul_div_toggle'><span class='weight_type weight_type1 active'>比例 </span><a href='javascript:void(0);' class='toggle toggle1 "+toggle1+"'></a><span class='weight_type weight_type2'> 手数</span></div>" +
+                            "<ul class='weight_ul1'><li>0.01</li><li>0.02</li><li>0.05</li><li>0.1</li>" +
+                            "<li>0.2</li><li>0.5</li><li>1</li><li>2</li><li>5</li><li>10</li><li>20</li><li class='last_li'>自定义</li></ul>" +
+                            "<ul class='weight_ul2'><li>10%</li><li>20%</li><li>30%</li><li>40%</li><li>50%</li><li>60%</li><li>70%</li><li>80%</li><li>90%</li><li>100%</li>" +
+                            "<li class='weight_left'><img src='__STATIC__image/weight_left01.png'></li><li class='weight_right'><img src='__STATIC__image/weight_right02.png'></li></ul></div></div>" +
+                            "<div class='signal_div'><input class='sign' type='text' value='"+input2+"' readonly='readonly' disabled='disabled'><ul><li>正</li><li>反</li></ul></div><div class='signal_div'>" +
+                            "<input class='maxloss' type='text' value='"+input3+"' readonly='readonly' disabled='disabled'><ul><li>50</li><li>100</li><li>150</li><li>200</li><li>300</li><li>不限</li>" +
+                            "<li class='last_li'>自定义</li></ul></div><div class='signal_div'><input class='maxhold' type='text' value='"+input4+"' readonly='readonly' disabled='disabled'><ul><li>1</li>" +
+                            "<li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>不限</li><li class='last_li'>自定义</li></ul></div>" +
+                            "<div class='signal_div'><p style='color: #00aa6d;'>监听中</p></div><div class='signal_div'>" +
+                            "<a href='javascript:void(0)' class='step_3_signal_btn1'>修改</a><a href='javascript:void(0)' class='step_3_signal_btn2' style='display: none;'>完成</a>" +
+                            "<a href='javascript:void(0)' class='step_3_signal_btn3'>删除</a></div></li>");
+                            html=html.replace("undefined","");  //移除underfined字样
+                            $(".step_3_signal_ul").html(html);
+                        }
+                        money3();
+                        changeInput();
+                        get_my_signal_num();
+                        /* 限制修改權重類型 */
+                        /*$(".toggle1").css({'border': '1px solid #a8a7a5','background-color': '#a8a7a5'});*/
+                    }else {
+                        $(".buy_sure").hide();
+                        win.alert('',data.msg);
+                        return false;
+                    }
+                }
+            });
+            return false;
+        }
+        function confirmOrder3(){
+            var data = [];
+            var uid = $('input[name=uid]').val();
+            var Mymt4id = $(".active_mt4_li").find("span").html();        //多mt4账户里面，选择的mt4账户
+            var mt4id;
+            $('.step_3_signal_ul>li').each(function(i){
+                name = $(this).find('span.step_3_signal_data').eq(0).html();  //作者
+                bn = $(this).find("span.num").eq(0).html();
+                mt4id = $(this).find("span.mt4id").eq(0).html();
+                weight = $(this).find("input.weight").eq(0).val();  //权重（手数）
+                sign = $(this).find("input.sign").eq(0).val(); //跟单方向
+                if (sign === '正') {
+                    weight = weight;
+                } else {
+                    weight = '-'+weight;
+                }
+                maxloss = $(this).find("input.maxloss").eq(0).val();  //最大浮亏
+                if(maxloss=='不限'){
+                            maxloss = 0;
+                        }
+                maxhold = $(this).find("input.maxhold").eq(0).val();  //最大持仓
+                if(maxhold=='不限'){
+                    maxhold = 0;
+                        }
+//                console.log(Mymt4id);
+                data[i] = {
+//                    slave_mt4id : Mymt4id,
+                    mt4id : mt4id,
+                    bn : bn,
+                    name : name,
+                    weight : weight,
+                    maxloss : maxloss,
+                    maxhold : maxhold,
+                    uid : uid
+                };
+            });
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "{:url('master/confirm')}",
+                data: {
+                    slave_mt4id: Mymt4id,
+                    'data':JSON.stringify(data)
+                },
+                success:function(data){
+                    data = JSON.parse(data);
+                    if (data.code == 200) {
+                        $(".buy_sure").hide();
+                        $(".buy_succeed").fadeIn();
+                        $(".active_mt4_li span").attr("data","1");
+                        setTimeout(function () {
+                            $(".buy_succeed").hide();
+                        },2000);
+                        $(".step_3_btn1").hide();
+                        $(".step_3_btn2 ").show();
+//                        $(".running").css("display","block");       //信号塔动画运行
+//                        var i = $ (".step_3_signal_li ").length;
+//                $(".order_step_3 p").find("span:nth-child(2)").html("信号接收中");
+                        /*$(".order_step_3").css("background","url(../image/order_step_3_03.png)no-repeat center");
+                        $(".order_step_3.active").css("background","url(../image/order_step_3_04.png)no-repeat center");*/
+                        $(".step_3_signal_li .signal_div").find("p").each(function () {
+                            if($(this).html()!="监听中"){
+                                $(this).html("监听中").css("color","#00aa6d");
+                            }
+                        });
+                        /*$(".step_3_signal_li .signal_div").find("input").css({"border":"1px solid transparent","background":"none"});*/
+                        $(".step_3_signal_li .signal_div").find(".step_3_signal_btn1").show();
+                        $(".step_3_signal_li .signal_div").find(".step_3_signal_btn2").hide();
+                        $(".order_step_2").css({"color":"#aaaaaa","cursor":"not-allowed"})/*.addClass("disabled")*/;//第二步按钮显示灰色
+                        $(".step_3_signal_btn3").css({"float":"right","display":"inline-block"});
+                        $('.step_3_signal_ul>li').each(function(i) {
+                            mt4id = $(this).find("span.mt4id").eq(0).html();
+                            $("#iframe_imam_list").contents().find(".signal li").each(function () {
+                                 var signal_mt4id=$(this).find("p").find("span.signal_mt4id").html();
+                                 if(signal_mt4id==mt4id){
+                                     $(this).find("div:last-child").find(".signal_btn3").hide();
+                                    $(this).find("div:last-child").find(".signal_btn4").show();
+                                }
+                             });
+                        });
+                        /* 限制修改權重類型 */
+                        /*$(".toggle1").css({'border': '1px solid #a8a7a5','background-color': '#a8a7a5'});*/
+                    }else {
+                        $(".buy_sure").hide();
+                        win.alert('',data.msg);
+                        return false;
+                    }
+                }
+            });
+            return false;
+        }
+
+        /*点击示例，出现解释*/
+        $(".checked_info2 p span").on("click", function (event) {
+            $(this).find(".checked_info_title").css("display","block");
+            event.stopPropagation();
+        });
+        $(".checked_info2 p span .checked_info_title").on("click", function (event) {
+            event.stopPropagation();
+        });
+        $("body").click(function(event){
+            $(".checked_info2 p span .checked_info_title").hide();
+        });
+
+    });
+</script>
+
+<!--免费延长vip弹窗2，vip即将到期（放在主信号页面）-->
+<script type="text/javascript" src="__STATIC__js/jquery.cookie.js"></script>
+<script>
+    $(function () {
+        var uid = {$uid};
+        $.ajax({
+            url: '{:url("api.account/get")}',
+            type: 'get',
+            dataType: 'jsonp',
+            jsonp: 'callback',
+            success: function (data) {
+                if (data.code == '200') {
+//                    console.log(data);
+                    var MT4data = data.data;
+                    if (MT4data == '') {     //表示没有绑定mt4;
+                        console.log('没有绑定mt4;');
+                    } else {               //绑定了mt4;
+                        for (var i = 0; i < MT4data.length; i++) {
+//                            console.log(data)
+                            var sh = data.data[i].sh;
+                            if (sh == 1) {
+                                var Mymt4id = data.data[0].mt4id;   //第一个已经绑定好的mt4账户
+//                                console.log(Mymt4id);
+
+                                var lastTime = "{$info['server_expire']}";
+                                var nowTime =  Date.parse(new Date()).toString().substr(0,10);
+                                var misTime = Math.abs(parseInt((lastTime - nowTime)/3600/24));
+//                                    console.log('到期时间 '+lastTime);
+//                                    console.log('当前时间 '+nowTime);
+//                                    console.log('时间差 '+misTime);
+                                /*判断跟了多个信号*/
+                                $.ajax({
+                                    url: '{:url("v1.web/get_master_signal","","","api")}',
+                                    type: 'get',
+                                    dataType: 'jsonp',
+                                    jsonp: 'callback',
+                                    data: {
+                                        uid: uid,
+                                        slave_mt4id : Mymt4id
+                                    },
+                                    success: function (data) {
+                                        if (data.code == 200) {
+//                                                console.log(data);
+                                            if(data.data.length > 1){        //正在跟单的信号数量大于1；
+                                                if(misTime == 2 || misTime == 1 || misTime == 0 || misTime == -1){
+                                                    if($.cookie("isClose") != 'yes'){
+                                                        $(".free_tovip_window2").fadeIn();
+//                                                            $.cookie("isClose",'yes',{ expires:1/8640});   //测试十秒
+                                                        $.cookie("isClose",'yes',{ expires:1});      //一天
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+<!--vip过期的用户，提醒3天“免费延长vip功能”-->
+<script>
+    $(function () {
+        var vip = '{$info.server}';
+        var date = new Date;
+        var str = "" + date.getFullYear() + "年";
+        str += (date.getMonth()+1) + "月";
+        str += date.getDate() + "日";
+        /*判断是否登录*/
+        var uid = {$uid};
+        if(uid != 0){
+            if(vip == ''){
+                if(str == '2018年1月2日' || str == '2018年1月3日' || str == '2018年1月4日'){
+                    if($.cookie("isClose") != 'yes'){
+                        $(".free_tovip_window2_p").html("您的vip已到期!");
+                        $(".free_tovip_window2").fadeIn();
+//                                                            $.cookie("isClose",'yes',{ expires:1/8640});   //测试十秒
+                        $.cookie("isClose",'yes',{ expires:1});      //一天
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+<!--客服-->
+<script src="__STATIC__js/jquery.animateNumber.min.js"></script>      <!--数字跳动插件-->
+{/block}
+

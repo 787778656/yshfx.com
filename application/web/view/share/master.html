@@ -1,0 +1,285 @@
+{extend name="web@base/share_master"/}
+{block name="body"}
+<style>
+    .footer-right{width:300px;float:right}
+    .telephone{width:100%;height:32px;line-height:32px;color:#fff}
+    .telephone span{display:inline-block;width:32px;height:32px;float:left;background:url(__STATIC__images/phone_32px.png);margin-left:16%}
+    .telephone .tel-number{font-size:30px;font-weight:400;text-align:right}
+    .official-plat{width:100%;height:100%;margin-top:20px;position:relative}
+    .official-plat ul{float:right;margin-top:7px}
+    .official-plat ul li span{display:inline-block;width:32px;height:32px;background:url(__STATIC__images/plat_icon.png) no-repeat 0 0;line-height:32px;float:left;margin-right:12px}
+    .official-plat ul li .weibo-logo{background:url(__STATIC__images/plat_icon.png) no-repeat -32px 0}
+    .official-plat ul li .qq-logo{background:url(__STATIC__images/plat_icon.png) no-repeat -64px 0}
+    .official-plat ul li{height:45px}
+    .official-plat ul a{display:inline-block;height:32px;width:100%;line-height:32px;color:#fff;text-decoration:none;font-size:12px}
+    .official-plat>p{display:inline-block;width:132px;height:132px;border:1px solid #ddd;background-color:#fff}
+    .official-plat .weixin{position:absolute;top:0;left:10px;background-image:url(__STATIC__images/plat_qrcode.png);background-repeat:no-repeat;background-position:0 0}
+    .official-plat .weibo{position:absolute;top:0;left:10px;background-image:url(__STATIC__images/plat_qrcode.png);background-repeat:no-repeat;background-position:-132px 0;display:none}
+    #wx-corner{border:10px solid transparent;border-left:10px solid #fff;position:absolute;top:12px;right:-20px;z-index:10}
+    #wb-corner{border:10px solid transparent;border-left:10px solid #fff;position:absolute;top:58px;right:-20px;z-index:10}
+    .five-superiority{width:100%;border-bottom:1px solid #27aede;padding:10px 0 20px}
+    .five-superiority-list li{float:left;width:20%;height:36px;text-align:center;border-left:1px solid #27aede}
+    .five-superiority-list li:first-child{border-left:none}
+    .five-superiority-list li a{display:inline-block;position:relative;width:100%;height:36px;line-height:36px;background:no-repeat 2% center;text-indent:2em;color:#fff;font-size:16px}
+    .five-superiority-list li a:hover{color:#bfe7f5}
+    .five-superiority-list li a.superiority-text{text-indent:4em}
+    .superiority-icon{position:absolute;width:40px;height:40px;left:10%;background-repeat:no-repeat;background-image:url(__STATIC__images/footer_youshi.png)}
+    .compensate_ico .superiority-icon{background-position:0 0}
+    .compensate_ico:hover .superiority-icon{background-position:0 -50px}
+    .retreat_ico .superiority-icon{background-position:0 -100px}
+    .retreat_ico:hover .superiority-icon{background-position:0 -150px}
+    .technology_ico .superiority-icon{background-position:0 -200px}
+    .technology_ico:hover .superiority-icon{background-position:0 -250px}
+    .prepare_ico .superiority-icon{background-position:0 -300px}
+    .prepare_ico:hover .superiority-icon{background-position:0 -350px}
+    .service_ico .superiority-icon{background-position:0 -400px}
+    .service_ico:hover .superiority-icon{background-position:0 -450px}
+    .marquee-box{overflow:hidden;width:100%;position:absolute;left:0;top:0}
+    .marquee{width:8000%;height:60px}
+    .wave-list-box{float:left}
+    .wave-list-box ul{float:left;height:60px;overflow:hidden;zoom:1}
+    .wave-list-box ul li{height:60px;width:100%;float:left;line-height:30px;list-style:none}
+    .wave-box{position:relative;height:60px;z-index:3;}
+    .freevip2{width:100%;position: fixed;left:0;bottom:-70px;z-index:3;animation:free2 3s;bottom:0;-webkit-animation:free2 3s;bottom:0;}
+    .freevip3{width:100%;z-index:4;position:fixed;bottom:0;opacity:0;animation:free3 3s;opacity:1;-webkit-animation:free3 3s;opacity:1;}
+    .freevip1{position:fixed;bottom:-200px;width:100%;height:300px;animation:free1 3s;bottom:0;-webkit-animation:free1 3s;bottom:0;}
+    .freeget1{position: absolute;left:50%;margin-left:-600px;bottom:0;width:1200px;cursor: pointer;z-index:4;}
+    .freevipClose{width:50px;position: absolute;left:50%;margin-left:550px;bottom:149px;cursor: pointer;z-index:4;}
+    .freevipClose2{width:50px;position: absolute;left:50%;margin-left:550px;bottom:149px;cursor: pointer;z-index:4;display: none;}
+    .freevipclosetext{width:60px;font-size:14px;height:20px;line-height: 20px;background: #b0b2b1;color:#fff;position:absolute;left:50%;margin-left:597px;bottom:164px;z-index:1;padding-left:6px;border-radius: 0 8px 8px 0;}
+    @keyframes free1{
+        0%{bottom:-200px;}
+        33%{bottom:0;}
+        100%{bottom:0;}
+    }
+    @-webkit-keyframes free1{
+        0%{bottom:-200px;}
+        33%{bottom:0;}
+        100%{bottom:0;}
+    }
+    @keyframes free2{
+        0%{bottom:-70px;}
+        33%{bottom:-70px;}
+        66%{bottom:0;}
+        100%{bottom:0;}
+    }
+    @-webkit-keyframes free2{
+        0%{bottom:-70px;}
+        33%{bottom:-70px;}
+        66%{bottom:0;}
+        100%{bottom:0;}
+    }
+    @keyframes free3{
+        0%{opacity:0;transform: scale(4);-ms-transform:scale(4);-moz-transform:scale(4);-webkit-transform:scale(4);-o-transform:scale(4); }
+        33%{opacity:0;transform: scale(4);-ms-transform:scale(4);-moz-transform:scale(4);-webkit-transform:scale(4);-o-transform:scale(4);}
+        50%{opacity:0;transform: scale(4);-ms-transform:scale(4);-moz-transform:scale(4);-webkit-transform:scale(4);-o-transform:scale(4);}
+        100%{opacity:1;transform: scale(1);-ms-transform:scale(1);-moz-transform:scale(1);-webkit-transform:scale(1);-o-transform:scale(1);}
+    }
+    @-webkit-keyframes free3{
+        0%{opacity:0;transform: scale(4);-ms-transform:scale(4);-moz-transform:scale(4);-webkit-transform:scale(4);-o-transform:scale(4); }
+        33%{opacity:0;transform: scale(4);-ms-transform:scale(4);-moz-transform:scale(4);-webkit-transform:scale(4);-o-transform:scale(4);}
+        50%{opacity:0;transform: scale(4);-ms-transform:scale(4);-moz-transform:scale(4);-webkit-transform:scale(4);-o-transform:scale(4);}
+        100%{opacity:1;transform: scale(1);-ms-transform:scale(1);-moz-transform:scale(1);-webkit-transform:scale(1);-o-transform:scale(1);}
+    }
+    .freeVipAdBg,.freeVipSuccess{width:100%;height:100%;background: rgba(0,0,0,0.4);    position: fixed;top: 0;z-index: 99;display:none}
+    .freeVipAdbox{width:552px;height:422px;background: url(__STATIC__image/freeVipAdbox.png) no-repeat center;position: relative;top:50%;left:50%;margin-left:-276px;margin-top:-211px;}
+    .freeVipAdClose{width:32px;position: absolute;top:97px;right:50px;cursor:pointer;}
+    .freeVipAdClose2{width:32px;position: absolute;top:82px;right:38px;cursor:pointer;}
+    .freegetContent{overflow: hidden;width:110px;height:130px;border:1px solid #611987;position: absolute;bottom:50px;right:50%;margin-right:50px;border-radius: 6px;}
+    .freegetImg{width:60px;margin:10px auto 0;display:block;}
+    .freeVipSuccessbox{width:380px;height:290px;position: relative;top:50%;left:50%;margin-top:-145px;margin-left:-190px;background: url(__STATIC__image/freeVipSuccessBg.png) no-repeat center;}
+    .share_master_bottom{position: fixed;bottom:0;left:0;width:100%;z-index: 9;background: url(__STATIC__image/share_master_logo.png) no-repeat center bottom;
+    height: 231px;
+    background-size: cover;}
+    .share_master_logo{width:100%;padding:0;margin:0;display:block;}
+    .share_master_reg_btn{width:220px;position: absolute;left:50%;margin-left:200px;bottom:40px;cursor:pointer;}
+    .share_master_close{width:60px;position: absolute;left:50%;margin-left:550px;bottom:132px;cursor:pointer;}
+    .main_inner{padding-top: 20px;}
+</style>
+<div class="share_master_bottom">
+    <!-- <img src="__STATIC__image/share_master_logo.png" class="share_master_logo"> -->
+    <a href="{:url('share/reg')}" id="share_master_reg_btn"><img src="__STATIC__image/share_master_reg_btn.png" class="share_master_reg_btn"></a>
+    <img src="__STATIC__image/share_master_close.png" class="share_master_close">
+</div>
+<script>
+    $(".share_master_close").click(function(){
+        $(".share_master_bottom").hide();
+    });
+</script>
+<div class="main">
+    <div class="main_inner">
+        <a href="{:url('share/reg')}" id="sharereg_link"><img src="__STATIC__image/vip01.gif" style="display: none;width: 800px;height: 80px;;margin: 0 auto;cursor: pointer;" id="banner1" class="banner_top" disabled='true'></a>
+        <div class="step_box">
+            <div class="step_1">
+                <ul class="signal">
+                </ul>
+                <div class="signal_moreing"></div>
+                <a href="javascript:void(0);" class="signal_more">加载更多信号</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--右侧悬浮按钮。排序、创建信号,只在step1显示的时候出现，所以在step_1里面-->
+<div class="sort_box">
+    <a href="javascript:void(0)" class="sort"></a>
+    <p style="display: none;">1</p>
+    <ul class="sort_ul">
+        <li class="active sort_1"><span>综<span class="space"></span>合</span><i></i></li>
+        <li class="sort_2"><span>利<span class="space"></span>润<span class="space"></span>率</span><i></i></li>
+        <li class="sort_7"><span>交易胜率</span><i></i></li>
+        <li class="sort_6"><span>交易时长</span><i></i></li>
+        <li class="sort_4"><span>风<span class="space"></span>险</span><i></i></li>
+        <!--<li class="sort_5"><span>预期收益</span><i></i></li>-->
+        <li class="sort_3"><span>跟单人数</span><i></i></li>
+    </ul>
+</div>
+<!--创建信号-->
+<a href="{:url('master/create')}" class="establish" id="createBox"></a>
+
+<script src="__STATIC__js/jquery.animateNumber.min.js"></script>      <!--数字跳动插件-->
+<script src="__STATIC__js/echarts.min.js" type="text/javascript"></script>
+<script src="__STATIC__js/master-echarts.js" type="text/javascript"></script>
+<script>
+    var uid=$("input[name='inviteUid']").val();
+    $("#share_master_reg_btn").attr("href","{:url('share/reg')}?uid="+uid);
+    $("#sharereg_link").attr("href","{:url('share/reg')}?uid="+uid);
+    var page=1;
+    $(function(){
+        load(page);
+    });
+    $(".signal_more").click(function(){
+        $(this).hide();
+        $(".signal_moreing").show();
+        setTimeout(function(){
+            page++;
+            load(page);
+        },1000);
+    });
+    /*排序功能*/
+        $(".sort").on("click", function (event) {
+            $(".sort_ul").show();
+            $(".sort_ul li").on("click", function () {
+                $(this).addClass("active").siblings().removeClass("active");
+            });
+            event.stopPropagation();
+        });
+        $("body").click(function(event){
+            $(".sort_ul").hide();
+        });
+        var type;
+        $(".sort_1").on("click", function () {type = 1;});
+        $(".sort_2").on("click", function () {type = 2;});
+        $(".sort_3").on("click", function () {type = 3;});
+        $(".sort_4").on("click", function () {type = 4;});
+        $(".sort_5").on("click", function () {type = 5;});
+        $(".sort_6").on("click", function () {type = 6;});
+        $(".sort_7").on("click", function () {type = 7;});
+        $(".sort_ul li").on("click", function () {
+            $(".signal").html('');
+            $(".sort_box p").html(type);
+            page=1;
+            load(page);
+        });
+    function load(page){
+        /*排序功能*/
+        var type = $(".sort_box p").html();
+        var string = { page: page,type: type};
+         $.ajax({
+                    url: '{:url("v1.web/get_account","","","api")}',
+                    type: 'get',
+                    dataType: 'jsonp',
+                    jsonp: 'callback',
+                    data :string,
+                    jsonpCallback:'getjson',
+                    success: function (data) {
+                        if(data.code==200){
+                            if(data.data.length==0){
+                                $(".signal_moreing").hide();
+                                $(".signal_more").show().css({"border": "1px solid #cccccc","color": "#cccccc"}).html("信号加载完毕").attr("disabled",true);
+                                return false;
+                            }
+                            var html='';
+                                for (var i = 0; i < data.data.length; i++) {
+                                    var mt4id = data.data[i].mt4id;
+                                    var img = data.data[i].img;
+                                    if(img==''){
+                                        img="__STATIC__image/touxiang.png";
+                                    } else {
+                                        img = 'upload/image/'+img;
+                                    }
+                                    var url = "{:url('/master/detail/account/" + mt4id + "')}";
+                                    var country = data.mt4country[data.data[i].country];
+                                    if (country == undefined) {
+                                        country = data.mt4country['中国'];
+                                    }
+                                    var mt4server = data.mt4service[data.data[i].mt4server];
+                                    if(mt4server==undefined){
+                                        mt4server=data.mt4service['forex'];
+                                    }
+                                    var name = data.data[i].name;
+                                    var bn = data.data[i].bn;
+                                    var rand_profit = data.data[i].rand_profit;
+                                    if(rand_profit==''){
+                                        rand_profit='0,0,0,0,0,0,0,0,0,0';
+                                    }
+                                    var profit_margin=(data.data[i].trade_profit/data.data[i].money*100).toFixed(2);
+                                    if(profit_margin=="0.00"){
+                                        profit_margin=0;
+                                    }
+                                    var trade_week = data.data[i].trade_week;
+                                    var follow = data.data[i].follow;
+                                    var trade_drawdown = data.data[i].trade_drawdown*100;
+                                    trade_drawdown = Math.round(trade_drawdown*100)/100;
+                                    var trade_win = data.data[i].trade_win*100;
+                                    trade_win = Math.round(trade_win*100)/100;
+                                    var trade_exprofit = data.data[i].avg_mproft;
+                                    trade_exprofit = Math.round(trade_exprofit*100)/100;
+                                    var score = data.data[i].score;     //评分
+                                    html += "<li><a href='" + url + "?server={$pagefrom}' class='step_1_signal_a' target='_blank'><div class='signal_div'><div class='signal_head'>" +
+                                        "<img src='__STATIC__"+img+"' class='signal_head_pic01'>" +
+                                        "<img src='/image/countryflag/" + country + ".png' class='signal_head_pic02'></div>" +
+                                        "<p class='signal_info'><span class='signal_name'>"+name+"</span><span class='signal_num' style='display: none;'>编号：<span>"+bn+"</span></span>" +
+                                        "<span class='signal_mt4id'' style='display: none;'>"+mt4id+"</span>" +
+                                        "<i class='signal_p_icon01' title='EA认证'></i><i class='signal_p_icon02' title='实名认证'></i><i class='signal_p_icon03' title='实盘认证'></i></p>" +
+                                        "<div class='signal_logo_box'><img src='/image/broker/"+mt4server+".png' class='signal_logo'></div></div></a>" +
+                                        "<div class='signal_div signal_chart' data-chart='"+rand_profit+"'></div>" +
+                                        "<div class='signal_div'>" +
+                                        "<p class='signal_data'>利润率<span class='profit_margin'>"+profit_margin+"%</span></p>" +
+                                        "<p class='signal_data'>交易胜率<span class='win_rate'>"+trade_win+"%</span></p>" +
+                                        "<p class='signal_data'>交易时长<span class='duration'>"+trade_week+"周</span></p>" +
+                                        "<p class='signal_data'>最大回撤<span class='return'>"+trade_drawdown+"%</span></p>" +
+                                        "<p class='signal_data'>跟随人数<span class='duration'>"+follow+"</span></p>" +
+                                        /*"<p class='signal_data'>预期收益率<span class='win_rate'>"+trade_exprofit+"%</span></p>" +*/
+                                        "</div>" +
+                                        "<div class='signal_div'>" +
+                                        "<div class='signal_div_score'><!--<p>评分</p>--><p class='score' style='display: none;'>"+score+"</p>"+
+                                        "<div class='star-vote'><span class='add-star'></span><span class='del-star'></span></div></div>"+
+                                        "<a href='{:url('share/reg')}?uid="+uid+"' class='signal_btn1'><i></i><span>跟 随</span></a>" +
+                                        "</div>" +
+                                        "</li>";
+                               
+                                    }
+                                }
+                                $(".signal").append(html);
+                                    $(".signal_moreing").hide();
+                                    $(".signal_more").show();
+                                    setTimeout(function(){
+                                        setChart(10*(page-1));
+                                    },1000);
+                                    /*信号评分星星显示*/
+                                    $(".signal li").each(function (i) {
+                                        var score = $(this).find(".score").html();
+                                        console.log("信号评分："+score);
+                                        var score1 = score/10;          //此处总分100分，除以10；
+                                        var del_move=(score1*$(".star-vote").width())/10;
+                                        $(".del-star").eq(i).css("backgroundPosition",-del_move+"px 0px");
+                                        $(".del-star").eq(i).css("left",del_move+"px");
+                                        //console.log($(".del-star").eq(i).css("left"))
+                                    });
+                    }
+         });
+    }
+</script>
+{/block}
+
